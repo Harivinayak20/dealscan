@@ -5,6 +5,8 @@ import { analyzeListingRequestSchema } from "@/lib/analyze-listing-schema";
 import { getAiProviderConfig, runOptionalAiAnalysis } from "@/lib/ai-providers";
 import { analyzeListingLocally } from "@/lib/local-analyzer";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   let body: AnalyzeListingRequest;
 
