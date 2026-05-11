@@ -23,26 +23,26 @@ export function ManualEntryForm({ value, onChange }: ManualEntryFormProps) {
     <div className="grid gap-4">
       <div className="grid gap-3 sm:grid-cols-2">
         {fields.map((field) => (
-          <label key={field.key} className="grid gap-2 text-base font-bold text-slate-900">
+          <label key={field.key} className="grid gap-2 text-base font-bold text-[var(--graphite)]">
             {field.label}
             <input
               value={value[field.key] ?? ""}
               onChange={(event) => setField(field.key, event.target.value)}
               placeholder={field.placeholder}
-              className="min-h-12 rounded-lg border border-slate-300 bg-white px-4 text-base text-slate-900 shadow-sm placeholder:text-slate-500"
+              className="min-h-12 rounded-xl border border-[rgba(11,13,16,0.12)] bg-white/90 px-4 text-base text-[var(--graphite)] shadow-sm placeholder:text-neutral-500 focus:border-[var(--champagne)] focus:outline-none focus:ring-2 focus:ring-[rgba(201,168,106,0.35)]"
             />
           </label>
         ))}
       </div>
 
-      <label className="grid gap-2 text-base font-bold text-slate-900">
+      <label className="grid gap-2 text-base font-bold text-[var(--graphite)]">
         Seller notes
         <textarea
           value={value.sellerNotes ?? ""}
           onChange={(event) => setField("sellerNotes", event.target.value)}
           rows={5}
           placeholder="Add condition, maintenance, accident history, seller claims, or anything unclear."
-          className="min-h-36 resize-y rounded-lg border border-slate-300 bg-white p-4 text-base leading-7 text-slate-900 shadow-sm placeholder:text-slate-500"
+          className="min-h-36 resize-y rounded-2xl border border-[rgba(11,13,16,0.12)] bg-white/90 p-4 text-base leading-7 text-[var(--graphite)] shadow-sm placeholder:text-neutral-500 focus:border-[var(--champagne)] focus:outline-none focus:ring-2 focus:ring-[rgba(201,168,106,0.35)]"
         />
       </label>
     </div>

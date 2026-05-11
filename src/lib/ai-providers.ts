@@ -10,6 +10,9 @@ type ProviderConfig = {
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+const GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile";
+const AI_PROVIDER_TIMEOUT_MS = 6000;
 
 const systemPrompt =
   "You are a skeptical but fair used car expert. Analyze only information provided by the user. Do not claim certainty. If fair market value is estimated, clearly label it as an estimate. Penalize vague listings, missing title info, missing VIN, missing mileage, suspicious wording, and unclear seller claims. Reward clean title, one owner, service records, detailed maintenance, reasonable mileage, and transparent seller language. Return only valid JSON.";
@@ -64,10 +67,27 @@ function normalizeResult(result: AnalyzeListingResult): AnalyzeListingResult {
     ...result,
     score,
     verdict: verdictForScore(score),
-    categories: result.categories.map((category) => ({
+    summary: result.summary || "Analysis completed from the provided listing details.",
+    estimatedFairValueRange: result.estimatedFairValueRange ?? {
+      low: null,
+      high: null,
+      note: "Rough estimate unavailable.",
+    },
+    suggestedOfferRange: result.suggestedOfferRange ?? {
+      low: null,
+      high: null,
+      note: "Suggested offer unavailable.",
+    },
+    categories: (result.categories ?? []).map((category) => ({
       ...category,
       score: Math.max(0, Math.min(100, Math.round(category.score))),
     })),
+    redFlags: result.redFlags ?? [],
+    greenFlags: result.greenFlags ?? [],
+    missingInfo: result.missingInfo ?? [],
+    negotiationTip: result.negotiationTip || "Verify the missing details before making an offer.",
+    sellerQuestions: result.sellerQuestions ?? [],
+    confidence: result.confidence === "High" || result.confidence === "Medium" ? result.confidence : "Low",
   };
 }
 
@@ -91,26 +111,33 @@ Return the same JSON schema as the local result. Use simple language. Do not pro
 }
 
 async function runAnthropic(request: AnalyzeListingRequest, localResult: AnalyzeListingResult, apiKey: string) {
-  const response = await fetch(ANTHROPIC_API_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AI_PROVIDER_TIMEOUT_MS);
+
+  const response = await fetch(
+    ANTHROPIC_API_URL,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: ANTHROPIC_MODEL,
+        max_tokens: 1600,
+        temperature: 0.2,
+        system: systemPrompt,
+        messages: [
+          {
+            role: "user",
+            content: buildUserPrompt(request, localResult),
+          },
+        ],
+      }),
+      signal: controller.signal,
     },
-    body: JSON.stringify({
-      model: ANTHROPIC_MODEL,
-      max_tokens: 1600,
-      temperature: 0.2,
-      system: systemPrompt,
-      messages: [
-        {
-          role: "user",
-          content: buildUserPrompt(request, localResult),
-        },
-      ],
-    }),
-  });
+  ).finally(() => clearTimeout(timeout));
 
   if (!response.ok) {
     return null;
@@ -120,6 +147,57 @@ async function runAnthropic(request: AnalyzeListingRequest, localResult: Analyze
     content?: Array<{ type: string; text?: string }>;
   };
   const text = data.content?.find((item) => item.type === "text")?.text;
+
+  return text ? normalizeResult(extractJson(text)) : null;
+}
+
+async function runGroq(request: AnalyzeListingRequest, localResult: AnalyzeListingResult, apiKey: string) {
+  const model = process.env.GROQ_MODEL || GROQ_DEFAULT_MODEL;
+
+  if (/prompt-guard/i.test(model)) {
+    // Prompt Guard models classify prompt attacks. They are not listing-analysis models.
+    return null;
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AI_PROVIDER_TIMEOUT_MS);
+
+  const response = await fetch(
+    GROQ_API_URL,
+    {
+      method: "POST",
+      headers: {
+        "authorization": `Bearer ${apiKey}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0.1,
+        max_tokens: 1600,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: buildUserPrompt(request, localResult),
+          },
+        ],
+      }),
+      signal: controller.signal,
+    },
+  ).finally(() => clearTimeout(timeout));
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+  const text = data.choices?.[0]?.message?.content;
 
   return text ? normalizeResult(extractJson(text)) : null;
 }
@@ -147,7 +225,11 @@ export async function runOptionalAiAnalysis(request: AnalyzeListingRequest, loca
       return await runAnthropic(request, localResult, config.apiKey);
     }
 
-    // TODO: Add Gemini, Groq, and OpenRouter calls here. Until then, selected providers fall back to local analysis.
+    if (config.provider === "groq") {
+      return await runGroq(request, localResult, config.apiKey);
+    }
+
+    // TODO: Add Gemini and OpenRouter calls here. Until then, selected providers fall back to local analysis.
     return null;
   } catch {
     return null;

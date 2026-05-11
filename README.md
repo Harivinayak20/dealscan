@@ -36,12 +36,15 @@ GEMINI_API_KEY=
 
 AI_PROVIDER=groq
 GROQ_API_KEY=
+GROQ_MODEL=llama-3.3-70b-versatile
 
 AI_PROVIDER=openrouter
 OPENROUTER_API_KEY=
 ```
 
 If a selected provider key is missing or the provider fails, the API falls back to the local analyzer.
+
+Groq note: `meta-llama/llama-prompt-guard-2-86m` is a lightweight prompt-injection detection model, not a listing-analysis model. Keep it for a future guardrail layer. For enhanced listing analysis through Groq, use a chat/instruction model in `GROQ_MODEL`.
 
 ## Recommended Free Stack
 

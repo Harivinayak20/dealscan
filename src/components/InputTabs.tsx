@@ -13,21 +13,21 @@ const tabs = [
     label: "Copy Paste Text",
     description: "Paste listing details from any website.",
     icon: ClipboardList,
-    swatch: "bg-blue-50 text-blue-900",
+    swatch: "bg-[rgba(201,168,106,0.16)] text-[var(--graphite)]",
   },
   {
     value: "screenshot",
     label: "Upload Screenshot",
     description: "Add a deal screenshot from your phone.",
     icon: Camera,
-    swatch: "bg-green-50 text-green-900",
+    swatch: "bg-[rgba(124,169,130,0.16)] text-[var(--racing-green)]",
   },
   {
     value: "manual",
     label: "Enter Manually",
     description: "Fill in the car info step by step.",
     icon: PencilLine,
-    swatch: "bg-amber-50 text-amber-900",
+    swatch: "bg-[rgba(214,168,79,0.16)] text-[#5d4212]",
   },
 ] satisfies Array<{
   value: InputType;
@@ -55,24 +55,24 @@ export function InputTabs({ value, onChange }: InputTabsProps) {
               event.preventDefault();
               onChange(tab.value);
             }}
-            className={`group flex min-h-24 items-center justify-between rounded-lg border px-4 py-3 text-left transition duration-200 hover:-translate-y-1 hover:shadow-xl ${
+            className={`group flex min-h-24 items-center justify-between rounded-2xl border px-4 py-3 text-left transition duration-200 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)] ${
               selected
-                ? "border-blue-950 bg-blue-950 text-white shadow-lg shadow-blue-950/20"
-                : "border-slate-200 bg-white text-slate-900 hover:border-blue-300"
+                ? "border-[rgba(201,168,106,0.34)] bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20"
+                : "border-[rgba(11,13,16,0.10)] bg-white text-[var(--graphite)] hover:border-[rgba(201,168,106,0.55)]"
             }`}
           >
             <span className="flex items-center gap-4">
-              <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-lg ${selected ? "bg-white/10 text-white" : tab.swatch}`}>
+              <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-xl ${selected ? "bg-white/10 text-[var(--champagne)]" : tab.swatch}`}>
                 <Icon className="h-8 w-8" aria-hidden="true" />
               </span>
               <span>
                 <span className="block text-2xl font-black tracking-normal">{tab.label}</span>
-                <span className={`mt-1 block text-base font-medium ${selected ? "text-blue-100" : "text-slate-600"}`}>
+                <span className={`mt-1 block text-base font-medium ${selected ? "text-[var(--silver)]" : "text-neutral-600"}`}>
                   {tab.description}
                 </span>
               </span>
             </span>
-            <ChevronRight className={`h-7 w-7 transition group-hover:translate-x-1 ${selected ? "text-white" : "text-slate-700"}`} aria-hidden="true" />
+            <ChevronRight className={`h-7 w-7 transition group-hover:translate-x-1 ${selected ? "text-[var(--champagne)]" : "text-neutral-700"}`} aria-hidden="true" />
           </a>
         );
       })}

@@ -51,35 +51,34 @@ const affiliateLinks = [
 
 export default function AffiliateLinksPage() {
   return (
-    <main className="min-h-screen bg-[#f8f3ea] px-5 py-6 text-blue-950 sm:px-8">
+    <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-5xl">
         <header className="flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 text-2xl font-black tracking-normal transition hover:-translate-y-0.5">
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-blue-950 text-white shadow-lg shadow-blue-950/20">
+          <a href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5">
+            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            DEALSCAN
+            DealScan
           </a>
           <a
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-xl border border-blue-200 bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
           </a>
         </header>
 
-        <section className="py-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-white/70 px-4 py-2 text-sm font-black text-slate-800 shadow-sm">
-            <ShoppingBag className="h-4 w-4 text-amber-700" aria-hidden="true" />
+        <section className="py-12">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+            <ShoppingBag className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Buyer tools
           </div>
-          <h1 className="mt-6 max-w-3xl text-5xl font-black leading-tight tracking-normal sm:text-7xl">
-            Useful links before you buy.
+          <h1 className="mt-6 max-w-3xl text-5xl font-black leading-tight tracking-tight sm:text-6xl">
+            Check the basics before you buy.
           </h1>
-          <p className="mt-5 max-w-2xl text-xl leading-8 text-slate-700">
-            These resources can help verify the listing, inspect the car, and estimate likely repair costs. Some links may
-            be affiliate links.
+          <p className="mt-5 max-w-2xl text-xl leading-8 text-neutral-700">
+            History, inspection, insurance, payments, and simple tools in one place.
           </p>
         </section>
 
@@ -93,24 +92,23 @@ export default function AffiliateLinksPage() {
                 href={link.href}
                 target="_blank"
                 rel="sponsored noopener noreferrer"
-                className="group rounded-[28px] border border-white/80 bg-white/90 p-6 shadow-xl shadow-blue-950/5 transition duration-200 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-blue-950/10"
+                className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/90 p-5 shadow-xl shadow-black/5 transition duration-200 hover:-translate-y-1.5 hover:border-[var(--champagne)] hover:shadow-2xl hover:shadow-black/10"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <span className="grid h-16 w-16 place-items-center rounded-2xl bg-blue-50 text-blue-950 transition group-hover:scale-110 group-hover:bg-blue-950 group-hover:text-white">
-                    <Icon className="h-8 w-8" aria-hidden="true" />
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(18,61,51,0.08)] text-[var(--racing-green)] transition group-hover:scale-110 group-hover:bg-[var(--racing-green)] group-hover:text-white">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  <ArrowUpRight className="h-6 w-6 text-slate-500 transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-blue-700" aria-hidden="true" />
+                  <ArrowUpRight className="h-6 w-6 text-neutral-500 transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />
                 </div>
-                <h2 className="mt-6 text-2xl font-black tracking-normal">{link.title}</h2>
-                <p className="mt-3 text-base leading-7 text-slate-700">{link.description}</p>
+                <h2 className="mt-5 text-xl font-black tracking-tight">{link.title}</h2>
+                <p className="mt-2 text-base leading-7 text-neutral-700">{link.description}</p>
               </a>
             );
           })}
         </section>
 
-        <p className="mt-8 rounded-2xl border border-amber-200 bg-white/75 p-4 text-base leading-7 text-slate-700">
-          Affiliate disclosure: DEALSCAN may earn a commission from qualifying purchases. Replace these URLs with your
-          approved affiliate links before launch.
+        <p className="mt-8 rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-base leading-7 text-neutral-700">
+          Affiliate disclosure: DealScan may earn a commission from qualifying purchases. Replace placeholders with approved affiliate URLs before launch.
         </p>
       </div>
     </main>

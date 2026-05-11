@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { AnalyzeListingRequest } from "@/lib/analyzer-types";
+import type { AnalyzeListingRequest, AnalyzeListingResult } from "@/lib/analyzer-types";
 import { getAnalysisCacheKey, getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache";
 import { analyzeListingRequestSchema } from "@/lib/analyze-listing-schema";
 import { getAiProviderConfig, runOptionalAiAnalysis } from "@/lib/ai-providers";
@@ -23,9 +23,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Send valid listing details as JSON." }, { status: 400 });
   }
 
-  const cacheKey = getAnalysisCacheKey(body);
-  const cachedResult = getCachedAnalysis(cacheKey);
   const providerConfig = getAiProviderConfig();
+  const cacheVariant = `${providerConfig.enabled ? providerConfig.provider : "local"}:${process.env.GROQ_MODEL ?? ""}`;
+  const cacheKey = getAnalysisCacheKey(body, cacheVariant);
+  const cachedResult = getCachedAnalysis(cacheKey);
 
   if (cachedResult) {
     return NextResponse.json({
@@ -36,7 +37,17 @@ export async function POST(request: Request) {
     });
   }
 
-  const localResult = analyzeListingLocally(body);
+  let localResult: AnalyzeListingResult;
+
+  try {
+    localResult = analyzeListingLocally(body);
+  } catch {
+    return NextResponse.json(
+      { error: "The local analyzer could not process this listing. Check the listing text and try again." },
+      { status: 500 },
+    );
+  }
+
   const enhancedResult = await runOptionalAiAnalysis(body, localResult);
   const result = enhancedResult ?? localResult;
   const analysisMode = enhancedResult ? "ai" : "local";

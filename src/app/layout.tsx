@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DEALSCAN",
-  description: "Analyze used car listings from user-provided information.",
+  title: "DealScan",
+  description: "Data-backed used car deal checker for buyer-provided listing details.",
 };
 
 export default function RootLayout({

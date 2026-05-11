@@ -28,8 +28,8 @@ function hashString(value: string) {
   return (hash >>> 0).toString(36);
 }
 
-export function getAnalysisCacheKey(request: AnalyzeListingRequest) {
-  return hashString(normalizeAnalysisInput(request));
+export function getAnalysisCacheKey(request: AnalyzeListingRequest, variant = "local") {
+  return hashString(`${variant}:${normalizeAnalysisInput(request)}`);
 }
 
 export function getCachedAnalysis(key: string) {

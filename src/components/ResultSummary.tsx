@@ -107,17 +107,17 @@ function MiniMetric({
   icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 text-sm font-black text-slate-700">
+          <div className="flex items-center gap-2 text-sm font-black text-neutral-700">
             {label}
             <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
           </div>
-          <div className="mt-2 text-2xl font-black text-slate-950">{value}</div>
-          <p className="mt-1 text-sm leading-6 text-slate-600">{note}</p>
+          <div className="mt-2 text-2xl font-black text-[var(--graphite)]">{value}</div>
+          <p className="mt-1 text-sm leading-6 text-neutral-600">{note}</p>
         </div>
-        <Icon className="h-7 w-7 text-blue-600" aria-hidden="true" />
+        <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
       </div>
     </article>
   );
@@ -125,15 +125,15 @@ function MiniMetric({
 
 function ConditionPill({ label, value, risky = false }: { label: string; value: string; risky?: boolean }) {
   return (
-    <div className="flex min-w-36 items-center gap-3 border-r border-slate-200 px-4 py-3 last:border-r-0">
+    <div className="flex min-w-36 items-center gap-3 border-r border-neutral-200 px-4 py-3 last:border-r-0">
       {risky ? (
-        <CircleAlert className="h-6 w-6 text-amber-500" aria-hidden="true" />
+        <CircleAlert className="h-6 w-6 text-[var(--warning)]" aria-hidden="true" />
       ) : (
-        <CheckCircle2 className="h-6 w-6 text-green-600" aria-hidden="true" />
+        <CheckCircle2 className="h-6 w-6 text-[var(--success)]" aria-hidden="true" />
       )}
       <div>
-        <div className="text-sm font-black text-slate-950">{label}</div>
-        <div className={`text-sm font-bold ${risky ? "text-amber-700" : "text-green-700"}`}>{value}</div>
+        <div className="text-sm font-black text-[var(--graphite)]">{label}</div>
+        <div className={`text-sm font-bold ${risky ? "text-[#7a5615]" : "text-[var(--racing-green)]"}`}>{value}</div>
       </div>
     </div>
   );
@@ -144,10 +144,10 @@ function ReasonCard({ label, note, score }: { label: string; note: string; score
   const Icon = score >= 80 ? ThumbsUp : score >= 60 ? Gauge : Wrench;
 
   return (
-    <article className="flex min-h-32 justify-between gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="flex min-h-32 justify-between gap-3 rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
       <div>
-        <h3 className="text-base font-black leading-6 text-slate-950">{label}</h3>
-        <p className="mt-2 text-sm leading-6 text-slate-600">{note}</p>
+        <h3 className="text-base font-black leading-6 text-[var(--graphite)]">{label}</h3>
+        <p className="mt-2 text-sm leading-6 text-neutral-600">{note}</p>
       </div>
       <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${tone.soft}`}>
         <Icon className="h-6 w-6" aria-hidden="true" />
@@ -165,27 +165,27 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
 
   return (
     <aside className="grid gap-4 xl:sticky xl:top-20">
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="flex items-center gap-2 text-lg font-black text-slate-950">
+      <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+        <h2 className="flex items-center gap-2 text-lg font-black text-[var(--graphite)]">
           Market price range
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
         </h2>
-        <p className="mt-1 text-sm text-slate-600">Estimate from the provided listing details.</p>
-        <div className="mt-3 text-2xl font-black text-slate-950">
+        <p className="mt-1 text-sm text-neutral-600">Estimate from the provided listing details.</p>
+        <div className="mt-3 text-2xl font-black text-[var(--graphite)]">
           {formatRange(result.estimatedFairValueRange.low, result.estimatedFairValueRange.high)}
         </div>
-        <div className="mt-5 h-2 rounded-full bg-slate-200">
-          <div className="h-2 w-2/3 rounded-full bg-blue-600" />
+        <div className="mt-5 h-2 rounded-full bg-neutral-200">
+          <div className="h-2 w-2/3 rounded-full bg-[var(--champagne)]" />
         </div>
-        <div className="mt-2 flex justify-between text-xs font-bold text-slate-600">
+        <div className="mt-2 flex justify-between text-xs font-bold text-neutral-600">
           <span>{formatMoney(result.estimatedFairValueRange.low)}</span>
           <span>{formatMoney(marketAverage)}</span>
           <span>{formatMoney(result.estimatedFairValueRange.high)}</span>
         </div>
       </section>
 
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="flex items-center gap-2 text-lg font-black text-slate-950">
+      <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+        <h2 className="flex items-center gap-2 text-lg font-black text-[var(--graphite)]">
           Car health summary
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
         </h2>
@@ -195,8 +195,8 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
 
             return (
               <div key={category.label} className="flex items-center justify-between gap-3 text-sm">
-                <span className="flex items-center gap-2 font-bold text-slate-700">
-                  <CheckCircle2 className="h-4 w-4 text-green-600" aria-hidden="true" />
+                <span className="flex items-center gap-2 font-bold text-neutral-700">
+                  <CheckCircle2 className="h-4 w-4 text-[var(--success)]" aria-hidden="true" />
                   {category.label.replace(" risk", "")}
                 </span>
                 <span className={`rounded-full border px-2 py-1 text-xs font-black ${tone.soft}`}>{tone.label}</span>
@@ -206,12 +206,12 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
         </div>
       </section>
 
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="flex items-center gap-2 text-lg font-black text-slate-950">
+      <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+        <h2 className="flex items-center gap-2 text-lg font-black text-[var(--graphite)]">
           Similar listings
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
         </h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-neutral-600">
           Not connected yet. This app does not scrape marketplaces. Add a licensed pricing API later for real comparable
           vehicles.
         </p>
@@ -238,31 +238,31 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
   )}`;
 
   return (
-    <section id="analysis-result" className="min-h-screen bg-slate-50 text-slate-950">
-      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <section id="analysis-result" className="min-h-screen bg-[rgba(244,240,232,0.94)] text-[var(--graphite)]">
+      <header className="sticky top-0 z-20 border-b border-white/10 bg-[rgba(11,13,16,0.90)] text-[var(--ivory)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-blue-600 text-white">
+            <div className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--champagne)] text-[var(--graphite)]">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </div>
             <div className="text-2xl font-black tracking-normal">
               DEALSCAN
             </div>
           </div>
-          <nav className="hidden items-center gap-7 text-sm font-bold text-slate-700 lg:flex" aria-label="Result navigation">
-            <a href="#saved-cars" className="flex items-center gap-2 transition hover:text-blue-700">
+          <nav className="hidden items-center gap-7 text-sm font-bold text-[var(--silver)] lg:flex" aria-label="Result navigation">
+            <a href="#saved-cars" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
               <Heart className="h-5 w-5" aria-hidden="true" />
               Saved Cars
             </a>
-            <a href="#report" className="flex items-center gap-2 transition hover:text-blue-700">
+            <a href="#report" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
               <FileText className="h-5 w-5" aria-hidden="true" />
               Reports
             </a>
-            <a href="#seller-questions" className="flex items-center gap-2 transition hover:text-blue-700">
+            <a href="#seller-questions" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
               <CircleHelp className="h-5 w-5" aria-hidden="true" />
               Help
             </a>
-            <a href="#account" className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 transition hover:bg-slate-200">
+            <a href="#account" className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 transition hover:bg-white/15">
               <UserRound className="h-5 w-5" aria-hidden="true" />
               Buyer
               <ChevronDown className="h-4 w-4" aria-hidden="true" />
@@ -274,39 +274,39 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
       <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
         <aside className="hidden xl:block">
           <div className="sticky top-24 grid gap-6">
-            <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/86 p-5 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
               {["Vehicle", "Condition", "Price", "Result"].map((label, index) => (
                 <div key={label} className="flex gap-3 pb-8 last:pb-0">
-                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue-600 text-sm font-black text-white">
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--graphite)] text-sm font-black text-[var(--ivory)]">
                     {index + 1}
                   </div>
                   <div>
-                    <div className="text-base font-black">{label}</div>
-                    <div className="text-sm text-slate-600">
+                    <div className="text-base font-black text-[var(--graphite)]">{label}</div>
+                    <div className="text-sm text-neutral-600">
                       {index === 3 ? "Your analysis" : index === 2 ? "Market and pricing" : "Listing details"}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="font-black">Analysis Progress</div>
-              <div className="mt-4 flex items-center gap-2 text-sm text-slate-700">
-                <CheckCircle2 className="h-5 w-5 text-green-600" aria-hidden="true" />
+            <div className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/86 p-5 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+              <div className="font-black text-[var(--graphite)]">Analysis Progress</div>
+              <div className="mt-4 flex items-center gap-2 text-sm text-neutral-700">
+                <CheckCircle2 className="h-5 w-5 text-[var(--success)]" aria-hidden="true" />
                 All set. Here is your result.
               </div>
-              <div className="mt-4 h-2 rounded-full bg-slate-100">
-                <div className="h-2 w-full rounded-full bg-green-600" />
+              <div className="mt-4 h-2 rounded-full bg-neutral-200">
+                <div className="h-2 w-full rounded-full bg-[var(--success)]" />
               </div>
-              <p className="mt-3 text-sm text-slate-600">4 of 4 steps complete</p>
+              <p className="mt-3 text-sm text-neutral-600">4 of 4 steps complete</p>
             </div>
           </div>
         </aside>
 
         <div className="grid gap-4" id="report">
-          <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md">
+          <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
             <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)_auto] md:items-center">
-              <div className="min-h-28 overflow-hidden rounded-lg bg-slate-950">
+              <div className="min-h-28 overflow-hidden rounded-xl bg-[var(--graphite)]">
                 <img
                   src="/porsche-911-track-black.jpg"
                   alt="Rear view of a black Porsche GT3 RS with a large wing"
@@ -314,14 +314,14 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
                 />
               </div>
               <div>
-                <h1 className="text-3xl font-black tracking-normal text-slate-950">{vehicleTitle}</h1>
-                <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-slate-600">
+                <h1 className="text-3xl font-black tracking-normal text-[var(--graphite)]">{vehicleTitle}</h1>
+                <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-neutral-600">
                   <span className="flex items-center gap-2">
                     <Gauge className="h-5 w-5" aria-hidden="true" />
                     {mileage}
                   </span>
                   <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-green-600" aria-hidden="true" />
+                    <CheckCircle2 className="h-5 w-5 text-[var(--success)]" aria-hidden="true" />
                     {title}
                   </span>
                   <span className="flex items-center gap-2">
@@ -331,11 +331,11 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
                 </div>
               </div>
               <div className="grid gap-2 md:justify-items-end">
-                <div className="text-sm font-bold text-slate-600">Seller Price</div>
-                <div className="text-3xl font-black text-slate-950">{sellerPrice}</div>
+                <div className="text-sm font-bold text-neutral-600">Seller Price</div>
+                <div className="text-3xl font-black text-[var(--graphite)]">{sellerPrice}</div>
                 <a
                   href="#listing-source"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-blue-500 px-5 text-base font-black text-blue-700 transition hover:-translate-y-0.5 hover:bg-blue-50 hover:shadow-sm"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] px-5 text-base font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.14)] hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
                 >
                   View Listing
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -345,7 +345,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
           </section>
 
           <section
-            className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+            className="overflow-x-auto rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] transition hover:shadow-[0_24px_56px_-42px_rgba(11,13,16,0.60)]"
             aria-label="Condition summary"
           >
             <div className="flex min-w-max">
@@ -358,14 +358,14 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             </div>
           </section>
 
-          <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+          <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
             <div className="grid gap-6 lg:grid-cols-[230px_minmax(0,1fr)]">
               <div className="grid justify-items-center gap-4 text-center">
                 <div className="flex flex-wrap justify-center gap-2">
-                  <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-normal text-blue-900">
+                  <span className="rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.08)] px-3 py-1 text-xs font-black uppercase tracking-normal text-[var(--racing-green)]">
                     Basic analysis
                   </span>
-                  <span className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-black uppercase tracking-normal text-slate-500">
+                  <span className="rounded-full border border-[rgba(11,13,16,0.10)] bg-neutral-100 px-3 py-1 text-xs font-black uppercase tracking-normal text-neutral-600">
                     {analysisMode === "ai" ? "Enhanced AI analysis" : "Enhanced AI analysis coming soon"}
                   </span>
                 </div>
@@ -378,7 +378,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
                   <Icon className="h-6 w-6" aria-hidden="true" />
                   {result.verdict}
                 </div>
-                <p className="text-sm font-bold text-slate-600">
+                <p className="text-sm font-bold text-neutral-600">
                   {tone.label} confidence: {result.confidence}
                 </p>
               </div>
@@ -406,24 +406,24 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               </div>
             </div>
 
-            <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-5">
+            <div className="mt-6 rounded-2xl border border-[rgba(124,169,130,0.35)] bg-[rgba(124,169,130,0.12)] p-5">
               <div className="grid gap-4 md:grid-cols-[80px_120px_minmax(0,1fr)] md:items-center">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-green-100 text-green-700">
+                <div className="grid h-16 w-16 place-items-center rounded-full bg-[rgba(124,169,130,0.18)] text-[var(--racing-green)]">
                   <ShoppingCart className="h-9 w-9" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-slate-700">Our Verdict</div>
-                  <div className="text-4xl font-black text-green-700">
+                  <div className="text-sm font-bold text-neutral-700">Our Verdict</div>
+                  <div className="text-4xl font-black text-[var(--racing-green)]">
                     {result.score >= 80 ? "Buy" : result.score >= 60 ? "Negotiate" : "Wait"}
                   </div>
                 </div>
-                <p className="text-lg leading-8 text-slate-800">{result.summary}</p>
+                <p className="text-lg leading-8 text-[var(--graphite)]">{result.summary}</p>
               </div>
             </div>
           </section>
 
           <section className="grid gap-3" id="saved-cars">
-            <h2 className="text-xl font-black text-slate-950">Why this score?</h2>
+            <h2 className="text-xl font-black text-[var(--graphite)]">Why this score?</h2>
             <div className="grid gap-3 md:grid-cols-2">
               {primaryCategories.map((category) => (
                 <ReasonCard key={category.label} label={category.label} note={category.note} score={category.score} />
@@ -432,12 +432,12 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
           </section>
 
           <section className="grid gap-3">
-            <h2 className="text-xl font-black text-slate-950">Talk-down points</h2>
+            <h2 className="text-xl font-black text-[var(--graphite)]">Talk-down points</h2>
             <div className="grid gap-3 md:grid-cols-3">
               {talkDownPoints.map((point) => (
-                <div key={point} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                  <Wrench className="h-7 w-7 text-blue-600" aria-hidden="true" />
-                  <span className="text-base font-bold text-slate-800">{point}</span>
+                <div key={point} className="flex items-center gap-3 rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+                  <Wrench className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+                  <span className="text-base font-bold text-[var(--graphite)]">{point}</span>
                 </div>
               ))}
             </div>
@@ -447,9 +447,9 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             <FlagChips title="Red flags" flags={result.redFlags} tone="red" />
             <FlagChips title="Green flags" flags={result.greenFlags} tone="green" />
           </div>
-          <section id="listing-source" className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-            <h2 className="text-xl font-black text-slate-950">Listing source</h2>
-            <p className="mt-2 max-h-32 overflow-auto rounded-lg bg-slate-50 p-3 text-base leading-7 text-slate-700">
+          <section id="listing-source" className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+            <h2 className="text-xl font-black text-[var(--graphite)]">Listing source</h2>
+            <p className="mt-2 max-h-32 overflow-auto rounded-xl bg-[rgba(244,240,232,0.72)] p-3 text-base leading-7 text-neutral-700">
               {sourceText || "No listing text was provided."}
             </p>
           </section>
@@ -460,13 +460,13 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
           </div>
 
           {analysisMode === "local" ? (
-            <p className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-base font-bold text-blue-950">
+            <p className="rounded-2xl border border-[rgba(18,61,51,0.20)] bg-[rgba(18,61,51,0.08)] px-4 py-3 text-base font-bold text-[var(--racing-green)]">
               Basic analysis is running on the free local scoring engine. No paid AI key is required.
             </p>
           ) : null}
 
-          <section className="rounded-lg border border-slate-200 bg-white p-4 text-base leading-7 text-slate-600 shadow-sm">
-            <h2 className="text-lg font-black text-slate-950">Trust notes</h2>
+          <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-neutral-600 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+            <h2 className="text-lg font-black text-[var(--graphite)]">Trust notes</h2>
             <div className="mt-3 grid gap-2">
               {trustLayerStatements.map((statement) => (
                 <p key={statement}>{statement}</p>
@@ -478,7 +478,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}
-              className="flex min-h-14 items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 text-lg font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg"
+              className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[var(--graphite)] px-5 text-lg font-black text-[var(--ivory)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--charcoal)] hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
             >
               <Download className="h-5 w-5" aria-hidden="true" />
               Download Report
@@ -487,7 +487,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               href="#analyze-another"
               onClick={onReset}
               aria-label="Analyze another car"
-              className="flex min-h-14 items-center justify-center gap-2 rounded-lg border border-blue-500 bg-white px-5 text-lg font-black text-blue-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-50 hover:shadow-md"
+              className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] bg-white px-5 text-lg font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.14)] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
             >
               <RotateCcw className="h-5 w-5" aria-hidden="true" />
               Analyze Another Car

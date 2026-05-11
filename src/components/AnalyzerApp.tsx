@@ -1,26 +1,9 @@
 "use client";
 
-import {
-  Brain,
-  Calculator,
-  Camera,
-  CheckCircle2,
-  ChevronDown,
-  ChevronRight,
-  FileSearch,
-  Flag,
-  Gauge,
-  LineChart,
-  Lock,
-  SearchCheck,
-  ShieldAlert,
-  ShieldCheck,
-  ShoppingCart,
-  Wrench,
-} from "lucide-react";
+import { Calculator, Camera, ChevronRight, FileSearch, Gauge, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { ChangeEvent } from "react";
-import { useState } from "react";
+import type { ChangeEvent, MouseEvent } from "react";
+import { useRef, useState } from "react";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
@@ -69,42 +52,6 @@ const quickActions = [
   { label: "Find OBD2 Scanner", note: "Scan codes before you buy", href: partnerLinks.obd, icon: ShoppingCart },
 ];
 
-const rubric = [
-  "Price vs estimated market range",
-  "Mileage for age and segment",
-  "Title, VIN, and ownership risk",
-  "Mechanical and repair exposure",
-  "Seller transparency and proof",
-  "Missing information penalty",
-  "Positive signal bonus",
-  "Negotiation opportunity",
-];
-
-const trustItems = [
-  {
-    title: "No marketplace scraping",
-    note: "The analyzer only uses text, screenshots, and details that the buyer voluntarily provides.",
-    icon: Lock,
-  },
-  {
-    title: "Confidence and assumptions",
-    note: "Results call out missing VIN, title, mileage, price, and seller proof instead of pretending to know everything.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Data moat ready",
-    note: "Anonymized analyses, saved cars, VIN flags, offer prices, and buyer outcomes can become the proprietary asset.",
-    icon: LineChart,
-  },
-];
-
-const trustLayerStatements = [
-  "DealScan provides estimates based on listing information, not guarantees.",
-  "Always verify title status, inspect the vehicle, and consider a mechanic inspection before buying.",
-  "DealScan does not scrape marketplaces. It analyzes only information you provide.",
-  "Market estimates may vary by location, condition, mileage, and demand.",
-];
-
 function manualDetailsToText(details: ManualDetails) {
   const vehicleName = [details.year, details.make, details.model].filter(Boolean).join(" ");
 
@@ -126,6 +73,7 @@ function vehicleTitleFromText(text: string) {
 }
 
 export function AnalyzerApp() {
+  const reportCardRef = useRef<HTMLDivElement | null>(null);
   const [inputType, setInputType] = useState<InputType>("text");
   const [listingText, setListingText] = useState("");
   const [manualDetails, setManualDetails] = useState<ManualDetails>({});
@@ -153,14 +101,43 @@ export function AnalyzerApp() {
     setScreenshotPreviewUrl(URL.createObjectURL(file));
   }
 
+  function handleReportPointerMove(event: MouseEvent<HTMLDivElement>) {
+    const card = reportCardRef.current;
+
+    if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const bounds = card.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+    card.style.setProperty("--tilt-x", `${x * 9}deg`);
+    card.style.setProperty("--tilt-y", `${y * -7}deg`);
+  }
+
+  function handleReportPointerLeave() {
+    const card = reportCardRef.current;
+
+    if (!card) {
+      return;
+    }
+
+    card.style.setProperty("--tilt-x", "0deg");
+    card.style.setProperty("--tilt-y", "0deg");
+  }
+
   async function submitAnalysis(body: AnalyzeListingRequest) {
     setIsLoading(true);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
 
     try {
       const response = await fetch("/api/analyze-listing", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -178,8 +155,15 @@ export function AnalyzerApp() {
       setLastAnalyzedText(body.listingText);
       window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Something went wrong. Check the listing details and try again.");
+      setError(
+        caughtError instanceof DOMException && caughtError.name === "AbortError"
+          ? "The analyzer timed out. Local analysis should be fast, so refresh and try again."
+          : caughtError instanceof Error
+            ? caughtError.message
+            : "Something went wrong. Check the listing details and try again.",
+      );
     } finally {
+      window.clearTimeout(timeout);
       setIsLoading(false);
     }
   }
@@ -229,115 +213,139 @@ export function AnalyzerApp() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f5f7] text-[#080d12]">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#060a0e] text-white">
+    <main className="min-h-screen overflow-hidden bg-[var(--graphite)] text-[var(--ivory)]">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[rgba(11,13,16,0.82)] text-[var(--ivory)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1560px] items-center justify-between px-5 py-4 sm:px-7">
-          <a href="#hero" className="leading-tight transition hover:-translate-y-0.5" aria-label="DEALSCAN home">
-            <div className="text-2xl font-black tracking-normal">DEALSCAN</div>
-            <div className="text-[11px] font-bold uppercase tracking-normal text-white/70">Real numbers. Real confidence.</div>
+          <a href="#hero" className="leading-tight transition hover:-translate-y-0.5" aria-label="DealScan home">
+            <div className="text-2xl font-black tracking-tight">DealScan</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--champagne)]">Listing review</div>
           </a>
-          <nav className="hidden items-center gap-9 text-sm font-bold lg:flex" aria-label="Primary">
-            <a href="#how-it-works" className="transition hover:-translate-y-1 hover:text-red-300">
-              How It Works
+          <nav className="hidden items-center gap-7 text-sm font-bold lg:flex" aria-label="Primary">
+            <a href="#analyzer" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
+              Analyze
             </a>
-            <a href="#pricing" className="transition hover:-translate-y-1 hover:text-red-300">
-              Pricing
+            <a href="#price-preview" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
+              Price estimate
             </a>
-            <a href="#features" className="transition hover:-translate-y-1 hover:text-red-300">
-              Features
-            </a>
-            <a href="#resources" className="flex items-center gap-1 transition hover:-translate-y-1 hover:text-red-300">
-              Resources <ChevronDown className="h-4 w-4" aria-hidden="true" />
+            <a href="/affiliate-links" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
+              Buyer tools
             </a>
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
-            <a href="#analyzer" className="hidden px-3 py-2 text-sm font-bold transition hover:-translate-y-1 hover:text-red-300 sm:block">
-              Log in
+            <a href="#analyzer" className="hidden px-3 py-2 text-sm font-bold text-[var(--silver)] transition hover:-translate-y-1 hover:text-[var(--champagne)] lg:block">
+              Google
+            </a>
+            <a href="#analyzer" className="hidden px-3 py-2 text-sm font-bold text-[var(--silver)] transition hover:-translate-y-1 hover:text-[var(--champagne)] lg:block">
+              Facebook
             </a>
             <a
-              href="#pricing"
-              className="rounded-md bg-white px-4 py-3 text-sm font-black text-black shadow-lg transition hover:-translate-y-1 hover:scale-105 hover:bg-red-500 hover:text-white hover:shadow-red-500/30 sm:px-5"
+              href="#analyzer"
+              className="rounded-full bg-[var(--ivory)] px-4 py-3 text-sm font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(244,240,232,0.75)] transition hover:-translate-y-1 hover:bg-[var(--champagne)] sm:px-5"
             >
-              Sign up free
+              Start
             </a>
           </div>
         </div>
       </header>
 
-      <section id="hero" className="relative min-h-[calc(100svh-73px)] overflow-hidden bg-[#060a0e] text-white">
+      <section id="hero" className="relative min-h-[calc(100svh-73px)] overflow-hidden bg-[var(--graphite)] text-[var(--ivory)]">
         <div id="example-listing" className="sr-only">Example listing control</div>
         <img
           src="/porsche-911-track-black.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[70%_54%] brightness-[0.50] contrast-125 saturate-[0.82]"
+          className="absolute inset-0 h-full w-full object-cover object-[68%_52%] opacity-70 brightness-[0.54] contrast-125 saturate-[0.72]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.80)_33%,rgba(0,0,0,0.48)_62%,rgba(0,0,0,0.82)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.20),rgba(0,0,0,0.68))]" />
-        <div className="relative mx-auto grid max-w-[1560px] gap-8 px-5 py-6 sm:px-7 lg:grid-cols-[minmax(0,0.86fr)_minmax(620px,1.14fr)] lg:items-center lg:py-8">
-          <div className="py-4 lg:py-10">
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-              <span className="h-2 w-2 rounded-full bg-red-400" />
-              Data-backed used car deal checker
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,13,16,0.94)_0%,rgba(11,13,16,0.78)_42%,rgba(11,13,16,0.40)_72%,rgba(11,13,16,0.72)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,16,0.30),rgba(11,13,16,0.72))]" />
+        <div className="premium-grid-bg absolute inset-0 opacity-70" />
+        <div className="absolute left-[-12rem] top-10 h-[32rem] w-[32rem] rounded-full bg-[rgba(201,168,106,0.16)] blur-3xl" />
+        <div className="absolute right-[-16rem] top-24 h-[36rem] w-[36rem] rounded-full bg-[rgba(18,61,51,0.58)] blur-3xl" />
+        <div className="relative mx-auto grid max-w-[1500px] gap-8 px-5 py-8 sm:px-7 lg:grid-cols-[minmax(0,0.82fr)_minmax(560px,1.18fr)] lg:items-center lg:py-10">
+          <div className="py-5 lg:py-12">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)] shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--champagne)]" />
+              Used car listing checker
             </div>
-            <h1 className="mt-5 max-w-2xl text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.75rem]">
+            <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-[5.9rem]">
               Know the car.
               <br />
               Not the hype.
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-white/80 sm:text-xl">
-              Paste a listing and get a clear score, red flags, and negotiation tips. No paid AI key is required.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--silver)] sm:text-xl">
+              Paste a listing and get a clear score, red flags, missing details, and negotiation guidance before you message the seller.
             </p>
-            <div id="features" className="mt-6 grid max-w-xl grid-cols-2 gap-3 text-sm font-bold sm:grid-cols-4">
-              {[
-                { icon: Gauge, label: "Local scoring", href: "#prediction-rubric" },
-                { icon: LineChart, label: "Price logic", href: "#market-data" },
-                { icon: Flag, label: "Risk checks", href: "#prediction-rubric" },
-                { icon: Lock, label: "No scraping", href: "#trust" },
-              ].map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="group grid min-h-24 content-between rounded-2xl border border-white/10 bg-white/[0.055] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition hover:-translate-y-1 hover:bg-white/10 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white"
-                  >
-                    <Icon className="h-6 w-6 transition group-hover:scale-110 group-hover:text-red-300" aria-hidden="true" />
-                    <span>{item.label}</span>
-                  </a>
-                );
-              })}
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a
+                href="#analyzer"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--champagne)] px-6 text-base font-black text-[var(--graphite)] transition hover:-translate-y-1 hover:bg-[var(--ivory)]"
+              >
+                Check a listing
+              </a>
+              <a
+                href="/affiliate-links"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.07] px-6 text-base font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+              >
+                Buyer tools
+              </a>
             </div>
           </div>
 
+          <div className="grid gap-4">
+            <div
+              ref={reportCardRef}
+              onMouseMove={handleReportPointerMove}
+              onMouseLeave={handleReportPointerLeave}
+              className="hero-report-card relative min-h-[320px] overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(20,24,29,0.68)] shadow-[0_36px_100px_-48px_rgba(0,0,0,0.95)] backdrop-blur-xl sm:min-h-[440px]"
+              aria-label="Porsche hero image"
+            >
+              <img
+                src="/porsche-911-track-black.jpg"
+                alt="Black Porsche 911 track car used as DealScan hero imagery"
+                className="absolute inset-0 h-full w-full object-cover object-[70%_52%] brightness-[0.86] contrast-125 saturate-[0.82]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,16,0.08),rgba(11,13,16,0.66))]" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-black/35 p-4 backdrop-blur-md">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--champagne)]">Before you drive out</p>
+                <p className="mt-2 text-2xl font-black tracking-tight text-white">Check the listing first.</p>
+              </div>
+            </div>
+
+            <section id="price-preview" className="rounded-[1.35rem] border border-white/[0.14] bg-[rgba(20,24,29,0.84)] p-4 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Price prediction</p>
+                  <h2 className="mt-1 text-2xl font-black tracking-tight">Rough range. Offer range. Confidence.</h2>
+                </div>
+                <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                {["Fair price range", "Suggested offer", "Missing details"].map((label) => (
+                  <a
+                    key={label}
+                    href="#analyzer"
+                    className="rounded-2xl border border-white/10 bg-white/[0.055] p-4 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)]"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </section>
+
           <section
             id="analyzer"
-            className="rounded-[1.35rem] border border-white/[0.14] bg-[#10161d]/90 p-4 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-6"
+            className="rounded-[1.35rem] border border-white/[0.14] bg-[rgba(20,24,29,0.90)] p-4 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-6"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-red-300">Deal check</p>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Deal check</p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight">Analyze a Listing</h2>
               </div>
               <a
                 href="#market-data"
-                className="rounded-full border border-white/12 bg-white/[0.06] px-3 py-2 text-xs font-black text-white/75 transition hover:-translate-y-1 hover:bg-white/10"
+                className="rounded-full border border-white/12 bg-white/[0.06] px-3 py-2 text-xs font-black text-[var(--silver)] transition hover:-translate-y-1 hover:bg-white/10 hover:text-[var(--champagne)]"
               >
                 Basic analysis
               </a>
-            </div>
-            <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black uppercase tracking-[0.12em] text-white/60">
-              {["1 Input", "2 Verify", "3 Score"].map((step) => (
-                <a
-                  key={step}
-                  href={step === "1 Input" ? "#analyzer" : step === "2 Verify" ? partnerLinks.carfax : "#prediction-rubric"}
-                  target={step === "2 Verify" ? "_blank" : undefined}
-                  rel={step === "2 Verify" ? "sponsored noopener noreferrer" : undefined}
-                  className="rounded-full border border-white/10 bg-white/[0.045] px-2 py-2 transition hover:-translate-y-1 hover:bg-white/10"
-                >
-                  {step}
-                </a>
-              ))}
             </div>
             <div className="mt-5 grid grid-cols-3 gap-2" role="tablist" aria-label="Listing input methods">
               {inputMethods.map((method) => (
@@ -356,11 +364,11 @@ export function AnalyzerApp() {
                       }}
                       className={`group grid min-h-28 gap-2 rounded-2xl border p-3 text-left transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white ${
                         inputType === method.value
-                          ? "border-white/30 bg-white text-[#111820] shadow-xl"
+                          ? "border-[rgba(201,168,106,0.60)] bg-[var(--ivory)] text-[#111820] shadow-xl"
                           : "border-white/10 bg-white/[0.045] text-white/70 hover:bg-white/[0.085]"
                       }`}
                     >
-                      <Icon className={`h-5 w-5 transition group-hover:scale-110 ${inputType === method.value ? "text-red-600" : "text-red-300"}`} aria-hidden="true" />
+                      <Icon className={`h-5 w-5 transition group-hover:scale-110 ${inputType === method.value ? "text-[var(--racing-green)]" : "text-[var(--champagne)]"}`} aria-hidden="true" />
                       <span className="text-sm font-black">{method.label}</span>
                       <span className={`text-xs leading-4 ${inputType === method.value ? "text-neutral-600" : "text-white/50"}`}>{method.note}</span>
                     </a>
@@ -387,10 +395,10 @@ export function AnalyzerApp() {
 
               {inputType === "screenshot" ? (
                 <div className="grid gap-4">
-                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-white/25 bg-white/[0.04] p-4 text-center transition hover:-translate-y-1 hover:border-red-300 hover:bg-white/[0.07] focus-within:ring-2 focus-within:ring-white">
+                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-white/25 bg-white/[0.04] p-4 text-center transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:bg-white/[0.07] focus-within:ring-2 focus-within:ring-[var(--champagne)]">
                     <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing screenshot" />
                     <span className="grid justify-items-center gap-2">
-                      <Camera className="h-8 w-8 text-red-300" aria-hidden="true" />
+                      <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
                       <span className="text-base font-black">Upload screenshot</span>
                       <span className="text-sm text-white/60">MVP preview only. Paste visible text below for analysis.</span>
                     </span>
@@ -449,7 +457,7 @@ export function AnalyzerApp() {
 
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.045] p-3">
               <div className="flex items-center justify-between gap-3 text-xs font-black uppercase tracking-[0.12em] text-white/70">
-                <span>Seed examples</span>
+                <span>Try a sample listing</span>
                 <span>{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-4">
@@ -461,10 +469,10 @@ export function AnalyzerApp() {
                       event.preventDefault();
                       useExampleListing(example.text);
                     }}
-                    className="group rounded-xl border border-white/10 bg-[#0b1117]/65 p-3 text-left transition hover:-translate-y-1 hover:border-red-300 hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-white"
+                    className="group rounded-xl border border-white/10 bg-[#0b1117]/65 p-3 text-left transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)]"
                     aria-label={`Use ${example.label} example listing`}
                   >
-                    <span className="block text-sm font-black text-white transition group-hover:text-red-200">{example.label}</span>
+                    <span className="block text-sm font-black text-white transition group-hover:text-[var(--champagne)]">{example.label}</span>
                     <span className="mt-1 block text-xs leading-5 text-white/55">{example.tone}</span>
                   </a>
                 ))}
@@ -485,150 +493,30 @@ export function AnalyzerApp() {
                 }}
                 aria-disabled={isLoading}
                 aria-label="Analyze listing and generate deal score"
-                className={`group flex min-h-12 min-w-52 items-center justify-center gap-2 rounded-md bg-red-500 px-6 text-base font-black text-white shadow-xl shadow-red-500/25 transition hover:-translate-y-1.5 hover:scale-[1.03] hover:bg-red-600 hover:shadow-red-500/40 focus:outline-none focus:ring-2 focus:ring-white ${
+                className={`group flex min-h-12 min-w-52 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-6 text-base font-black text-[var(--graphite)] shadow-xl shadow-black/25 transition hover:-translate-y-1.5 hover:scale-[1.03] hover:bg-[var(--ivory)] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)] ${
                   isLoading ? "pointer-events-none opacity-60" : ""
                 }`}
               >
                 <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
                 Analyze Listing
               </a>
-              <span className="flex items-center gap-2 text-sm font-bold text-white/80">
-                <Lock className="h-4 w-4 text-yellow-300" aria-hidden="true" />Free local analysis
-              </span>
             </div>
           </section>
-        </div>
-      </section>
-
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto grid max-w-[1560px] gap-6 px-5 py-5 text-sm text-neutral-700 sm:px-7 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="flex flex-wrap items-center gap-8">
-            <span>Built for buyers checking listings from</span>
-            <strong>Private sellers</strong>
-            <strong>Dealers</strong>
-            <strong>Auctions</strong>
-            <strong>Forums</strong>
-            <strong>Text messages</strong>
-            <a href="#resources" className="transition hover:-translate-y-1 hover:text-red-500">
-              & more
-            </a>
-          </div>
-          <div className="grid grid-cols-3 gap-4 text-center sm:gap-8">
-            <a href="#trust" className="transition hover:-translate-y-1"><strong className="block text-xl text-black">0</strong>Marketplaces Scraped</a>
-            <a href="#features" className="transition hover:-translate-y-1"><strong className="block text-xl text-black">3</strong>Input Methods</a>
-            <a href="#market-data" className="transition hover:-translate-y-1"><strong className="block text-xl text-black">Free</strong>Local Engine</a>
           </div>
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[#f2f4f7] px-5 py-10 sm:px-7">
-        <div className="mx-auto max-w-[1560px]">
-          <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-end">
-            <div>
-              <p className="text-sm font-black uppercase text-red-600">Three-step flow</p>
-              <h2 className="mt-2 text-4xl font-black tracking-normal">Predictable deal analysis, not a toy score.</h2>
-            </div>
-            <p className="text-lg leading-8 text-neutral-600">
-              The product starts empty, waits for buyer-provided information, then scores that data with the free local heuristic engine by default.
-            </p>
-          </div>
-
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
-            {[
-              ["1", "Input", "Paste listing text, upload a screenshot, or enter the vehicle details by hand.", "#analyzer"],
-              ["2", "Verify", "Use VIN, title, history, inspection, and service-record links to validate seller claims.", partnerLinks.carfax],
-              ["3", "Result", "Score price, mileage, red flags, green flags, confidence, and negotiation room.", "#prediction-rubric"],
-            ].map(([step, title, note, href]) => (
-              <a
-                key={step}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                className="group rounded-xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1.5 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-red-500"
-              >
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-black text-xl font-black text-white transition group-hover:scale-110 group-hover:bg-red-500">{step}</div>
-                <h3 className="mt-5 text-2xl font-black">{title}</h3>
-                <p className="mt-3 text-base leading-7 text-neutral-600">{note}</p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="prediction-rubric" className="bg-white px-5 py-10 sm:px-7">
-        <div className="mx-auto grid max-w-[1560px] gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-          <div>
-            <p className="text-sm font-black uppercase text-red-600">Prediction rubric</p>
-            <h2 className="mt-2 text-4xl font-black tracking-normal">The score explains why it moved.</h2>
-            <p className="mt-4 text-lg leading-8 text-neutral-600">
-              Vague listings are penalized. Clean title, one owner, records, reasonable mileage, and transparent seller language are rewarded.
-            </p>
-            <a href="#analyzer" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-black px-6 text-base font-black text-white transition hover:-translate-y-1 hover:scale-105 hover:bg-red-500">
-              Analyze a car
-            </a>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {rubric.map((item) => (
-              <a
-                key={item}
-                href="#analyzer"
-                className="rounded-xl border border-neutral-200 p-5 text-sm font-bold shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:bg-red-50 hover:shadow-lg"
-              >
-                <CheckCircle2 className="mb-4 h-5 w-5 text-green-600" aria-hidden="true" />
-                {item}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="market-data" className="bg-[#f2f4f7] px-5 py-10 sm:px-7">
-        <div className="mx-auto max-w-[1560px]">
-          <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
-            <div>
-              <p className="text-sm font-black uppercase text-red-600">Data layer</p>
-              <h2 className="mt-2 text-4xl font-black tracking-normal">Ready for real pricing and VIN data.</h2>
-            </div>
-            <p className="text-lg leading-8 text-neutral-600">
-              Local scoring is the default. Production-grade underwriting can later add optional AI providers, licensed market data, VIN decoding, title reports, repair estimates, depreciation curves, and local comps.
-            </p>
-          </div>
-          <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {[
-              { title: "Free local analysis", note: "Heuristic scoring works without paid AI keys or external services.", icon: Gauge, href: "#analyzer" },
-              { title: "Optional AI providers", note: "Anthropic, Gemini, Groq, and OpenRouter can be added later without blocking the free path.", icon: Brain, href: "#prediction-rubric" },
-              { title: "VIN and history", note: "CARFAX destination wired now. API contract can replace the link later.", icon: FileSearch, href: partnerLinks.carfax },
-              { title: "Market pricing", note: "Clear hook for licensed comps, depreciation, and local market ranges.", icon: Gauge, href: "#prediction-rubric" },
-              { title: "Inspection layer", note: "Pre-purchase inspection link supports buyer trust and affiliate revenue.", icon: Wrench, href: partnerLinks.inspection },
-            ].map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <a
-                  key={item.title}
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                  className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-neutral-200 transition hover:-translate-y-1.5 hover:shadow-xl"
-                >
-                  <Icon className="h-7 w-7 text-red-500" aria-hidden="true" />
-                  <h3 className="mt-5 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-600">{item.note}</p>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="resources" className="bg-white px-5 py-10 sm:px-7">
+      <section id="resources" className="bg-[rgba(244,240,232,0.94)] px-5 py-12 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto grid max-w-[1560px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
-            <p className="text-sm font-black uppercase text-red-600">Affiliate tools</p>
-            <h2 className="mt-2 text-4xl font-black tracking-normal">Every action has a destination.</h2>
-            <p className="mt-4 text-lg leading-8 text-neutral-600">
-              These are working outbound links today. Add approved affiliate IDs before launch, then replace with API-backed experiences as partnerships mature.
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--racing-green)]">Buyer tools</p>
+            <h2 className="mt-2 text-4xl font-black tracking-tight">Quick links before you buy.</h2>
+            <p className="mt-4 text-lg leading-8 text-neutral-700">
+              History, inspection, insurance, payments, and simple tools.
             </p>
+            <a href="/affiliate-links" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
+              View all buyer tools
+            </a>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             {quickActions.map((action) => {
@@ -640,11 +528,11 @@ export function AnalyzerApp() {
                   href={action.href}
                   target="_blank"
                   rel="sponsored noopener noreferrer"
-                  className="group flex items-center justify-between rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1.5 hover:shadow-xl"
+                  className="group flex items-center justify-between rounded-2xl border border-neutral-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1.5 hover:border-[var(--champagne)] hover:bg-white hover:shadow-xl"
                 >
                   <span className="flex items-center gap-4">
                     <span className="grid h-11 w-11 place-items-center rounded-lg bg-neutral-100 transition group-hover:scale-110 group-hover:bg-red-50">
-                      <Icon className="h-5 w-5 text-blue-700" aria-hidden="true" />
+                      <Icon className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
                     </span>
                     <span>
                       <span className="block text-base font-black">{action.label}</span>
@@ -659,46 +547,45 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="pricing" className="bg-[#080d12] px-5 py-10 text-white sm:px-7">
+      <section id="market-data" className="bg-[var(--charcoal)] px-5 py-10 text-[var(--ivory)] sm:px-7">
         <div className="mx-auto max-w-[1560px]">
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              ["Free Analyzer", "$0", "Local scoring, buyer-safe disclaimers, and no paid AI requirement."],
-              ["Premium Report", "$9-$19", "Downloadable report, saved assumptions, offer script, and inspection checklist."],
-              ["Buyer Account", "Soon", "Saved cars, compare garage, price alerts, and email follow-ups."],
-            ].map(([title, price, note]) => (
-              <a key={title} href="#analyzer" className="rounded-xl border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1.5 hover:bg-white/[0.10] hover:shadow-2xl">
-                <h3 className="text-xl font-black">{title}</h3>
-                <div className="mt-4 text-4xl font-black">{price}</div>
-                <p className="mt-4 text-sm leading-6 text-white/70">{note}</p>
-              </a>
-            ))}
+          <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Engine</p>
+              <h2 className="mt-2 text-3xl font-black tracking-tight">Local first. Groq-ready.</h2>
+            </div>
+            <p className="text-lg leading-8 text-[var(--silver)]">
+              Add your Groq key in `.env.local`; the app falls back to local scoring if Groq is unavailable.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <section id="trust" className="bg-white px-5 py-10 sm:px-7">
-        <div className="mx-auto grid max-w-[1560px] gap-6">
-          <div className="grid gap-5 md:grid-cols-3">
-            {trustItems.map((item) => {
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              { title: "Local fallback", note: "Heuristic scoring still works when no AI key is configured.", icon: Gauge, href: "#analyzer" },
+              { title: "Groq-ready", note: "Set a Groq key server-side to enhance the local result without exposing secrets.", icon: LineChart, href: "#market-data" },
+              { title: "VIN and history", note: "CARFAX destination wired now. API contract can replace the link later.", icon: FileSearch, href: partnerLinks.carfax },
+              { title: "Market pricing", note: "Clear hook for licensed comps, depreciation, and local market ranges.", icon: Gauge, href: "#market-data" },
+              { title: "Inspection layer", note: "Pre-purchase inspection link supports buyer trust and affiliate revenue.", icon: Wrench, href: partnerLinks.inspection },
+            ].map((item) => {
               const Icon = item.icon;
 
               return (
-                <a key={item.title} href="#analyzer" className="rounded-xl border border-neutral-200 p-6 shadow-sm transition hover:-translate-y-1.5 hover:shadow-xl">
-                  <Icon className="h-7 w-7 text-red-500" aria-hidden="true" />
+                <a
+                  key={item.title}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
+                  className="rounded-2xl border border-white/10 bg-white/[0.055] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:-translate-y-1.5 hover:border-[rgba(201,168,106,0.45)] hover:bg-white/[0.085]"
+                >
+                  <Icon className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-base leading-7 text-neutral-600">{item.note}</p>
+                  <p className="mt-3 text-sm leading-6 text-[var(--silver)]">{item.note}</p>
                 </a>
               );
             })}
           </div>
-          <div className="grid gap-3 rounded-xl border border-neutral-200 bg-neutral-50 p-5 text-base font-bold leading-7 text-neutral-700 sm:grid-cols-2">
-            {trustLayerStatements.map((statement) => (
-              <p key={statement}>{statement}</p>
-            ))}
-          </div>
         </div>
       </section>
+
     </main>
   );
 }
