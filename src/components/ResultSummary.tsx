@@ -27,9 +27,9 @@ import { ScoreRing, scoreTone } from "@/components/ScoreRing";
 import { SellerQuestionsCard } from "@/components/SellerQuestionsCard";
 
 const trustLayerStatements = [
-  "DealScan provides estimates based on listing information, not guarantees.",
+  "Dealscan.dev provides estimates based on listing information, not guarantees.",
   "Always verify title status, inspect the vehicle, and consider a mechanic inspection before buying.",
-  "DealScan does not scrape marketplaces. It analyzes only information you provide.",
+  "Dealscan.dev does not scrape marketplaces. It analyzes only information you provide.",
   "Market estimates may vary by location, condition, mileage, and demand.",
 ];
 
@@ -246,7 +246,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </div>
             <div className="text-2xl font-black tracking-normal">
-              DEALSCAN
+              Dealscan.dev
             </div>
           </div>
           <nav className="hidden items-center gap-7 text-sm font-bold text-[var(--silver)] lg:flex" aria-label="Result navigation">

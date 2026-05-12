@@ -216,8 +216,8 @@ export function AnalyzerApp() {
     <main className="min-h-screen overflow-hidden bg-[var(--graphite)] text-[var(--ivory)]">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[rgba(11,13,16,0.82)] text-[var(--ivory)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1560px] items-center justify-between px-5 py-4 sm:px-7">
-          <a href="#hero" className="leading-tight transition hover:-translate-y-0.5" aria-label="DealScan home">
-            <div className="text-2xl font-black tracking-tight">DealScan</div>
+          <a href="#hero" className="leading-tight transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
+            <div className="text-2xl font-black tracking-tight">Dealscan.dev</div>
             <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--champagne)]">Listing review</div>
           </a>
           <nav className="hidden items-center gap-7 text-sm font-bold lg:flex" aria-label="Primary">
@@ -300,7 +300,7 @@ export function AnalyzerApp() {
             >
               <img
                 src="/porsche-911-track-black.jpg"
-                alt="Black Porsche 911 track car used as DealScan hero imagery"
+                alt="Black Porsche 911 track car used as Dealscan.dev hero imagery"
                 className="absolute inset-0 h-full w-full object-cover object-[70%_52%] brightness-[0.86] contrast-125 saturate-[0.82]"
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,16,0.08),rgba(11,13,16,0.66))]" />
@@ -552,19 +552,19 @@ export function AnalyzerApp() {
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Engine</p>
-              <h2 className="mt-2 text-3xl font-black tracking-tight">Local first. Groq-ready.</h2>
+              <h2 className="mt-2 text-3xl font-black tracking-tight">Local analysis. Optional enhancement.</h2>
             </div>
             <p className="text-lg leading-8 text-[var(--silver)]">
-              Add your Groq key in `.env.local`; the app falls back to local scoring if Groq is unavailable.
+              The core scoring engine works without paid services. Provider integrations can be enabled server-side when needed.
             </p>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "Local fallback", note: "Heuristic scoring still works when no AI key is configured.", icon: Gauge, href: "#analyzer" },
-              { title: "Groq-ready", note: "Set a Groq key server-side to enhance the local result without exposing secrets.", icon: LineChart, href: "#market-data" },
-              { title: "VIN and history", note: "CARFAX destination wired now. API contract can replace the link later.", icon: FileSearch, href: partnerLinks.carfax },
-              { title: "Market pricing", note: "Clear hook for licensed comps, depreciation, and local market ranges.", icon: Gauge, href: "#market-data" },
-              { title: "Inspection layer", note: "Pre-purchase inspection link supports buyer trust and affiliate revenue.", icon: Wrench, href: partnerLinks.inspection },
+              { title: "Local scoring", note: "Scores listings from price, mileage, title, condition, red flags, and missing details.", icon: Gauge, href: "#analyzer" },
+              { title: "Enhanced analysis", note: "Server-side provider support is ready for deeper summaries when enabled.", icon: LineChart, href: "#market-data" },
+              { title: "VIN and history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
+              { title: "Market pricing", note: "Rough estimates are labeled clearly until licensed market data is connected.", icon: Gauge, href: "#market-data" },
+              { title: "Inspection layer", note: "Pre-purchase inspection links help buyers verify condition before purchase.", icon: Wrench, href: partnerLinks.inspection },
             ].map((item) => {
               const Icon = item.icon;
 

@@ -58,7 +58,7 @@ export default function AffiliateLinksPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            DealScan
+            Dealscan.dev
           </a>
           <a
             href="/"
@@ -108,7 +108,7 @@ export default function AffiliateLinksPage() {
         </section>
 
         <p className="mt-8 rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-base leading-7 text-neutral-700">
-          Affiliate disclosure: DealScan may earn a commission from qualifying purchases. Replace placeholders with approved affiliate URLs before launch.
+          Affiliate disclosure: Dealscan.dev may earn a commission from qualifying purchases.
         </p>
       </div>
     </main>

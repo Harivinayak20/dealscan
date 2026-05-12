@@ -1,66 +1,82 @@
-# DEALSCAN
+# Dealscan.dev
 
-DEALSCAN is a Next.js App Router app for evaluating used car listings from information the buyer provides. It supports pasted listing text, screenshot-assisted entry, and manual entry. It does not scrape Facebook Marketplace, Craigslist, OfferUp, dealership sites, or any other third-party marketplace.
+Dealscan.dev is a used-car listing analyzer for buyer-provided information. It helps shoppers review a listing before contacting the seller by returning a deal score, risk signals, missing details, rough price context, and negotiation guidance.
 
-## Free-First Architecture
+The product does not scrape marketplaces or require marketplace logins. Users provide the listing information by pasting text, uploading a screenshot for reference, or entering vehicle details manually.
 
-The default analysis engine is local heuristic scoring. The app works with no paid AI keys and no paid services.
+## Current Production
 
-The local analyzer checks:
+- App: https://dealscan.pages.dev
+- Repository: https://github.com/Harivinayak20/dealscan
+- Hosting: Cloudflare Pages
+- Default analysis mode: local heuristic scoring
+- Paid API requirement: none
 
-- Year, make, model, trim, price, mileage, location, title status, and condition signals
-- Red flag terms such as no title, salvage, rebuilt, flood, needs work, mechanic special, engine issues, transmission issues, and cash only
-- Green flag terms such as clean title, one owner, no accidents, service records, new tires, new brakes, garage kept, and clean Carfax
-- Missing information, vehicle age, mileage per year, rough price sanity, confidence, and negotiation leverage
+## Features
 
-Fair-value ranges are rough estimates from listing text only. They are not licensed market valuations.
+- Paste listing text
+- Screenshot-assisted listing flow
+- Manual vehicle detail entry
+- Deal score from 0 to 100
+- Verdict and plain-English summary
+- Rough fair-value range
+- Suggested offer range
+- Category scoring cards
+- Red and green flag detection
+- Missing information checklist
+- Negotiation tip
+- Seller questions
+- Buyer tool links for history reports, inspections, insurance, payments, parts, and OBD2 scanners
 
-## Optional AI Providers
+## Analysis Engine
 
-AI is an enhancement, not a dependency.
+The default engine is a local heuristic analyzer. It works without paid AI keys or external data providers.
 
-Default:
+The analyzer evaluates:
+
+- Year, make, model, trim, mileage, price, title status, location, and condition language
+- Mileage for age
+- Title and ownership risk
+- Mechanical risk terms
+- Seller transparency
+- Missing information
+- Positive proof points
+- Negotiation opportunity
+
+Rough market and offer ranges are estimates based on listing text. They are not licensed market valuations.
+
+## Optional Provider Support
+
+AI providers are optional enhancements. If a provider is not configured or fails, the app continues with local scoring.
+
+Supported provider values:
 
 ```bash
 AI_PROVIDER=none
+AI_PROVIDER=anthropic
+AI_PROVIDER=gemini
+AI_PROVIDER=groq
+AI_PROVIDER=openrouter
 ```
 
-Optional future providers:
+Server-only keys:
 
 ```bash
-AI_PROVIDER=anthropic
 ANTHROPIC_API_KEY=
-
-AI_PROVIDER=gemini
 GEMINI_API_KEY=
-
-AI_PROVIDER=groq
 GROQ_API_KEY=
-GROQ_MODEL=llama-3.3-70b-versatile
-
-AI_PROVIDER=openrouter
+GROQ_MODEL=
 OPENROUTER_API_KEY=
 ```
 
-If a selected provider key is missing or the provider fails, the API falls back to the local analyzer.
+Never expose provider keys with `NEXT_PUBLIC_`.
 
-Groq note: `meta-llama/llama-prompt-guard-2-86m` is a lightweight prompt-injection detection model, not a listing-analysis model. Keep it for a future guardrail layer. For enhanced listing analysis through Groq, use a chat/instruction model in `GROQ_MODEL`.
+## Local Development
 
-## Recommended Free Stack
-
-- Hosting: Cloudflare Pages/Workers or Vercel free tier
-- Database later: Supabase free tier
-- Cache later: Cloudflare KV or Upstash free tier
-- Current Phase 1 cache: in-memory 24-hour cache
-
-## Requirements
+Requirements:
 
 - Node.js 20 or newer
 - npm
-
-Install Node.js from [nodejs.org](https://nodejs.org/) or use a version manager such as `nvm`.
-
-## Local Setup
 
 Install dependencies:
 
@@ -80,7 +96,11 @@ Run the app:
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open:
+
+```bash
+http://localhost:3000
+```
 
 ## Scripts
 
@@ -92,50 +112,76 @@ npm run lint
 npm run typecheck
 ```
 
-## No-Scraping Policy
+## Environment Variables
 
-The product only analyzes:
+Client-safe variables:
 
-- Text pasted by the user
-- Screenshot text that the user manually pastes
-- Vehicle details entered by the user
+```bash
+NEXT_PUBLIC_APP_URL=
+NEXT_PUBLIC_HISTORY_REPORT_URL=
+NEXT_PUBLIC_INSURANCE_URL=
+NEXT_PUBLIC_LOAN_URL=
+NEXT_PUBLIC_INSPECTION_URL=
+NEXT_PUBLIC_PARTS_URL=
+NEXT_PUBLIC_OBD_SCANNER_URL=
+NEXT_PUBLIC_DETAILING_KIT_URL=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-There is no marketplace scraping, automated crawling, browser scraping, or third-party listing extraction in this Phase 1 build.
+Server-only variables:
 
-## Privacy and Trust
+```bash
+AI_PROVIDER=
+ANTHROPIC_API_KEY=
+GEMINI_API_KEY=
+GROQ_API_KEY=
+GROQ_MODEL=
+OPENROUTER_API_KEY=
+MARKET_DATA_API_KEY=
+VIN_HISTORY_API_KEY=
+OCR_API_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+```
 
-- AI keys are optional and server-only.
-- Only `NEXT_PUBLIC_*` variables are used client-side.
-- The UI labels market values as rough estimates.
-- DealScan provides estimates based on listing information, not guarantees.
-- Always verify title status, inspect the vehicle, and consider a mechanic inspection before buying.
-- DealScan does not scrape marketplaces. It analyzes only information you provide.
-- Market estimates may vary by location, condition, mileage, and demand.
-- Missing details reduce confidence.
-- Screenshot upload is preview-only in Phase 1 and does not perform OCR.
+## Cloudflare Pages
 
-## Deploy
+Current production settings:
 
-1. Push the project to GitHub.
-2. Import the repository into Vercel or deploy to Cloudflare Pages.
-3. Add environment variables from `.env.example`.
-4. Keep `AI_PROVIDER=none` for the free local analyzer.
-5. Add approved `NEXT_PUBLIC_*` affiliate URLs before launch.
-6. Deploy.
+- Production branch: `main`
+- Build command: `npx @cloudflare/next-on-pages@1`
+- Output directory: `.vercel/output/static`
+- Compatibility flag: `nodejs_compat`
+- API route runtime: Edge
+
+Recommended production variables:
+
+```bash
+AI_PROVIDER=none
+NEXT_PUBLIC_APP_URL=https://dealscan.pages.dev
+```
+
+## Trust and Safety
+
+- Dealscan.dev analyzes only information provided by the user.
+- No marketplace scraping, crawling, or automated listing extraction is included.
+- Scores and price ranges are estimates, not guarantees.
+- Buyers should verify title status, inspect the vehicle, and consider a mechanic inspection before purchase.
+- Market estimates can vary by location, condition, mileage, demand, and available records.
 
 ## Current Limitations
 
-- No live licensed market data yet.
-- No VIN decoding or vehicle history API yet.
-- No OCR extraction from screenshots yet.
-- No saved accounts, saved cars, alerts, or Supabase persistence yet.
-- Affiliate URLs are placeholders unless replaced with approved links.
-- Local scoring is a heuristic, not a real pricing engine.
+- No licensed market-data feed yet
+- No VIN decoding or vehicle-history API integration yet
+- No OCR extraction from screenshots yet
+- No accounts, saved cars, alerts, or payment flow yet
+- Affiliate links should be replaced with approved partner URLs before monetization
 
-## Future Integration Hooks
+## Deployment Checklist
 
-- Licensed market data API for local comps and depreciation curves.
-- VIN and history report API for title, ownership, and accident checks.
-- OCR API for screenshot text extraction.
-- Supabase for saved analyses, saved cars, buyer outcomes, and feedback.
-- Optional AI providers for enhanced explanations.
+- `npm run build` passes
+- Cloudflare Pages environment variables are set
+- Server-only keys are not exposed client-side
+- `nodejs_compat` is enabled
+- No scraping functionality is introduced
+- Disclaimers remain visible in the product
