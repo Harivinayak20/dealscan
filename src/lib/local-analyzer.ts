@@ -114,7 +114,7 @@ function parsePrice(text: string) {
 }
 
 function parseMileage(text: string) {
-  const match = text.match(/\b(\d{1,3}(?:,\d{3})*|\d{2,3}k)\s?(?:miles|mi)\b/i);
+  const match = text.match(/\b(\d{1,3}(?:,\d{3})+|\d{4,6}|\d{2,3}k)\s?(?:miles|mi)\b/i);
 
   if (!match) {
     return null;
