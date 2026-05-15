@@ -1,16 +1,13 @@
 import type { ComponentType } from "react";
+import { useState } from "react";
 import {
   BadgeDollarSign,
   CarFront,
   CheckCircle2,
-  ChevronDown,
   CircleAlert,
-  CircleHelp,
   Download,
   ExternalLink,
-  FileText,
   Gauge,
-  Heart,
   Info,
   RotateCcw,
   Search,
@@ -25,11 +22,13 @@ import { FlagChips } from "@/components/FlagChips";
 import { MissingInfoChecklist } from "@/components/MissingInfoChecklist";
 import { ScoreRing, scoreTone } from "@/components/ScoreRing";
 import { SellerQuestionsCard } from "@/components/SellerQuestionsCard";
+import { extractVin } from "@/lib/vin-decoder";
+import type { VinDecodeResult } from "@/lib/vin-decoder";
 
 const trustLayerStatements = [
   "Dealscan.dev provides estimates based on listing information, not guarantees.",
   "Always verify title status, inspect the vehicle, and consider a mechanic inspection before buying.",
-  "Dealscan.dev does not scrape marketplaces. It analyzes only information you provide.",
+  "Dealscan.dev extracts public listing pages only when you provide the URL.",
   "Market estimates may vary by location, condition, mileage, and demand.",
 ];
 
@@ -165,7 +164,7 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
 
   return (
     <aside className="grid gap-4 xl:sticky xl:top-20">
-      <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+      <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
         <h2 className="flex items-center gap-2 text-lg font-black text-[var(--graphite)]">
           Market price range
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
@@ -184,7 +183,7 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+      <section className="animate-fade-in-up delay-200 rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
         <h2 className="flex items-center gap-2 text-lg font-black text-[var(--graphite)]">
           Car health summary
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
@@ -212,7 +211,7 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
           <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
         </h2>
         <p className="mt-2 text-sm leading-6 text-neutral-600">
-          Not connected yet. This app does not scrape marketplaces. Add a licensed pricing API later for real comparable
+          Not connected yet. Add a licensed pricing API later for real comparable
           vehicles.
         </p>
       </section>
@@ -228,6 +227,9 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
   const title = titleStatus(sourceText);
   const owner = ownerStatus(sourceText);
   const primaryCategories = result.categories.slice(0, 4);
+  const detectedVin = extractVin(sourceText);
+  const [vinResult, setVinResult] = useState<VinDecodeResult | null>(null);
+  const [vinLoading, setVinLoading] = useState(false);
   const talkDownPoints = [
     result.missingInfo[0] ? `Ask for ${result.missingInfo[0].toLowerCase()}` : "Ask for proof before visiting",
     result.redFlags[0] ?? "Use missing details to negotiate",
@@ -249,25 +251,9 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               Dealscan.dev
             </div>
           </div>
-          <nav className="hidden items-center gap-7 text-sm font-bold text-[var(--silver)] lg:flex" aria-label="Result navigation">
-            <a href="#saved-cars" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
-              <Heart className="h-5 w-5" aria-hidden="true" />
-              Saved Cars
-            </a>
-            <a href="#report" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
-              <FileText className="h-5 w-5" aria-hidden="true" />
-              Reports
-            </a>
-            <a href="#seller-questions" className="flex items-center gap-2 transition hover:text-[var(--champagne)]">
-              <CircleHelp className="h-5 w-5" aria-hidden="true" />
-              Help
-            </a>
-            <a href="#account" className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 transition hover:bg-white/15">
-              <UserRound className="h-5 w-5" aria-hidden="true" />
-              Buyer
-              <ChevronDown className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </nav>
+          <a href="#report" className="hidden text-sm font-bold text-[var(--silver)] transition hover:text-[var(--champagne)] lg:block">
+            Analysis report
+          </a>
         </div>
       </header>
 
@@ -304,12 +290,13 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
         </aside>
 
         <div className="grid gap-4" id="report">
-          <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
+          <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
             <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)_auto] md:items-center">
               <div className="min-h-28 overflow-hidden rounded-xl bg-[var(--graphite)]">
                 <img
                   src="/porsche-911-track-black.jpg"
                   alt="Rear view of a black Porsche GT3 RS with a large wing"
+                  loading="lazy"
                   className="h-full min-h-28 w-full object-cover object-[72%_54%]"
                 />
               </div>
@@ -344,8 +331,85 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             </div>
           </section>
 
+          {detectedVin && !vinResult && !vinLoading ? (
+            <section className="animate-fade-in-up delay-100 rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[rgba(52,119,186,0.08)] p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-neutral-600">VIN detected</p>
+                  <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{detectedVin}</p>
+                </div>
+                <button
+                  onClick={async () => {
+                    setVinLoading(true);
+                    try {
+                      const res = await fetch("/api/decode-vin", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({ vin: detectedVin }),
+                      });
+                      const data = (await res.json()) as { result: VinDecodeResult };
+                      setVinResult(data.result);
+                    } catch {
+                      setVinResult({
+                        vin: detectedVin,
+                        make: null, model: null, year: null, trim: null, engine: null,
+                        driveType: null, fuelType: null, bodyClass: null, plantCity: null, plantState: null,
+                        error: "VIN decode failed.",
+                      });
+                    } finally {
+                      setVinLoading(false);
+                    }
+                  }}
+                  className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[var(--graphite)] px-4 text-sm font-black text-white transition hover:bg-[var(--charcoal)]"
+                >
+                  Decode VIN
+                </button>
+              </div>
+            </section>
+          ) : null}
+
+          {vinResult ? (
+            <section className="animate-fade-in-up rounded-2xl border border-[rgba(52,119,186,0.25)] bg-white p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-neutral-600">VIN Decode Result</p>
+                  <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{vinResult.vin}</p>
+                </div>
+                <button onClick={() => setVinResult(null)} className="text-xs font-bold text-neutral-500 hover:text-[var(--danger)]">Dismiss</button>
+              </div>
+              {vinResult.error ? (
+                <p className="mt-3 text-sm text-[var(--danger)]">{vinResult.error}</p>
+              ) : (
+                <div className="mt-3 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
+                  {[
+                    { label: "Make", value: vinResult.make },
+                    { label: "Model", value: vinResult.model },
+                    { label: "Year", value: vinResult.year },
+                    { label: "Trim", value: vinResult.trim },
+                    { label: "Engine", value: vinResult.engine },
+                    { label: "Drive", value: vinResult.driveType },
+                    { label: "Fuel", value: vinResult.fuelType },
+                    { label: "Body", value: vinResult.bodyClass },
+                    { label: "Plant", value: vinResult.plantCity && vinResult.plantState ? `${vinResult.plantCity}, ${vinResult.plantState}` : null },
+                  ].filter((r) => r.value).map((r) => (
+                    <div key={r.label} className="rounded-lg bg-neutral-50 p-2">
+                      <div className="text-xs font-bold text-neutral-600">{r.label}</div>
+                      <div className="font-bold text-[var(--graphite)]">{r.value}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          ) : null}
+
+          {vinLoading ? (
+            <section className="animate-fade-in-up rounded-2xl border border-neutral-200 bg-white p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+              <p className="text-sm font-bold text-neutral-600">Decoding VIN...</p>
+            </section>
+          ) : null}
+
           <section
-            className="overflow-x-auto rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] transition hover:shadow-[0_24px_56px_-42px_rgba(11,13,16,0.60)]"
+            className="animate-fade-in-up delay-100 overflow-x-auto rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] transition hover:shadow-[0_24px_56px_-42px_rgba(11,13,16,0.60)]"
             aria-label="Condition summary"
           >
             <div className="flex min-w-max">
@@ -358,15 +422,15 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             </div>
           </section>
 
-          <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
+          <section className="animate-fade-in-up delay-200 rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
             <div className="grid gap-6 lg:grid-cols-[230px_minmax(0,1fr)]">
               <div className="grid justify-items-center gap-4 text-center">
                 <div className="flex flex-wrap justify-center gap-2">
                   <span className="rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.08)] px-3 py-1 text-xs font-black uppercase tracking-normal text-[var(--racing-green)]">
-                    Basic analysis
+                    Groq analysis
                   </span>
                   <span className="rounded-full border border-[rgba(11,13,16,0.10)] bg-neutral-100 px-3 py-1 text-xs font-black uppercase tracking-normal text-neutral-600">
-                    {analysisMode === "ai" ? "Enhanced AI analysis" : "Enhanced AI analysis coming soon"}
+                    {analysisMode === "groq" ? "Live provider" : "Provider unavailable"}
                   </span>
                 </div>
                 <h2 className="flex items-center gap-2 text-lg font-black">
@@ -458,12 +522,6 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
           <div id="seller-questions">
             <SellerQuestionsCard questions={result.sellerQuestions} />
           </div>
-
-          {analysisMode === "local" ? (
-            <p className="rounded-2xl border border-[rgba(18,61,51,0.20)] bg-[rgba(18,61,51,0.08)] px-4 py-3 text-base font-bold text-[var(--racing-green)]">
-              Basic analysis is running on the free local scoring engine. No paid AI key is required.
-            </p>
-          ) : null}
 
           <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-neutral-600 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
             <h2 className="text-lg font-black text-[var(--graphite)]">Trust notes</h2>

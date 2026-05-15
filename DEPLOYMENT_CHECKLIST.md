@@ -3,14 +3,15 @@
 - [ ] `npm install` works.
 - [ ] `npm run dev` works.
 - [ ] `npm run build` works.
-- [ ] API route works with `AI_PROVIDER=none`.
-- [ ] API route falls back to local analysis when an optional provider key is missing.
-- [ ] Optional AI provider path works when a supported key is present.
+- [ ] `npm run test` works.
+- [ ] API route returns a clear error when `GROQ_API_KEY` is missing.
+- [ ] Groq analysis path works when `GROQ_API_KEY` is present.
+- [ ] Screenshot OCR path works with `GROQ_API_KEY`.
 - [ ] No server secrets are exposed client-side.
 - [ ] Vercel environment variables are added.
-- [ ] No scraping functionality exists.
+- [ ] URL extraction blocks localhost and private-network targets.
 - [ ] README is complete.
 - [ ] Affiliate URLs are placeholders or approved links.
 - [ ] Disclaimers are visible in the UI.
-- [ ] Screenshot flow clearly says OCR is not active yet.
+- [ ] Screenshot flow extracts text without requiring pasted text.
 - [ ] Market estimate copy labels values as rough estimates, not licensed valuations.

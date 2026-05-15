@@ -1,6 +1,6 @@
-export type InputType = "text" | "screenshot" | "manual";
+export type InputType = "url" | "text" | "screenshot" | "manual";
 
-export type AnalysisMode = "local" | "ai";
+export type AnalysisMode = "groq";
 
 export type ManualDetails = {
   year?: string;
@@ -15,6 +15,7 @@ export type ManualDetails = {
 export type AnalyzeListingRequest = {
   inputType: InputType;
   listingText: string;
+  sourceUrl?: string;
   manualDetails?: ManualDetails;
 };
 

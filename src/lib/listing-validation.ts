@@ -5,7 +5,7 @@ export function getListingTextError(text: string) {
   const length = text.trim().length;
 
   if (length === 0) {
-    return "Add listing text, screenshot text, or vehicle details before analyzing.";
+    return "Add a listing URL, listing text, screenshot, or vehicle details before analyzing.";
   }
 
   if (length < LISTING_TEXT_MIN_LENGTH) {

@@ -3,16 +3,20 @@
 - [ ] Install Node.js 20 or newer.
 - [ ] Run `npm install`.
 - [ ] Copy `.env.example` to `.env.local`.
-- [ ] Keep `AI_PROVIDER=none` for the free local analyzer.
-- [ ] Add an optional AI provider key only when enhanced analysis is needed later.
+- [ ] Add `GROQ_API_KEY` to `.env.local`.
+- [ ] Add `NEXT_PUBLIC_ADMIN_TOKEN` to `.env.local` (for admin dashboard).
 - [ ] Run `npm run dev`.
 - [ ] Open `http://localhost:3000`.
+- [ ] Test a public listing URL.
+- [ ] Test a screenshot upload and confirm OCR fills the extracted text field.
 - [ ] Test the great deal example listing.
 - [ ] Test the caution example listing.
 - [ ] Test the avoid example listing.
 - [ ] Test the vague example listing.
 - [ ] Test a manual listing.
-- [ ] Test an empty or vague listing and confirm the friendly error or low-confidence result.
+- [ ] Test an empty or vague listing and confirm the friendly error.
 - [ ] Test `/affiliate-links`.
+- [ ] Test `/admin` — enter the admin token from `.env.local`.
+- [ ] Test admin dashboard, scans table, scan detail, settings, and audit log.
 - [ ] Add approved affiliate URLs.
-- [ ] Deploy to Vercel.
+- [ ] Deploy to Cloudflare Pages.

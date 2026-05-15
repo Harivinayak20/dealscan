@@ -1,6 +1,6 @@
 "use client";
 
-import { Calculator, Camera, ChevronRight, FileSearch, Gauge, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
+import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ChangeEvent, MouseEvent } from "react";
 import { useRef, useState } from "react";
@@ -10,6 +10,7 @@ import { ResultSummary } from "@/components/ResultSummary";
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
+import { adminStore } from "@/lib/admin-store";
 
 const exampleListings = [
   {
@@ -39,8 +40,9 @@ const exampleListings = [
 ];
 
 const inputMethods = [
+  { value: "url", label: "Listing URL", note: "Scrape the listing first", icon: Link },
   { value: "text", label: "Paste Text", note: "Best for full listing descriptions", icon: FileSearch },
-  { value: "screenshot", label: "Screenshot", note: "Upload image, paste visible text", icon: Camera },
+  { value: "screenshot", label: "Screenshot", note: "Upload image, run OCR", icon: Camera },
   { value: "manual", label: "Manual", note: "Year, mileage, price, title", icon: Gauge },
 ] satisfies Array<{ value: InputType; label: string; note: string; icon: LucideIcon }>;
 
@@ -74,31 +76,124 @@ function vehicleTitleFromText(text: string) {
 
 export function AnalyzerApp() {
   const reportCardRef = useRef<HTMLDivElement | null>(null);
-  const [inputType, setInputType] = useState<InputType>("text");
+  const [inputType, setInputType] = useState<InputType>("url");
+  const [listingUrl, setListingUrl] = useState("");
+  const [lastExtractedUrl, setLastExtractedUrl] = useState("");
   const [listingText, setListingText] = useState("");
   const [manualDetails, setManualDetails] = useState<ManualDetails>({});
   const [screenshotPreviewUrl, setScreenshotPreviewUrl] = useState<string | null>(null);
+  const [screenshotDataUrl, setScreenshotDataUrl] = useState<string | null>(null);
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
-  const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("local");
+  const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [isLoading, setIsLoading] = useState(false);
+  const [isScraping, setIsScraping] = useState(false);
+  const [isOcrLoading, setIsOcrLoading] = useState(false);
   const [error, setError] = useState("");
+  const [sourceNotice, setSourceNotice] = useState("");
   const [lastAnalyzedText, setLastAnalyzedText] = useState("");
 
   const analysisText = inputType === "manual" ? manualDetailsToText(manualDetails) : listingText.trim();
+  const isBusy = isLoading || isScraping || isOcrLoading;
 
   function updateManualField(key: keyof ManualDetails, value: string) {
     setManualDetails((current) => ({ ...current, [key]: value }));
   }
 
-  function handleScreenshotChange(event: ChangeEvent<HTMLInputElement>) {
+  function readFileAsDataUrl(file: File) {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("Could not read that screenshot file."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function extractScreenshotText(imageDataUrl: string) {
+    setIsOcrLoading(true);
+    setSourceNotice("Reading screenshot with Groq OCR...");
+
+    try {
+      const response = await fetch("/api/extract-screenshot-text", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ imageDataUrl }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errorData.error || "Could not read that screenshot.");
+      }
+
+      const data = (await response.json()) as { text: string };
+      setListingText(data.text);
+      setSourceNotice("Screenshot text extracted. Review it, then scan.");
+
+      return data.text;
+    } finally {
+      setIsOcrLoading(false);
+    }
+  }
+
+  async function handleScreenshotChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
     if (!file) {
       setScreenshotPreviewUrl(null);
+      setScreenshotDataUrl(null);
       return;
     }
 
+    setError("");
+    setSourceNotice("");
     setScreenshotPreviewUrl(URL.createObjectURL(file));
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setScreenshotDataUrl(dataUrl);
+      await extractScreenshotText(dataUrl);
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : "Could not read that screenshot.");
+    }
+  }
+
+  async function extractListingFromUrl() {
+    const url = listingUrl.trim();
+
+    if (!url) {
+      throw new Error("Enter a listing URL first.");
+    }
+
+    setIsScraping(true);
+    setSourceNotice("Extracting listing page...");
+
+    try {
+      const response = await fetch("/api/extract-listing-url", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errorData.error || "Could not extract that listing.");
+      }
+
+      const data = (await response.json()) as {
+        listing: {
+          url: string;
+          title: string;
+          text: string;
+        };
+      };
+
+      setListingText(data.listing.text);
+      setLastExtractedUrl(url);
+      setSourceNotice(`Extracted ${data.listing.title}. Review the text, then scan.`);
+
+      return data.listing.text;
+    } finally {
+      setIsScraping(false);
+    }
   }
 
   function handleReportPointerMove(event: MouseEvent<HTMLDivElement>) {
@@ -151,8 +246,19 @@ export function AnalyzerApp() {
       };
 
       setResult(data.result);
-      setAnalysisMode(data.analysisMode ?? "local");
+      setAnalysisMode(data.analysisMode ?? "groq");
       setLastAnalyzedText(body.listingText);
+      try {
+        const title = vehicleTitleFromText(body.listingText);
+        adminStore.addScan({
+          vehicleTitle: title,
+          score: data.result.score,
+          verdict: data.result.verdict,
+          confidence: data.result.confidence,
+          sourceUrl: body.sourceUrl,
+          listingTextSnippet: body.listingText.slice(0, 500),
+        });
+      } catch { /* admin store unavailable */ }
       window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     } catch (caughtError) {
       setError(
@@ -172,7 +278,30 @@ export function AnalyzerApp() {
     setError("");
     setResult(null);
 
-    const normalizedAnalysisText = analysisText.trim();
+    let normalizedAnalysisText = analysisText.trim();
+    let sourceUrl: string | undefined;
+
+    try {
+      if (inputType === "url") {
+        sourceUrl = listingUrl.trim();
+
+        if (!sourceUrl) {
+          throw new Error("Enter a listing URL first.");
+        }
+
+        if (!normalizedAnalysisText || lastExtractedUrl !== sourceUrl) {
+          normalizedAnalysisText = (await extractListingFromUrl()).trim();
+        }
+      }
+
+      if (inputType === "screenshot" && !normalizedAnalysisText && screenshotDataUrl) {
+        normalizedAnalysisText = (await extractScreenshotText(screenshotDataUrl)).trim();
+      }
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : "Could not prepare that listing.");
+      return;
+    }
+
     const validationError = getListingTextError(normalizedAnalysisText);
 
     if (validationError) {
@@ -183,12 +312,14 @@ export function AnalyzerApp() {
     await submitAnalysis({
       inputType,
       listingText: normalizedAnalysisText,
+      sourceUrl,
       manualDetails: inputType === "manual" ? manualDetails : undefined,
     });
   }
 
-  function useExampleListing(text: string) {
+  function loadExampleListing(text: string) {
     setInputType("text");
+    setListingUrl("");
     setListingText(text);
     setResult(null);
     setError("");
@@ -232,58 +363,93 @@ export function AnalyzerApp() {
             </a>
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
-            <a href="#analyzer" className="hidden px-3 py-2 text-sm font-bold text-[var(--silver)] transition hover:-translate-y-1 hover:text-[var(--champagne)] lg:block">
-              Google
-            </a>
-            <a href="#analyzer" className="hidden px-3 py-2 text-sm font-bold text-[var(--silver)] transition hover:-translate-y-1 hover:text-[var(--champagne)] lg:block">
-              Facebook
-            </a>
             <a
-              href="#analyzer"
-              className="rounded-full bg-[var(--ivory)] px-4 py-3 text-sm font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(244,240,232,0.75)] transition hover:-translate-y-1 hover:bg-[var(--champagne)] sm:px-5"
+              href="#hero-input"
+              className="rounded-full bg-[var(--champagne)] px-5 py-3 text-sm font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.75)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.75)] sm:px-6"
             >
-              Start
+              Check a Listing
             </a>
           </div>
         </div>
       </header>
 
       <section id="hero" className="relative min-h-[calc(100svh-73px)] overflow-hidden bg-[var(--graphite)] text-[var(--ivory)]">
-        <div id="example-listing" className="sr-only">Example listing control</div>
         <img
           src="/porsche-911-track-black.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[68%_52%] opacity-70 brightness-[0.54] contrast-125 saturate-[0.72]"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover object-[68%_52%] opacity-50 brightness-[0.40] contrast-125 saturate-[0.66]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,13,16,0.94)_0%,rgba(11,13,16,0.78)_42%,rgba(11,13,16,0.40)_72%,rgba(11,13,16,0.72)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,16,0.30),rgba(11,13,16,0.72))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,13,16,0.96)_0%,rgba(11,13,16,0.82)_50%,rgba(11,13,16,0.50)_78%,rgba(11,13,16,0.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,16,0.25)_0%,rgba(11,13,16,0.80)_100%)]" />
         <div className="premium-grid-bg absolute inset-0 opacity-70" />
         <div className="absolute left-[-12rem] top-10 h-[32rem] w-[32rem] rounded-full bg-[rgba(201,168,106,0.16)] blur-3xl" />
         <div className="absolute right-[-16rem] top-24 h-[36rem] w-[36rem] rounded-full bg-[rgba(18,61,51,0.58)] blur-3xl" />
         <div className="relative mx-auto grid max-w-[1500px] gap-8 px-5 py-8 sm:px-7 lg:grid-cols-[minmax(0,0.82fr)_minmax(560px,1.18fr)] lg:items-center lg:py-10">
           <div className="py-5 lg:py-12">
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)] shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-              <span className="h-2 w-2 rounded-full bg-[var(--champagne)]" />
-              Used car listing checker
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)] shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] animate-fade-in">
+              <span className="h-2 w-2 rounded-full bg-[var(--champagne)] animate-pulse-glow" />
+              AI-Powered Used Car Listing Analyzer
             </div>
-            <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-[5.9rem]">
-              Know the car.
+            <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-[5.9rem] animate-fade-in-up">
+              Know the car,
               <br />
-              Not the hype.
+              not the hype.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--silver)] sm:text-xl">
-              Paste a listing and get a clear score, red flags, missing details, and negotiation guidance before you message the seller.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--silver)] sm:text-xl animate-fade-in-up delay-100">
+              Paste any listing URL and get a clear deal score, red flags, fair price range, and negotiation guidance — before you message the seller.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+
+            <div id="hero-input" className="mt-7 animate-fade-in-up delay-200">
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  value={listingUrl}
+                  onChange={(event) => {
+                    setListingUrl(event.target.value);
+                    setLastExtractedUrl("");
+                  }}
+                  placeholder="Paste a listing URL to check it..."
+                  className="min-h-14 flex-1 rounded-2xl border border-white/20 bg-white/[0.08] px-5 text-base text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] outline-none backdrop-blur-sm placeholder:text-white/45 focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.30)]"
+                />
+                <a
+                  href="#analyzer"
+                  onClick={(event) => {
+                    if (listingUrl.trim()) {
+                      event.preventDefault();
+                      setInputType("url");
+                      window.setTimeout(() => {
+                        document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+                      }, 100);
+                    }
+                  }}
+                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-7 text-base font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.60)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.60)]"
+                >
+                  <SearchCheck className="h-5 w-5" aria-hidden="true" />
+                  Check Listing
+                </a>
+              </div>
+              <p className="mt-3 text-sm text-white/50">
+                Works on Craigslist, Facebook Marketplace, Cars.com, and any public listing page.
+              </p>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3 animate-fade-in-up delay-300">
               <a
                 href="#analyzer"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--champagne)] px-6 text-base font-black text-[var(--graphite)] transition hover:-translate-y-1 hover:bg-[var(--ivory)]"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setInputType("text");
+                  window.setTimeout(() => {
+                    document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.07] px-6 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
               >
-                Check a listing
+                Or paste text manually
               </a>
               <a
                 href="/affiliate-links"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.07] px-6 text-base font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] px-6 text-sm font-black text-[var(--silver)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
               >
                 Buyer tools
               </a>
@@ -314,7 +480,7 @@ export function AnalyzerApp() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Price prediction</p>
-                  <h2 className="mt-1 text-2xl font-black tracking-tight">Rough range. Offer range. Confidence.</h2>
+                  <h2 className="mt-1 text-2xl font-black tracking-tight">Fair price. Smart offer. Total confidence.</h2>
                 </div>
                 <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
@@ -331,7 +497,7 @@ export function AnalyzerApp() {
               </div>
             </section>
 
-          <section
+            <section
             id="analyzer"
             className="rounded-[1.35rem] border border-white/[0.14] bg-[rgba(20,24,29,0.90)] p-4 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-6"
           >
@@ -344,10 +510,10 @@ export function AnalyzerApp() {
                 href="#market-data"
                 className="rounded-full border border-white/12 bg-white/[0.06] px-3 py-2 text-xs font-black text-[var(--silver)] transition hover:-translate-y-1 hover:bg-white/10 hover:text-[var(--champagne)]"
               >
-                Basic analysis
+                Groq engine
               </a>
             </div>
-            <div className="mt-5 grid grid-cols-3 gap-2" role="tablist" aria-label="Listing input methods">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Listing input methods">
               {inputMethods.map((method) => (
                 (() => {
                   const Icon = method.icon;
@@ -361,6 +527,8 @@ export function AnalyzerApp() {
                       onClick={(event) => {
                         event.preventDefault();
                         setInputType(method.value);
+                        setError("");
+                        setSourceNotice("");
                       }}
                       className={`group grid min-h-28 gap-2 rounded-2xl border p-3 text-left transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white ${
                         inputType === method.value
@@ -378,6 +546,52 @@ export function AnalyzerApp() {
             </div>
 
             <div className="mt-5">
+              {inputType === "url" ? (
+                <div className="grid gap-3">
+                  <label className="grid gap-2">
+                    <span className="text-sm font-black text-white">Listing URL</span>
+                    <span className="text-sm leading-6 text-white/60">Paste the public listing page. Dealscan extracts the listing text first, then sends the extracted details to Groq.</span>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <input
+                        value={listingUrl}
+                        onChange={(event) => {
+                          setListingUrl(event.target.value);
+                          setLastExtractedUrl("");
+                        }}
+                        placeholder="https://www.example.com/listing/2019-toyota-camry"
+                        className="min-h-12 flex-1 rounded-2xl border border-white/15 bg-[#0b1117]/80 px-4 text-base text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none placeholder:text-white/40 focus:border-white/60 focus:ring-2 focus:ring-white/40"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setError("");
+                          void extractListingFromUrl().catch((caughtError) => {
+                            setError(caughtError instanceof Error ? caughtError.message : "Could not extract that listing.");
+                          });
+                        }}
+                        disabled={isBusy}
+                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-[rgba(201,168,106,0.55)] px-5 text-sm font-black text-[var(--champagne)] transition hover:-translate-y-1 hover:bg-white/10 disabled:pointer-events-none disabled:opacity-60"
+                      >
+                        <FileSearch className="h-5 w-5" aria-hidden="true" />
+                        Extract
+                      </button>
+                    </div>
+                  </label>
+                  {listingText ? (
+                    <label className="grid gap-2">
+                      <span className="text-sm font-black text-white">Extracted listing text</span>
+                      <textarea
+                        value={listingText}
+                        onChange={(event) => setListingText(event.target.value)}
+                        rows={4}
+                        maxLength={LISTING_TEXT_MAX_LENGTH}
+                        className="min-h-28 w-full resize-y rounded-2xl border border-white/15 bg-[#0b1117]/80 p-4 text-base leading-7 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none placeholder:text-white/40 focus:border-white/60 focus:ring-2 focus:ring-white/40"
+                      />
+                    </label>
+                  ) : null}
+                </div>
+              ) : null}
+
               {inputType === "text" ? (
                 <label className="grid gap-2">
                   <span className="text-sm font-black text-white">Listing text</span>
@@ -400,19 +614,18 @@ export function AnalyzerApp() {
                     <span className="grid justify-items-center gap-2">
                       <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
                       <span className="text-base font-black">Upload screenshot</span>
-                      <span className="text-sm text-white/60">MVP preview only. Paste visible text below for analysis.</span>
+                      <span className="text-sm text-white/60">Groq OCR extracts visible text automatically.</span>
                     </span>
                   </label>
                   {screenshotPreviewUrl ? (
                     <img src={screenshotPreviewUrl} alt="Uploaded listing screenshot preview" className="max-h-36 w-full rounded-lg border border-white/15 object-contain" />
                   ) : null}
-                  {/* TODO: Add OCR here later so screenshot text can be extracted before analysis. */}
                   <textarea
                     value={listingText}
                     onChange={(event) => setListingText(event.target.value)}
                     rows={3}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
-                    placeholder="Paste the visible listing text from the screenshot..."
+                    placeholder="OCR text appears here after upload..."
                     className="min-h-24 w-full resize-y rounded-lg border border-white/20 bg-white/[0.03] p-4 text-base leading-7 text-white outline-none placeholder:text-white/50 focus:border-white/60 focus:ring-2 focus:ring-white/40"
                   />
                 </div>
@@ -467,7 +680,7 @@ export function AnalyzerApp() {
                     href="#example-listing"
                     onClick={(event) => {
                       event.preventDefault();
-                      useExampleListing(example.text);
+                      loadExampleListing(example.text);
                     }}
                     className="group rounded-xl border border-white/10 bg-[#0b1117]/65 p-3 text-left transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)]"
                     aria-label={`Use ${example.label} example listing`}
@@ -480,25 +693,30 @@ export function AnalyzerApp() {
             </div>
 
             {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
-            {isLoading ? <div className="mt-4"><LoadingState /></div> : null}
+            {sourceNotice ? (
+              <p className="mt-4 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-white/70">
+                {sourceNotice}
+              </p>
+            ) : null}
+            {isBusy ? <div className="mt-4"><LoadingState /></div> : null}
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <a
                 href="#analysis-result"
                 onClick={(event) => {
                   event.preventDefault();
-                  if (!isLoading) {
+                  if (!isBusy) {
                     void analyzeListing();
                   }
                 }}
-                aria-disabled={isLoading}
-                aria-label="Analyze listing and generate deal score"
+                aria-disabled={isBusy}
+                aria-label="Scan listing and generate deal score"
                 className={`group flex min-h-12 min-w-52 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-6 text-base font-black text-[var(--graphite)] shadow-xl shadow-black/25 transition hover:-translate-y-1.5 hover:scale-[1.03] hover:bg-[var(--ivory)] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)] ${
-                  isLoading ? "pointer-events-none opacity-60" : ""
+                  isBusy ? "pointer-events-none opacity-60" : ""
                 }`}
               >
                 <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
-                Analyze Listing
+                Scan Listing
               </a>
             </div>
           </section>
@@ -560,8 +778,8 @@ export function AnalyzerApp() {
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "Local scoring", note: "Scores listings from price, mileage, title, condition, red flags, and missing details.", icon: Gauge, href: "#analyzer" },
-              { title: "Enhanced analysis", note: "Server-side provider support is ready for deeper summaries when enabled.", icon: LineChart, href: "#market-data" },
+              { title: "URL extraction", note: "Public listing pages are fetched first so copy paste is no longer the default path.", icon: Link, href: "#analyzer" },
+              { title: "Groq scoring", note: "Server-side Groq analysis scores price, mileage, title, condition, red flags, and missing details.", icon: LineChart, href: "#market-data" },
               { title: "VIN and history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
               { title: "Market pricing", note: "Rough estimates are labeled clearly until licensed market data is connected.", icon: Gauge, href: "#market-data" },
               { title: "Inspection layer", note: "Pre-purchase inspection links help buyers verify condition before purchase.", icon: Wrench, href: partnerLinks.inspection },
@@ -585,6 +803,213 @@ export function AnalyzerApp() {
           </div>
         </div>
       </section>
+
+      <section id="how-it-works" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+        <div className="mx-auto max-w-[1560px]">
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--racing-green)]">See it in action</p>
+          <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">What you get with every scan</h2>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-700">
+            Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
+          </p>
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+                <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+              </div>
+              <h3 className="mt-5 text-xl font-black">Deal Score &amp; Verdict</h3>
+              <p className="mt-3 text-base leading-7 text-neutral-600">
+                A clear 0–100 score with a verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid. Know instantly if it&apos;s worth your time.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+                <FileSearch className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+              </div>
+              <h3 className="mt-5 text-xl font-black">Red &amp; Green Flags</h3>
+              <p className="mt-3 text-base leading-7 text-neutral-600">
+                We scan for 17 red flag patterns (salvage, flood, no title) and 12 green flags (service records, one owner, clean Carfax).
+              </p>
+            </div>
+            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+                <BadgeDollarSign className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+              </div>
+              <h3 className="mt-5 text-xl font-black">Price Range &amp; Offer Target</h3>
+              <p className="mt-3 text-base leading-7 text-neutral-600">
+                Fair market range, suggested offer, and negotiation talking points. Know what to pay before you message the seller.
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 text-center">
+            <a
+              href="#analyzer"
+              onClick={(event) => {
+                event.preventDefault();
+                window.setTimeout(() => {
+                  document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-7 text-base font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]"
+            >
+              <SearchCheck className="h-5 w-5" aria-hidden="true" />
+              Try it now
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="waitlist" className="relative overflow-hidden bg-[var(--graphite)] px-5 py-16 text-[var(--ivory)] sm:px-7">
+        <div className="absolute left-[-12rem] top-[-8rem] h-[28rem] w-[28rem] rounded-full bg-[rgba(201,168,106,0.10)] blur-3xl" />
+        <div className="absolute right-[-10rem] bottom-[-6rem] h-[24rem] w-[24rem] rounded-full bg-[rgba(18,61,51,0.35)] blur-3xl" />
+        <div className="relative mx-auto max-w-2xl text-center">
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--champagne)]">Stay updated</p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Get better at buying cars</h2>
+          <p className="mt-4 text-lg leading-8 text-[var(--silver)]">
+            New features, market insights, and car-buying tips. No spam, just useful tools.
+          </p>
+          <form
+            className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row"
+            onSubmit={async (event) => {
+              event.preventDefault();
+              const form = event.target as HTMLFormElement;
+              const input = form.elements.namedItem("email") as HTMLInputElement;
+              const button = form.querySelector("button[type=submit]") as HTMLButtonElement;
+              const status = form.querySelector("[data-waitlist-status]") as HTMLElement;
+              if (!input?.value) return;
+              button.disabled = true;
+              button.textContent = "Subscribing...";
+              try {
+                const res = await fetch("/api/waitlist", {
+                  method: "POST",
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify({ email: input.value }),
+                });
+                const data = await res.json();
+                if (status) {
+                  status.textContent = data.message || "Thanks for subscribing!";
+                  status.style.display = "block";
+                }
+                input.value = "";
+              } catch {
+                if (status) {
+                  status.textContent = "Something went wrong. Try again.";
+                  status.style.display = "block";
+                }
+              } finally {
+                button.disabled = false;
+                button.textContent = "Subscribe";
+              }
+            }}
+          >
+            <label className="sr-only" htmlFor="waitlist-email">Email address</label>
+            <input
+              id="waitlist-email"
+              name="email"
+              type="email"
+              required
+              placeholder="you@example.com"
+              className="min-h-14 flex-1 rounded-2xl border border-white/20 bg-white/[0.08] px-5 text-base text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] outline-none backdrop-blur-sm placeholder:text-white/45 focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.30)]"
+            />
+            <button
+              type="submit"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-7 text-base font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.40)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.50)]"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p data-waitlist-status className="mt-4 hidden text-sm font-bold text-[var(--success)]" />
+          <p className="mt-2 text-sm text-white/45">No spam. Unsubscribe anytime.</p>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-[var(--racing-green)]">FAQ</p>
+          <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Frequently asked questions</h2>
+          <div className="mt-10 grid gap-4">
+            {[
+              {
+                q: "How does the deal score work?",
+                a: "The score (0–100) is calculated by a local heuristic engine that checks price, mileage, title status, red flags, green flags, and missing information. When available, Groq AI enhances the analysis for deeper insights.",
+              },
+              {
+                q: "Is Dealscan free to use?",
+                a: "Yes, the listing analyzer is completely free. We may introduce premium features later (market data integrations, saved listings, alerts), but the core analysis will remain free.",
+              },
+              {
+                q: "What marketplaces does it work with?",
+                a: "It works with any public listing page — Craigslist, Facebook Marketplace, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Just paste the URL or copy-paste the listing text.",
+              },
+              {
+                q: "Do you store my listings or personal data?",
+                a: "No. Analysis is done server-side but we don't log or store listing text, URLs, or personal information. Results are cached temporarily to avoid redundant API calls.",
+              },
+              {
+                q: "Can I use it on mobile?",
+                a: "Yes. Dealscan works on any device with a modern browser. You can paste URLs, text, or upload screenshots directly from your phone.",
+              },
+              {
+                q: "How accurate is the pricing estimate?",
+                a: "Pricing estimates are rough calculations based on the listing details and basic market heuristics. They are labeled as estimates and should not replace licensed market data or professional appraisals.",
+              },
+            ].map(({ q, a }) => (
+              <details
+                key={q}
+                className="group rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:shadow-md open:shadow-md"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-black text-[var(--graphite)]">
+                  <span>{q}</span>
+                  <ChevronRight className="h-5 w-5 shrink-0 text-[var(--champagne)] transition group-open:rotate-90" aria-hidden="true" />
+                </summary>
+                <p className="mt-4 text-base leading-7 text-neutral-600">{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-white/10 bg-[var(--graphite)] px-5 py-12 text-[var(--silver)] sm:px-7">
+        <div className="mx-auto max-w-[1560px]">
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+            <div>
+              <div className="text-2xl font-black tracking-tight text-[var(--ivory)]">Dealscan.dev</div>
+              <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--champagne)]">Listing review</div>
+              <p className="mt-4 max-w-xs text-sm leading-7 text-[var(--silver)]">
+                Data-backed used car deal checker. Know the car, not the hype.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[var(--ivory)]">Product</h3>
+              <ul className="mt-4 grid gap-3 text-sm font-bold">
+                <li><a href="#analyzer" className="transition hover:text-[var(--champagne)]">Analyze a listing</a></li>
+                <li><a href="#how-it-works" className="transition hover:text-[var(--champagne)]">How it works</a></li>
+                <li><a href="#faq" className="transition hover:text-[var(--champagne)]">FAQ</a></li>
+                <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[var(--ivory)]">Resources</h3>
+              <ul className="mt-4 grid gap-3 text-sm font-bold">
+                <li><a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Carfax report</a></li>
+                <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
+                <li><a href={partnerLinks.insurance} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Insurance quote</a></li>
+                <li><a href={partnerLinks.payments} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Loan calculator</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[var(--ivory)]">Company</h3>
+              <ul className="mt-4 grid gap-3 text-sm font-bold">
+                <li><span className="text-white/40">Contact: hello@dealscan.dev</span></li>
+                <li><span className="text-white/40">Built by Car IQ Inc.</span></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/35">
+            <p>Dealscan.dev provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.</p>
+            <p className="mt-2">&copy; {new Date().getFullYear()} Dealscan.dev. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
 
     </main>
   );

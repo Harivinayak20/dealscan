@@ -11,7 +11,7 @@ type CacheEntry = {
 const analysisCache = new Map<string, CacheEntry>();
 
 export function normalizeAnalysisInput(request: AnalyzeListingRequest) {
-  return `${request.listingText} ${Object.values(request.manualDetails ?? {}).join(" ")}`
+  return `${request.sourceUrl ?? ""} ${request.listingText} ${Object.values(request.manualDetails ?? {}).join(" ")}`
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();
@@ -28,7 +28,7 @@ function hashString(value: string) {
   return (hash >>> 0).toString(36);
 }
 
-export function getAnalysisCacheKey(request: AnalyzeListingRequest, variant = "local") {
+export function getAnalysisCacheKey(request: AnalyzeListingRequest, variant = "groq") {
   return hashString(`${variant}:${normalizeAnalysisInput(request)}`);
 }
 

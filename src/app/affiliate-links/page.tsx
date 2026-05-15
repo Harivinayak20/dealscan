@@ -8,6 +8,7 @@ import {
   ShoppingBag,
   Wrench,
 } from "lucide-react";
+import Link from "next/link";
 import { partnerLinks } from "@/lib/integration-links";
 
 const affiliateLinks = [
@@ -54,19 +55,19 @@ export default function AffiliateLinksPage() {
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-5xl">
         <header className="flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5">
+          <Link href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5">
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
             Dealscan.dev
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
-          </a>
+          </Link>
         </header>
 
         <section className="py-12">
