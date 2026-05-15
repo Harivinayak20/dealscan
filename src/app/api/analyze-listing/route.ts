@@ -26,7 +26,9 @@ export async function POST(request: Request) {
   }
 
   const providerConfig = getAiProviderConfig();
-  const cacheVariant = `${providerConfig.provider}:${process.env.GROQ_MODEL ?? ""}`;
+  const cacheVariant = providerConfig.enabled
+    ? `${providerConfig.provider}:${process.env.GROQ_MODEL ?? ""}`
+    : "local";
   const cacheKey = getAnalysisCacheKey(body, cacheVariant);
   const cachedResult = getCachedAnalysis(cacheKey);
 
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
       result: cachedResult.result,
       analysisMode: cachedResult.analysisMode,
       cached: true,
-      provider: providerConfig.provider,
+      provider: cachedResult.analysisMode === "local" ? "local" : providerConfig.provider,
     });
   }
 
@@ -51,10 +53,15 @@ export async function POST(request: Request) {
   }
 
   if (!providerConfig.enabled) {
-    return NextResponse.json(
-      { error: "GROQ_API_KEY is required before Dealscan can analyze listings." },
-      { status: 503 },
-    );
+    setCachedAnalysis(cacheKey, localResult, "local");
+
+    return NextResponse.json({
+      result: localResult,
+      analysisMode: "local",
+      cached: false,
+      provider: "local",
+      notice: "Local analysis is shown because GROQ_API_KEY is not configured. Add it for AI-enhanced scoring.",
+    });
   }
 
   let result: AnalyzeListingResult;

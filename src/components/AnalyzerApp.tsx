@@ -86,6 +86,7 @@ export function AnalyzerApp() {
   const [screenshotDataUrl, setScreenshotDataUrl] = useState<string | null>(null);
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
+  const [notice, setNotice] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
   const [isOcrLoading, setIsOcrLoading] = useState(false);
@@ -253,10 +254,15 @@ export function AnalyzerApp() {
       const data = (await response.json()) as {
         result: AnalyzeListingResult;
         analysisMode?: AnalysisMode;
+        notice?: string;
       };
 
       setResult(data.result);
       setAnalysisMode(data.analysisMode ?? "groq");
+      if (data.notice) {
+        setNotice(data.notice);
+        setTimeout(() => setNotice(""), 8000);
+      }
       setLastAnalyzedText(body.listingText);
       try {
         const title = vehicleTitleFromText(body.listingText);
@@ -287,6 +293,7 @@ export function AnalyzerApp() {
   async function analyzeListing() {
     setError("");
     setResult(null);
+    setNotice("");
 
     let normalizedAnalysisText = analysisText.trim();
     let sourceUrl: string | undefined;
@@ -343,13 +350,20 @@ export function AnalyzerApp() {
 
   if (result) {
     return (
-      <ResultSummary
-        result={result}
-        analysisMode={analysisMode}
-        sourceText={lastAnalyzedText}
-        vehicleTitle={vehicleTitleFromText(lastAnalyzedText)}
-        onReset={reset}
-      />
+      <>
+        {notice ? (
+          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 animate-slide-down rounded-2xl border border-[rgba(201,168,106,0.35)] bg-[var(--ivory)] px-5 py-3 text-sm font-bold text-[var(--graphite)] shadow-xl">
+            {notice}
+          </div>
+        ) : null}
+        <ResultSummary
+          result={result}
+          analysisMode={analysisMode}
+          sourceText={lastAnalyzedText}
+          vehicleTitle={vehicleTitleFromText(lastAnalyzedText)}
+          onReset={reset}
+        />
+      </>
     );
   }
 

@@ -430,7 +430,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
                     Groq analysis
                   </span>
                   <span className="rounded-full border border-[rgba(11,13,16,0.10)] bg-neutral-100 px-3 py-1 text-xs font-black uppercase tracking-normal text-neutral-600">
-                    {analysisMode === "groq" ? "Live provider" : "Provider unavailable"}
+                    {analysisMode === "groq" ? "AI Cloud" : analysisMode === "local" ? "Local engine" : "Provider unavailable"}
                   </span>
                 </div>
                 <h2 className="flex items-center gap-2 text-lg font-black">
