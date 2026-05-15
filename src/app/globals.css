@@ -22,6 +22,9 @@
   --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
   --focus: #c9a86a;
+  --overlay: rgba(11, 13, 16, 0.82);
+  --hero-gradient-1: rgba(201, 168, 106, 0.12);
+  --hero-gradient-2: rgba(18, 61, 51, 0.42);
 }
 
 @theme inline {
@@ -48,8 +51,8 @@ html {
 body {
   min-height: 100dvh;
   background:
-    radial-gradient(circle at 18% 10%, rgba(201, 168, 106, 0.12), transparent 28rem),
-    radial-gradient(circle at 82% 0%, rgba(18, 61, 51, 0.42), transparent 34rem),
+    radial-gradient(circle at 18% 10%, var(--hero-gradient-1), transparent 28rem),
+    radial-gradient(circle at 82% 0%, var(--hero-gradient-2), transparent 34rem),
     var(--background);
   color: var(--foreground);
   font-size: 16px;
@@ -73,13 +76,9 @@ select {
   color: var(--ivory);
 }
 
-.premium-grid-bg {
-  background-image:
-    linear-gradient(rgba(244, 240, 232, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 240, 232, 0.055) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), transparent 82%);
-}
+  .premium-grid-bg {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), transparent 82%);
+  }
 
 .hero-report-card {
   transform: perspective(1100px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)) translateZ(0);

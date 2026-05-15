@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
+
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
@@ -295,16 +296,17 @@ export function AnalyzerApp() {
     }
   }
 
-  async function analyzeListing() {
+  async function analyzeListing(overrideInputType?: InputType) {
     setError("");
     setResult(null);
     setNotice("");
 
+    const activeInputType = overrideInputType ?? inputType;
     let normalizedAnalysisText = analysisText.trim();
     let sourceUrl: string | undefined;
 
     try {
-      if (inputType === "url") {
+      if (activeInputType === "url") {
         sourceUrl = listingUrl.trim();
 
         if (!sourceUrl) {
@@ -316,7 +318,7 @@ export function AnalyzerApp() {
         }
       }
 
-      if (inputType === "screenshot" && !normalizedAnalysisText && screenshotDataUrl) {
+      if (activeInputType === "screenshot" && !normalizedAnalysisText && screenshotDataUrl) {
         normalizedAnalysisText = (await extractScreenshotText(screenshotDataUrl)).trim();
       }
     } catch (caughtError) {
@@ -332,10 +334,10 @@ export function AnalyzerApp() {
     }
 
     await submitAnalysis({
-      inputType,
+      inputType: activeInputType,
       listingText: normalizedAnalysisText,
       sourceUrl,
-      manualDetails: inputType === "manual" ? manualDetails : undefined,
+      manualDetails: activeInputType === "manual" ? manualDetails : undefined,
     });
   }
 
@@ -351,6 +353,13 @@ export function AnalyzerApp() {
   function reset() {
     setResult(null);
     setError("");
+    setNotice("");
+    setInputType("url");
+    setListingUrl("");
+    setListingText("");
+    setManualDetails({});
+    setScreenshotPreviewUrl(null);
+    setScreenshotDataUrl(null);
   }
 
   if (result) {
@@ -374,17 +383,17 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[var(--graphite)] text-[var(--ivory)]">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[rgba(11,13,16,0.82)] text-[var(--ivory)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1560px] items-center justify-between px-5 py-4 sm:px-7">
-          <a href="#hero" className="leading-tight transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[var(--overlay)] text-[var(--ivory)] backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 sm:px-7">
+          <button type="button" onClick={() => { reset(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="leading-tight text-left transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
             <div className="text-2xl font-black tracking-tight">Dealscan.dev</div>
             <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--champagne)]">Listing review</div>
-          </a>
+          </button>
           <nav className="hidden items-center gap-7 text-sm font-bold lg:flex" aria-label="Primary">
-            <a href="#analyzer" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
+            <a href="#analyzer" onClick={(e) => { e.preventDefault(); document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
               Analyze
             </a>
-            <a href="#price-preview" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
+            <a href="#price-preview" onClick={(e) => { e.preventDefault(); document.getElementById("price-preview")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
               Price estimate
             </a>
             <a href="/affiliate-links" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
@@ -414,18 +423,18 @@ export function AnalyzerApp() {
         <div className="premium-grid-bg absolute inset-0 opacity-70" />
         <div className="absolute left-[-12rem] top-10 h-[32rem] w-[32rem] rounded-full bg-[rgba(201,168,106,0.16)] blur-3xl" />
         <div className="absolute right-[-16rem] top-24 h-[36rem] w-[36rem] rounded-full bg-[rgba(18,61,51,0.58)] blur-3xl" />
-        <div className="relative mx-auto grid max-w-[1500px] gap-8 px-5 py-8 sm:px-7 lg:grid-cols-[minmax(0,0.82fr)_minmax(560px,1.18fr)] lg:items-center lg:py-10">
-          <div className="py-5 lg:py-12">
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)] shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] animate-fade-in">
+        <div className="relative mx-auto grid max-w-[1600px] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(520px,1.2fr)] lg:items-center lg:py-14">
+          <div className="py-6 lg:py-16">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.055] px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-[var(--champagne)] shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] animate-fade-in">
               <span className="h-2 w-2 rounded-full bg-[var(--champagne)] animate-pulse-glow" />
               AI-Powered Used Car Listing Analyzer
             </div>
-            <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-[5.9rem] animate-fade-in-up">
+            <h1 className="mt-8 max-w-4xl text-5xl font-black leading-[0.90] tracking-[-0.055em] sm:text-7xl lg:text-[6.5rem] animate-fade-in-up">
               Know the car,
               <br />
               not the hype.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--silver)] sm:text-xl animate-fade-in-up delay-100">
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[var(--silver)] sm:text-xl animate-fade-in-up delay-100">
               Paste any listing URL and get a clear deal score, red flags, fair price range, and negotiation guidance — before you message the seller.
             </p>
 
@@ -437,25 +446,29 @@ export function AnalyzerApp() {
                     setListingUrl(event.target.value);
                     setLastExtractedUrl("");
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && listingUrl.trim()) {
+                      setInputType("url");
+                      void analyzeListing();
+                    }
+                  }}
                   placeholder="Paste a listing URL to check it..."
                   className="min-h-14 flex-1 rounded-2xl border border-white/20 bg-white/[0.08] px-5 text-base text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] outline-none backdrop-blur-sm placeholder:text-white/45 focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.30)]"
                 />
-                <a
-                  href="#analyzer"
-                  onClick={(event) => {
+                <button
+                  type="button"
+                  disabled={isBusy || !listingUrl.trim()}
+                  onClick={() => {
                     if (listingUrl.trim()) {
-                      event.preventDefault();
                       setInputType("url");
-                      window.setTimeout(() => {
-                        document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
-                      }, 100);
+                      void analyzeListing("url");
                     }
                   }}
-                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-7 text-base font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.60)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.60)]"
+                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-7 text-base font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.60)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.60)] disabled:pointer-events-none disabled:opacity-60"
                 >
                   <SearchCheck className="h-5 w-5" aria-hidden="true" />
                   Check Listing
-                </a>
+                </button>
               </div>
               <p className="mt-3 text-sm text-white/50">
                 Works on Craigslist, Facebook Marketplace, Cars.com, and any public listing page.
@@ -463,19 +476,16 @@ export function AnalyzerApp() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3 animate-fade-in-up delay-300">
-              <a
-                href="#analyzer"
-                onClick={(event) => {
-                  event.preventDefault();
+              <button
+                type="button"
+                onClick={() => {
                   setInputType("text");
-                  window.setTimeout(() => {
-                    document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
-                  }, 100);
+                  setTimeout(() => document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }), 100);
                 }}
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.07] px-6 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
               >
                 Or paste text manually
-              </a>
+              </button>
               <a
                 href="/affiliate-links"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] px-6 text-sm font-black text-[var(--silver)] transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
@@ -515,13 +525,17 @@ export function AnalyzerApp() {
               </div>
               <div className="mt-4 grid gap-2 sm:grid-cols-3">
                 {["Fair price range", "Suggested offer", "Missing details"].map((label) => (
-                  <a
+                  <button
                     key={label}
-                    href="#analyzer"
+                    type="button"
+                    onClick={() => {
+                      setInputType("url");
+                      setTimeout(() => document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }), 100);
+                    }}
                     className="rounded-2xl border border-white/10 bg-white/[0.055] p-4 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:border-[var(--champagne)]"
                   >
                     {label}
-                  </a>
+                  </button>
                 ))}
               </div>
             </section>
@@ -704,19 +718,15 @@ export function AnalyzerApp() {
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-4">
                 {exampleListings.map((example) => (
-                  <a
+                  <button
                     key={example.id}
-                    href="#example-listing"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      loadExampleListing(example.text);
-                    }}
-                    className="group rounded-xl border border-white/10 bg-[#0b1117]/65 p-3 text-left transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)]"
-                    aria-label={`Use ${example.label} example listing`}
+                    type="button"
+                    onClick={() => loadExampleListing(example.text)}
+                    className="group w-full rounded-xl border border-white/10 bg-[#0b1117]/65 p-3 text-left transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)]"
                   >
                     <span className="block text-sm font-black text-white transition group-hover:text-[var(--champagne)]">{example.label}</span>
                     <span className="mt-1 block text-xs leading-5 text-white/55">{example.tone}</span>
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
@@ -730,15 +740,14 @@ export function AnalyzerApp() {
             {isBusy ? <div className="mt-4"><LoadingState /></div> : null}
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <a
-                href="#analysis-result"
-                onClick={(event) => {
-                  event.preventDefault();
+              <button
+                type="button"
+                disabled={isBusy}
+                onClick={() => {
                   if (!isBusy) {
                     void analyzeListing();
                   }
                 }}
-                aria-disabled={isBusy}
                 aria-label="Scan listing and generate deal score"
                 className={`group flex min-h-12 min-w-52 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-6 text-base font-black text-[var(--graphite)] shadow-xl shadow-black/25 transition hover:-translate-y-1.5 hover:scale-[1.03] hover:bg-[var(--ivory)] focus:outline-none focus:ring-2 focus:ring-[var(--champagne)] ${
                   isBusy ? "pointer-events-none opacity-60" : ""
@@ -746,7 +755,7 @@ export function AnalyzerApp() {
               >
                 <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
                 Scan Listing
-              </a>
+              </button>
             </div>
           </section>
           </div>
