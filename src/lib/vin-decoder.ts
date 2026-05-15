@@ -16,7 +16,7 @@ export type VinDecodeResult = {
 };
 
 export function extractVin(text: string): string | null {
-  const match = text.match(/\b[LHNS][A-HJ-NPR-Z0-9]{8}[A-HJ-NPR-Z0-9]{8}\b/i);
+  const match = text.match(/\b[A-HJ-NPR-Z0-9]{17}\b/i);
   return match?.[0].toUpperCase() ?? null;
 }
 

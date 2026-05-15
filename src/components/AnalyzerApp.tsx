@@ -11,6 +11,7 @@ import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputTy
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
 import { adminStore } from "@/lib/admin-store";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 
 const exampleListings = [
   {
@@ -94,6 +95,15 @@ export function AnalyzerApp() {
 
   const analysisText = inputType === "manual" ? manualDetailsToText(manualDetails) : listingText.trim();
   const isBusy = isLoading || isScraping || isOcrLoading;
+
+  useKeyboardShortcut("Enter", (event) => {
+    const target = event.target as HTMLElement;
+    const isInput = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
+    if (isInput && (event.metaKey || event.ctrlKey) && !isBusy) {
+      event.preventDefault();
+      void analyzeListing();
+    }
+  });
 
   function updateManualField(key: keyof ManualDetails, value: string) {
     setManualDetails((current) => ({ ...current, [key]: value }));

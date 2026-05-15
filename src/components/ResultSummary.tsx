@@ -532,7 +532,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             </div>
           </section>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-3">
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}
@@ -541,6 +541,13 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               <Download className="h-5 w-5" aria-hidden="true" />
               Download Report
             </a>
+            <button
+              onClick={() => window.print()}
+              className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 text-lg font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)] no-print"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+              Print / PDF
+            </button>
             <a
               href="#analyze-another"
               onClick={onReset}

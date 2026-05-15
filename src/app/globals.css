@@ -237,3 +237,39 @@ select {
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
 .delay-500 { animation-delay: 500ms; }
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12px;
+  }
+  .no-print,
+  .sticky,
+  .hero-report-card,
+  #hero-input,
+  #waitlist,
+  #how-it-works,
+  #faq,
+  #resources,
+  footer,
+  header {
+    display: none !important;
+  }
+  #analysis-result {
+    background: white !important;
+  }
+  #analysis-result section,
+  #analysis-result article {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    break-inside: avoid;
+  }
+  a {
+    color: black !important;
+  }
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+}
