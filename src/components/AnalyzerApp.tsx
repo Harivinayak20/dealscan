@@ -163,7 +163,12 @@ export function AnalyzerApp() {
       setScreenshotDataUrl(dataUrl);
       await extractScreenshotText(dataUrl);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Could not read that screenshot.");
+      const msg = caughtError instanceof Error ? caughtError.message : "Could not read that screenshot.";
+      if (msg.includes("GROQ_API_KEY")) {
+        setError("GROQ_API_KEY is not set. Paste listing text manually instead, or add the API key.");
+      } else {
+        setError(`${msg}. You can still paste the listing text manually in the field below.`);
+      }
     }
   }
 
@@ -638,7 +643,7 @@ export function AnalyzerApp() {
                     <span className="grid justify-items-center gap-2">
                       <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
                       <span className="text-base font-black">Upload screenshot</span>
-                      <span className="text-sm text-white/60">Groq OCR extracts visible text automatically.</span>
+                      <span className="text-sm text-white/60">Auto-extracts text. You can also type manually below.</span>
                     </span>
                   </label>
                   {screenshotPreviewUrl ? (
@@ -649,7 +654,7 @@ export function AnalyzerApp() {
                     onChange={(event) => setListingText(event.target.value)}
                     rows={3}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
-                    placeholder="OCR text appears here after upload..."
+                    placeholder="OCR text appears here after upload. Edit or type manually..."
                     className="min-h-24 w-full resize-y rounded-lg border border-white/20 bg-white/[0.03] p-4 text-base leading-7 text-white outline-none placeholder:text-white/50 focus:border-white/60 focus:ring-2 focus:ring-white/40"
                   />
                 </div>

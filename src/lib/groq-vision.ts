@@ -1,5 +1,5 @@
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+const GROQ_VISION_MODEL = "llama-3.2-11b-vision-preview";
 const OCR_TIMEOUT_MS = 10_000;
 const MAX_DATA_URL_LENGTH = 27_000_000;
 
@@ -84,7 +84,12 @@ export async function extractScreenshotTextWithGroq(imageDataUrl: string) {
   ).finally(() => clearTimeout(timeout));
 
   if (!response.ok) {
-    throw new Error("Groq OCR failed. Check the screenshot and API key.");
+    let detail = "";
+    try {
+      const err = (await response.json()) as { error?: { message?: string } };
+      detail = err.error?.message ? `: ${err.error.message}` : "";
+    } catch { /* ignore */ }
+    throw new Error(`Screenshot OCR failed${detail}`);
   }
 
   const data = (await response.json()) as {
