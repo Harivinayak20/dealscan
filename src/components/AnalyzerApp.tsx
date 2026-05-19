@@ -7,6 +7,9 @@ import { useRef, useState } from "react";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
+import { CompareView } from "@/components/CompareView";
+import type { SavedResult } from "@/components/CompareView";
+import { generateDealSummary } from "@/lib/generate-summary";
 
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
 import { partnerLinks } from "@/lib/integration-links";
@@ -88,6 +91,8 @@ export function AnalyzerApp() {
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
+  const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare">("analyzer");
+  const [savedResults, setSavedResults] = useState<SavedResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
   const [isOcrLoading, setIsOcrLoading] = useState(false);
@@ -264,6 +269,7 @@ export function AnalyzerApp() {
       };
 
       setResult(data.result);
+      setViewMode("result");
       setAnalysisMode(data.analysisMode ?? "groq");
       if (data.notice) {
         setNotice(data.notice);
@@ -350,6 +356,31 @@ export function AnalyzerApp() {
     void submitAnalysis({ inputType: "text", listingText: text });
   }
 
+  function addToCompare() {
+    if (!result) return;
+    setSavedResults((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        result,
+        sourceText: lastAnalyzedText,
+        vehicleTitle: vehicleTitleFromText(lastAnalyzedText),
+        analysisMode,
+        summary: generateDealSummary(result, lastAnalyzedText),
+        listingUrl: inputType === "url" ? listingUrl.trim() || undefined : undefined,
+        timestamp: Date.now(),
+      },
+    ]);
+  }
+
+  function removeFromCompare(id: string) {
+    setSavedResults((prev) => prev.filter((s) => s.id !== id));
+  }
+
+  function clearCompare() {
+    setSavedResults([]);
+  }
+
   function reset() {
     setResult(null);
     setError("");
@@ -360,9 +391,21 @@ export function AnalyzerApp() {
     setManualDetails({});
     setScreenshotPreviewUrl(null);
     setScreenshotDataUrl(null);
+    setViewMode("analyzer");
   }
 
-  if (result) {
+  if (viewMode === "compare") {
+    return (
+      <CompareView
+        savedResults={savedResults}
+        onRemove={removeFromCompare}
+        onClearAll={clearCompare}
+        onBack={() => setViewMode(result ? "result" : "analyzer")}
+      />
+    );
+  }
+
+  if (viewMode === "result" && result) {
     return (
       <>
         {notice ? (
@@ -375,7 +418,9 @@ export function AnalyzerApp() {
           analysisMode={analysisMode}
           sourceText={lastAnalyzedText}
           vehicleTitle={vehicleTitleFromText(lastAnalyzedText)}
+          summary={generateDealSummary(result, lastAnalyzedText)}
           onReset={reset}
+          onAddToCompare={addToCompare}
         />
       </>
     );
@@ -399,6 +444,19 @@ export function AnalyzerApp() {
             <a href="/affiliate-links" className="transition hover:-translate-y-1 hover:text-[var(--champagne)]">
               Buyer tools
             </a>
+            {savedResults.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => setViewMode("compare")}
+                className="relative flex items-center gap-1.5 rounded-full border border-[var(--champagne)] bg-[rgba(201,168,106,0.10)] px-3.5 py-1.5 text-sm font-black text-[var(--champagne)] transition hover:-translate-y-1 hover:bg-[rgba(201,168,106,0.20)]"
+              >
+                <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+                Compare
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--champagne)] text-xs font-black text-[var(--graphite)]">
+                  {savedResults.length}
+                </span>
+              </button>
+            ) : null}
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
             <a
@@ -1044,7 +1102,7 @@ export function AnalyzerApp() {
           </div>
           <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/35">
             <p>Dealscan.dev provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.</p>
-            <p className="mt-2">&copy; {new Date().getFullYear()} Dealscan.dev. All rights reserved.</p>
+
           </div>
         </div>
       </footer>

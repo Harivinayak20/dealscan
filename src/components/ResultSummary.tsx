@@ -37,7 +37,9 @@ type ResultSummaryProps = {
   analysisMode: AnalysisMode;
   sourceText: string;
   vehicleTitle: string;
+  summary?: string;
   onReset: () => void;
+  onAddToCompare?: () => void;
 };
 
 function formatRange(low: number | null, high: number | null) {
@@ -219,7 +221,8 @@ function RightPanel({ result }: { result: AnalyzeListingResult }) {
   );
 }
 
-export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, onReset }: ResultSummaryProps) {
+export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, summary, onReset, onAddToCompare }: ResultSummaryProps) {
+  const [isCompared, setIsCompared] = useState(false);
   const tone = scoreTone(result.score);
   const Icon = tone.icon;
   const sellerPrice = extractPrice(sourceText);
@@ -330,6 +333,15 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               </div>
             </div>
           </section>
+
+          {summary ? (
+            <section className="animate-fade-in-up rounded-2xl border border-[rgba(201,168,106,0.25)] bg-[rgba(201,168,106,0.08)] px-4 py-3 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+              <div className="flex items-start gap-3">
+                <Gauge className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
+                <p className="text-base leading-7 text-neutral-700">{summary}</p>
+              </div>
+            </section>
+          ) : null}
 
           {detectedVin && !vinResult && !vinLoading ? (
             <section className="animate-fade-in-up delay-100 rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[rgba(52,119,186,0.08)] p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
@@ -532,7 +544,7 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             </div>
           </section>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-4">
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}
@@ -547,6 +559,33 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
               Print / PDF
+            </button>
+            <button
+              type="button"
+              disabled={isCompared || !onAddToCompare}
+              onClick={() => {
+                if (onAddToCompare) {
+                  setIsCompared(true);
+                  onAddToCompare();
+                }
+              }}
+              className={`flex min-h-14 items-center justify-center gap-2 rounded-xl border px-5 text-lg font-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)] disabled:pointer-events-none disabled:opacity-60 ${
+                isCompared
+                  ? "border-[rgba(124,169,130,0.55)] bg-[rgba(124,169,130,0.12)] text-[var(--racing-green)]"
+                  : "border-[rgba(201,168,106,0.55)] bg-white text-[var(--graphite)] hover:bg-[rgba(201,168,106,0.14)]"
+              }`}
+            >
+              {isCompared ? (
+                <>
+                  <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
+                  Added to Compare
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="h-5 w-5" aria-hidden="true" />
+                  Add to Compare
+                </>
+              )}
             </button>
             <a
               href="#analyze-another"
