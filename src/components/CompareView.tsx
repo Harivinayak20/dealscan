@@ -14,12 +14,15 @@ import {
   Trash2,
   Search,
   ShieldCheck,
+  Wrench,
 } from "lucide-react";
 import type { AnalysisMode, AnalyzeListingResult } from "@/lib/analyzer-types";
+import type { VinDecodeResult } from "@/lib/vin-decoder";
 import { scoreTone } from "@/components/ScoreRing";
 import { ResultSummary } from "@/components/ResultSummary";
 import { generateMarketplaceLinks } from "@/lib/cross-platform-search";
 import type { PlatformLink } from "@/lib/cross-platform-search";
+import { generateNegotiationScripts } from "@/lib/generate-scripts";
 
 export type SavedResult = {
   id: string;
@@ -30,6 +33,7 @@ export type SavedResult = {
   summary: string;
   listingUrl?: string;
   timestamp: number;
+  vinResult?: VinDecodeResult;
 };
 
 type CompareViewProps = {
@@ -160,10 +164,86 @@ function CompareCard({
           </div>
         </div>
 
+        {saved.vinResult && !saved.vinResult.error ? (
+          <div className="mt-4 rounded-xl border border-neutral-100 bg-neutral-50 p-3">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-500">
+              <span className="flex items-center gap-1">
+                <Wrench className="h-3.5 w-3.5 text-neutral-400" aria-hidden="true" />
+                <strong className="text-neutral-700">{saved.vinResult.year}</strong>
+              </span>
+              <span className="text-neutral-300">·</span>
+              <span className="text-neutral-700 font-medium">{saved.vinResult.make}</span>
+              <span className="text-neutral-300">·</span>
+              <span className="text-neutral-700 font-medium">{saved.vinResult.model}</span>
+              {saved.vinResult.trim && (
+                <>
+                  <span className="text-neutral-300">·</span>
+                  <span className="text-neutral-600">{saved.vinResult.trim}</span>
+                </>
+              )}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              <a
+                href={`https://www.nhtsa.gov/vehicle/${saved.vinResult.year}/${saved.vinResult.make}/${saved.vinResult.model}/recalls`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
+              >
+                Recall Check
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+              <a
+                href={`https://www.nicb.org/vincheck?vin=${saved.vinResult.vin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
+              >
+                Theft Check
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        ) : null}
+
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <LinkGroup title="Find it elsewhere" links={marketplaceLinks} icon={Search} />
           <LinkGroup title="Reference data" links={referenceLinks} icon={ShieldCheck} />
         </div>
+
+        <details className="group mt-4 rounded-xl border border-neutral-100 bg-neutral-50 open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
+          <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-black text-neutral-600 transition hover:text-[var(--graphite)]">
+            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-neutral-600 transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
+              PRO
+            </span>
+            Negotiation Scripts
+            <ChevronRight className="ml-auto h-4 w-4 transition group-open:rotate-90" aria-hidden="true" />
+          </summary>
+          <div className="border-t border-neutral-200 px-4 py-3">
+            {(() => {
+              const scripts = generateNegotiationScripts(result, sourceText);
+              const items: { label: string; script: string }[] = [
+                { label: "📱 Text", script: scripts.text },
+                { label: "📧 Email", script: scripts.email },
+                { label: "🗣 In-Person", script: scripts.inPerson },
+              ];
+              return items.map(({ label, script }) => (
+                <div key={label} className="mb-3 last:mb-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-black uppercase tracking-[0.08em] text-neutral-500">{label}</span>
+                    <button
+                      type="button"
+                      onClick={() => navigator.clipboard.writeText(script)}
+                      className="rounded-md border border-neutral-300 bg-white px-2 py-1 text-[10px] font-bold text-neutral-600 transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <p className="mt-1 whitespace-pre-wrap rounded-lg bg-white p-2.5 text-xs leading-relaxed text-neutral-700 shadow-sm">{script}</p>
+                </div>
+              ));
+            })()}
+          </div>
+        </details>
       </div>
 
       <div className="border-t border-neutral-100 px-5 py-3">

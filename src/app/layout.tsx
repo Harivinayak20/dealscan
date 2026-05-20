@@ -6,8 +6,19 @@ export const metadata: Metadata = {
   title: "Dealscan — AI-Powered Used Car Listing Analyzer",
   description:
     "Paste any used car listing and get a clear deal score, red flags, market price range, and negotiation guidance before you message the seller.",
+  manifest: "/manifest.json",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/favicon.svg" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Dealscan",
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "theme-color": "#0b0d10",
   },
   openGraph: {
     title: "Dealscan — Used Car Deal Checker",

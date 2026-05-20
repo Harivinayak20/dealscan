@@ -4,6 +4,7 @@ import {
   BadgeDollarSign,
   CarFront,
   CheckCircle2,
+  ChevronRight,
   CircleAlert,
   Download,
   ExternalLink,
@@ -24,6 +25,7 @@ import { ScoreRing, scoreTone } from "@/components/ScoreRing";
 import { SellerQuestionsCard } from "@/components/SellerQuestionsCard";
 import { extractVin } from "@/lib/vin-decoder";
 import type { VinDecodeResult } from "@/lib/vin-decoder";
+import { generateNegotiationScripts } from "@/lib/generate-scripts";
 
 const trustLayerStatements = [
   "Dealscan.dev provides estimates based on listing information, not guarantees.",
@@ -535,6 +537,8 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
             <SellerQuestionsCard questions={result.sellerQuestions} />
           </div>
 
+          <NegotiationScriptsSection result={result} sourceText={sourceText} />
+
           <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-neutral-600 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
             <h2 className="text-lg font-black text-[var(--graphite)]">Trust notes</h2>
             <div className="mt-3 grid gap-2">
@@ -553,6 +557,21 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
               <Download className="h-5 w-5" aria-hidden="true" />
               Download Report
             </a>
+            <button
+              onClick={() => {
+                const params = new URLSearchParams({
+                  vehicle: vehicleTitle,
+                  score: String(result.score),
+                  verdict: result.verdict,
+                  summary: summary || result.summary,
+                });
+                window.open(`/api/og?${params.toString()}`, "_blank");
+              }}
+              className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] bg-white px-5 text-lg font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.14)] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+              Share Deal Card
+            </button>
             <button
               onClick={() => window.print()}
               className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 text-lg font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)] no-print"
@@ -602,5 +621,48 @@ export function ResultSummary({ result, analysisMode, sourceText, vehicleTitle, 
         <RightPanel result={result} />
       </div>
     </section>
+  );
+}
+
+function NegotiationScriptsSection({ result, sourceText }: { result: AnalyzeListingResult; sourceText: string }) {
+  const scripts = generateNegotiationScripts(result, sourceText);
+  const items: { label: string; script: string }[] = [
+    { label: "Text message", script: scripts.text },
+    { label: "Formal email", script: scripts.email },
+    { label: "In-person script", script: scripts.inPerson },
+  ];
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  return (
+    <details className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
+      <summary className="flex cursor-pointer items-center gap-2 px-5 py-4 text-lg font-black text-[var(--graphite)] transition hover:text-[var(--racing-green)]">
+        <Wrench className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
+        Negotiation Scripts
+        <ChevronRight className="ml-auto h-5 w-5 transition group-open:rotate-90" aria-hidden="true" />
+      </summary>
+      <div className="border-t border-[rgba(11,13,16,0.10)] px-5 py-4">
+        <div className="grid gap-4">
+          {items.map(({ label, script }, i) => (
+            <div key={label}>
+              <div className="mb-1 flex items-center justify-between gap-2">
+                <span className="text-sm font-black uppercase tracking-[0.08em] text-neutral-500">{label}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(script);
+                    setCopiedIndex(i);
+                    setTimeout(() => setCopiedIndex(null), 2000);
+                  }}
+                  className="rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-600 transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+                >
+                  {copiedIndex === i ? "Copied!" : "Copy"}
+                </button>
+              </div>
+              <p className="whitespace-pre-wrap rounded-xl bg-[rgba(244,240,232,0.72)] p-4 text-base leading-7 text-neutral-700">{script}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </details>
   );
 }

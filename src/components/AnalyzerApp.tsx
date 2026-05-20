@@ -3,13 +3,16 @@
 import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ChangeEvent, MouseEvent } from "react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
 import { CompareView } from "@/components/CompareView";
 import type { SavedResult } from "@/components/CompareView";
 import { generateDealSummary } from "@/lib/generate-summary";
+import { loadSavedResults, saveSavedResults } from "@/lib/local-storage";
+import { extractVin } from "@/lib/vin-decoder";
+import type { VinDecodeResult } from "@/lib/vin-decoder";
 
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
 import { partnerLinks } from "@/lib/integration-links";
@@ -92,7 +95,7 @@ export function AnalyzerApp() {
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
   const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare">("analyzer");
-  const [savedResults, setSavedResults] = useState<SavedResult[]>([]);
+  const [savedResults, setSavedResults] = useState<SavedResult[]>(() => loadSavedResults<SavedResult>());
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
   const [isOcrLoading, setIsOcrLoading] = useState(false);
@@ -102,6 +105,10 @@ export function AnalyzerApp() {
 
   const analysisText = inputType === "manual" ? manualDetailsToText(manualDetails) : listingText.trim();
   const isBusy = isLoading || isScraping || isOcrLoading;
+
+  useEffect(() => {
+    saveSavedResults(savedResults);
+  }, [savedResults]);
 
   useKeyboardShortcut("Enter", (event) => {
     const target = event.target as HTMLElement;
@@ -356,8 +363,21 @@ export function AnalyzerApp() {
     void submitAnalysis({ inputType: "text", listingText: text });
   }
 
-  function addToCompare() {
+  async function addToCompare() {
     if (!result) return;
+    const vin = extractVin(lastAnalyzedText);
+    let vinResult: VinDecodeResult | undefined;
+    if (vin) {
+      try {
+        const res = await fetch("/api/decode-vin", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ vin }),
+        });
+        const data = await res.json();
+        vinResult = data.result;
+      } catch { /* VIN decode failed — non-blocking */ }
+    }
     setSavedResults((prev) => [
       ...prev,
       {
@@ -369,6 +389,7 @@ export function AnalyzerApp() {
         summary: generateDealSummary(result, lastAnalyzedText),
         listingUrl: inputType === "url" ? listingUrl.trim() || undefined : undefined,
         timestamp: Date.now(),
+        vinResult,
       },
     ]);
   }
