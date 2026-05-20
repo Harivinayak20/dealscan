@@ -50,10 +50,10 @@ const exampleListings = [
 ];
 
 const inputMethods = [
-  { value: "url", label: "Listing URL", note: "Scrape the listing first", icon: LinkIcon },
-  { value: "text", label: "Paste Text", note: "Best for full listing descriptions", icon: FileSearch },
-  { value: "screenshot", label: "Screenshot", note: "Upload image, run OCR", icon: Camera },
-  { value: "manual", label: "Manual", note: "Year, mileage, price, title", icon: Gauge },
+  { value: "url", label: "Listing link", note: "Fastest way to check a car", icon: LinkIcon },
+  { value: "text", label: "Seller notes", note: "Paste the ad details", icon: FileSearch },
+  { value: "screenshot", label: "Photo", note: "Use a listing screenshot", icon: Camera },
+  { value: "manual", label: "Car details", note: "Year, miles, price, title", icon: Gauge },
 ] satisfies Array<{ value: InputType; label: string; note: string; icon: LucideIcon }>;
 
 const quickActions = [
@@ -136,7 +136,7 @@ export function AnalyzerApp() {
 
   async function extractScreenshotText(imageDataUrl: string) {
     setIsOcrLoading(true);
-    setSourceNotice("Reading screenshot with Groq OCR...");
+    setSourceNotice("Reading the listing photo...");
 
     try {
       const response = await fetch("/api/extract-screenshot-text", {
@@ -152,7 +152,7 @@ export function AnalyzerApp() {
 
       const data = (await response.json()) as { text: string };
       setListingText(data.text);
-      setSourceNotice("Screenshot text extracted. Review it, then scan.");
+      setSourceNotice("Listing details found. Review them, then check the deal.");
 
       return data.text;
     } finally {
@@ -180,9 +180,9 @@ export function AnalyzerApp() {
     } catch (caughtError) {
       const msg = caughtError instanceof Error ? caughtError.message : "Could not read that screenshot.";
       if (msg.includes("GROQ_API_KEY")) {
-        setError("GROQ_API_KEY is not set. Paste listing text manually instead, or add the API key.");
+        setError("Photo reading is not available right now. Paste the seller notes instead.");
       } else {
-        setError(`${msg}. You can still paste the listing text manually in the field below.`);
+        setError(`${msg}. You can still paste the seller notes in the field below.`);
       }
     }
   }
@@ -195,7 +195,7 @@ export function AnalyzerApp() {
     }
 
     setIsScraping(true);
-    setSourceNotice("Extracting listing page...");
+    setSourceNotice("Checking the listing page...");
 
     try {
       const response = await fetch("/api/extract-listing-url", {
@@ -219,7 +219,7 @@ export function AnalyzerApp() {
 
       setListingText(data.listing.text);
       setLastExtractedUrl(url);
-      setSourceNotice(`Extracted ${data.listing.title}. Review the text, then scan.`);
+      setSourceNotice(`Found details for ${data.listing.title}. Review them, then check the deal.`);
 
       return data.listing.text;
     } finally {
@@ -485,19 +485,19 @@ export function AnalyzerApp() {
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
         <div className="mx-auto grid max-w-[1560px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
           <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/76 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
-            <p className="text-sm font-black uppercase text-[var(--racing-green)]">Used car deal check</p>
+            <p className="text-sm font-black uppercase text-[var(--racing-green)]">Used car check</p>
             <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-6xl">
               Find out if this listing is worth it.
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-[#52615b] sm:text-lg">
-              Paste the listing URL first. Dealscan extracts the page, scores the deal with Groq, and gives you the buyer questions to ask next.
+              Paste the listing link first. Dealscan checks the car, spots warning signs, and gives you the questions to ask before you go see it.
             </p>
 
             <div className="mt-5 grid gap-2 text-sm font-bold text-[#52615b]">
               {[
-                "URL extraction is the first attempt",
-                "Screenshot OCR and pasted text stay as fallbacks",
-                "Output is a score, risks, missing proof, and offer guidance",
+                "Know if the price feels fair",
+                "Spot title, mileage, and seller red flags",
+                "Get the questions to ask before you visit",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3 rounded-xl border border-[rgba(32,40,35,0.08)] bg-[var(--canvas)] px-3 py-2">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
@@ -513,17 +513,17 @@ export function AnalyzerApp() {
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase text-[var(--racing-green)]">Deal check</p>
+                <p className="text-xs font-black uppercase text-[var(--racing-green)]">Check the car</p>
                 <h2 className="mt-1 text-2xl font-black">Check a listing</h2>
               </div>
               <a
                 href="#market-data"
                 className="rounded-full border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] px-3 py-2 text-xs font-black text-[var(--racing-green)] transition hover:-translate-y-1 hover:bg-[rgba(18,61,51,0.10)]"
               >
-                Groq engine
+                How it works
               </a>
             </div>
-            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Listing input methods">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Ways to check a car listing">
               {inputMethods.map((method) => (
                 (() => {
                   const Icon = method.icon;
@@ -559,8 +559,8 @@ export function AnalyzerApp() {
               {inputType === "url" ? (
                 <div className="grid gap-3">
                   <label className="grid gap-2">
-                    <span className="text-sm font-black text-[var(--graphite)]">Listing URL</span>
-                    <span className="text-sm leading-6 text-[#68756f]">Paste the public listing page. Dealscan extracts the listing text first, then sends the extracted details to Groq.</span>
+                    <span className="text-sm font-black text-[var(--graphite)]">Listing link</span>
+                    <span className="text-sm leading-6 text-[#68756f]">Paste the public ad link. Dealscan reads the car details first so you do not have to retype the whole listing.</span>
                     <div className="flex flex-col gap-3 sm:flex-row">
                       <input
                         value={listingUrl}
@@ -583,13 +583,13 @@ export function AnalyzerApp() {
                         className="btn-outline !rounded-2xl !border-[rgba(18,61,51,0.20)] !text-[var(--racing-green)] hover:!bg-[rgba(18,61,51,0.06)]"
                       >
                         <FileSearch className="h-5 w-5" aria-hidden="true" />
-                        Extract
+                        Get details
                       </button>
                     </div>
                   </label>
                   {listingText ? (
                     <label className="grid gap-2">
-                      <span className="text-sm font-black text-[var(--graphite)]">Extracted listing text</span>
+                      <span className="text-sm font-black text-[var(--graphite)]">Car details found</span>
                       <textarea
                         value={listingText}
                         onChange={(event) => setListingText(event.target.value)}
@@ -604,8 +604,8 @@ export function AnalyzerApp() {
 
               {inputType === "text" ? (
                 <label className="grid gap-2">
-                  <span className="text-sm font-black text-[var(--graphite)]">Listing text</span>
-                  <span className="text-sm leading-6 text-[#68756f]">Copy the seller description exactly. Include price, mileage, title, VIN, and seller claims when available.</span>
+                  <span className="text-sm font-black text-[var(--graphite)]">Seller notes</span>
+                  <span className="text-sm leading-6 text-[#68756f]">Paste the seller description. Include price, mileage, title, VIN, and condition when available.</span>
                   <textarea
                     value={listingText}
                     onChange={(event) => setListingText(event.target.value)}
@@ -620,11 +620,11 @@ export function AnalyzerApp() {
               {inputType === "screenshot" ? (
                 <div className="grid gap-4">
                   <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:bg-white focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
-                    <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing screenshot" />
+                    <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing photo" />
                     <span className="grid justify-items-center gap-2">
                       <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
-                      <span className="text-base font-black">Upload screenshot</span>
-                      <span className="text-sm text-[#68756f]">Auto-extracts text. You can also type manually below.</span>
+                      <span className="text-base font-black">Upload listing photo</span>
+                      <span className="text-sm text-[#68756f]">Use this when the listing is easier to share as an image.</span>
                     </span>
                   </label>
                   {screenshotPreviewUrl ? (
@@ -635,7 +635,7 @@ export function AnalyzerApp() {
                     onChange={(event) => setListingText(event.target.value)}
                     rows={3}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
-                    placeholder="OCR text appears here after upload. Edit or type manually..."
+                    placeholder="Listing details will appear here. You can edit anything that looks wrong..."
                     className="textarea"
                   />
                 </div>
@@ -715,13 +715,13 @@ export function AnalyzerApp() {
                     void analyzeListing();
                   }
                 }}
-                aria-label="Scan listing and generate deal score"
+                aria-label="Check listing and generate deal score"
                 className={`group btn-pill min-w-52 ${
                   isBusy ? "pointer-events-none opacity-60" : ""
                 }`}
               >
                 <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
-                Scan Listing
+                Check deal
               </button>
             </div>
           </section>
@@ -773,20 +773,20 @@ export function AnalyzerApp() {
         <div className="mx-auto max-w-[1560px]">
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
-              <p className="text-sm font-black uppercase text-[var(--racing-green)]">Engine</p>
-              <h2 className="mt-2 text-3xl font-black">URL extraction. Groq scoring. Clear output.</h2>
+              <p className="text-sm font-black uppercase text-[var(--racing-green)]">How it helps</p>
+              <h2 className="mt-2 text-3xl font-black">Price check. Risk check. Buyer next steps.</h2>
             </div>
             <p className="text-lg leading-8 text-[#52615b]">
-              Dealscan turns rough listing pages into structured buyer guidance: score, risks, missing details, and what to ask next.
+              Dealscan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
             </p>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "URL extraction", note: "Public listing pages are fetched first so copy paste is no longer the default path.", icon: LinkIcon, href: "#analyzer" },
-              { title: "Groq scoring", note: "Server-side Groq analysis scores price, mileage, title, condition, red flags, and missing details.", icon: LineChart, href: "#market-data" },
-              { title: "VIN and history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
-              { title: "Market pricing", note: "Rough estimates are labeled clearly until licensed market data is connected.", icon: Gauge, href: "#market-data" },
-              { title: "Inspection layer", note: "Pre-purchase inspection links help buyers verify condition before purchase.", icon: Wrench, href: partnerLinks.inspection },
+              { title: "Reads the ad", note: "Paste the listing link and Dealscan pulls together the car details for you.", icon: LinkIcon, href: "#analyzer" },
+              { title: "Scores the deal", note: "See how price, mileage, title status, condition, and seller claims stack up.", icon: LineChart, href: "#market-data" },
+              { title: "Checks history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
+              { title: "Explains price", note: "Get a buyer-friendly price read and a smarter starting offer.", icon: Gauge, href: "#market-data" },
+              { title: "Plans the visit", note: "Know what to ask, what to verify, and when to walk away.", icon: Wrench, href: partnerLinks.inspection },
             ].map((item) => {
               const Icon = item.icon;
 
@@ -934,7 +934,7 @@ export function AnalyzerApp() {
             {[
               {
                 q: "How does the deal score work?",
-                a: "The score (0–100) is calculated by a local heuristic engine that checks price, mileage, title status, red flags, green flags, and missing information. When available, Groq AI enhances the analysis for deeper insights.",
+                a: "The score checks the price, mileage, title status, condition, seller claims, red flags, good signs, and missing details. It is meant to help you decide what to ask next, not replace a mechanic or vehicle history report.",
               },
               {
                 q: "Is Dealscan free to use?",
@@ -942,15 +942,15 @@ export function AnalyzerApp() {
               },
               {
                 q: "What marketplaces does it work with?",
-                a: "It works with any public listing page — Craigslist, Facebook Marketplace, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Just paste the URL or copy-paste the listing text.",
+                a: "It works with public listings from Craigslist, Facebook Marketplace, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Paste the link, seller notes, or a listing photo.",
               },
               {
                 q: "Do you store my listings or personal data?",
-                a: "No. Analysis is done server-side but we don't log or store listing text, URLs, or personal information. Results are cached temporarily to avoid redundant API calls.",
+                a: "No. Dealscan is built to check the listing without saving your personal information.",
               },
               {
                 q: "Can I use it on mobile?",
-                a: "Yes. Dealscan works on any device with a modern browser. You can paste URLs, text, or upload screenshots directly from your phone.",
+                a: "Yes. Dealscan works on any modern phone browser. You can paste a link, paste seller notes, or upload a listing photo.",
               },
               {
                 q: "How accurate is the pricing estimate?",
