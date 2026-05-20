@@ -43,7 +43,7 @@ export function ShareByEmail({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 text-lg font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
+        className="btn-secondary !text-lg"
       >
         <Send className="h-5 w-5" aria-hidden="true" />
         Share by Email
@@ -55,7 +55,7 @@ export function ShareByEmail({
     <div className="rounded-xl border border-[rgba(201,168,106,0.40)] bg-[rgba(201,168,106,0.06)] p-4">
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm font-black text-[var(--graphite)]">Email this analysis</span>
-        <button type="button" onClick={() => setOpen(false)} className="text-xs font-bold text-neutral-500 hover:text-[var(--danger)]">
+        <button type="button" onClick={() => setOpen(false)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-neutral-500 hover:!text-[var(--danger)]">
           Cancel
         </button>
       </div>
@@ -69,11 +69,11 @@ export function ShareByEmail({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="friend@example.com"
-            className="min-h-11 flex-1 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-[var(--graphite)] outline-none transition focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+            className="input flex-1 !rounded-xl"
           />
           <button
             type="submit"
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--champagne)] px-5 text-sm font-black text-[var(--graphite)] transition hover:bg-[var(--ivory)]"
+            className="btn-secondary !bg-[var(--champagne)] !border-0 hover:!bg-[var(--ivory)]"
           >
             Send
           </button>

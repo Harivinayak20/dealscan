@@ -2,8 +2,8 @@
 
 import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link as LinkIcon, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { ChangeEvent, MouseEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
@@ -64,12 +64,6 @@ const quickActions = [
   { label: "Find OBD2 Scanner", note: "Scan codes before you buy", href: partnerLinks.obd, icon: ShoppingCart },
 ];
 
-const heroStats = [
-  { label: "First move", value: "URL scan" },
-  { label: "Engine", value: "Groq" },
-  { label: "Output", value: "Buy / walk" },
-];
-
 function manualDetailsToText(details: ManualDetails) {
   const vehicleName = [details.year, details.make, details.model].filter(Boolean).join(" ");
 
@@ -91,7 +85,6 @@ function vehicleTitleFromText(text: string) {
 }
 
 export function AnalyzerApp() {
-  const reportCardRef = useRef<HTMLDivElement | null>(null);
   const [inputType, setInputType] = useState<InputType>("url");
   const [listingUrl, setListingUrl] = useState("");
   const [lastExtractedUrl, setLastExtractedUrl] = useState("");
@@ -103,7 +96,7 @@ export function AnalyzerApp() {
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
   const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare">("analyzer");
-  const [demoMode, setDemoMode] = useState(true);
+  const [demoMode, setDemoMode] = useState(false);
   const [savedResults, setSavedResults] = useState<SavedResult[]>(() => loadSavedResults<SavedResult>());
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
@@ -232,32 +225,6 @@ export function AnalyzerApp() {
     } finally {
       setIsScraping(false);
     }
-  }
-
-  function handleReportPointerMove(event: MouseEvent<HTMLDivElement>) {
-    const card = reportCardRef.current;
-
-    if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    const bounds = card.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-
-    card.style.setProperty("--tilt-x", `${x * 9}deg`);
-    card.style.setProperty("--tilt-y", `${y * -7}deg`);
-  }
-
-  function handleReportPointerLeave() {
-    const card = reportCardRef.current;
-
-    if (!card) {
-      return;
-    }
-
-    card.style.setProperty("--tilt-x", "0deg");
-    card.style.setProperty("--tilt-y", "0deg");
   }
 
   async function submitAnalysis(body: AnalyzeListingRequest) {
@@ -500,8 +467,8 @@ export function AnalyzerApp() {
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
             <a
-              href="#hero-input"
-              className="rounded-full bg-[var(--racing-green)] px-5 py-3 text-sm font-black text-white shadow-[0_18px_48px_-24px_rgba(18,61,51,0.55)] transition hover:-translate-y-1 hover:bg-[var(--graphite)] sm:px-6"
+              href="#analyzer"
+              className="btn-pill"
             >
               Check a Listing
             </a>
@@ -515,161 +482,39 @@ export function AnalyzerApp() {
         </section>
       )}
 
-      <section id="hero" className={`relative ${demoMode ? "min-h-0 pt-6" : "min-h-[calc(100svh-73px)]"} overflow-hidden bg-[var(--canvas)] text-[var(--graphite)]`}>
-        <img
-          src="/porsche-911-track-black.jpg"
-          alt=""
-          fetchPriority="high"
-          className="absolute right-0 top-0 h-full w-full object-cover object-[72%_52%] opacity-20 brightness-[1.08] contrast-110 saturate-[0.76]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,242,234,0.98)_0%,rgba(247,242,234,0.92)_42%,rgba(247,242,234,0.76)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,242,0.30)_0%,rgba(235,228,216,0.90)_100%)]" />
-        <div className="premium-grid-bg absolute inset-0 opacity-70" />
-        <div className="relative mx-auto grid max-w-[1600px] gap-4 px-5 py-14 sm:px-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(540px,1.04fr)] lg:items-center lg:gap-10 lg:py-20 xl:py-24">
-          <div className="py-6 lg:py-16">
-            <div className="inline-flex items-center gap-3 rounded-full border border-[rgba(18,61,51,0.14)] bg-white/70 px-5 py-2.5 text-xs font-black uppercase text-[var(--racing-green)] shadow-[inset_0_1px_0_rgba(255,255,255,0.76)] animate-fade-in">
-              <span className="h-2 w-2 rounded-full bg-[var(--racing-green)]" />
-              AI-Powered Used Car Listing Analyzer
-            </div>
-            <h1 className="mt-9 max-w-5xl text-6xl font-black leading-[0.86] text-[var(--graphite)] sm:text-8xl lg:text-[7.6rem] xl:text-[8.4rem] animate-fade-in-up">
-              Know the car,
-              <br />
-              not the hype.
+      <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
+        <div className="mx-auto grid max-w-[1560px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
+          <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/76 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
+            <p className="text-sm font-black uppercase text-[var(--racing-green)]">Used car deal check</p>
+            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-6xl">
+              Find out if this listing is worth it.
             </h1>
-            <p className="mt-8 max-w-2xl text-lg font-semibold leading-8 text-[#4b5b54] sm:text-xl animate-fade-in-up delay-100">
-              Paste any listing URL and get a clear deal score, red flags, fair price range, and negotiation guidance before you message the seller.
+            <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-[#52615b] sm:text-lg">
+              Paste the listing URL first. Dealscan extracts the page, scores the deal with Groq, and gives you the buyer questions to ask next.
             </p>
-            <div className="mt-8 grid max-w-2xl grid-cols-3 overflow-hidden rounded-[1.25rem] border border-[rgba(32,40,35,0.10)] bg-white/68 shadow-[inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur animate-fade-in-up delay-100">
-              {heroStats.map((stat) => (
-                <div key={stat.label} className="border-r border-[rgba(32,40,35,0.08)] p-4 last:border-r-0">
-                  <div className="text-[10px] font-black uppercase text-[#68756f]">{stat.label}</div>
-                  <div className="mt-1 text-base font-black text-[var(--graphite)] sm:text-lg">{stat.value}</div>
+
+            <div className="mt-5 grid gap-2 text-sm font-bold text-[#52615b]">
+              {[
+                "URL extraction is the first attempt",
+                "Screenshot OCR and pasted text stay as fallbacks",
+                "Output is a score, risks, missing proof, and offer guidance",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-xl border border-[rgba(32,40,35,0.08)] bg-[var(--canvas)] px-3 py-2">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
+          </aside>
 
-            <div id="hero-input" className="mt-7 rounded-[1.35rem] border border-[rgba(32,40,35,0.12)] bg-white/88 p-2 shadow-[0_22px_64px_-46px_rgba(32,40,35,0.72)] backdrop-blur animate-fade-in-up delay-200">
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <input
-                  value={listingUrl}
-                  onChange={(event) => {
-                    setListingUrl(event.target.value);
-                    setLastExtractedUrl("");
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && listingUrl.trim()) {
-                      setInputType("url");
-                      void analyzeListing();
-                    }
-                  }}
-                  placeholder="Paste a listing URL to check it..."
-                  className="min-h-14 flex-1 rounded-2xl border border-[rgba(32,40,35,0.12)] bg-white px-5 text-base text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.80)] outline-none placeholder:text-neutral-500 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
-                />
-                <button
-                  type="button"
-                  disabled={isBusy || !listingUrl.trim()}
-                  onClick={() => {
-                    if (listingUrl.trim()) {
-                      setInputType("url");
-                      void analyzeListing("url");
-                    }
-                  }}
-                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--racing-green)] px-7 text-base font-black text-white shadow-[0_18px_48px_-24px_rgba(18,61,51,0.55)] transition hover:-translate-y-1 hover:bg-[var(--graphite)] disabled:pointer-events-none disabled:opacity-60"
-                >
-                  <SearchCheck className="h-5 w-5" aria-hidden="true" />
-                  Check Listing
-                </button>
-              </div>
-              <p className="px-3 pb-2 pt-3 text-sm font-semibold text-[#5b6a63]">
-                Works on Craigslist, Facebook Marketplace, Cars.com, and any public listing page.
-              </p>
-            </div>
-
-            <div className="mt-6 hidden flex-wrap gap-3 animate-fade-in-up delay-300 lg:flex">
-              <button
-                type="button"
-                onClick={() => {
-                  setInputType("text");
-                  setTimeout(() => document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }), 100);
-                }}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[rgba(32,40,35,0.14)] bg-white/70 px-6 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
-              >
-                Or paste text manually
-              </button>
-              <a
-                href="/affiliate-links"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[rgba(32,40,35,0.12)] bg-transparent px-6 text-sm font-black text-[#586661] transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
-              >
-                Buyer tools
-              </a>
-            </div>
-          </div>
-
-          <div className="-mt-1 grid gap-4 lg:mt-0 lg:gap-5">
-            <div
-              ref={reportCardRef}
-              onMouseMove={handleReportPointerMove}
-              onMouseLeave={handleReportPointerLeave}
-              className="hero-report-card relative min-h-[280px] overflow-hidden rounded-[2rem] border border-white/80 bg-white shadow-[0_36px_100px_-58px_rgba(32,40,35,0.55)] sm:min-h-[360px]"
-              aria-label="Porsche hero image"
-            >
-              <img
-                src="/porsche-911-track-black.jpg"
-                alt="Black Porsche 911 track car used as Dealscan.dev hero imagery"
-                className="absolute inset-0 h-full w-full object-cover object-[70%_52%] brightness-[0.86] contrast-125 saturate-[0.82]"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(32,40,35,0.02),rgba(32,40,35,0.58))]" />
-              <div className="absolute left-5 top-5 rounded-full border border-white/45 bg-white/82 px-4 py-2 text-xs font-black text-[var(--graphite)] shadow-sm backdrop-blur">
-                URL first, OCR fallback
-              </div>
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/40 bg-white/86 p-4 text-[var(--graphite)] backdrop-blur-md sm:p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-black uppercase text-[var(--champagne)]">Before you drive out</p>
-                    <p className="mt-2 text-2xl font-black">Check the listing first.</p>
-                  </div>
-                  <div className="rounded-xl bg-[var(--racing-green)] px-3 py-2 text-right text-white">
-                    <div className="text-[10px] font-black uppercase text-white/65">Sample</div>
-                    <div className="text-xl font-black">82</div>
-                  </div>
-                </div>
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                  {["Fair price", "Clean title", "Ask for records"].map((item) => (
-                    <div key={item} className="rounded-xl bg-white/70 px-3 py-2 text-xs font-black text-[#52615b]">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 animate-fade-in-up delay-300 lg:hidden">
-              <button
-                type="button"
-                onClick={() => {
-                  setInputType("text");
-                  setTimeout(() => document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }), 100);
-                }}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[rgba(32,40,35,0.14)] bg-white/70 px-6 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
-              >
-                Or paste text manually
-              </button>
-              <a
-                href="/affiliate-links"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[rgba(32,40,35,0.12)] bg-transparent px-6 text-sm font-black text-[#586661] transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
-              >
-                Buyer tools
-              </a>
-            </div>
-
-            <section
+          <section
             id="analyzer"
-            className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/92 p-4 text-[var(--graphite)] shadow-[0_30px_90px_-56px_rgba(32,40,35,0.55)] backdrop-blur-xl sm:p-6"
+            className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-black uppercase text-[var(--racing-green)]">Deal check</p>
-                <h2 className="mt-1 text-2xl font-black">Analyze a Listing</h2>
+                <h2 className="mt-1 text-2xl font-black">Check a listing</h2>
               </div>
               <a
                 href="#market-data"
@@ -695,7 +540,7 @@ export function AnalyzerApp() {
                         setError("");
                         setSourceNotice("");
                       }}
-                      className={`group grid min-h-28 gap-2 rounded-2xl border p-3 text-left transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white ${
+                      className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white ${
                         inputType === method.value
                           ? "border-[rgba(18,61,51,0.32)] bg-[rgba(18,61,51,0.08)] text-[var(--graphite)] shadow-sm"
                           : "border-[rgba(32,40,35,0.10)] bg-[var(--canvas)] text-[#5d6862] hover:bg-white"
@@ -724,7 +569,7 @@ export function AnalyzerApp() {
                           setLastExtractedUrl("");
                         }}
                         placeholder="https://www.example.com/listing/2019-toyota-camry"
-                        className="min-h-12 flex-1 rounded-2xl border border-[rgba(32,40,35,0.12)] bg-white px-4 text-base text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.80)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
+                        className="input flex-1"
                       />
                       <button
                         type="button"
@@ -735,7 +580,7 @@ export function AnalyzerApp() {
                           });
                         }}
                         disabled={isBusy}
-                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-[rgba(18,61,51,0.20)] px-5 text-sm font-black text-[var(--racing-green)] transition hover:-translate-y-1 hover:bg-[rgba(18,61,51,0.06)] disabled:pointer-events-none disabled:opacity-60"
+                        className="btn-outline !rounded-2xl !border-[rgba(18,61,51,0.20)] !text-[var(--racing-green)] hover:!bg-[rgba(18,61,51,0.06)]"
                       >
                         <FileSearch className="h-5 w-5" aria-hidden="true" />
                         Extract
@@ -750,7 +595,7 @@ export function AnalyzerApp() {
                         onChange={(event) => setListingText(event.target.value)}
                         rows={4}
                         maxLength={LISTING_TEXT_MAX_LENGTH}
-                        className="min-h-28 w-full resize-y rounded-2xl border border-[rgba(32,40,35,0.12)] bg-white p-4 text-base leading-7 text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.80)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
+                        className="textarea"
                       />
                     </label>
                   ) : null}
@@ -767,7 +612,7 @@ export function AnalyzerApp() {
                     rows={5}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
                     placeholder="Example: 2019 Toyota Camry LE, 72,000 miles, clean title, one owner, asking $15,900..."
-                    className="min-h-36 w-full resize-y rounded-2xl border border-[rgba(32,40,35,0.12)] bg-white p-4 text-base leading-7 text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.80)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)] sm:min-h-44"
+                    className="textarea sm:min-h-44"
                   />
                 </label>
               ) : null}
@@ -791,7 +636,7 @@ export function AnalyzerApp() {
                     rows={3}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
                     placeholder="OCR text appears here after upload. Edit or type manually..."
-                    className="min-h-24 w-full resize-y rounded-lg border border-[rgba(32,40,35,0.12)] bg-white p-4 text-base leading-7 text-[var(--graphite)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
+                    className="textarea"
                   />
                 </div>
               ) : null}
@@ -813,7 +658,7 @@ export function AnalyzerApp() {
                           value={manualDetails[key as keyof ManualDetails] ?? ""}
                           onChange={(event) => updateManualField(key as keyof ManualDetails, event.target.value)}
                           placeholder={placeholder}
-                          className="min-h-11 rounded-lg border border-[rgba(32,40,35,0.12)] bg-white px-3 text-base normal-case text-[var(--graphite)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
+                          className="input"
                         />
                       </label>
                     ))}
@@ -826,14 +671,14 @@ export function AnalyzerApp() {
                       rows={3}
                       maxLength={1800}
                       placeholder="Add condition, options, maintenance, accident history, or unclear claims."
-                      className="min-h-24 resize-y rounded-lg border border-[rgba(32,40,35,0.12)] bg-white p-3 text-base normal-case leading-7 text-[var(--graphite)] outline-none placeholder:text-neutral-400 focus:border-[var(--racing-green)] focus:ring-2 focus:ring-[rgba(18,61,51,0.18)]"
+                      className="textarea"
                     />
                   </label>
                 </div>
               ) : null}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-[rgba(32,40,35,0.10)] bg-[var(--canvas)] p-3">
+            <div className="card mt-4">
               <div className="flex items-center justify-between gap-3 text-xs font-black uppercase text-[#68756f]">
                 <span>Try a sample listing</span>
                 <span>{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
@@ -855,7 +700,7 @@ export function AnalyzerApp() {
 
             {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
             {sourceNotice ? (
-              <p className="mt-4 rounded-2xl border border-[rgba(18,61,51,0.14)] bg-[rgba(18,61,51,0.06)] px-4 py-3 text-sm font-bold text-[var(--racing-green)]">
+              <p className="notice mt-4">
                 {sourceNotice}
               </p>
             ) : null}
@@ -871,7 +716,7 @@ export function AnalyzerApp() {
                   }
                 }}
                 aria-label="Scan listing and generate deal score"
-                className={`group flex min-h-12 min-w-52 items-center justify-center gap-2 rounded-full bg-[var(--racing-green)] px-6 text-base font-black text-white shadow-[0_18px_42px_-24px_rgba(18,61,51,0.55)] transition hover:-translate-y-1.5 hover:scale-[1.03] hover:bg-[var(--graphite)] focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)] ${
+                className={`group btn-pill min-w-52 ${
                   isBusy ? "pointer-events-none opacity-60" : ""
                 }`}
               >
@@ -880,7 +725,6 @@ export function AnalyzerApp() {
               </button>
             </div>
           </section>
-          </div>
         </div>
       </section>
 
@@ -892,7 +736,7 @@ export function AnalyzerApp() {
             <p className="mt-4 text-lg leading-8 text-neutral-700">
               History, inspection, insurance, payments, and simple tools.
             </p>
-            <a href="/affiliate-links" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
+            <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
               View all buyer tools
             </a>
           </div>
@@ -906,7 +750,7 @@ export function AnalyzerApp() {
                   href={action.href}
                   target="_blank"
                   rel="sponsored noopener noreferrer"
-                  className="group flex items-center justify-between rounded-2xl border border-neutral-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1.5 hover:border-[var(--champagne)] hover:bg-white hover:shadow-xl"
+                  className="card-hover group flex items-center justify-between"
                 >
                   <span className="flex items-center gap-4">
                     <span className="grid h-11 w-11 place-items-center rounded-lg bg-neutral-100 transition group-hover:scale-110 group-hover:bg-red-50">
@@ -972,7 +816,7 @@ export function AnalyzerApp() {
             Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
           </p>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="card-hover">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
                 <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
@@ -981,7 +825,7 @@ export function AnalyzerApp() {
                 A clear 0–100 score with a verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid. Know instantly if it&apos;s worth your time.
               </p>
             </div>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="card-hover">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
                 <FileSearch className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
@@ -990,7 +834,7 @@ export function AnalyzerApp() {
                 We scan for 17 red flag patterns (salvage, flood, no title) and 12 green flags (service records, one owner, clean Carfax).
               </p>
             </div>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="card-hover">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
                 <BadgeDollarSign className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
@@ -1009,7 +853,7 @@ export function AnalyzerApp() {
                   document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
                 }, 100);
               }}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-7 text-base font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]"
+              className="btn-pill !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]"
             >
               <SearchCheck className="h-5 w-5" aria-hidden="true" />
               Try it now
@@ -1115,7 +959,7 @@ export function AnalyzerApp() {
             ].map(({ q, a }) => (
               <details
                 key={q}
-                className="group rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:shadow-md open:shadow-md"
+                className="card-hover !p-5"
               >
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-black text-[var(--graphite)]">
                   <span>{q}</span>

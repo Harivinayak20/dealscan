@@ -27,7 +27,7 @@ export function TCOPanel({
   const maxMonthly = Math.max(...tco.segments.map((s) => s.monthly), 1);
 
   return (
-    <details open={open} className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+    <details open={open} className="card-elevated group">
       <summary
         onClick={(e) => { e.preventDefault(); setOpen(!open); }}
         className="flex cursor-pointer items-center gap-3 px-5 py-4 text-lg font-black text-[var(--graphite)] transition hover:text-[var(--racing-green)]"

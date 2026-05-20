@@ -17,7 +17,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
   const plan = fin.plans[fin.suggestedPlan];
 
   return (
-    <details open={open} className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
+    <details open={open} className="card-elevated group">
       <summary
         onClick={(e) => { e.preventDefault(); setOpen(!open); }}
         className="flex cursor-pointer items-center gap-3 px-5 py-4 text-lg font-black text-[var(--graphite)] transition hover:text-[var(--racing-green)]"
@@ -38,7 +38,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
                 max={price}
                 value={down || ""}
                 onChange={(e) => setDown(Math.max(0, Math.min(price, Number(e.target.value) || 0)))}
-                className="w-full rounded-xl border border-neutral-200 bg-white py-2.5 pl-8 pr-3 text-sm font-bold text-[var(--graphite)] outline-none transition focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="input !rounded-xl !py-2.5 !pl-8 !pr-3 !text-sm !font-bold"
               />
             </div>
           </label>
@@ -51,7 +51,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
                 min={0}
                 value={trade || ""}
                 onChange={(e) => setTrade(Math.max(0, Number(e.target.value) || 0))}
-                className="w-full rounded-xl border border-neutral-200 bg-white py-2.5 pl-8 pr-3 text-sm font-bold text-[var(--graphite)] outline-none transition focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="input !rounded-xl !py-2.5 !pl-8 !pr-3 !text-sm !font-bold"
               />
             </div>
           </label>
@@ -65,7 +65,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
                 step={0.1}
                 value={apr}
                 onChange={(e) => setApr(Math.max(0, Math.min(30, Number(e.target.value) || 0)))}
-                className="w-full rounded-xl border border-neutral-200 bg-white py-2.5 px-3 pr-8 text-sm font-bold text-[var(--graphite)] outline-none transition focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="input !rounded-xl !py-2.5 !px-3 !pr-8 !text-sm !font-bold"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-neutral-400">%</span>
             </div>

@@ -391,7 +391,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                         <p className="text-xs font-black uppercase text-neutral-600">VIN Decode</p>
                         <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{vinResult.vin}</p>
                       </div>
-                      <button onClick={() => setVinResult(null)} className="text-xs font-bold text-neutral-500 hover:text-[var(--danger)]">Dismiss</button>
+                      <button onClick={() => setVinResult(null)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-neutral-500 hover:!text-[var(--danger)]">Dismiss</button>
                     </div>
                     {vinResult.error ? (
                       <p className="mt-3 text-sm text-[var(--danger)]">{vinResult.error}</p>
@@ -488,7 +488,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
             <ShareByEmail vehicleTitle={vehicleTitle} score={result.score} />
             <button
               onClick={() => window.print()}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 text-base font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md no-print"
+              className="btn-secondary no-print"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
               PDF
@@ -558,7 +558,7 @@ function NegotiationScriptsSection({ result, sourceText }: { result: AnalyzeList
                     setCopiedIndex(i);
                     setTimeout(() => setCopiedIndex(null), 2000);
                   }}
-                  className="rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-600 transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+                  className="btn-ghost !min-h-0 !rounded-lg !px-3 !py-1.5 !text-xs !font-bold"
                 >
                   {copiedIndex === i ? "Copied!" : "Copy"}
                 </button>

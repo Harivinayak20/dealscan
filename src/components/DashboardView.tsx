@@ -40,36 +40,36 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="card">
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-[rgba(201,168,106,0.12)]">
                 <Search className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-2xl font-black">{scanHistory.length}</div>
-                <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Total Scans</div>
+                <div className="kpi-value">{scanHistory.length}</div>
+                <div className="kpi-label">Total Scans</div>
               </div>
             </div>
           </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="card">
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-[rgba(201,168,106,0.12)]">
                 <Gauge className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-2xl font-black">{avgScore}</div>
-                <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Avg Score</div>
+                <div className="kpi-value">{avgScore}</div>
+                <div className="kpi-label">Avg Score</div>
               </div>
             </div>
           </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="card">
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-[rgba(201,168,106,0.12)]">
                 <Heart className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-2xl font-black">{watchEntries.length}</div>
-                <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Watching</div>
+                <div className="kpi-value">{watchEntries.length}</div>
+                <div className="kpi-label">Watching</div>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                 const tone = scoreTone(entry.result.score);
                 const ToneIcon = tone.icon;
                 return (
-                  <div key={entry.id} className="flex items-center justify-between gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+                  <div key={entry.id} className="card flex items-center justify-between gap-4 !p-4">
                     <div className="flex items-center gap-4">
                       <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full" style={{ background: `${tone.ring}18` }}>
                         <ToneIcon className="h-6 w-6" style={{ color: tone.ring }} aria-hidden="true" />
@@ -104,7 +104,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                     <button
                       type="button"
                       onClick={() => { removeWatch(entry.id); setWatchEntries(getWatchlist()); }}
-                      className="rounded-full p-2 text-neutral-400 transition hover:bg-red-50 hover:text-[var(--danger)]"
+                      className="btn-ghost !rounded-full !p-2 !min-h-0 text-neutral-400 hover:!bg-red-50 hover:!text-[var(--danger)]"
                       aria-label="Remove from watchlist"
                     >
                       <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -128,7 +128,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                 const ToneIcon = tone.icon;
                 const ago = Math.floor((now - saved.timestamp) / 3600000);
                 return (
-                  <div key={saved.id} className="flex items-center justify-between gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+                  <div key={saved.id} className="card flex items-center justify-between gap-4 !p-4">
                     <div className="flex items-center gap-4">
                       <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full" style={{ background: `${tone.ring}18` }}>
                         <ToneIcon className="h-6 w-6" style={{ color: tone.ring }} aria-hidden="true" />

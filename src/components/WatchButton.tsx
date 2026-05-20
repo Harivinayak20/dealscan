@@ -41,10 +41,10 @@ export function WatchButton({
     <button
       type="button"
       onClick={handleToggle}
-      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border px-5 text-base font-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)] ${
+      className={`btn-secondary ${
         watching
-          ? "border-[rgba(196,90,74,0.40)] bg-[rgba(196,90,74,0.10)] text-[var(--danger)]"
-          : "border-neutral-300 bg-white text-[var(--graphite)] hover:bg-neutral-50"
+          ? "!border-[rgba(196,90,74,0.40)] !bg-[rgba(196,90,74,0.10)] !text-[var(--danger)]"
+          : ""
       }`}
     >
       <Heart className={`h-5 w-5 ${watching ? "fill-[var(--danger)]" : ""}`} aria-hidden="true" />

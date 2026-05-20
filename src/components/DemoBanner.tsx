@@ -44,7 +44,7 @@ export function DemoBanner({
   onSelect: (text: string) => void;
 }) {
   return (
-    <div className="rounded-2xl border border-[rgba(201,168,106,0.25)] bg-[rgba(201,168,106,0.06)] p-5 sm:p-6">
+    <div className="card-elevated">
       <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.16em] text-[var(--champagne)]">
         <Play className="h-4 w-4" aria-hidden="true" />
         Try it yourself
@@ -60,7 +60,7 @@ export function DemoBanner({
               key={s.id}
               type="button"
               onClick={() => onSelect(s.text)}
-              className="group rounded-xl border-2 border-[rgba(11,13,16,0.10)] bg-white p-4 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="card group !rounded-xl !border-2 !border-[rgba(11,13,16,0.10)] !bg-white !p-4 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="flex items-center gap-3">
                 <div
