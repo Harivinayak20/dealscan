@@ -7,24 +7,27 @@
 }
 
 :root {
-  --graphite: #0b0d10;
-  --charcoal: #14181d;
+  --graphite: #202823;
+  --charcoal: #2c3631;
+  --canvas: #f7f2ea;
+  --paper: #fffaf2;
+  --mist: #ebe4d8;
   --ivory: #f4f0e8;
-  --silver: #a7adb5;
+  --silver: #6f7974;
   --champagne: #c9a86a;
   --racing-green: #123d33;
   --success: #7ca982;
   --warning: #d6a84f;
   --danger: #c45a4a;
-  --background: #0b0d10;
-  --foreground: #f4f0e8;
-  --card: #14181d;
+  --background: #f7f2ea;
+  --foreground: #202823;
+  --card: #fffaf2;
   --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
   --focus: #c9a86a;
-  --overlay: rgba(11, 13, 16, 0.82);
-  --hero-gradient-1: rgba(201, 168, 106, 0.12);
-  --hero-gradient-2: rgba(18, 61, 51, 0.42);
+  --overlay: rgba(255, 250, 242, 0.88);
+  --hero-gradient-1: rgba(201, 168, 106, 0.22);
+  --hero-gradient-2: rgba(18, 61, 51, 0.10);
 }
 
 @theme inline {
@@ -51,8 +54,8 @@ html {
 body {
   min-height: 100dvh;
   background:
-    radial-gradient(circle at 18% 10%, var(--hero-gradient-1), transparent 28rem),
-    radial-gradient(circle at 82% 0%, var(--hero-gradient-2), transparent 34rem),
+    radial-gradient(circle at 18% 10%, var(--hero-gradient-1), transparent 30rem),
+    radial-gradient(circle at 82% 0%, var(--hero-gradient-2), transparent 36rem),
     var(--background);
   color: var(--foreground);
   font-size: 16px;
@@ -77,6 +80,10 @@ select {
 }
 
   .premium-grid-bg {
+    background-image:
+      linear-gradient(rgba(32, 40, 35, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(32, 40, 35, 0.06) 1px, transparent 1px);
+    background-size: 88px 88px;
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), transparent 82%);
   }
 

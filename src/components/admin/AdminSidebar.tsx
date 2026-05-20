@@ -44,15 +44,15 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
       }
     >
       <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-5">
-        <div className="flex items-center gap-3">
+        <Link href="/" onClick={onClose} className="flex items-center gap-3 transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--graphite)]">
             <CarFront className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
           </div>
           <div>
             <div className="text-base font-black text-[var(--graphite)]">Dealscan</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--champagne)]">Admin</div>
+            <div className="text-[10px] font-bold uppercase text-[var(--champagne)]">Admin</div>
           </div>
-        </div>
+        </Link>
         {isMobile && onClose && (
           <button onClick={onClose} className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100" aria-label="Close menu">
             <X className="h-5 w-5" aria-hidden="true" />

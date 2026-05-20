@@ -2,8 +2,10 @@
 
 import type { ComponentType } from "react";
 import { useState } from "react";
+import Link from "next/link";
 import {
   ArrowLeft,
+  CarFront,
   CheckCircle2,
   ChevronRight,
   ExternalLink,
@@ -47,7 +49,7 @@ function LinkGroup({ title, links, icon: Icon }: { title: string; links: Platfor
   if (links.length === 0) return null;
   return (
     <div>
-      <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-neutral-500">
+      <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase text-neutral-500">
         <Icon className="h-3.5 w-3.5" aria-hidden="true" />
         {title}
       </div>
@@ -128,15 +130,15 @@ function CompareCard({
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Seller Price</div>
+            <div className="text-xs font-bold uppercase text-neutral-500">Seller Price</div>
             <div className="mt-1 text-xl font-black text-[var(--graphite)]">{sellerPrice}</div>
           </div>
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Market Range</div>
+            <div className="text-xs font-bold uppercase text-neutral-500">Market Range</div>
             <div className="mt-1 text-base font-black text-[var(--graphite)]">{marketRange}</div>
           </div>
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Flags</div>
+            <div className="text-xs font-bold uppercase text-neutral-500">Flags</div>
             <div className="mt-1 flex flex-wrap gap-2">
               {result.greenFlags.length > 0 && (
                 <span className="inline-flex items-center gap-1 text-sm font-bold text-[var(--racing-green)]">
@@ -212,7 +214,7 @@ function CompareCard({
 
         <details className="group mt-4 rounded-xl border border-neutral-100 bg-neutral-50 open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
           <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-black text-neutral-600 transition hover:text-[var(--graphite)]">
-            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-neutral-600 transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
+            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase text-neutral-600 transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
               PRO
             </span>
             Negotiation Scripts
@@ -229,7 +231,7 @@ function CompareCard({
               return items.map(({ label, script }) => (
                 <div key={label} className="mb-3 last:mb-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-black uppercase tracking-[0.08em] text-neutral-500">{label}</span>
+                    <span className="text-xs font-black uppercase text-neutral-500">{label}</span>
                     <button
                       type="button"
                       onClick={() => navigator.clipboard.writeText(script)}
@@ -299,6 +301,15 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
   return (
     <section className="min-h-screen bg-[rgba(244,240,232,0.94)] px-5 py-8 text-[var(--graphite)] sm:px-7">
       <div className="mx-auto max-w-[1600px]">
+        <Link href="/" className="mb-6 inline-flex items-center gap-3 transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
+          <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--graphite)] text-[var(--champagne)]">
+            <CarFront className="h-6 w-6" aria-hidden="true" />
+          </span>
+          <span>
+            <span className="block text-2xl font-black">Dealscan.dev</span>
+            <span className="block text-[11px] font-bold uppercase text-[var(--racing-green)]">Listing review</span>
+          </span>
+        </Link>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
@@ -310,7 +321,7 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                 Back
               </button>
-              <h1 className="text-3xl font-black tracking-tight">Compare Deals</h1>
+              <h1 className="text-3xl font-black">Compare Deals</h1>
               <span className="rounded-full bg-[var(--champagne)] px-3 py-1 text-sm font-black text-[var(--graphite)]">
                 {savedResults.length}
               </span>
