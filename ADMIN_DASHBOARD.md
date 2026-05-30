@@ -2,7 +2,7 @@
 
 ## Overview
 
-The admin dashboard provides monitoring, management, and configuration for the Dealscan platform. It is accessible at `/admin` and is fully client-side with localStorage persistence — no paid services required.
+The admin dashboard provides monitoring, management, and configuration for the Dealscan platform. It is accessible at `/admin` and uses localStorage persistence for demo data, with server-side token login for admin access.
 
 ## Architecture
 
@@ -19,14 +19,14 @@ The admin dashboard provides monitoring, management, and configuration for the D
 
 | Storage | Purpose | Upgrade Path |
 |---------|---------|--------------|
-| `localStorage` | Scans, audit log, settings, auth token | Supabase / Cloudflare D1 / Upstash |
+| `localStorage` | Scans, audit log, settings | Supabase / Cloudflare D1 / Upstash |
 | In-memory cache | API response deduplication (existing) | Cloudflare KV |
 | Mock data | Demo scans + audit entries (shown when empty) | Remove when real data flows |
 
 ### Auth
 
-- **Free tier**: `NEXT_PUBLIC_ADMIN_TOKEN` environment variable
-- Admin enters token on first visit → stored in `localStorage`
+- **Free tier**: server-only `ADMIN_TOKEN` environment variable
+- Admin enters token on first visit → server sets an HTTP-only session cookie
 - **Upgrade path**: Replace `AuthGate` with Supabase Auth, Clerk, or NextAuth.js
 
 ## Setup
@@ -35,7 +35,7 @@ The admin dashboard provides monitoring, management, and configuration for the D
 
 ```bash
 # In .env.local
-NEXT_PUBLIC_ADMIN_TOKEN=your-secret-admin-token
+ADMIN_TOKEN=your-secret-admin-token
 ```
 
 ### 2. Start the app
@@ -112,16 +112,15 @@ adminStore.logout()                      // void
 ### Environment Variables (required for admin)
 
 ```
-NEXT_PUBLIC_ADMIN_TOKEN=<your-admin-token>
+ADMIN_TOKEN=<your-admin-token>
 ```
 
 ### Cloudflare Pages
 
-Add `NEXT_PUBLIC_ADMIN_TOKEN` to your Cloudflare Pages environment variables.
+Add `ADMIN_TOKEN` to your Cloudflare Pages environment variables.
 
 ### Security Notes
 
-- `NEXT_PUBLIC_ADMIN_TOKEN` is prefixed with `NEXT_PUBLIC_` because the auth check happens client-side
-- This is acceptable for the free tier — the token gates the admin UI, not sensitive server data
-- For production with real user data, switch to server-side auth (Supabase Auth, Clerk, etc.)
+- Admin login is checked server-side and stored in an HTTP-only cookie.
+- This is still a lightweight demo admin system. For production with real user data, use full server-side auth with users, roles, audit trails, and session rotation.
 - Admin pages have `robots: { index: false, follow: false }` to prevent search indexing

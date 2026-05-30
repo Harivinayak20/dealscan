@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { adminStore } from "@/lib/admin-store";
 import { CarFront, ShieldAlert } from "lucide-react";
 
@@ -10,11 +10,32 @@ type AuthGateProps = {
 };
 
 export function AuthGate({ children }: AuthGateProps) {
-  const [authenticated, setAuthenticated] = useState(() => adminStore.isAuthenticated());
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/admin/session")
+      .then((res) => res.json() as Promise<{ authenticated?: boolean }>)
+      .then((data) => {
+        if (isMounted) setAuthenticated(Boolean(data.authenticated));
+      })
+      .catch(() => {
+        if (isMounted) setAuthenticated(false);
+      })
+      .finally(() => {
+        if (isMounted) setCheckingSession(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
@@ -23,13 +44,31 @@ export function AuthGate({ children }: AuthGateProps) {
       return;
     }
 
-    const success = adminStore.authenticate(token.trim());
-    if (success) {
-      document.cookie = `admin_token=${encodeURIComponent(token.trim())}; path=/; max-age=86400; SameSite=Lax`;
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ token: token.trim() }),
+      });
+      const data = await response.json() as { error?: string };
+      if (!response.ok) {
+        setError(data.error ?? "Invalid token.");
+        return;
+      }
+
+      adminStore.addAuditEntry({ action: "Login", adminEmail: "admin@dealscan.dev", details: "Admin user logged in." });
       setAuthenticated(true);
-    } else {
-      setError("Invalid token. Check your ADMIN_TOKEN environment variable.");
+    } catch {
+      setError("Admin login failed. Try again.");
     }
+  }
+
+  if (checkingSession) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[rgba(244,240,232,0.94)] px-4">
+        <div className="text-sm font-bold text-neutral-600">Checking admin session...</div>
+      </div>
+    );
   }
 
   if (authenticated) {
@@ -80,7 +119,7 @@ export function AuthGate({ children }: AuthGateProps) {
         </form>
 
         <p className="mt-6 text-center text-xs text-neutral-500">
-          Set <code className="rounded bg-neutral-100 px-1.5 py-0.5 font-bold">NEXT_PUBLIC_ADMIN_TOKEN</code> in your environment.
+          Set <code className="rounded bg-neutral-100 px-1.5 py-0.5 font-bold">ADMIN_TOKEN</code> in your server environment.
         </p>
       </div>
     </div>

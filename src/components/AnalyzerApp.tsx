@@ -17,6 +17,10 @@ import { extractVin } from "@/lib/vin-decoder";
 import type { VinDecodeResult } from "@/lib/vin-decoder";
 
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
+import { CompareInputPanel } from "@/components/CompareInputPanel";
+import { ComparisonResultView } from "@/components/ComparisonResultView";
+import type { ComparisonResult, ListingDraft } from "@/lib/compare-listings";
+import { computeComparison, draftToRequestText, draftVehicleTitle } from "@/lib/compare-listings";
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
 import { adminStore } from "@/lib/admin-store";
@@ -95,7 +99,7 @@ export function AnalyzerApp() {
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
-  const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare">("analyzer");
+  const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare" | "comparison-result">("analyzer");
   const [demoMode, setDemoMode] = useState(false);
   const [savedResults, setSavedResults] = useState<SavedResult[]>(() => loadSavedResults<SavedResult>());
   const [isLoading, setIsLoading] = useState(false);
@@ -104,9 +108,12 @@ export function AnalyzerApp() {
   const [error, setError] = useState("");
   const [sourceNotice, setSourceNotice] = useState("");
   const [lastAnalyzedText, setLastAnalyzedText] = useState("");
+  const [compareMode, setCompareMode] = useState(false);
+  const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
+  const [isComparing, setIsComparing] = useState(false);
 
   const analysisText = inputType === "manual" ? manualDetailsToText(manualDetails) : listingText.trim();
-  const isBusy = isLoading || isScraping || isOcrLoading;
+  const isBusy = isLoading || isScraping || isOcrLoading || isComparing;
 
   useEffect(() => {
     saveSavedResults(savedResults);
@@ -330,6 +337,54 @@ export function AnalyzerApp() {
     });
   }
 
+  async function analyzeCompare(a: ListingDraft, b: ListingDraft) {
+    setIsComparing(true);
+    setError("");
+    setComparisonResult(null);
+
+    async function analyzeDraft(draft: ListingDraft): Promise<AnalyzeListingResult | null> {
+      const text = draftToRequestText(draft);
+      if (!text) return null;
+      try {
+        const res = await fetch("/api/analyze-listing", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ inputType: "text", listingText: text, sourceUrl: draft.state === "url" ? draft.url : undefined }),
+        });
+        if (!res.ok) {
+          const errBody = await res.json().catch(() => ({})) as { error?: string };
+          throw new Error(errBody.error || `Server returned ${res.status}`);
+        }
+        const data = await res.json() as { result: AnalyzeListingResult };
+        return data.result;
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    let resultA: AnalyzeListingResult | null = null;
+    let resultB: AnalyzeListingResult | null = null;
+    try {
+      [resultA, resultB] = await Promise.all([analyzeDraft(a), analyzeDraft(b)]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Comparison failed");
+      setIsComparing(false);
+      return;
+    }
+
+    const aTitle = a.state === "url" ? draftVehicleTitle(a) : [a.manual.year, a.manual.make, a.manual.model].filter(Boolean).join(" ") || "Car A";
+    const bTitle = b.state === "url" ? draftVehicleTitle(b) : [b.manual.year, b.manual.make, b.manual.model].filter(Boolean).join(" ") || "Car B";
+
+    const comp = computeComparison(resultA, resultB);
+    setComparisonResult({
+      ...comp,
+      aTitle: aTitle || comp.aTitle,
+      bTitle: bTitle || comp.bTitle,
+    });
+    setViewMode("comparison-result");
+    setIsComparing(false);
+  }
+
   function loadExampleListing(text: string) {
     setInputType("text");
     setListingUrl("");
@@ -389,6 +444,15 @@ export function AnalyzerApp() {
     setScreenshotPreviewUrl(null);
     setScreenshotDataUrl(null);
     setViewMode("analyzer");
+  }
+
+  if (comparisonResult && viewMode === "comparison-result") {
+    return (
+      <ComparisonResultView
+        comparison={comparisonResult}
+        onBack={() => { setViewMode("analyzer"); setComparisonResult(null); }}
+      />
+    );
   }
 
   if (viewMode === "compare") {
@@ -513,16 +577,50 @@ export function AnalyzerApp() {
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase text-[var(--racing-green)]">Check the car</p>
-                <h2 className="mt-1 text-2xl font-black">Check a listing</h2>
+                <p className="text-xs font-black uppercase text-[var(--racing-green)]">
+                  {compareMode ? "Compare cars" : "Check the car"}
+                </p>
+                <h2 className="mt-1 text-2xl font-black">
+                  {compareMode ? "Compare two listings" : "Check a listing"}
+                </h2>
               </div>
-              <a
-                href="#market-data"
-                className="rounded-full border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] px-3 py-2 text-xs font-black text-[var(--racing-green)] transition hover:-translate-y-1 hover:bg-[rgba(18,61,51,0.10)]"
-              >
-                How it works
-              </a>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCompareMode(false)}
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-black transition ${
+                    !compareMode
+                      ? "bg-[var(--accent-2)] text-white"
+                      : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                  }`}
+                >
+                  Single
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCompareMode(true)}
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-black transition ${
+                    compareMode
+                      ? "bg-[var(--accent-2)] text-white"
+                      : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                  }`}
+                >
+                  Compare
+                </button>
+              </div>
             </div>
+
+            {compareMode ? (
+              <div className="mt-5">
+                <CompareInputPanel
+                  onCompare={(a, b) => {
+                    void analyzeCompare(a, b);
+                  }}
+                  isBusy={isBusy}
+                />
+              </div>
+            ) : (
+              <>
             <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Ways to check a car listing">
               {inputMethods.map((method) => (
                 (() => {
@@ -698,14 +796,6 @@ export function AnalyzerApp() {
               </div>
             </div>
 
-            {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
-            {sourceNotice ? (
-              <p className="notice mt-4">
-                {sourceNotice}
-              </p>
-            ) : null}
-            {isBusy ? <div className="mt-4"><LoadingState /></div> : null}
-
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="button"
@@ -724,6 +814,15 @@ export function AnalyzerApp() {
                 Check deal
               </button>
             </div>
+            </>
+            )}
+            {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
+            {sourceNotice ? (
+              <p className="notice mt-4">
+                {sourceNotice}
+              </p>
+            ) : null}
+            {isBusy ? <div className="mt-4"><LoadingState /></div> : null}
           </section>
         </div>
       </section>
@@ -1003,6 +1102,8 @@ export function AnalyzerApp() {
             <div>
               <h3 className="text-sm font-black uppercase text-[var(--ivory)]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
+                <li><a href="/pricing" className="transition hover:text-[var(--champagne)]">Pricing</a></li>
+                <li><a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a></li>
                 <li><span className="text-white/40">Contact: hello@dealscan.dev</span></li>
                 <li><span className="text-white/40">Built by Car IQ Inc.</span></li>
               </ul>

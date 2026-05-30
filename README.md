@@ -112,7 +112,7 @@ See [ADMIN_DASHBOARD.md](./ADMIN_DASHBOARD.md) for full documentation.
 Quick start:
 ```bash
 # Set an admin token in .env.local
-NEXT_PUBLIC_ADMIN_TOKEN=my-secret-token
+ADMIN_TOKEN=my-secret-token
 
 # Open http://localhost:3000/admin and enter the token
 ```
@@ -134,7 +134,6 @@ Client-safe variables:
 
 ```bash
 NEXT_PUBLIC_APP_URL=
-NEXT_PUBLIC_ADMIN_TOKEN=         # Required for admin dashboard access
 NEXT_PUBLIC_HISTORY_REPORT_URL=
 NEXT_PUBLIC_INSURANCE_URL=
 NEXT_PUBLIC_LOAN_URL=
@@ -149,6 +148,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 Server-only variables:
 
 ```bash
+ADMIN_TOKEN=                     # Required for admin dashboard access
 GROQ_API_KEY=
 GROQ_MODEL=
 GROQ_VISION_MODEL=

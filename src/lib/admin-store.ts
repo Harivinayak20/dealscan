@@ -173,15 +173,12 @@ export const adminStore = {
   },
 
   isAuthenticated(): boolean {
-    return !!read<string>(STORAGE_KEYS.auth, "");
+    return false;
   },
 
   authenticate(token: string): boolean {
-    const expected = process.env.NEXT_PUBLIC_ADMIN_TOKEN;
-    if (!expected || token !== expected) return false;
-    write(STORAGE_KEYS.auth, token);
-    this.addAuditEntry({ action: "Login", adminEmail: "admin@dealscan.dev", details: "Admin user logged in." });
-    return true;
+    void token;
+    return false;
   },
 
   logout(): void {

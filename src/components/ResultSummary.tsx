@@ -293,6 +293,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                   {result.verdict}
                 </div>
                 <p className="text-xs font-bold text-neutral-500">{tone.label} confidence: {result.confidence}</p>
+                <p className="mt-1 text-[10px] leading-4 text-neutral-400">Informational only &mdash; verify VIN, title, and inspection yourself.</p>
               </div>
               <div>
                 <div className="grid gap-3 sm:grid-cols-2">

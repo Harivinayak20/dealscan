@@ -29,9 +29,13 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  function handleLogout() {
+  async function handleLogout() {
     adminStore.logout();
-    document.cookie = "admin_token=; path=/; max-age=0; SameSite=Lax";
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch {
+      /* ignore */
+    }
     router.push("/admin");
   }
 

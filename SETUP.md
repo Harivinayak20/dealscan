@@ -4,7 +4,7 @@
 - [ ] Run `npm install`.
 - [ ] Copy `.env.example` to `.env.local`.
 - [ ] Add `GROQ_API_KEY` to `.env.local`.
-- [ ] Add `NEXT_PUBLIC_ADMIN_TOKEN` to `.env.local` (for admin dashboard).
+- [ ] Add `ADMIN_TOKEN` to `.env.local` (for admin dashboard).
 - [ ] Run `npm run dev`.
 - [ ] Open `http://localhost:3000`.
 - [ ] Test a public listing URL.

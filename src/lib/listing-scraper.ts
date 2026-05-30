@@ -1,5 +1,6 @@
 import { LISTING_TEXT_MAX_LENGTH } from "./listing-validation.ts";
 import { parseSafeHttpUrl } from "./url-safety.ts";
+import { ExtractionCache } from "./extraction-cache.ts";
 
 const MAX_HTML_BYTES = 1_500_000;
 const MAX_REDIRECTS = 4;
@@ -158,14 +159,14 @@ async function readLimitedText(response: Response) {
   return new TextDecoder().decode(Uint8Array.from(chunks.flatMap((chunk) => Array.from(chunk))));
 }
 
-async function fetchWithSafeRedirects(startUrl: URL, fetcher: FetchLike) {
+async function fetchWithSafeRedirects(startUrl: URL, fetcher: FetchLike, userAgent?: string) {
   let currentUrl = startUrl;
 
   for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
     const response = await fetcher(currentUrl, {
       headers: {
         accept: "text/html,application/xhtml+xml",
-        "user-agent": "DealscanBot/1.0 (+https://dealscan.dev)",
+        "user-agent": userAgent ?? "DealscanBot/1.0 (+https://dealscan.dev)",
       },
       redirect: "manual",
     });
@@ -188,30 +189,74 @@ async function fetchWithSafeRedirects(startUrl: URL, fetcher: FetchLike) {
 }
 
 export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetch): Promise<ScrapedListing> {
+  // Check cache first
+  const cached = ExtractionCache.get(rawUrl);
+  if (cached) {
+    return {
+      url: rawUrl,
+      title: cached.title,
+      text: cached.text,
+      engine: "safe-fetch",
+    };
+  }
+
   const safeUrl = parseSafeHttpUrl(rawUrl);
-  const { response, finalUrl } = await fetchWithSafeRedirects(safeUrl, fetcher);
 
-  if (!response.ok) {
-    throw new Error(`Listing page returned HTTP ${response.status}.`);
+  // User agent rotation to appear more like a regular browser
+  const userAgents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:89.0) Gecko/20100101 Firefox/89.0",
+  ];
+  const userAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+
+  let lastError: Error | null = null;
+  const maxAttempts = 3;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      const { response, finalUrl } = await fetchWithSafeRedirects(safeUrl, fetcher, userAgent);
+
+      if (!response.ok) {
+        throw new Error(`Listing page returned HTTP ${response.status}.`);
+      }
+
+      const contentType = response.headers.get("content-type") ?? "";
+
+      if (contentType && !/text\/html|application\/xhtml\+xml/i.test(contentType)) {
+        throw new Error("Listing URL did not return an HTML page.");
+      }
+
+      const html = await readLimitedText(response);
+      const extracted = extractListingTextFromHtml(html);
+
+      if (extracted.text.length < 80) {
+        throw new Error("Could not extract enough listing text from that page.");
+      }
+
+      const result: ScrapedListing = {
+        url: finalUrl.toString(),
+        title: extracted.title,
+        text: extracted.text,
+        engine: "safe-fetch",
+      };
+
+      // Cache successful extraction
+      ExtractionCache.set(rawUrl, { title: extracted.title, text: extracted.text });
+
+      return result;
+    } catch (err) {
+      lastError = err as Error;
+      // If this is not the last attempt, wait before retrying
+      if (attempt < maxAttempts - 1) {
+        // Exponential backoff: 100ms, 200ms, 400ms
+        await new Promise(resolve => setTimeout(resolve, 100 * Math.pow(2, attempt)));
+      }
+    }
   }
 
-  const contentType = response.headers.get("content-type") ?? "";
-
-  if (contentType && !/text\/html|application\/xhtml\+xml/i.test(contentType)) {
-    throw new Error("Listing URL did not return an HTML page.");
-  }
-
-  const html = await readLimitedText(response);
-  const extracted = extractListingTextFromHtml(html);
-
-  if (extracted.text.length < 80) {
-    throw new Error("Could not extract enough listing text from that page.");
-  }
-
-  return {
-    url: finalUrl.toString(),
-    title: extracted.title,
-    text: extracted.text,
-    engine: "safe-fetch",
-  };
+  // If we get here, all attempts failed
+  throw lastError ?? new Error("Unknown error during extraction");
 }

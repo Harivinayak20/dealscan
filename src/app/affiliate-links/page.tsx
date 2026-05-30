@@ -108,8 +108,11 @@ export default function AffiliateLinksPage() {
           })}
         </section>
 
-        <p className="mt-8 rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-base leading-7 text-neutral-700">
-          Affiliate disclosure: Dealscan.dev may earn a commission from qualifying purchases.
+        <p className="mt-8 rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-neutral-600">
+          <strong className="text-neutral-700">Affiliate disclosure:</strong> Some links on this page are affiliate links.
+          Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you.
+          This does not influence our deal analysis or scoring. All recommendations are based on
+          independent evaluation of listing data, not on partner relationships.
         </p>
       </div>
     </main>
