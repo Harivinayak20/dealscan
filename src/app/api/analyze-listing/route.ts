@@ -6,8 +6,6 @@ import { getAiProviderConfig, runGroqAnalysis } from "@/lib/ai-providers";
 import { analyzeListingLocally } from "@/lib/local-analyzer";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
-export const runtime = "edge";
-
 export async function POST(request: Request) {
   const limit = 10;
   const rl = checkRateLimit(request, limit);

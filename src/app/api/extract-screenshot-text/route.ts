@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { extractScreenshotTextWithGroq } from "@/lib/groq-vision";
 
-export const runtime = "edge";
-
 export async function POST(request: Request) {
   let imageDataUrl: string;
 
