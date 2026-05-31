@@ -33,6 +33,10 @@ import { MarketVisualizer } from "@/components/MarketVisualizer";
 import { WatchButton } from "@/components/WatchButton";
 import { ShareByEmail } from "@/components/ShareByEmail";
 import { detectSource } from "@/lib/dealer-detector";
+import {
+  buildVehicleImageQuery,
+  getCuratedVehicleImage,
+} from "@/lib/vehicle-image";
 
 const trustLayerStatements = [
   "Dealscan.dev provides estimates based on listing information, not guarantees.",
@@ -194,6 +198,16 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
   const detectedYear = yearFromVin || (titleWords[0]?.match(/^(19|20)\d{2}$/) ? titleWords[0] : null);
   const detectedMake = makeFromVin || (titleWords.length > 1 ? titleWords[1] : null);
   const detectedModel = modelFromVin || (titleWords.length > 2 ? titleWords.slice(2).join(" ") : null);
+  const vehicleImageQuery = buildVehicleImageQuery({
+    year: detectedYear,
+    make: detectedMake,
+    model: detectedModel,
+    vehicleTitle,
+  });
+  const curatedVehicleImage = getCuratedVehicleImage(vehicleImageQuery);
+  const [failedVehicleImageUrl, setFailedVehicleImageUrl] = useState("");
+  const vehicleImage = curatedVehicleImage;
+  const vehicleImageFailed = !!vehicleImage && failedVehicleImageUrl === vehicleImage.url;
   const reportHref = `data:application/json;charset=utf-8,${encodeURIComponent(
     JSON.stringify({ vehicleTitle, sourceText, result }, null, 2),
   )}`;
@@ -226,13 +240,33 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
         <div className="grid gap-4" id="report">
           <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
             <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)_auto] md:items-center">
-              <div className="min-h-28 overflow-hidden rounded-xl bg-[var(--graphite)]">
-                <img
-                  src="/porsche-911-track-black.jpg"
-                  alt="Rear view of a black Porsche GT3 RS with a large wing"
-                  loading="lazy"
-                  className="h-full min-h-28 w-full object-cover object-[72%_54%]"
-                />
+              <div className="relative min-h-28 overflow-hidden rounded-xl bg-[var(--graphite)]">
+                {vehicleImage && !vehicleImageFailed ? (
+                  <>
+                    <img
+                      src={vehicleImage.url}
+                      alt={vehicleImage.alt}
+                      loading="lazy"
+                      onError={() => setFailedVehicleImageUrl(vehicleImage.url)}
+                      className="h-full min-h-28 w-full object-cover"
+                    />
+                    <a
+                      href={vehicleImage.sourceUrl}
+                      className="absolute bottom-2 left-2 right-2 truncate rounded-md bg-black/60 px-2 py-1 text-[10px] font-bold text-white/90 backdrop-blur-sm"
+                      title={vehicleImage.credit}
+                    >
+                      {vehicleImage.credit}
+                    </a>
+                  </>
+                ) : (
+                  <div className="grid min-h-28 place-items-center bg-[linear-gradient(135deg,var(--graphite),var(--racing-green))] px-4 text-center text-[var(--ivory)]">
+                    <div>
+                      <CarFront className="mx-auto h-9 w-9 text-[var(--champagne)]" aria-hidden="true" />
+                      <p className="mt-2 text-xs font-black uppercase tracking-wide">Vehicle image unavailable</p>
+                      <p className="mt-1 text-xs text-white/70">{vehicleImageQuery || "Add make and model"}</p>
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
                 <h1 className="text-3xl font-black text-[var(--graphite)]">{vehicleTitle}</h1>

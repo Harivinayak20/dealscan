@@ -744,10 +744,10 @@ export function AnalyzerApp() {
                   <div className="grid gap-3 sm:grid-cols-3">
                     {[
                       ["year", "Year", "2023"],
-                      ["make", "Make", "Porsche"],
-                      ["model", "Model", "911 GT3 RS"],
-                      ["mileage", "Mileage", "8,900 mi"],
-                      ["price", "Price", "$242,500"],
+                      ["make", "Make", "Chevrolet"],
+                      ["model", "Model", "Cruze"],
+                      ["mileage", "Mileage", "68,000 mi"],
+                      ["price", "Price", "$9,800"],
                       ["titleStatus", "Title", "Clean title"],
                     ].map(([key, label, placeholder]) => (
                       <label key={key} className="grid gap-1 text-xs font-black uppercase text-[#68756f]">
