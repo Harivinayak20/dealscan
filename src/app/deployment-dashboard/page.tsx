@@ -13,8 +13,6 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-const repoBaseUrl = "https://github.com/Harivinayak20/dealscan/blob/main";
-
 const liveChecks = [
   { label: "Homepage", target: "https://dealscan.pages.dev/", status: "200" },
   { label: "Pricing", target: "https://dealscan.pages.dev/pricing", status: "200" },
@@ -161,11 +159,11 @@ export default function DeploymentDashboardPage() {
         <section className="mt-8 card-elevated">
           <h2 className="text-xl font-black">Docs</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <DocLink href={`${repoBaseUrl}/docs/cloudflare-recovery-runbook.md`} label="Cloudflare Recovery Runbook" />
-            <DocLink href={`${repoBaseUrl}/docs/deployment-evidence-log.md`} label="Deployment Evidence Log" />
+            <DocLink href="/docs/cloudflare-recovery-runbook.md" label="Cloudflare Recovery Runbook" />
+            <DocLink href="/docs/deployment-evidence-log.md" label="Deployment Evidence Log" />
           </div>
           <p className="mt-4 text-sm text-neutral-500">
-            These markdown files live in the repo under `docs/` for source control review.
+            These markdown files also live in the repo under `docs/` for source control review.
           </p>
         </section>
       </div>
