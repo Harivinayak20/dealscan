@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 const COOKIE_NAME = "admin_token";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const expectedToken = process.env.ADMIN_TOKEN;
 

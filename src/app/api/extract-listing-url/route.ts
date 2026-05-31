@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { scrapeListingUrl } from "@/lib/listing-scraper";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const limit = 8;
   const rl = checkRateLimit(request, limit);
