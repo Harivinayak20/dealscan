@@ -8,6 +8,7 @@ This file records the recovery evidence for `dealscan.pages.dev` so the deployme
 | --- | --- |
 | Date checked | 2026-05-31 UTC |
 | Production URL | `https://dealscan.pages.dev` |
+| Deployment dashboard | `https://dealscan.pages.dev/deployment-dashboard` |
 | Cloudflare account ID | `1958f1c605fb709bca15586dd8263076` |
 | Cloudflare project | `dealscan` |
 | GitHub repo | `Harivinayak20/dealscan` |
@@ -18,6 +19,18 @@ This file records the recovery evidence for `dealscan.pages.dev` so the deployme
 | Commit message | `Fix production metadata URL` |
 | Deployment trigger | `github:push` |
 | GitHub check | `Cloudflare Pages`, `success` |
+
+## Dashboard Access Evidence
+
+The deployment dashboard and `/docs/` markdown copies are intended for owner/admin use only. They are protected by middleware using the existing `ADMIN_TOKEN` admin session cookie.
+
+Expected behavior:
+
+```text
+Anonymous GET /deployment-dashboard -> redirect to /admin
+Anonymous GET /docs/cloudflare-recovery-runbook.md -> redirect to /admin
+Authenticated admin session -> dashboard/docs visible
+```
 
 ## Recovery Timeline
 
@@ -81,4 +94,3 @@ Cloudflare Pages build: passed
 - GitHub can still be correctly connected even when the dashboard is not visible through the current Cloudflare web session.
 - The Cloudflare connector/API is the reliable source of truth for this recovery path when it is scoped to account `1958f1c605fb709bca15586dd8263076`.
 - No new domain was created during this recovery.
-

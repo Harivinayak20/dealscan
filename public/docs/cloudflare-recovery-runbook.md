@@ -7,6 +7,7 @@ Use this when `dealscan.pages.dev` is live but Cloudflare dashboard access, GitH
 | Item | Value |
 | --- | --- |
 | Production URL | `https://dealscan.pages.dev` |
+| Deployment dashboard | `https://dealscan.pages.dev/deployment-dashboard` |
 | Cloudflare account ID | `1958f1c605fb709bca15586dd8263076` |
 | Cloudflare Pages project | `dealscan` |
 | GitHub repo | `Harivinayak20/dealscan` |
@@ -16,6 +17,15 @@ Use this when `dealscan.pages.dev` is live but Cloudflare dashboard access, GitH
 | Compatibility flag | `nodejs_compat` |
 | Required env var | `NEXT_PUBLIC_APP_URL=https://dealscan.pages.dev` |
 | Optional env vars | `AI_PROVIDER`, `GROQ_API_KEY`, `ADMIN_TOKEN` |
+
+## Dashboard Access
+
+The deployment dashboard and public markdown copies under `/docs/` are protected by the same server-side `ADMIN_TOKEN` cookie used for `/admin`.
+
+- Anonymous users should be redirected to `/admin`.
+- If `ADMIN_TOKEN` is missing in Cloudflare Pages, nobody can access the protected dashboard.
+- To grant access, set `ADMIN_TOKEN` in Cloudflare Pages production and preview environment variables, then sign in through `/admin`.
+- Do not paste the admin token into source files, docs, screenshots, tickets, or commit messages.
 
 ## What Failed Before
 
@@ -132,4 +142,3 @@ git push origin main
 - Do not create, rename, or assign a new domain.
 - Do not uninstall or suspend the GitHub Cloudflare app.
 - Do not remove `dealscan.pages.dev` unless the owner explicitly asks for takedown.
-
