@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: "Dealscan — AI-Powered Used Car Listing Analyzer",
   description:
     "Paste any used car listing and get a clear deal score, red flags, market price range, and negotiation guidance before you message the seller.",
@@ -24,6 +27,7 @@ export const metadata: Metadata = {
     title: "Dealscan — Used Car Deal Checker",
     description:
       "Score any used car listing in seconds. Know the car, not the hype.",
+    url: appUrl,
     siteName: "Dealscan",
     type: "website",
     locale: "en_US",
@@ -44,7 +48,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "Dealscan",
-  url: "https://dealscan.pages.dev",
+  url: appUrl,
   description:
     "AI-powered used car listing analyzer that scores listings, detects red flags, estimates fair prices, and provides negotiation guidance.",
   applicationCategory: "Automotive",
