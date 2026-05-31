@@ -20,12 +20,13 @@ Use this when `dealscan.pages.dev` is live but Cloudflare dashboard access, GitH
 
 ## Dashboard Access
 
-The deployment dashboard and public markdown copies under `/docs/` are protected by the same server-side `ADMIN_TOKEN` cookie used for `/admin`.
+The deployment dashboard is protected by the same server-side `ADMIN_TOKEN` cookie used for `/admin`.
 
 - Anonymous users should be redirected to `/admin`.
 - If `ADMIN_TOKEN` is missing in Cloudflare Pages, nobody can access the protected dashboard.
 - To grant access, set `ADMIN_TOKEN` in Cloudflare Pages production and preview environment variables, then sign in through `/admin`.
 - Do not paste the admin token into source files, docs, screenshots, tickets, or commit messages.
+- Recovery markdown files live in the repo under `docs/` and are not served as public `/docs/*` files.
 
 ## What Failed Before
 

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import {
   Activity,
   ArrowLeft,
@@ -45,7 +47,17 @@ export const metadata = {
   },
 };
 
-export default function DeploymentDashboardPage() {
+export const runtime = "edge";
+
+export default async function DeploymentDashboardPage() {
+  const expectedToken = process.env.ADMIN_TOKEN;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_token")?.value;
+
+  if (!expectedToken || token !== expectedToken) {
+    redirect("/admin");
+  }
+
   return (
     <main className="min-h-screen bg-[rgba(244,240,232,0.94)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -158,12 +170,8 @@ export default function DeploymentDashboardPage() {
 
         <section className="mt-8 card-elevated">
           <h2 className="text-xl font-black">Docs</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <DocLink href="/docs/cloudflare-recovery-runbook.md" label="Cloudflare Recovery Runbook" />
-            <DocLink href="/docs/deployment-evidence-log.md" label="Deployment Evidence Log" />
-          </div>
           <p className="mt-4 text-sm text-neutral-500">
-            These markdown files also live in the repo under `docs/` for source control review.
+            Recovery docs are stored in the repo under `docs/` for source control review. They are intentionally not served as public files.
           </p>
         </section>
       </div>
@@ -195,17 +203,5 @@ function StatusCard({
         </div>
       </div>
     </div>
-  );
-}
-
-function DocLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      className="flex items-center justify-between gap-3 rounded-lg border border-[rgba(32,40,35,0.08)] bg-white px-4 py-3 text-sm font-black transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:shadow-sm"
-    >
-      {label}
-      <ExternalLink className="h-4 w-4 text-neutral-400" aria-hidden="true" />
-    </a>
   );
 }

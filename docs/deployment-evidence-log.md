@@ -22,14 +22,14 @@ This file records the recovery evidence for `dealscan.pages.dev` so the deployme
 
 ## Dashboard Access Evidence
 
-The deployment dashboard and `/docs/` markdown copies are intended for owner/admin use only. They are protected by middleware using the existing `ADMIN_TOKEN` admin session cookie.
+The deployment dashboard is intended for owner/admin use only. It is protected by the existing `ADMIN_TOKEN` admin session cookie.
 
 Expected behavior:
 
 ```text
 Anonymous GET /deployment-dashboard -> redirect to /admin
-Anonymous GET /docs/cloudflare-recovery-runbook.md -> redirect to /admin
 Authenticated admin session -> dashboard/docs visible
+GET /docs/cloudflare-recovery-runbook.md -> not publicly served
 ```
 
 ## Recovery Timeline
