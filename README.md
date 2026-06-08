@@ -141,6 +141,12 @@ NEXT_PUBLIC_INSPECTION_URL=
 NEXT_PUBLIC_PARTS_URL=
 NEXT_PUBLIC_OBD_SCANNER_URL=
 NEXT_PUBLIC_DETAILING_KIT_URL=
+NEXT_PUBLIC_ENABLE_ADSENSE=false
+NEXT_PUBLIC_ADSENSE_CLIENT_ID=
+NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=
+NEXT_PUBLIC_ADSENSE_HOME_SLOT=
+NEXT_PUBLIC_ADSENSE_IN_ARTICLE_SLOT=
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
@@ -155,6 +161,7 @@ GROQ_VISION_MODEL=
 MARKET_DATA_API_KEY=
 VIN_HISTORY_API_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+ADSENSE_PUBLISHER_ID=             # Optional server-only ads.txt publisher ID, e.g. pub-0000000000000000
 ```
 
 ## Cloudflare Pages
@@ -193,10 +200,14 @@ NEXT_PUBLIC_APP_URL=https://dealscan.pages.dev
 
 ## Deployment Checklist
 
+- Review `docs/ads-readiness.md` before enabling ads or affiliate monetization.
 - `npm run build` passes
 - `npm run test` passes
 - Cloudflare Pages environment variables are set
 - Server-only keys are not exposed client-side
+- AdSense remains disabled until approved IDs are configured and `NEXT_PUBLIC_ENABLE_ADSENSE=true`
+- `/ads.txt`, `/robots.txt`, `/sitemap.xml`, `/privacy`, `/terms`, `/cookies`, `/about`, `/contact`, and `/guides` respond successfully
+- EEA, UK, and Switzerland ad serving is not enabled until AdSense Privacy & Messaging or another Google-certified CMP is configured
 - `nodejs_compat` is enabled
 - URL extraction remains guarded against private-network targets
 - Disclaimers remain visible in the product

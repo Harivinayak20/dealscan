@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { ArrowLeft, CarFront, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Dealscan Privacy Policy",
+  description: "How Dealscan handles listing text, browser storage, third-party services, affiliate links, advertising, and cookies.",
+};
 
 export default function PrivacyPage() {
   return (
@@ -44,8 +50,8 @@ export default function PrivacyPage() {
           <div className="rounded-2xl border border-neutral-200 bg-white p-6">
             <h2 className="mb-3 text-lg font-black">What DealScan does not do</h2>
             <ul className="list-inside list-disc space-y-2">
-              <li>We do not sell, share, or monetize your personal data.</li>
-              <li>We do not track you across websites or sell advertising.</li>
+              <li>We do not sell your personal data.</li>
+              <li>We do not require an account to use the analyzer.</li>
               <li>We do not store your listing text or URLs after analysis is complete.</li>
               <li>We do not require cookies for core functionality.</li>
             </ul>
@@ -65,6 +71,16 @@ export default function PrivacyPage() {
               DealScan uses Groq for AI-powered analysis when configured. Listing text may be sent to Groq to generate a score and explanation,
               and that processing is governed by Groq&apos;s own terms and privacy policy. Marketplace and buyer-tool links may be affiliate links;
               clicking them opens the respective site under its own privacy policy.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+            <h2 className="mb-3 text-lg font-black">Advertising and cookies</h2>
+            <p className="text-sm leading-6">
+              DealScan may display ads when advertising services are configured. Third-party vendors, including Google, may use cookies to serve ads based on a user&apos;s prior visits to DealScan or other websites. Google and its partners may use advertising cookies, web beacons, IP addresses, device identifiers, and similar technologies to serve, personalize, measure, and improve ads.
+              You can review how Google uses ad data at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="font-bold text-[var(--racing-green)] underline">Google partner sites policy</a>,
+              manage Google ad personalization at <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" className="font-bold text-[var(--racing-green)] underline">Google Ad Settings</a>,
+              and review additional cookie details on our <Link href="/cookies" className="font-bold text-[var(--racing-green)] underline">Cookie Policy</Link>.
             </p>
           </div>
 

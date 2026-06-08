@@ -127,7 +127,6 @@ export default function AdminSettings() {
             { key: "groqEnabled", label: "Groq AI Analysis" },
             { key: "urlExtractionEnabled", label: "URL Extraction" },
             { key: "screenshotOcrEnabled", label: "Screenshot OCR" },
-            { key: "waitlistEnabled", label: "Waitlist / Email Signup" },
           ] as const).map(({ key, label }) => (
             <label key={key} className="flex items-center gap-3 rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3">
               <input

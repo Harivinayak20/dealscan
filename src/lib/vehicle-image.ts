@@ -5,6 +5,21 @@ export type VehicleImage = {
   sourceUrl: string;
 };
 
+export type CommonsImagePage = {
+  title?: string;
+  index?: number;
+  imageinfo?: Array<{
+    thumburl?: string;
+    url?: string;
+    descriptionurl?: string;
+    extmetadata?: {
+      Artist?: { value?: string };
+      LicenseShortName?: { value?: string };
+      ObjectName?: { value?: string };
+    };
+  }>;
+};
+
 type VehicleImageInput = {
   year?: string | null;
   make?: string | null;
@@ -76,7 +91,58 @@ export function getCuratedVehicleImage(query: string): VehicleImage | null {
 }
 
 export function vehicleImageSearchTerms(query: string): string {
-  const normalized = normalizeVehicleName(query);
+  const tokens = meaningfulTokens(query);
+  const normalized = tokens.join(" ") || normalizeVehicleName(query);
   if (!normalized) return "";
-  return `${normalized} car exterior`;
+  return `${normalized} car`;
+}
+
+function stripHtml(value: string): string {
+  return value.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+}
+
+function meaningfulTokens(query: string) {
+  return normalizeVehicleName(query)
+    .split(" ")
+    .filter((token) => token.length > 2 && !/^(19|20)\d{2}$/.test(token))
+    .slice(0, 4);
+}
+
+export function buildCommonsImageSearchUrl(query: string): string {
+  const searchTerms = vehicleImageSearchTerms(query);
+  const url = new URL("https://commons.wikimedia.org/w/api.php");
+  url.searchParams.set("action", "query");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("origin", "*");
+  url.searchParams.set("generator", "search");
+  url.searchParams.set("gsrnamespace", "6");
+  url.searchParams.set("gsrlimit", "6");
+  url.searchParams.set("gsrsearch", searchTerms);
+  url.searchParams.set("prop", "imageinfo");
+  url.searchParams.set("iiprop", "url|extmetadata");
+  url.searchParams.set("iiurlwidth", "800");
+  return url.toString();
+}
+
+export function imageFromCommonsPage(page: CommonsImagePage, query: string): VehicleImage | null {
+  const info = page.imageinfo?.[0];
+  const url = info?.thumburl || info?.url;
+  if (!url) return null;
+
+  const title = stripHtml(info?.extmetadata?.ObjectName?.value || page.title || query);
+  const searchableTitle = normalizeVehicleName(`${title} ${page.title ?? ""}`);
+  const tokens = meaningfulTokens(query);
+  if (tokens.length > 0 && !tokens.some((token) => searchableTitle.includes(token))) {
+    return null;
+  }
+
+  const artist = stripHtml(info?.extmetadata?.Artist?.value || "Wikimedia Commons contributor");
+  const license = stripHtml(info?.extmetadata?.LicenseShortName?.value || "Wikimedia Commons");
+
+  return {
+    url,
+    alt: `${title} vehicle photo`,
+    credit: `Photo: ${artist}, ${license}`,
+    sourceUrl: info?.descriptionurl || "https://commons.wikimedia.org/",
+  };
 }

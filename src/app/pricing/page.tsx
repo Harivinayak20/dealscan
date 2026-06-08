@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { ArrowLeft, CarFront, CheckCircle2, Sparkles, Building2, Zap } from "lucide-react";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Dealscan Pricing",
+  description: "Dealscan pricing for free used car listing analysis and future buyer tools.",
+};
 
 const tiers = [
   {

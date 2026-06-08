@@ -16,7 +16,13 @@
 - [ ] Test a manual listing.
 - [ ] Test an empty or vague listing and confirm the friendly error.
 - [ ] Test `/affiliate-links`.
+- [ ] Test `/guides`.
+- [ ] Test `/privacy`, `/terms`, `/cookies`, `/about`, and `/contact`.
+- [ ] Test `/ads.txt`, `/robots.txt`, and `/sitemap.xml`.
 - [ ] Test `/admin` — enter the admin token from `.env.local`.
 - [ ] Test admin dashboard, scans table, scan detail, settings, and audit log.
 - [ ] Add approved affiliate URLs.
+- [ ] Add approved AdSense publisher, client, and slot IDs only after account approval.
+- [ ] Configure AdSense Privacy & Messaging or another Google-certified CMP before serving ads to EEA, UK, or Switzerland visitors.
+- [ ] Keep `NEXT_PUBLIC_ENABLE_ADSENSE=false` until the site is approved and ready for ad traffic.
 - [ ] Deploy to Cloudflare Pages.

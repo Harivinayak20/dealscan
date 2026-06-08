@@ -8,8 +8,14 @@ import {
   ShoppingBag,
   Wrench,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { partnerLinks } from "@/lib/integration-links";
+
+export const metadata: Metadata = {
+  title: "Buyer Tools and Affiliate Links",
+  description: "Used car buyer tools for history reports, inspections, insurance quotes, payment estimates, OBD2 scanners, and detailing kits.",
+};
 
 const affiliateLinks = [
   {
@@ -81,6 +87,9 @@ export default function AffiliateLinksPage() {
           <p className="mt-5 max-w-2xl text-xl leading-8 text-neutral-700">
             History, inspection, insurance, payments, and simple tools in one place.
           </p>
+          <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-neutral-700">
+            <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you. This does not influence our deal analysis or scoring.
+          </p>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
@@ -108,11 +117,8 @@ export default function AffiliateLinksPage() {
           })}
         </section>
 
-        <p className="mt-8 rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-neutral-600">
-          <strong className="text-neutral-700">Affiliate disclosure:</strong> Some links on this page are affiliate links.
-          Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you.
-          This does not influence our deal analysis or scoring. All recommendations are based on
-          independent evaluation of listing data, not on partner relationships.
+        <p className="mt-8 text-sm leading-6 text-neutral-600">
+          Links open third-party sites under their own terms and privacy policies. Always verify pricing, title status, vehicle history, loan terms, insurance rates, and inspection findings independently.
         </p>
       </div>
     </main>

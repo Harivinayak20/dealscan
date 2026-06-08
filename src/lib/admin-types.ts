@@ -40,7 +40,6 @@ export type AdminSettings = {
     groqEnabled: boolean;
     urlExtractionEnabled: boolean;
     screenshotOcrEnabled: boolean;
-    waitlistEnabled: boolean;
   };
 };
 
@@ -63,7 +62,6 @@ export const DEFAULT_SETTINGS: AdminSettings = {
     groqEnabled: true,
     urlExtractionEnabled: true,
     screenshotOcrEnabled: true,
-    waitlistEnabled: true,
   },
 };
 

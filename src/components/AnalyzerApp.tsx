@@ -19,6 +19,8 @@ import type { VinDecodeResult } from "@/lib/vin-decoder";
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
 import { CompareInputPanel } from "@/components/CompareInputPanel";
 import { ComparisonResultView } from "@/components/ComparisonResultView";
+import { AdUnit } from "@/components/AdUnit";
+import { ADSENSE_HOME_SLOT } from "@/lib/adsense";
 import type { ComparisonResult, ListingDraft } from "@/lib/compare-listings";
 import { computeComparison, draftToRequestText, draftVehicleTitle } from "@/lib/compare-listings";
 import { partnerLinks } from "@/lib/integration-links";
@@ -515,6 +517,9 @@ export function AnalyzerApp() {
             <a href="/affiliate-links" className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
               Buyer tools
             </a>
+            <Link href="/guides" className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
+              Guides
+            </Link>
             {savedResults.length > 0 ? (
               <button
                 type="button"
@@ -835,6 +840,9 @@ export function AnalyzerApp() {
             <p className="mt-4 text-lg leading-8 text-neutral-700">
               History, inspection, insurance, payments, and simple tools.
             </p>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">
+              Some buyer-tool links may be affiliate links. Dealscan may earn a commission at no extra cost to you, and scoring stays independent.
+            </p>
             <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
               View all buyer tools
             </a>
@@ -907,6 +915,10 @@ export function AnalyzerApp() {
         </div>
       </section>
 
+      <section className="bg-[var(--mist)] px-5 py-8 sm:px-7">
+        <AdUnit slot={ADSENSE_HOME_SLOT} />
+      </section>
+
       <section id="how-it-works" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-[1560px]">
           <p className="text-sm font-black uppercase text-[var(--racing-green)]">See it in action</p>
@@ -958,70 +970,6 @@ export function AnalyzerApp() {
               Try it now
             </a>
           </div>
-        </div>
-      </section>
-
-      <section id="waitlist" className="relative overflow-hidden bg-[var(--racing-green)] px-5 py-16 text-[var(--ivory)] sm:px-7">
-        <div className="absolute left-[-12rem] top-[-8rem] h-[28rem] w-[28rem] rounded-full bg-[rgba(201,168,106,0.10)] blur-3xl" />
-        <div className="absolute right-[-10rem] bottom-[-6rem] h-[24rem] w-[24rem] rounded-full bg-[rgba(18,61,51,0.35)] blur-3xl" />
-        <div className="relative mx-auto max-w-2xl text-center">
-          <p className="text-sm font-black uppercase text-[var(--champagne)]">Stay updated</p>
-          <h2 className="mt-3 text-3xl font-black sm:text-4xl">Get better at buying cars</h2>
-          <p className="mt-4 text-lg leading-8 text-[var(--silver)]">
-            New features, market insights, and car-buying tips. No spam, just useful tools.
-          </p>
-          <form
-            className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={async (event) => {
-              event.preventDefault();
-              const form = event.target as HTMLFormElement;
-              const input = form.elements.namedItem("email") as HTMLInputElement;
-              const button = form.querySelector("button[type=submit]") as HTMLButtonElement;
-              const status = form.querySelector("[data-waitlist-status]") as HTMLElement;
-              if (!input?.value) return;
-              button.disabled = true;
-              button.textContent = "Subscribing...";
-              try {
-                const res = await fetch("/api/waitlist", {
-                  method: "POST",
-                  headers: { "content-type": "application/json" },
-                  body: JSON.stringify({ email: input.value }),
-                });
-                const data = await res.json();
-                if (status) {
-                  status.textContent = data.message || "Thanks for subscribing!";
-                  status.style.display = "block";
-                }
-                input.value = "";
-              } catch {
-                if (status) {
-                  status.textContent = "Something went wrong. Try again.";
-                  status.style.display = "block";
-                }
-              } finally {
-                button.disabled = false;
-                button.textContent = "Subscribe";
-              }
-            }}
-          >
-            <label className="sr-only" htmlFor="waitlist-email">Email address</label>
-            <input
-              id="waitlist-email"
-              name="email"
-              type="email"
-              required
-              placeholder="you@example.com"
-              className="min-h-14 flex-1 rounded-2xl border border-white/20 bg-white/[0.08] px-5 text-base text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] outline-none backdrop-blur-sm placeholder:text-white/45 focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.30)]"
-            />
-            <button
-              type="submit"
-              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[var(--champagne)] px-7 text-base font-black text-[var(--graphite)] shadow-[0_18px_48px_-24px_rgba(201,168,106,0.40)] transition hover:-translate-y-1 hover:bg-[var(--ivory)] hover:shadow-[0_18px_48px_-24px_rgba(244,240,232,0.50)]"
-            >
-              Subscribe
-            </button>
-          </form>
-          <p data-waitlist-status className="mt-4 hidden text-sm font-bold text-[var(--success)]" />
-          <p className="mt-2 text-sm text-white/45">No spam. Unsubscribe anytime.</p>
         </div>
       </section>
 
@@ -1088,6 +1036,7 @@ export function AnalyzerApp() {
                 <li><a href="#how-it-works" className="transition hover:text-[var(--champagne)]">How it works</a></li>
                 <li><a href="#faq" className="transition hover:text-[var(--champagne)]">FAQ</a></li>
                 <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
+                <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
               </ul>
             </div>
             <div>
@@ -1097,12 +1046,17 @@ export function AnalyzerApp() {
                 <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
                 <li><a href={partnerLinks.insurance} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Insurance quote</a></li>
                 <li><a href={partnerLinks.payments} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Loan calculator</a></li>
+                <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Used car guides</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-black uppercase text-[var(--ivory)]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="/pricing" className="transition hover:text-[var(--champagne)]">Pricing</a></li>
+                <li><a href="/about" className="transition hover:text-[var(--champagne)]">About</a></li>
+                <li><a href="/contact" className="transition hover:text-[var(--champagne)]">Contact</a></li>
+                <li><a href="/terms" className="transition hover:text-[var(--champagne)]">Terms</a></li>
+                <li><a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a></li>
                 <li><a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a></li>
                 <li><span className="text-white/40">Contact: hello@dealscan.dev</span></li>
                 <li><span className="text-white/40">Built by Car IQ Inc.</span></li>

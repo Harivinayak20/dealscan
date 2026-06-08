@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BadgeDollarSign,
@@ -34,8 +34,12 @@ import { WatchButton } from "@/components/WatchButton";
 import { ShareByEmail } from "@/components/ShareByEmail";
 import { detectSource } from "@/lib/dealer-detector";
 import {
+  buildCommonsImageSearchUrl,
   buildVehicleImageQuery,
   getCuratedVehicleImage,
+  imageFromCommonsPage,
+  type CommonsImagePage,
+  type VehicleImage,
 } from "@/lib/vehicle-image";
 
 const trustLayerStatements = [
@@ -205,12 +209,37 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
     vehicleTitle,
   });
   const curatedVehicleImage = getCuratedVehicleImage(vehicleImageQuery);
+  const [searchedVehicleImage, setSearchedVehicleImage] = useState<{ query: string; image: VehicleImage | null } | null>(null);
   const [failedVehicleImageUrl, setFailedVehicleImageUrl] = useState("");
-  const vehicleImage = curatedVehicleImage;
+  const vehicleImage = curatedVehicleImage ?? (searchedVehicleImage?.query === vehicleImageQuery ? searchedVehicleImage.image : null);
   const vehicleImageFailed = !!vehicleImage && failedVehicleImageUrl === vehicleImage.url;
   const reportHref = `data:application/json;charset=utf-8,${encodeURIComponent(
     JSON.stringify({ vehicleTitle, sourceText, result }, null, 2),
   )}`;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (!vehicleImageQuery || curatedVehicleImage) return;
+
+    fetch(buildCommonsImageSearchUrl(vehicleImageQuery))
+      .then((res) => res.json() as Promise<{ query?: { pages?: Record<string, CommonsImagePage> } }>)
+      .then((data) => {
+        const pages = Object.values(data.query?.pages || {}).sort((a, b) => (a.index ?? 999) - (b.index ?? 999));
+        const image = pages
+          .map((page) => imageFromCommonsPage(page, vehicleImageQuery))
+          .find((candidate): candidate is VehicleImage => Boolean(candidate));
+
+        if (isMounted) setSearchedVehicleImage({ query: vehicleImageQuery, image: image ?? null });
+      })
+      .catch(() => {
+        if (isMounted) setSearchedVehicleImage({ query: vehicleImageQuery, image: null });
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [vehicleImageQuery, curatedVehicleImage]);
 
   return (
     <section id="analysis-result" className="min-h-screen bg-[rgba(244,240,232,0.94)] text-[var(--graphite)]">
@@ -262,7 +291,9 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                   <div className="grid min-h-28 place-items-center bg-[linear-gradient(135deg,var(--graphite),var(--racing-green))] px-4 text-center text-[var(--ivory)]">
                     <div>
                       <CarFront className="mx-auto h-9 w-9 text-[var(--champagne)]" aria-hidden="true" />
-                      <p className="mt-2 text-xs font-black uppercase tracking-wide">Vehicle image unavailable</p>
+                      <p className="mt-2 text-xs font-black uppercase tracking-wide">
+                        {searchedVehicleImage?.query === vehicleImageQuery ? "Vehicle image unavailable" : "Finding vehicle image"}
+                      </p>
                       <p className="mt-1 text-xs text-white/70">{vehicleImageQuery || "Add make and model"}</p>
                     </div>
                   </div>

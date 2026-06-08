@@ -5,6 +5,9 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "remotion:studio": "remotion studio src/remotion/index.ts",
+    "remotion:preview": "remotion render src/remotion/index.ts DealScanPromo out/dealscan-promo-preview.mp4 --scale=0.25",
+    "remotion:render": "remotion render src/remotion/index.ts DealScanPromo out/dealscan-promo-4k.mp4",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -16,14 +19,17 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.11",
+    "@remotion/transitions": "4.0.469",
     "lucide-react": "^0.468.0",
     "next": "^16.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "remotion": "4.0.469",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@remotion/cli": "4.0.469",
     "@tailwindcss/postcss": "^4.1.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",

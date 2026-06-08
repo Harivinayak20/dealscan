@@ -1,5 +1,5 @@
 const CACHE = "dealscan-v1";
-const PRECACHE_URLS = ["/", "/affiliate-links"];
+const PRECACHE_URLS = ["/", "/affiliate-links", "/guides", "/privacy", "/contact", "/cookies"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

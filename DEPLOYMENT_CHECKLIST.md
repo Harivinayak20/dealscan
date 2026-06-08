@@ -4,6 +4,7 @@
 - [ ] `npm run dev` works.
 - [ ] `npm run build` works.
 - [ ] `npm run test` works.
+- [ ] `docs/ads-readiness.md` has been reviewed.
 - [ ] API route returns a clear error when `GROQ_API_KEY` is missing.
 - [ ] Groq analysis path works when `GROQ_API_KEY` is present.
 - [ ] Screenshot OCR path works with `GROQ_API_KEY`.
@@ -12,6 +13,11 @@
 - [ ] URL extraction blocks localhost and private-network targets.
 - [ ] README is complete.
 - [ ] Affiliate URLs are placeholders or approved links.
+- [ ] AdSense is disabled until approved publisher, client, and slot IDs are configured.
+- [ ] `/ads.txt`, `/robots.txt`, and `/sitemap.xml` return 200.
+- [ ] `/privacy`, `/terms`, `/cookies`, `/about`, `/contact`, `/guides`, and guide articles return 200.
+- [ ] Affiliate and advertising disclosures are visible before monetization.
+- [ ] EEA, UK, and Switzerland ad serving has a Google-certified CMP path before ads are enabled.
 - [ ] Disclaimers are visible in the UI.
 - [ ] Screenshot flow extracts text without requiring pasted text.
 - [ ] Market estimate copy labels values as rough estimates, not licensed valuations.
