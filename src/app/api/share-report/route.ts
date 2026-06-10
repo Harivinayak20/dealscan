@@ -4,8 +4,6 @@ const MAX_PAYLOAD_BYTES = 2048;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 
-export const runtime = "edge";
-
 const hitCounters = new Map<string, { count: number; resetAt: number }>();
 
 function simpleEmailCheck(email: string): boolean {

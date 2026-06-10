@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link as LinkIcon, LineChart, SearchCheck, ShieldCheck, ShoppingCart, Wrench } from "lucide-react";
+import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link as LinkIcon, LineChart, SearchCheck, ShieldCheck, ShoppingCart, TriangleAlert, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import { LoadingState } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
 import { CompareView } from "@/components/CompareView";
 import type { SavedResult } from "@/components/CompareView";
-import { DemoBanner } from "@/components/DemoBanner";
 import { generateDealSummary } from "@/lib/generate-summary";
 import { loadSavedResults, saveSavedResults } from "@/lib/local-storage";
 import { extractVin } from "@/lib/vin-decoder";
@@ -67,7 +66,6 @@ const quickActions = [
   { label: "Book Pre-Purchase Inspection", note: "Have a mechanic inspect it", href: partnerLinks.inspection, icon: Wrench },
   { label: "Get Insurance Quote", note: "Compare rates in minutes", href: partnerLinks.insurance, icon: ShieldCheck },
   { label: "Estimate Payments", note: "See real loan options", href: partnerLinks.payments, icon: Calculator },
-  { label: "Find OBD2 Scanner", note: "Scan codes before you buy", href: partnerLinks.obd, icon: ShoppingCart },
 ];
 
 function manualDetailsToText(details: ManualDetails) {
@@ -102,7 +100,6 @@ export function AnalyzerApp() {
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
   const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare" | "comparison-result">("analyzer");
-  const [demoMode, setDemoMode] = useState(false);
   const [savedResults, setSavedResults] = useState<SavedResult[]>(() => loadSavedResults<SavedResult>());
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
@@ -492,43 +489,33 @@ export function AnalyzerApp() {
   return (
     <main className="min-h-screen overflow-hidden bg-[var(--canvas)] text-[var(--graphite)]">
       <header className="sticky top-0 z-40 border-b border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 sm:px-7">
-          <Link href="/" className="leading-tight text-left transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
+          <Link href="/" className="leading-tight text-left" aria-label="Dealscan.dev home">
             <div className="text-2xl font-black">Dealscan.dev</div>
             <div className="text-[11px] font-bold uppercase text-[var(--racing-green)]">Listing review</div>
           </Link>
-          <nav className="hidden items-center gap-7 text-sm font-bold lg:flex" aria-label="Primary">
-            <button
-              type="button"
-              onClick={() => setDemoMode(!demoMode)}
-              className={`transition hover:-translate-y-1 ${demoMode ? "text-[var(--champagne)]" : "hover:text-[var(--racing-green)]"}`}
-            >
-              {demoMode ? "✦ Demo" : "Demo"}
-            </button>
-            <a href="#analyzer" onClick={(e) => { e.preventDefault(); document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
-              Analyze
+          <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex" aria-label="Primary">
+            <a href="#how-it-works" onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:text-[var(--racing-green)]">
+              How it works
             </a>
-            <Link href="/dashboard" className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
-              Dashboard
+            <Link href="/how-scoring-works" className="transition hover:text-[var(--racing-green)]">
+              Scoring
             </Link>
-            <a href="#market-data" onClick={(e) => { e.preventDefault(); document.getElementById("market-data")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
-              Engine
-            </a>
-            <a href="/affiliate-links" className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
-              Buyer tools
-            </a>
-            <Link href="/guides" className="transition hover:-translate-y-1 hover:text-[var(--racing-green)]">
+            <Link href="/guides" className="transition hover:text-[var(--racing-green)]">
               Guides
+            </Link>
+            <Link href="/pricing" className="transition hover:text-[var(--racing-green)]">
+              Pricing
             </Link>
             {savedResults.length > 0 ? (
               <button
                 type="button"
                 onClick={() => setViewMode("compare")}
-                className="relative flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.20)] bg-[rgba(18,61,51,0.08)] px-3.5 py-1.5 text-sm font-black text-[var(--racing-green)] transition hover:-translate-y-1 hover:bg-[rgba(18,61,51,0.14)]"
+                className="relative flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.20)] bg-[rgba(18,61,51,0.08)] px-3.5 py-1.5 text-sm font-bold text-[var(--racing-green)] transition hover:bg-[rgba(18,61,51,0.14)]"
               >
                 <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                 Compare
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--racing-green)] text-xs font-black text-white">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--racing-green)] text-xs font-bold text-white">
                   {savedResults.length}
                 </span>
               </button>
@@ -545,26 +532,25 @@ export function AnalyzerApp() {
         </div>
       </header>
 
-      {demoMode && (
-        <section className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8">
-          <DemoBanner onSelect={loadExampleListing} />
-        </section>
-      )}
-
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
-        <div className="mx-auto grid max-w-[1560px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
           <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/76 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
-            <p className="text-sm font-black uppercase text-[var(--racing-green)]">Used car check</p>
-            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-6xl">
-              Find out if this listing is worth it.
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Free used-car listing check</p>
+            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] sm:text-5xl">
+              Know the car before you go see it.
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-[#52615b] sm:text-lg">
-              Paste the listing link first. Dealscan checks the car, spots warning signs, and gives you the questions to ask before you go see it.
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
+              Paste the listing and get a deal score, the red flags, and the price you should actually offer — in about 10 seconds.
             </p>
 
-            <div className="mt-5 grid gap-2 text-sm font-bold text-[#52615b]">
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Free</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
+            </div>
+
+            <div className="mt-5 grid gap-2 text-sm font-medium text-[var(--text-body)]">
               {[
-                "Know if the price feels fair",
+                "Know if the price is actually fair",
                 "Spot title, mileage, and seller red flags",
                 "Get the questions to ask before you visit",
               ].map((item) => (
@@ -574,6 +560,54 @@ export function AnalyzerApp() {
                 </div>
               ))}
             </div>
+
+            <div className="mt-6 overflow-hidden rounded-2xl border border-[rgba(32,40,35,0.10)] bg-white shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)]">
+              <div className="flex items-center justify-between gap-2 border-b border-[rgba(32,40,35,0.07)] bg-[var(--paper)] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--racing-green)]" aria-hidden="true" />
+                  Sample scan
+                </span>
+                <span className="text-[var(--graphite)]">2009 Nissan Altima · $2,400</span>
+              </div>
+              <div className="p-4">
+                <div className="flex items-center gap-4">
+                  <div
+                    className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-full shadow-[0_8px_20px_-10px_rgba(196,90,74,0.55)]"
+                    style={{ background: "conic-gradient(from 0deg, var(--danger) 137deg, rgba(32,40,35,0.07) 137deg)" }}
+                    aria-label="Sample deal score: 38 out of 100"
+                  >
+                    <div className="grid h-[3.4rem] w-[3.4rem] place-items-center rounded-full bg-white">
+                      <span className="text-xl font-black leading-none text-[var(--danger)]">38</span>
+                      <span className="-mt-0.5 text-[9px] font-semibold leading-none text-[var(--text-muted)]">/ 100</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="badge-danger">Avoid</span>
+                    <p className="mt-1.5 text-sm leading-5 text-[var(--text-body)]">Priced low for a reason — two dealbreakers in the ad.</p>
+                  </div>
+                </div>
+                <div className="mt-3.5 flex flex-wrap gap-2 text-xs font-semibold text-[var(--danger)]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(196,90,74,0.22)] bg-[rgba(196,90,74,0.08)] px-2.5 py-1">
+                    <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                    No title
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(196,90,74,0.22)] bg-[rgba(196,90,74,0.08)] px-2.5 py-1">
+                    <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                    Possible transmission failure
+                  </span>
+                </div>
+                <div className="mt-3.5 border-t border-[rgba(32,40,35,0.07)] pt-3">
+                  <Link href="/how-scoring-works" className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--racing-green)] underline-offset-4 hover:underline">
+                    How the score works
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
+              Every scan checks 17 red-flag patterns and 12 green flags across price, mileage, title, condition, and seller claims.
+            </p>
           </aside>
 
           <section
@@ -582,7 +616,7 @@ export function AnalyzerApp() {
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase text-[var(--racing-green)]">
+                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--racing-green)]">
                   {compareMode ? "Compare cars" : "Check the car"}
                 </p>
                 <h2 className="mt-1 text-2xl font-black">
@@ -593,7 +627,7 @@ export function AnalyzerApp() {
                 <button
                   type="button"
                   onClick={() => setCompareMode(false)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-black transition ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     !compareMode
                       ? "bg-[var(--accent-2)] text-white"
                       : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
@@ -604,7 +638,7 @@ export function AnalyzerApp() {
                 <button
                   type="button"
                   onClick={() => setCompareMode(true)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-black transition ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     compareMode
                       ? "bg-[var(--accent-2)] text-white"
                       : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
@@ -626,6 +660,25 @@ export function AnalyzerApp() {
               </div>
             ) : (
               <>
+            <div className="card mt-5 !bg-[var(--canvas)]">
+              <div className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                New here? See a real scan
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-4">
+                {exampleListings.map((example) => (
+                  <button
+                    key={example.id}
+                    type="button"
+                    onClick={() => loadExampleListing(example.text)}
+                    className="group w-full rounded-xl border border-[rgba(32,40,35,0.10)] bg-white/70 p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
+                  >
+                    <span className="block text-sm font-bold text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
+                    <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{example.tone}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Ways to check a car listing">
               {inputMethods.map((method) => (
                 (() => {
@@ -643,15 +696,15 @@ export function AnalyzerApp() {
                         setError("");
                         setSourceNotice("");
                       }}
-                      className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white ${
+                      className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)] ${
                         inputType === method.value
                           ? "border-[rgba(18,61,51,0.32)] bg-[rgba(18,61,51,0.08)] text-[var(--graphite)] shadow-sm"
-                          : "border-[rgba(32,40,35,0.10)] bg-[var(--canvas)] text-[#5d6862] hover:bg-white"
+                          : "border-[rgba(32,40,35,0.10)] bg-[var(--canvas)] text-[var(--text-muted)] hover:bg-white"
                       }`}
                     >
                       <Icon className={`h-5 w-5 transition group-hover:scale-110 ${inputType === method.value ? "text-[var(--racing-green)]" : "text-[var(--champagne)]"}`} aria-hidden="true" />
-                      <span className="text-sm font-black">{method.label}</span>
-                      <span className={`text-xs leading-4 ${inputType === method.value ? "text-neutral-600" : "text-[#68756f]"}`}>{method.note}</span>
+                      <span className="text-sm font-bold">{method.label}</span>
+                      <span className={`text-xs leading-4 ${inputType === method.value ? "text-[var(--text-muted)]" : "text-[var(--text-muted)]"}`}>{method.note}</span>
                     </a>
                   );
                 })()
@@ -662,37 +715,21 @@ export function AnalyzerApp() {
               {inputType === "url" ? (
                 <div className="grid gap-3">
                   <label className="grid gap-2">
-                    <span className="text-sm font-black text-[var(--graphite)]">Listing link</span>
-                    <span className="text-sm leading-6 text-[#68756f]">Paste the public ad link. Dealscan reads the car details first so you do not have to retype the whole listing.</span>
-                    <div className="flex flex-col gap-3 sm:flex-row">
-                      <input
-                        value={listingUrl}
-                        onChange={(event) => {
-                          setListingUrl(event.target.value);
-                          setLastExtractedUrl("");
-                        }}
-                        placeholder="https://www.example.com/listing/2019-toyota-camry"
-                        className="input flex-1"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setError("");
-                          void extractListingFromUrl().catch((caughtError) => {
-                            setError(caughtError instanceof Error ? caughtError.message : "Could not extract that listing.");
-                          });
-                        }}
-                        disabled={isBusy}
-                        className="btn-outline !rounded-2xl !border-[rgba(18,61,51,0.20)] !text-[var(--racing-green)] hover:!bg-[rgba(18,61,51,0.06)]"
-                      >
-                        <FileSearch className="h-5 w-5" aria-hidden="true" />
-                        Get details
-                      </button>
-                    </div>
+                    <span className="text-sm font-bold text-[var(--graphite)]">Listing link</span>
+                    <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the public ad link and hit Check deal. Dealscan reads the car details for you — no retyping.</span>
+                    <input
+                      value={listingUrl}
+                      onChange={(event) => {
+                        setListingUrl(event.target.value);
+                        setLastExtractedUrl("");
+                      }}
+                      placeholder="https://www.example.com/listing/2019-toyota-camry"
+                      className="input"
+                    />
                   </label>
                   {listingText ? (
                     <label className="grid gap-2">
-                      <span className="text-sm font-black text-[var(--graphite)]">Car details found</span>
+                      <span className="text-sm font-bold text-[var(--graphite)]">Car details found</span>
                       <textarea
                         value={listingText}
                         onChange={(event) => setListingText(event.target.value)}
@@ -707,8 +744,8 @@ export function AnalyzerApp() {
 
               {inputType === "text" ? (
                 <label className="grid gap-2">
-                  <span className="text-sm font-black text-[var(--graphite)]">Seller notes</span>
-                  <span className="text-sm leading-6 text-[#68756f]">Paste the seller description. Include price, mileage, title, VIN, and condition when available.</span>
+                  <span className="text-sm font-bold text-[var(--graphite)]">Seller notes</span>
+                  <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the seller description. Include price, mileage, title, VIN, and condition when available.</span>
                   <textarea
                     value={listingText}
                     onChange={(event) => setListingText(event.target.value)}
@@ -722,12 +759,12 @@ export function AnalyzerApp() {
 
               {inputType === "screenshot" ? (
                 <div className="grid gap-4">
-                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:bg-white focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
+                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:border-[var(--racing-green)] hover:bg-white focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
                     <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing photo" />
                     <span className="grid justify-items-center gap-2">
                       <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
-                      <span className="text-base font-black">Upload listing photo</span>
-                      <span className="text-sm text-[#68756f]">Use this when the listing is easier to share as an image.</span>
+                      <span className="text-base font-bold">Upload listing photo</span>
+                      <span className="text-sm text-[var(--text-muted)]">Use this when the listing is easier to share as an image.</span>
                     </span>
                   </label>
                   {screenshotPreviewUrl ? (
@@ -755,7 +792,7 @@ export function AnalyzerApp() {
                       ["price", "Price", "$9,800"],
                       ["titleStatus", "Title", "Clean title"],
                     ].map(([key, label, placeholder]) => (
-                      <label key={key} className="grid gap-1 text-xs font-black uppercase text-[#68756f]">
+                      <label key={key} className="grid gap-1 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                         {label}
                         <input
                           value={manualDetails[key as keyof ManualDetails] ?? ""}
@@ -766,7 +803,7 @@ export function AnalyzerApp() {
                       </label>
                     ))}
                   </div>
-                  <label className="grid gap-1 text-xs font-black uppercase text-[#68756f]">
+                  <label className="grid gap-1 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                     Seller Notes
                     <textarea
                       value={manualDetails.sellerNotes ?? ""}
@@ -779,26 +816,6 @@ export function AnalyzerApp() {
                   </label>
                 </div>
               ) : null}
-            </div>
-
-            <div className="card mt-4">
-              <div className="flex items-center justify-between gap-3 text-xs font-black uppercase text-[#68756f]">
-                <span>Try a sample listing</span>
-                <span>{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-4">
-                {exampleListings.map((example) => (
-                  <button
-                    key={example.id}
-                    type="button"
-                    onClick={() => loadExampleListing(example.text)}
-                    className="group w-full rounded-xl border border-[rgba(32,40,35,0.10)] bg-white/70 p-3 text-left transition hover:-translate-y-1 hover:border-[var(--racing-green)] hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
-                  >
-                    <span className="block text-sm font-black text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
-                    <span className="mt-1 block text-xs leading-5 text-[#68756f]">{example.tone}</span>
-                  </button>
-                ))}
-              </div>
             </div>
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -818,7 +835,12 @@ export function AnalyzerApp() {
                 <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
                 Check deal
               </button>
+              <span className="text-xs font-medium text-[var(--text-muted)]">{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
             </div>
+
+            <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
+              Works with Craigslist, Facebook Marketplace, Autotrader, Cars.com, CarGurus, and any dealer page.
+            </p>
             </>
             )}
             {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
@@ -832,67 +854,22 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="resources" className="bg-[var(--paper)] px-5 py-16 text-[var(--graphite)] sm:px-7">
-        <div className="mx-auto grid max-w-[1560px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
-          <div>
-            <p className="text-sm font-black uppercase text-[var(--racing-green)]">Buyer tools</p>
-            <h2 className="mt-2 text-4xl font-black">Quick links before you buy.</h2>
-            <p className="mt-4 text-lg leading-8 text-neutral-700">
-              History, inspection, insurance, payments, and simple tools.
-            </p>
-            <p className="mt-3 text-sm leading-6 text-neutral-600">
-              Some buyer-tool links may be affiliate links. Dealscan may earn a commission at no extra cost to you, and scoring stays independent.
-            </p>
-            <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
-              View all buyer tools
-            </a>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {quickActions.map((action) => {
-              const Icon = action.icon;
-
-              return (
-                <a
-                  key={action.label}
-                  href={action.href}
-                  target="_blank"
-                  rel="sponsored noopener noreferrer"
-                  className="card-hover group flex items-center justify-between"
-                >
-                  <span className="flex items-center gap-4">
-                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-neutral-100 transition group-hover:scale-110 group-hover:bg-red-50">
-                      <Icon className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
-                    </span>
-                    <span>
-                      <span className="block text-base font-black">{action.label}</span>
-                      <span className="text-sm text-neutral-600">{action.note}</span>
-                    </span>
-                  </span>
-                  <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section id="market-data" className="bg-[var(--mist)] px-5 py-16 text-[var(--graphite)] sm:px-7">
-        <div className="mx-auto max-w-[1560px]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
-              <p className="text-sm font-black uppercase text-[var(--racing-green)]">How it helps</p>
+              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">How it helps</p>
               <h2 className="mt-2 text-3xl font-black">Price check. Risk check. Buyer next steps.</h2>
             </div>
-            <p className="text-lg leading-8 text-[#52615b]">
+            <p className="text-lg leading-8 text-[var(--text-body)]">
               Dealscan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
             </p>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
               { title: "Reads the ad", note: "Paste the listing link and Dealscan pulls together the car details for you.", icon: LinkIcon, href: "#analyzer" },
-              { title: "Scores the deal", note: "See how price, mileage, title status, condition, and seller claims stack up.", icon: LineChart, href: "#market-data" },
+              { title: "Scores the deal", note: "Price, mileage, title status, condition, and seller claims — scored 0 to 100 with a smarter starting offer.", icon: LineChart, href: "#market-data" },
               { title: "Checks history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
-              { title: "Explains price", note: "Get a buyer-friendly price read and a smarter starting offer.", icon: Gauge, href: "#market-data" },
               { title: "Plans the visit", note: "Know what to ask, what to verify, and when to walk away.", icon: Wrench, href: partnerLinks.inspection },
             ].map((item) => {
               const Icon = item.icon;
@@ -907,7 +884,7 @@ export function AnalyzerApp() {
                 >
                   <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-[#68756f]">{item.note}</p>
+                  <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">{item.note}</p>
                 </a>
               );
             })}
@@ -915,15 +892,11 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section className="bg-[var(--mist)] px-5 py-8 sm:px-7">
-        <AdUnit slot={ADSENSE_HOME_SLOT} />
-      </section>
-
       <section id="how-it-works" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
-        <div className="mx-auto max-w-[1560px]">
-          <p className="text-sm font-black uppercase text-[var(--racing-green)]">See it in action</p>
+        <div className="mx-auto max-w-[1200px]">
+          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
           <h2 className="mt-2 text-3xl font-black sm:text-4xl">What you get with every scan</h2>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-700">
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
             Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
           </p>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
@@ -932,7 +905,7 @@ export function AnalyzerApp() {
                 <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Deal Score &amp; Verdict</h3>
-              <p className="mt-3 text-base leading-7 text-neutral-600">
+              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
                 A clear 0–100 score with a verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid. Know instantly if it&apos;s worth your time.
               </p>
             </div>
@@ -941,7 +914,7 @@ export function AnalyzerApp() {
                 <FileSearch className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Red &amp; Green Flags</h3>
-              <p className="mt-3 text-base leading-7 text-neutral-600">
+              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
                 We scan for 17 red flag patterns (salvage, flood, no title) and 12 green flags (service records, one owner, clean Carfax).
               </p>
             </div>
@@ -950,7 +923,7 @@ export function AnalyzerApp() {
                 <BadgeDollarSign className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Price Range &amp; Offer Target</h3>
-              <p className="mt-3 text-base leading-7 text-neutral-600">
+              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
                 Fair market range, suggested offer, and negotiation talking points. Know what to pay before you message the seller.
               </p>
             </div>
@@ -975,7 +948,7 @@ export function AnalyzerApp() {
 
       <section id="faq" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-black uppercase text-[var(--racing-green)]">FAQ</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
           <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
           <div className="mt-10 grid gap-4">
             {[
@@ -993,7 +966,7 @@ export function AnalyzerApp() {
               },
               {
                 q: "Do you store my listings or personal data?",
-                a: "No. Dealscan is built to check the listing without saving your personal information.",
+                a: "Scan history is saved only in your own browser (local storage), never on our servers. Listing text is sent to the analysis engine to be scored and is not used to build a profile of you.",
               },
               {
                 q: "Can I use it on mobile?",
@@ -1008,19 +981,67 @@ export function AnalyzerApp() {
                 key={q}
                 className="card-hover !p-5"
               >
-                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-black text-[var(--graphite)]">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold text-[var(--graphite)]">
                   <span>{q}</span>
                   <ChevronRight className="h-5 w-5 shrink-0 text-[var(--champagne)] transition group-open:rotate-90" aria-hidden="true" />
                 </summary>
-                <p className="mt-4 text-base leading-7 text-neutral-600">{a}</p>
+                <p className="mt-4 text-base leading-7 text-[var(--text-muted)]">{a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-[rgba(255,255,255,0.12)] bg-[var(--charcoal)] px-5 py-12 text-[#cbd3ce] sm:px-7">
-        <div className="mx-auto max-w-[1560px]">
+      <section id="resources" className="bg-[var(--paper)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+        <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer tools</p>
+            <h2 className="mt-2 text-4xl font-black">After the scan, verify before you buy.</h2>
+            <p className="mt-4 text-lg leading-8 text-[var(--text-body)]">
+              History report, pre-purchase inspection, insurance, and financing — the four checks that protect you after a promising scan.
+            </p>
+            <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+              Some buyer-tool links may be affiliate links. Dealscan may earn a commission at no extra cost to you, and scoring stays independent.
+            </p>
+            <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
+              View all buyer tools
+            </a>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {quickActions.map((action) => {
+              const Icon = action.icon;
+
+              return (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  target="_blank"
+                  rel="sponsored noopener noreferrer"
+                  className="card-hover group flex items-center justify-between"
+                >
+                  <span className="flex items-center gap-4">
+                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[rgba(18,61,51,0.07)] transition group-hover:scale-110">
+                      <Icon className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
+                    </span>
+                    <span>
+                      <span className="block text-base font-bold">{action.label}</span>
+                      <span className="text-sm text-[var(--text-muted)]">{action.note}</span>
+                    </span>
+                  </span>
+                  <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[var(--paper)] px-5 py-8 sm:px-7">
+        <AdUnit slot={ADSENSE_HOME_SLOT} />
+      </section>
+
+      <footer className="border-t border-[rgba(255,255,255,0.12)] bg-[var(--charcoal)] px-5 pb-28 pt-12 text-[#cbd3ce] sm:px-7 lg:pb-12">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <div className="text-2xl font-black text-[var(--ivory)]">Dealscan.dev</div>
@@ -1030,17 +1051,18 @@ export function AnalyzerApp() {
               </p>
             </div>
             <div>
-              <h3 className="text-sm font-black uppercase text-[var(--ivory)]">Product</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Product</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="#analyzer" className="transition hover:text-[var(--champagne)]">Analyze a listing</a></li>
                 <li><a href="#how-it-works" className="transition hover:text-[var(--champagne)]">How it works</a></li>
+                <li><Link href="/how-scoring-works" className="transition hover:text-[var(--champagne)]">How scoring works</Link></li>
                 <li><a href="#faq" className="transition hover:text-[var(--champagne)]">FAQ</a></li>
                 <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
                 <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-black uppercase text-[var(--ivory)]">Resources</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Resources</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Carfax report</a></li>
                 <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
@@ -1050,7 +1072,7 @@ export function AnalyzerApp() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-black uppercase text-[var(--ivory)]">Company</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="/pricing" className="transition hover:text-[var(--champagne)]">Pricing</a></li>
                 <li><a href="/about" className="transition hover:text-[var(--champagne)]">About</a></li>
@@ -1058,7 +1080,7 @@ export function AnalyzerApp() {
                 <li><a href="/terms" className="transition hover:text-[var(--champagne)]">Terms</a></li>
                 <li><a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a></li>
                 <li><a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a></li>
-                <li><span className="text-white/40">Contact: hello@dealscan.dev</span></li>
+                <li><a href="mailto:hello@dealscan.dev" className="transition hover:text-[var(--champagne)]">hello@dealscan.dev</a></li>
                 <li><span className="text-white/40">Built by Car IQ Inc.</span></li>
               </ul>
             </div>
@@ -1069,6 +1091,17 @@ export function AnalyzerApp() {
           </div>
         </div>
       </footer>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] p-3 backdrop-blur-xl lg:hidden">
+        <a
+          href="#analyzer"
+          onClick={(e) => { e.preventDefault(); document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }); }}
+          className="btn-pill w-full"
+        >
+          <SearchCheck className="h-5 w-5" aria-hidden="true" />
+          Check a listing
+        </a>
+      </div>
 
     </main>
   );

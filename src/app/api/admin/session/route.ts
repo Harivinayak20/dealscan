@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export const runtime = "edge";
-
 export async function GET() {
   const expectedToken = process.env.ADMIN_TOKEN;
   const cookieStore = await cookies();

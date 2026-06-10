@@ -43,8 +43,8 @@ const tiers = [
       "Priority analysis speed",
       "Higher fair-use limits",
     ],
-    cta: "Coming soon",
-    href: "#",
+    cta: "Get notified when Pro launches",
+    href: "mailto:hello@dealscan.dev?subject=Notify%20me%20when%20Dealscan%20Pro%20launches",
   },
   {
     name: "Partner",
@@ -63,7 +63,7 @@ const tiers = [
       "Volume pricing",
     ],
     cta: "Contact us",
-    href: "#",
+    href: "mailto:hello@dealscan.dev?subject=Dealscan%20Partner%20inquiry",
   },
 ];
 
@@ -151,7 +151,7 @@ export default function PricingPage() {
           <p className="text-sm text-neutral-600">
             All tiers include the same core analysis engine. Upgrades unlock higher limits, integrations, and team features.
             <br />
-            Questions? <a href="https://github.com/anomalyco/opencode/issues" className="font-bold text-[var(--accent-2)] underline">Open an issue on GitHub</a>.
+            Questions? <a href="mailto:hello@dealscan.dev" className="font-bold text-[var(--accent-2)] underline">Email hello@dealscan.dev</a>.
           </p>
         </section>
       </div>

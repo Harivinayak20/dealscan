@@ -359,6 +359,11 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 </div>
                 <p className="text-xs font-bold text-neutral-500">{tone.label} confidence: {result.confidence}</p>
                 <p className="mt-1 text-[10px] leading-4 text-neutral-400">Informational only &mdash; verify VIN, title, and inspection yourself.</p>
+                <div className="mt-3 rounded-xl border border-[rgba(245,158,11,0.25)] bg-[rgba(245,158,11,0.08)] p-3">
+                  <p className="text-xs font-bold leading-5 text-neutral-700">
+                    <span className="text-[var(--warning)]">⚠️</span> This is not a substitute for a mechanic inspection or vehicle history report. Always have a trusted mechanic inspect the car in person and verify the title before buying.
+                  </p>
+                </div>
               </div>
               <div>
                 <div className="grid gap-3 sm:grid-cols-2">

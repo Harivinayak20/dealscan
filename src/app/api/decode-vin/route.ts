@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { decodeVin } from "@/lib/vin-decoder";
 
-export const runtime = "edge";
-
 export async function POST(request: Request) {
   let vin: string;
 

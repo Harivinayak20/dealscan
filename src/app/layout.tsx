@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.hari-vinayak-d.workers.dev";
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
   },
   other: {
     "mobile-web-app-capable": "yes",
-    "theme-color": "#0b0d10",
+    "theme-color": "#f7f2ea",
     ...(ADSENSE_ENABLED && ADSENSE_CLIENT_ID
       ? { "google-adsense-account": ADSENSE_CLIENT_ID }
       : {}),
@@ -74,13 +77,8 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={geist.variable}>
       <head>
-        <link
-          rel="preconnect"
-          href="https://cdn.jsdelivr.net"
-          crossOrigin="anonymous"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
