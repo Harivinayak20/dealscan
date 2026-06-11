@@ -489,6 +489,7 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[var(--canvas)] text-[var(--graphite)]">
+      <div className="scroll-progress" aria-hidden="true" />
       <header className="sticky top-0 z-40 border-b border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
           <Link href="/" className="leading-tight text-left" aria-label="Dealscan.dev home">

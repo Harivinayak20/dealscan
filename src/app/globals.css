@@ -739,3 +739,58 @@ select {
     page-break-after: avoid;
   }
 }
+
+/* Scroll-driven animations: sections reveal as they enter the viewport,
+   and a progress bar fills from the top of the page to the bottom.
+   Native CSS scroll timelines only — no JS, skipped for reduced motion. */
+.scroll-progress {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 60;
+      height: 3px;
+      background: linear-gradient(90deg, var(--racing-green), var(--champagne));
+      transform-origin: 0 50%;
+      animation: scroll-progress-grow linear both;
+      animation-timeline: scroll(root);
+    }
+
+    main > section:not(#hero) {
+      animation: section-reveal var(--ease-out-4, ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 38%;
+    }
+
+    main > footer {
+      animation: section-reveal var(--ease-out-4, ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+  }
+}
+
+@keyframes scroll-progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
