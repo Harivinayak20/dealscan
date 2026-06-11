@@ -26,6 +26,7 @@
     "@remotion/transitions": "4.0.469",
     "lucide-react": "^0.468.0",
     "next": "^16.0.0",
+    "open-props": "^1.7.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "remotion": "4.0.469",

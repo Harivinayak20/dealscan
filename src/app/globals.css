@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* Open Props design tokens (https://open-props.style) — easings and shadows */
+@import "open-props/easings.min.css";
+@import "open-props/shadows.min.css";
 
 :root {
   --graphite: #202823;
@@ -72,15 +75,19 @@
   --radius-xl: 24px;
   --radius-pill: 9999px;
 
+  /* warm shadow tint for Open Props shadow tokens */
+  --shadow-color: 150 11% 14%;
+  --shadow-strength: 1%;
+
   --elev-flat: none;
-  --elev-raised: 0 2px 12px rgba(32, 40, 35, 0.08);
+  --elev-raised: var(--shadow-2);
   --elev-overlay: 0 18px 48px -24px rgba(18, 61, 51, 0.55);
   --elev-glow: 0 34px 100px -48px rgba(201, 168, 106, 0.75);
 
   --motion-fast: 150ms;
   --motion-base: 200ms;
   --motion-slow: 350ms;
-  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: var(--ease-out-5, cubic-bezier(0.16, 1, 0.3, 1));
 
   --container-max: 1200px;
   --container-gutter-desktop: 32px;

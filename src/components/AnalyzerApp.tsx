@@ -25,6 +25,7 @@ import { computeComparison, draftToRequestText, draftVehicleTitle } from "@/lib/
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
 import { adminStore } from "@/lib/admin-store";
+import { faqs } from "@/lib/faqs";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 
 const exampleListings = [
@@ -526,7 +527,7 @@ export function AnalyzerApp() {
               href="#analyzer"
               className="btn-pill"
             >
-              Check a Listing
+              Check My Deal — Free
             </a>
           </div>
         </div>
@@ -546,6 +547,7 @@ export function AnalyzerApp() {
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Free</span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
             </div>
 
             <div className="mt-5 grid gap-2 text-sm font-medium text-[var(--text-body)]">
@@ -955,32 +957,7 @@ export function AnalyzerApp() {
             <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
           </div>
           <div className="mt-10 grid gap-4">
-            {[
-              {
-                q: "How does the deal score work?",
-                a: "The score checks the price, mileage, title status, condition, seller claims, red flags, good signs, and missing details. It is meant to help you decide what to ask next, not replace a mechanic or vehicle history report.",
-              },
-              {
-                q: "Is Dealscan free to use?",
-                a: "Yes, the listing analyzer is completely free. We may introduce premium features later (market data integrations, saved listings, alerts), but the core analysis will remain free.",
-              },
-              {
-                q: "What marketplaces does it work with?",
-                a: "It works with public listings from Craigslist, Facebook Marketplace, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Paste the link, seller notes, or a listing photo.",
-              },
-              {
-                q: "Do you store my listings or personal data?",
-                a: "Scan history is saved only in your own browser (local storage), never on our servers. Listing text is sent to the analysis engine to be scored and is not used to build a profile of you.",
-              },
-              {
-                q: "Can I use it on mobile?",
-                a: "Yes. Dealscan works on any modern phone browser. You can paste a link, paste seller notes, or upload a listing photo.",
-              },
-              {
-                q: "How accurate is the pricing estimate?",
-                a: "Pricing estimates are rough calculations based on the listing details and basic market heuristics. They are labeled as estimates and should not replace licensed market data or professional appraisals.",
-              },
-            ].map(({ q, a }) => (
+            {faqs.map(({ q, a }) => (
               <details
                 key={q}
                 className="card-hover !p-5"
