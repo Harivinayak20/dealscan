@@ -10,7 +10,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is Dealscan free to use?",
-    a: "Yes, the listing analyzer is completely free. We may introduce premium features later (market data integrations, saved listings, alerts), but the core analysis will remain free.",
+    a: "Yes. Everything on Dealscan is completely free — the analyzer, comparisons, guides, and scan history. There are no paid tiers and we do not ask for any payment.",
   },
   {
     q: "What marketplaces does it work with?",

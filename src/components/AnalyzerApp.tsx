@@ -119,6 +119,45 @@ export function AnalyzerApp() {
     saveSavedResults(savedResults);
   }, [savedResults]);
 
+  // Scroll animation fallback for browsers without CSS scroll timelines (e.g. Safari)
+  useEffect(() => {
+    if (viewMode !== "analyzer" || result) return;
+    if (typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const bar = document.querySelector<HTMLElement>(".scroll-progress");
+    bar?.classList.add("js-progress");
+    const onScroll = () => {
+      if (!bar) return;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      bar.style.transform = `scaleX(${max > 0 ? doc.scrollTop / max : 0})`;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const targets = document.querySelectorAll("main > section:not(#hero), main > footer");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.target.classList.toggle("js-reveal-in", entry.isIntersecting);
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" }
+    );
+    targets.forEach((el) => {
+      el.classList.add("js-reveal");
+      observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+      bar?.classList.remove("js-progress");
+      targets.forEach((el) => el.classList.remove("js-reveal", "js-reveal-in"));
+    };
+  }, [viewMode, result]);
+
   useKeyboardShortcut("Enter", (event) => {
     const target = event.target as HTMLElement;
     const isInput = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
@@ -505,9 +544,6 @@ export function AnalyzerApp() {
             </Link>
             <Link href="/guides" className="transition hover:text-[var(--racing-green)]">
               Guides
-            </Link>
-            <Link href="/pricing" className="transition hover:text-[var(--racing-green)]">
-              Pricing
             </Link>
             {savedResults.length > 0 ? (
               <button
@@ -1057,14 +1093,13 @@ export function AnalyzerApp() {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
-                <li><a href="/pricing" className="transition hover:text-[var(--champagne)]">Pricing</a></li>
                 <li><a href="/about" className="transition hover:text-[var(--champagne)]">About</a></li>
                 <li><a href="/contact" className="transition hover:text-[var(--champagne)]">Contact</a></li>
                 <li><a href="/terms" className="transition hover:text-[var(--champagne)]">Terms</a></li>
+                <li><a href="/disclaimer" className="transition hover:text-[var(--champagne)]">Disclaimer</a></li>
                 <li><a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a></li>
                 <li><a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a></li>
                 <li><a href="mailto:hello@dealscan.dev" className="transition hover:text-[var(--champagne)]">hello@dealscan.dev</a></li>
-                <li><span className="text-white/40">Built by Car IQ Inc.</span></li>
               </ul>
             </div>
           </div>

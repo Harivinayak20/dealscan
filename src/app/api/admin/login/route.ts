@@ -1,8 +1,23 @@
 import { NextResponse } from "next/server";
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 const COOKIE_NAME = "admin_token";
 
+function timingSafeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const aBytes = enc.encode(a);
+  const bBytes = enc.encode(b);
+  let diff = aBytes.length === bBytes.length ? 0 : 1;
+  for (let i = 0; i < Math.max(aBytes.length, bBytes.length); i++) {
+    diff |= (aBytes[i % aBytes.length] ?? 0) ^ (bBytes[i % bBytes.length] ?? 0);
+  }
+  return diff === 0;
+}
+
 export async function POST(request: Request) {
+  const rl = checkRateLimit(request, 5);
+  if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, 5);
+
   const expectedToken = process.env.ADMIN_TOKEN;
 
   if (!expectedToken) {
@@ -17,7 +32,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Send a valid admin token." }, { status: 400 });
   }
 
-  if (token !== expectedToken) {
+  if (!timingSafeEqual(token, expectedToken)) {
     return NextResponse.json({ error: "Invalid admin token." }, { status: 401 });
   }
 
