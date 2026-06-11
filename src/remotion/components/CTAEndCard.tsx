@@ -38,7 +38,7 @@ export function CTAEndCard() {
             boxShadow: "0 0 64px rgba(40,168,255,0.22)",
           }}
         >
-          dealscan.pages.dev
+          dealscan.dev
         </div>
       </div>
     </div>

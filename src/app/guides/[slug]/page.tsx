@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CarFront, CheckCircle2, SearchCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, CarFront, CheckCircle2, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { AdUnit } from "@/components/AdUnit";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 type GuidePageProps = {
   params: Promise<{
@@ -48,6 +48,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
   if (!guide) {
     notFound();
   }
+
+  const guideIndex = guides.findIndex((g) => g.slug === guide.slug);
+  const relatedGuides = [1, 2, 3].map((offset) => guides[(guideIndex + offset) % guides.length]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -138,6 +141,26 @@ export default async function GuidePage({ params }: GuidePageProps) {
               </p>
             </aside>
           </div>
+
+          <section className="mt-12">
+            <h2 className="text-2xl font-black leading-tight">Keep reading</h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              {relatedGuides.map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/guides/${related.slug}`}
+                  className="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+                >
+                  <p className="text-xs font-black uppercase text-[var(--racing-green)]">{related.readTime}</p>
+                  <h3 className="mt-2 flex-1 text-lg font-black leading-snug">{related.title}</h3>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-[var(--racing-green)]">
+                    Read guide
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
         </article>
       </div>
     </main>

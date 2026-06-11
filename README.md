@@ -6,9 +6,9 @@ The primary flow starts with a public listing URL. Dealscan extracts the page te
 
 ## Current Production
 
-- App: https://dealscan.pages.dev
+- App: https://dealscan.dev
 - Repository: https://github.com/Harivinayak20/dealscan
-- Hosting: Cloudflare Pages
+- Hosting: Cloudflare Workers (worker name `dealscan`, custom domains dealscan.dev and www.dealscan.dev)
 - Default analysis mode: Groq scoring
 - Paid API requirement: `GROQ_API_KEY`
 
@@ -180,7 +180,7 @@ Recommended production variables:
 GROQ_API_KEY=
 GROQ_MODEL=llama-3.3-70b-versatile
 GROQ_VISION_MODEL=meta-llama/llama-4-scout-17b-16e-instruct
-NEXT_PUBLIC_APP_URL=https://dealscan.pages.dev
+NEXT_PUBLIC_APP_URL=https://dealscan.dev
 ```
 
 ## Trust and Safety

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { guides } from "@/lib/guides";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

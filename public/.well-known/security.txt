@@ -1,7 +1,7 @@
 Contact: https://github.com/anomalyco/opencode/issues
 Preferred-Languages: en
-Canonical: https://dealscan.pages.dev/.well-known/security.txt
-Policy: https://dealscan.pages.dev/privacy
+Canonical: https://dealscan.dev/.well-known/security.txt
+Policy: https://dealscan.dev/privacy
 Expires: 2027-05-28T00:00:00z
 
 DealScan takes security seriously. If you discover a vulnerability,

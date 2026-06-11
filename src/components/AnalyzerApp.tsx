@@ -534,10 +534,10 @@ export function AnalyzerApp() {
 
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/76 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
+          <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/95 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Free used-car listing check</p>
-            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] sm:text-5xl">
-              Know the car before you go see it.
+            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
+              Find out if this listing is worth it.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
               Paste the listing and get a deal score, the red flags, and the price you should actually offer — in about 10 seconds.
@@ -892,13 +892,15 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-16 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-[1200px]">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
-          <h2 className="mt-2 text-3xl font-black sm:text-4xl">What you get with every scan</h2>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
-            Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
-          </p>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
+            <h2 className="mt-2 text-3xl font-black sm:text-4xl">What you get with every scan</h2>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
+              Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
+            </p>
+          </div>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
             <div className="card-hover">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
@@ -946,10 +948,12 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="faq" className="bg-[rgba(244,240,232,0.94)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="faq" className="bg-[var(--ivory)] px-5 py-16 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
-          <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
+            <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
+          </div>
           <div className="mt-10 grid gap-4">
             {[
               {
@@ -1040,8 +1044,9 @@ export function AnalyzerApp() {
         <AdUnit slot={ADSENSE_HOME_SLOT} />
       </section>
 
-      <footer className="border-t border-[rgba(255,255,255,0.12)] bg-[var(--charcoal)] px-5 pb-28 pt-12 text-[#cbd3ce] sm:px-7 lg:pb-12">
-        <div className="mx-auto max-w-[1200px]">
+      <footer className="bg-[var(--charcoal)] px-5 pb-28 pt-0 text-[#cbd3ce] sm:px-7 lg:pb-12">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(201,168,106,0.6)] to-transparent" aria-hidden="true" />
+        <div className="mx-auto max-w-[1200px] pt-12">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <div className="text-2xl font-black text-[var(--ivory)]">Dealscan.dev</div>

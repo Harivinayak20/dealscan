@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/api", "/deployment-dashboard"],
+      disallow: ["/admin", "/api"],
     },
     sitemap: `${appUrl}/sitemap.xml`,
   };

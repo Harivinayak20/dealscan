@@ -2,6 +2,10 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
 	"name": "dealscan",
+	"routes": [
+		{ "pattern": "dealscan.dev", "custom_domain": true },
+		{ "pattern": "www.dealscan.dev", "custom_domain": true }
+	],
 	"compatibility_date": "2026-05-30",
 	"compatibility_flags": [
 		"nodejs_compat",

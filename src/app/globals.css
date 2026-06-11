@@ -3,10 +3,10 @@
 :root {
   --graphite: #202823;
   --charcoal: #2c3631;
-  --canvas: #f7f2ea;
-  --paper: #fffaf2;
-  --mist: #ebe4d8;
-  --ivory: #f4f0e8;
+  --canvas: #fbf9f5;
+  --paper: #fffefb;
+  --mist: #f3efe8;
+  --ivory: #f8f6f1;
   --silver: #6f7974;
   --text-body: #3d4a44;
   --champagne: #c9a86a;
@@ -14,15 +14,15 @@
   --success: #7ca982;
   --warning: #d6a84f;
   --danger: #c45a4a;
-  --background: #f7f2ea;
+  --background: #fbf9f5;
   --foreground: #202823;
-  --card: #fffaf2;
+  --card: #fffefb;
   --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
   --focus: #c9a86a;
-  --overlay: rgba(255, 250, 242, 0.88);
-  --hero-gradient-1: rgba(201, 168, 106, 0.22);
-  --hero-gradient-2: rgba(18, 61, 51, 0.10);
+  --overlay: rgba(255, 254, 251, 0.90);
+  --hero-gradient-1: rgba(201, 168, 106, 0.12);
+  --hero-gradient-2: rgba(18, 61, 51, 0.06);
 
   --bg: var(--canvas);
   --surface: var(--paper);
@@ -171,8 +171,8 @@ select {
 
 .premium-grid-bg {
   background-image:
-    linear-gradient(rgba(32, 40, 35, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 40, 35, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(32, 40, 35, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 40, 35, 0.03) 1px, transparent 1px);
   background-size: 88px 88px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), transparent 82%);
 }
@@ -274,13 +274,23 @@ select {
   }
 }
 
+
+#analyzer,
+#how-it-works,
+#market-data,
+#faq,
+#resources {
+  scroll-margin-top: 96px;
+}
+
+
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-fade-in {
@@ -309,11 +319,11 @@ select {
   animation: shimmer 2.5s ease-in-out infinite;
 }
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
+.delay-100 { animation-delay: 60ms; }
+.delay-200 { animation-delay: 120ms; }
+.delay-300 { animation-delay: 180ms; }
+.delay-400 { animation-delay: 240ms; }
+.delay-500 { animation-delay: 300ms; }
 
 .btn-primary {
   display: inline-flex;
@@ -422,6 +432,11 @@ select {
 .btn-pill:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
+}
+
+.btn-pill:active,
+.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .btn-pill:disabled {

@@ -384,6 +384,191 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "best-time-to-buy-used-car",
+    title: "When is the best time to buy a used car?",
+    description:
+      "How month-end, model-year changeovers, tax season, and weather affect used car prices, and when patience pays off.",
+    readTime: "6 min read",
+    updatedAt: "2026-06-11",
+    quickChecks: [
+      "End of month, quarter, and year are best at dealerships",
+      "Late fall and winter usually have softer private-party prices",
+      "Tax refund season pushes prices up in spring",
+      "A motivated seller beats a perfect calendar date",
+    ],
+    sections: [
+      {
+        heading: "Dealership timing follows sales quotas",
+        body: [
+          "Dealers chase monthly, quarterly, and annual targets. The last week of the month, and especially the last days of December, are when a salesperson is most willing to move on price to close one more unit.",
+          "Model-year changeover, usually late summer to early fall, also helps. When the new year's models arrive, dealers discount the outgoing year's used inventory to clear lot space.",
+        ],
+      },
+      {
+        heading: "Private-party timing follows seasons",
+        body: [
+          "Private sellers do not have quotas, but they respond to demand. Spring and early summer bring tax refunds and more buyers, so prices firm up. Late fall and winter bring fewer buyers, longer listing times, and more room to negotiate.",
+          "Convertibles and sports cars are cheapest in winter. Trucks, SUVs, and all-wheel-drive cars are cheapest in summer. Buying against the season is one of the simplest discounts available.",
+        ],
+      },
+      {
+        heading: "Seller motivation beats the calendar",
+        body: [
+          "A listing that has been up for 45 days, a seller who is moving, or someone who already bought their next car will negotiate in any month. Ask how long the car has been for sale and why they are selling.",
+          "Run any listing through Dealscan first. A fair price in a slow month is still better than an inflated price with a small end-of-month discount.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "test-drive-checklist",
+    title: "Used car test drive checklist: what to look, listen, and feel for",
+    description:
+      "A step-by-step test drive routine covering cold start, brakes, transmission, steering, electronics, and the questions to ask after.",
+    readTime: "7 min read",
+    updatedAt: "2026-06-11",
+    quickChecks: [
+      "Insist on a cold start — a pre-warmed engine can hide problems",
+      "Test brakes, steering, and transmission at city and highway speeds",
+      "Try every button: windows, AC, infotainment, lights, seats",
+      "Drive at least 20 minutes, including a highway stretch",
+    ],
+    sections: [
+      {
+        heading: "Before you turn the key",
+        body: [
+          "Ask the seller not to start the car before you arrive. Touch the hood: if it is warm, the engine was run recently, which can mask rough cold starts, smoke, and lifter noise. Check under the car for fresh drips before and after the drive.",
+          "Start the engine yourself with the radio off and the windows down. Listen for ticking, knocking, or belt squeal, and watch the exhaust. Blue smoke suggests oil burning, white smoke can mean coolant, and black smoke means running rich.",
+        ],
+      },
+      {
+        heading: "During the drive",
+        body: [
+          "Brake firmly at least once from moderate speed: the car should stop straight without pulsing or grinding. On a quiet straight road, briefly relax your grip and check whether the car pulls to one side, which can mean alignment issues or accident damage.",
+          "Pay attention to shifts. An automatic should shift smoothly without flaring or clunking; a manual clutch should engage in the middle of the pedal travel, not at the very top. Include a highway stretch to check for vibration above 60 mph and confirm cruise control works.",
+        ],
+      },
+      {
+        heading: "After the drive",
+        body: [
+          "Let the car idle and check the dashboard for warning lights again. Pop the hood and look for new leaks, coolant smell, or smoke. Re-check the ground where the car was parked.",
+          "A good test drive raises questions instead of settling everything. Write down anything you noticed and bring it to the pre-purchase inspection and the negotiation.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "buying-from-dealer-vs-private-seller",
+    title: "Buying from a dealer vs a private seller: which is right for you?",
+    description:
+      "Price, paperwork, fees, warranties, and risk compared, so you know what you are trading when you pick where to buy.",
+    readTime: "7 min read",
+    updatedAt: "2026-06-11",
+    quickChecks: [
+      "Private party is usually cheaper but offers no recourse",
+      "Dealer doc fees and add-ons can erase a good sticker price",
+      "As-is means as-is, at a dealer or a driveway",
+      "Either way, the pre-purchase inspection is your real protection",
+    ],
+    sections: [
+      {
+        heading: "What you pay for at a dealer",
+        body: [
+          "Dealers handle the title transfer, registration, and financing paperwork, and many offer short warranties or certified pre-owned programs. That convenience is built into the price, often $1,500 to $3,000 over a comparable private-party car.",
+          "Watch for doc fees, reconditioning fees, and pre-installed add-ons like paint protection or VIN etching. Ask for the out-the-door price in writing and compare that number, not the sticker, against private listings.",
+        ],
+      },
+      {
+        heading: "What you save and risk with a private seller",
+        body: [
+          "Private sellers price closer to actual market value and are often more flexible. You can also learn more: the actual owner can tell you how the car was driven and maintained, while a dealer usually cannot.",
+          "The trade-off is recourse. Most private sales are final, and you handle the title transfer yourself. Verify the title is in the seller's name, check for liens, and never hand over money until the signed title is in your hand.",
+        ],
+      },
+      {
+        heading: "The decision in practice",
+        body: [
+          "If you need financing, want a warranty, or are short on time, a dealer makes sense — just negotiate the out-the-door price. If you want the lowest price and can do your own diligence, private party usually wins.",
+          "In both cases the same rules apply: run the listing through Dealscan, check the VIN, and pay for an independent inspection. Where you buy changes the paperwork, not the diligence.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "used-ev-buying-guide",
+    title: "Buying a used electric car: battery health, range, and red flags",
+    description:
+      "How to evaluate battery degradation, charging history, warranty transfer, and pricing when buying a used EV.",
+    readTime: "8 min read",
+    updatedAt: "2026-06-11",
+    quickChecks: [
+      "Check battery health and real-world range, not the original spec",
+      "Confirm whether the battery warranty transfers and how long is left",
+      "Frequent DC fast charging accelerates degradation",
+      "Verify the included charging cable and home charging plan",
+    ],
+    sections: [
+      {
+        heading: "Battery health is the whole deal",
+        body: [
+          "An EV's battery is most of its value. Ask for a battery health report: many cars show state of health in a service menu, and shops or apps can pull it from the diagnostic port. A battery at 88% health is normal for a five-year-old EV; 75% deserves a much lower price.",
+          "Compare the displayed full-charge range against the original EPA rating. Charge it to 100% before the test drive if possible, and ask the seller how they charged: mostly home charging to 80% is gentle, daily DC fast charging to 100% is not.",
+        ],
+      },
+      {
+        heading: "Warranties and recalls matter more on EVs",
+        body: [
+          "Most EV batteries carry an 8-year, 100,000-mile warranty that usually transfers to the next owner, but the terms vary. Confirm the in-service date, what counts as a failure (often below 70% capacity), and whether this specific car still qualifies.",
+          "Run the VIN through the manufacturer's recall lookup. Several popular EVs have had battery recalls; a completed recall with a replaced pack can actually make a used EV a better buy than average.",
+        ],
+      },
+      {
+        heading: "Price the car like a battery with seats",
+        body: [
+          "Used EVs depreciate faster than gas cars, which makes them strong value buys if the battery checks out. Factor in your charging situation: home charging makes ownership cheap, while relying on public fast charging changes the math.",
+          "Skip the oil change history questions and ask instead about tires (EVs wear them faster), brake condition (usually excellent thanks to regen), software updates, and whether the original mobile charging cable is included.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "used-car-paperwork-title-transfer",
+    title: "Used car paperwork: how to handle title transfer, bill of sale, and registration",
+    description:
+      "The exact documents you need when buying from a private seller, how to avoid title problems, and what to do at the DMV.",
+    readTime: "6 min read",
+    updatedAt: "2026-06-11",
+    quickChecks: [
+      "The title must be signed by the owner named on it — no exceptions",
+      "Check for lienholders before money changes hands",
+      "Write a bill of sale even if your state does not require one",
+      "Never agree to a jumped or open title",
+    ],
+    sections: [
+      {
+        heading: "Verify the title before you pay",
+        body: [
+          "The seller's ID must match the name on the title. If the title shows a lienholder, ask for a lien release letter or pay off the loan directly with the lender at closing — never trust a promise to mail it later.",
+          "An open or jumped title, where the previous buyer never registered the car and is reselling it, is illegal in most states and can leave you unable to register the car. If the seller's name is not on the title, walk away.",
+        ],
+      },
+      {
+        heading: "Fill out the transfer correctly",
+        body: [
+          "Both parties complete the title assignment section: sale date, price, odometer reading, and signatures. Errors and cross-outs can void a title in some states, so write carefully in pen and make no corrections.",
+          "Write a simple bill of sale in duplicate with the VIN, year, make, model, mileage, price, date, and both names and signatures. It protects the seller from tickets after the sale and gives you proof of purchase for the DMV.",
+        ],
+      },
+      {
+        heading: "After the handshake",
+        body: [
+          "Most states give you a short window, often 10 to 30 days, to transfer the title and register the car. You will typically need the signed title, bill of sale, proof of insurance, and payment for sales tax and fees.",
+          "Arrange insurance before you drive the car home — most insurers can add a car by phone in minutes. Keep copies of everything until the new title arrives in your name.",
+        ],
+      },
+    ],
+  },
 ];
 
 export function getGuide(slug: string) {
