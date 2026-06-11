@@ -6,7 +6,7 @@ import { AdUnit } from "@/components/AdUnit";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.hari-vinayak-d.workers.dev";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.pages.dev";
 
 type GuidePageProps = {
   params: Promise<{

@@ -90,7 +90,7 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
           `Risk: ${comparison.riskDelta}`,
           `Next Step: ${comparison.recommendedNextStep}`,
           "",
-          "View more at: https://dealscan.hari-vinayak-d.workers.dev",
+          "View more at: https://dealscan.pages.dev",
         ].join("\n");
 
         if (navigator.share) {
