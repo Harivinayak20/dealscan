@@ -19,3 +19,4 @@ yarn-error.log*
 .dev.vars*
 !.dev.vars.example
 .claude/
+animation-proof/

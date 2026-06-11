@@ -119,45 +119,6 @@ export function AnalyzerApp() {
     saveSavedResults(savedResults);
   }, [savedResults]);
 
-  // Scroll animation fallback for browsers without CSS scroll timelines (e.g. Safari)
-  useEffect(() => {
-    if (viewMode !== "analyzer" || result) return;
-    if (typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()")) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const bar = document.querySelector<HTMLElement>(".scroll-progress");
-    bar?.classList.add("js-progress");
-    const onScroll = () => {
-      if (!bar) return;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      bar.style.transform = `scaleX(${max > 0 ? doc.scrollTop / max : 0})`;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    const targets = document.querySelectorAll("main > section:not(#hero), main > footer");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          entry.target.classList.toggle("js-reveal-in", entry.isIntersecting);
-        }
-      },
-      { rootMargin: "0px 0px -12% 0px" }
-    );
-    targets.forEach((el) => {
-      el.classList.add("js-reveal");
-      observer.observe(el);
-    });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer.disconnect();
-      bar?.classList.remove("js-progress");
-      targets.forEach((el) => el.classList.remove("js-reveal", "js-reveal-in"));
-    };
-  }, [viewMode, result]);
-
   useKeyboardShortcut("Enter", (event) => {
     const target = event.target as HTMLElement;
     const isInput = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
@@ -528,7 +489,6 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
-      <div className="scroll-progress" aria-hidden="true" />
       <header className="sticky top-0 z-40 border-b border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
           <Link href="/" className="leading-tight text-left" aria-label="Dealscan.dev home">

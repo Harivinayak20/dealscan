@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
+import { ScrollFX } from "@/components/ScrollFX";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
@@ -85,7 +86,10 @@ export default function RootLayout({
         />
         <AdSenseScript />
       </head>
-      <body>{children}</body>
+      <body>
+        <ScrollFX />
+        {children}
+      </body>
     </html>
   );
 }
