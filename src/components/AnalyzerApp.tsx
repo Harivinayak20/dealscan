@@ -527,7 +527,7 @@ export function AnalyzerApp() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[var(--canvas)] text-[var(--graphite)]">
+    <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
       <div className="scroll-progress" aria-hidden="true" />
       <header className="sticky top-0 z-40 border-b border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
@@ -564,7 +564,7 @@ export function AnalyzerApp() {
               href="#analyzer"
               className="btn-pill"
             >
-              Check My Deal — Free
+              Check a Listing
             </a>
           </div>
         </div>
@@ -573,7 +573,7 @@ export function AnalyzerApp() {
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
           <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/95 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Free used-car listing check</p>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Used-car listing check</p>
             <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
               Find out if this listing is worth it.
             </h1>
@@ -582,7 +582,6 @@ export function AnalyzerApp() {
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Free</span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
             </div>
