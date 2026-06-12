@@ -109,7 +109,17 @@ export function ScrollFX() {
       }
     };
 
+    // One visual update per frame, no matter how many scroll events fire.
+    let frame = 0;
     const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        update();
+      });
+    };
+
+    const update = () => {
       const doc = document.documentElement;
       const max = doc.scrollHeight - doc.clientHeight;
       const progress = max > 0 ? doc.scrollTop / max : 0;
@@ -136,12 +146,12 @@ export function ScrollFX() {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         rebuild();
-        onScroll();
+        update();
       });
     };
 
     rebuild();
-    onScroll();
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", queueRebuild);
 
@@ -176,6 +186,7 @@ export function ScrollFX() {
 
     return () => {
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", queueRebuild);
       observer.disconnect();

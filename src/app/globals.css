@@ -829,23 +829,24 @@ select {
   stroke-linecap: round;
 }
 
+/* Glow is layered strokes instead of blur/drop-shadow filters: SVG filters
+   force expensive repaints of a page-sized layer on every scroll frame. */
 .scrollfx-path-glow {
   stroke: url(#scrollfx-grad);
-  stroke-width: 16;
-  opacity: 0.5;
-  filter: blur(9px);
+  stroke-width: 22;
+  opacity: 0.16;
 }
 
 .scrollfx-path-main {
   stroke: url(#scrollfx-grad);
-  stroke-width: 5;
-  filter: drop-shadow(0 0 6px rgba(15, 143, 94, 0.85)) drop-shadow(0 0 16px rgba(13, 107, 74, 0.6));
+  stroke-width: 9;
+  opacity: 0.45;
 }
 
 .scrollfx-path-core {
   stroke: var(--fx-core);
-  stroke-width: 1.4;
-  opacity: 0.85;
+  stroke-width: 3;
+  opacity: 0.95;
 }
 
 .scrollfx-arrow path {
