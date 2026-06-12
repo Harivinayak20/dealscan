@@ -4,27 +4,27 @@
 @import "open-props/shadows.min.css";
 
 :root {
-  --graphite: #202823;
+  --graphite: #16201b;
   --charcoal: #2c3631;
-  --canvas: #fbf9f5;
-  --paper: #fffefb;
-  --mist: #f3efe8;
-  --ivory: #f8f6f1;
+  --canvas: #fafafa;
+  --paper: #ffffff;
+  --mist: #edf1ee;
+  --ivory: #f4f6f5;
   --silver: #6f7974;
-  --text-body: #3d4a44;
+  --text-body: #2e3a34;
   --champagne: #c9a86a;
   --racing-green: #123d33;
   --success: #7ca982;
   --warning: #d6a84f;
   --danger: #c45a4a;
-  --background: #fbf9f5;
-  --foreground: #202823;
-  --card: #fffefb;
+  --background: #fafafa;
+  --foreground: #16201b;
+  --card: #ffffff;
   --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
   --focus: #c9a86a;
-  --overlay: rgba(255, 254, 251, 0.90);
-  --hero-gradient-1: rgba(201, 168, 106, 0.12);
+  --overlay: rgba(255, 255, 255, 0.90);
+  --hero-gradient-1: rgba(18, 61, 51, 0.05);
   --hero-gradient-2: rgba(18, 61, 51, 0.06);
 
   --bg: var(--canvas);
@@ -32,7 +32,7 @@
   --surface-warm: var(--ivory);
   --fg: var(--graphite);
   --fg-2: var(--charcoal);
-  --text-muted: #5d6a64;
+  --text-muted: #4e5b55;
   --border-color: var(--mist);
   --border-subtle: rgba(32, 40, 35, 0.08);
   --accent: var(--champagne);
@@ -787,32 +787,32 @@ select {
 
 .scrollfx-path-glow {
   stroke: url(#scrollfx-grad);
-  stroke-width: 14;
-  opacity: 0.55;
-  filter: blur(10px);
+  stroke-width: 16;
+  opacity: 0.5;
+  filter: blur(9px);
 }
 
 .scrollfx-path-main {
   stroke: url(#scrollfx-grad);
-  stroke-width: 4.5;
-  filter: drop-shadow(0 0 6px rgba(25, 229, 143, 0.9)) drop-shadow(0 0 14px rgba(255, 209, 102, 0.7));
+  stroke-width: 5;
+  filter: drop-shadow(0 0 6px rgba(15, 143, 94, 0.85)) drop-shadow(0 0 16px rgba(13, 107, 74, 0.6));
 }
 
 .scrollfx-path-core {
-  stroke: #ffffff;
-  stroke-width: 1.6;
-  opacity: 0.95;
+  stroke: #36f5a4;
+  stroke-width: 1.4;
+  opacity: 0.85;
 }
 
 .scrollfx-arrow path {
-  fill: #ffffff;
-  stroke: #19e58f;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 8px rgba(25, 229, 143, 1)) drop-shadow(0 0 18px rgba(255, 209, 102, 0.9));
+  fill: #0d3f31;
+  stroke: #2bffa8;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(43, 255, 168, 0.95)) drop-shadow(0 0 20px rgba(15, 143, 94, 0.8));
 }
 
 .scrollfx-arrow-halo {
-  fill: rgba(25, 229, 143, 0.22);
+  fill: rgba(15, 143, 94, 0.28);
   animation: scrollfx-halo 1.6s ease-in-out infinite !important;
   animation-duration: 1.6s !important;
 }

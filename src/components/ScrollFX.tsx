@@ -35,9 +35,9 @@ export function ScrollFX() {
     grad.setAttribute("x2", "0");
     grad.setAttribute("y2", "1");
     for (const [offset, color] of [
-      ["0%", "#19e58f"],
-      ["50%", "#ffd166"],
-      ["100%", "#ff8a5c"],
+      ["0%", "#0d6b4a"],
+      ["55%", "#0f8f5e"],
+      ["100%", "#ffd166"],
     ]) {
       const stop = svgEl("stop");
       stop.setAttribute("offset", offset);
