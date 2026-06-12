@@ -911,15 +911,21 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(circle at 88% -8%, var(--aurora-1), transparent 40rem),
-    radial-gradient(circle at 102% 38%, var(--aurora-2), transparent 32rem);
+    radial-gradient(circle at 102% 38%, var(--aurora-2), transparent 32rem),
+    radial-gradient(circle at -6% 18%, var(--aurora-3), transparent 36rem),
+    radial-gradient(ellipse at 46% 64%, var(--aurora-4), transparent 30rem);
 }
 
 :root {
   --aurora-1: rgba(168, 85, 247, 0.14);
   --aurora-2: rgba(236, 72, 153, 0.08);
+  --aurora-3: rgba(56, 189, 248, 0.10);
+  --aurora-4: rgba(167, 139, 250, 0.06);
 }
 
 :root[data-theme="dark"] {
   --aurora-1: rgba(168, 85, 247, 0.10);
   --aurora-2: rgba(236, 72, 153, 0.05);
+  --aurora-3: rgba(56, 189, 248, 0.06);
+  --aurora-4: rgba(167, 139, 250, 0.045);
 }
