@@ -534,8 +534,8 @@ export function AnalyzerApp() {
       </header>
 
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
-        <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
+        <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[1fr_0.62fr] md:items-start lg:grid-cols-[1.28fr_0.72fr]">
+          <aside className="order-2 rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Used-car listing check</p>
             <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
               Find out if this listing is worth it.
@@ -613,7 +613,7 @@ export function AnalyzerApp() {
 
           <section
             id="analyzer"
-            className="flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 lg:self-stretch"
+            className="order-1 flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 lg:self-stretch"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -661,25 +661,6 @@ export function AnalyzerApp() {
               </div>
             ) : (
               <>
-            <div className="card mt-5 !bg-[var(--canvas)]">
-              <div className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                New here? See a real scan
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-4">
-                {exampleListings.map((example) => (
-                  <button
-                    key={example.id}
-                    type="button"
-                    onClick={() => loadExampleListing(example.text)}
-                    className="group w-full rounded-xl border border-[var(--line)] bg-[var(--paper)] p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
-                  >
-                    <span className="block text-sm font-bold text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
-                    <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{example.tone}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Ways to check a car listing">
               {inputMethods.map((method) => (
                 (() => {
@@ -712,7 +693,7 @@ export function AnalyzerApp() {
               ))}
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 rounded-2xl border-2 border-[rgba(18,61,51,0.30)] bg-[var(--accent-2-soft)] p-4 shadow-[0_18px_44px_-26px_rgba(18,61,51,0.45)]">
               {inputType === "url" ? (
                 <div className="grid gap-3">
                   <label className="grid gap-2">
@@ -837,6 +818,25 @@ export function AnalyzerApp() {
                 Check deal
               </button>
               <span className="text-xs font-medium text-[var(--text-muted)]">{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
+            </div>
+
+            <div className="card mt-5 !bg-[var(--canvas)]">
+              <div className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                New here? See a real scan
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-4">
+                {exampleListings.map((example) => (
+                  <button
+                    key={example.id}
+                    type="button"
+                    onClick={() => loadExampleListing(example.text)}
+                    className="group w-full rounded-xl border border-[var(--line)] bg-[var(--paper)] p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
+                  >
+                    <span className="block text-sm font-bold text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
+                    <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{example.tone}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <p className="mt-auto pt-4 text-xs leading-5 text-[var(--text-muted)]">
