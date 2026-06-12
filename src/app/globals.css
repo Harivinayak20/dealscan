@@ -901,3 +901,25 @@ select {
     bottom: 86px;
   }
 }
+
+/* Aurora tint: fixed behind-the-content wash, visible while scrolling */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 88% -8%, var(--aurora-1), transparent 40rem),
+    radial-gradient(circle at 102% 38%, var(--aurora-2), transparent 32rem);
+}
+
+:root {
+  --aurora-1: rgba(168, 85, 247, 0.14);
+  --aurora-2: rgba(236, 72, 153, 0.08);
+}
+
+:root[data-theme="dark"] {
+  --aurora-1: rgba(168, 85, 247, 0.10);
+  --aurora-2: rgba(236, 72, 153, 0.05);
+}

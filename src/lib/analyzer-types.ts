@@ -1,6 +1,6 @@
 export type InputType = "url" | "text" | "screenshot" | "manual";
 
-export type AnalysisMode = "groq" | "local";
+export type AnalysisMode = "groq" | "gemini" | "local";
 
 export type ManualDetails = {
   year?: string;

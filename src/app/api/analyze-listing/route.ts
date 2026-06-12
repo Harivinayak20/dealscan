@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { AnalyzeListingRequest, AnalyzeListingResult } from "@/lib/analyzer-types";
 import { getAnalysisCacheKey, getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache";
 import { analyzeListingRequestSchema } from "@/lib/analyze-listing-schema";
-import { getAiProviderConfig, runGroqAnalysis } from "@/lib/ai-providers";
+import { getAiProviderConfig, runAnalysisWithFailover } from "@/lib/ai-providers";
 import { analyzeListingLocally } from "@/lib/local-analyzer";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
@@ -66,25 +66,19 @@ export async function POST(request: Request) {
     });
   }
 
-  let result: AnalyzeListingResult;
+  const { result, analysisMode, notice } = await runAnalysisWithFailover(body, localResult);
 
-  try {
-    result = await runGroqAnalysis(body, localResult);
-  } catch (caughtError) {
-    return NextResponse.json(
-      { error: caughtError instanceof Error ? caughtError.message : "Groq analysis failed." },
-      { status: 502 },
-    );
+  // Do not cache local fallbacks under the AI cache variant: the next
+  // request should retry the AI providers instead of reusing the downgrade.
+  if (analysisMode !== "local") {
+    setCachedAnalysis(cacheKey, result, analysisMode);
   }
-
-  const analysisMode = "groq";
-
-  setCachedAnalysis(cacheKey, result, analysisMode);
 
   return NextResponse.json({
     result,
     analysisMode,
     cached: false,
-    provider: providerConfig.provider,
+    provider: analysisMode,
+    ...(notice ? { notice } : {}),
   });
 }

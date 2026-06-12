@@ -100,6 +100,92 @@ export function getAiProviderConfig(): ProviderConfig {
   };
 }
 
+const GEMINI_DEFAULT_MODEL = "gemini-2.0-flash";
+const GEMINI_TIMEOUT_MS = 10_000;
+
+export async function runGeminiAnalysis(request: AnalyzeListingRequest, localResult: AnalyzeListingResult) {
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not configured.");
+  }
+
+  const model = process.env.GEMINI_MODEL || GEMINI_DEFAULT_MODEL;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: "user", parts: [{ text: buildUserPrompt(request, localResult) }] }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 1600,
+          responseMimeType: "application/json",
+        },
+      }),
+      signal: controller.signal,
+    },
+  ).finally(() => clearTimeout(timeout));
+
+  if (!response.ok) {
+    throw new Error(`Gemini analysis failed with HTTP ${response.status}.`);
+  }
+
+  const data = (await response.json()) as {
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  };
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!text) {
+    throw new Error("Gemini did not return analysis text.");
+  }
+
+  return normalizeResult(extractJson(text));
+}
+
+export type FailoverAnalysis = {
+  result: AnalyzeListingResult;
+  analysisMode: "groq" | "gemini" | "local";
+  notice?: string;
+};
+
+/**
+ * Provider chain: Groq -> Gemini (when configured) -> local heuristic.
+ * The user always gets an analysis; a notice explains any downgrade.
+ */
+export async function runAnalysisWithFailover(
+  request: AnalyzeListingRequest,
+  localResult: AnalyzeListingResult,
+): Promise<FailoverAnalysis> {
+  try {
+    return { result: await runGroqAnalysis(request, localResult), analysisMode: "groq" };
+  } catch {
+    // fall through
+  }
+
+  if (process.env.GEMINI_API_KEY?.trim()) {
+    try {
+      return { result: await runGeminiAnalysis(request, localResult), analysisMode: "gemini" };
+    } catch {
+      // fall through
+    }
+  }
+
+  return {
+    result: localResult,
+    analysisMode: "local",
+    notice: "AI scoring is briefly at capacity, so the built-in analyzer scored this listing. Re-run in a minute for the AI-enhanced version.",
+  };
+}
+
 export async function runGroqAnalysis(request: AnalyzeListingRequest, localResult: AnalyzeListingResult) {
   const config = getAiProviderConfig();
 

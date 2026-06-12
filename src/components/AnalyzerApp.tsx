@@ -852,7 +852,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="market-data" className="bg-[var(--mist)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="market-data" className="bg-[var(--mist)] px-5 py-12 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
@@ -890,7 +890,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-12 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-[1200px]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
@@ -899,7 +899,7 @@ export function AnalyzerApp() {
               Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
             </p>
           </div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <div className="card-hover">
               <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
                 <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
@@ -928,32 +928,17 @@ export function AnalyzerApp() {
               </p>
             </div>
           </div>
-          <div className="mt-10 text-center">
-            <a
-              href="#analyzer"
-              onClick={(event) => {
-                event.preventDefault();
-                window.setTimeout(() => {
-                  document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
-                }, 100);
-              }}
-              className="btn-pill !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]"
-            >
-              <SearchCheck className="h-5 w-5" aria-hidden="true" />
-              Try it now
-            </a>
-          </div>
         </div>
       </section>
 
-      <section id="faq" className="bg-[var(--ivory)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="faq" className="bg-[var(--ivory)] px-5 py-12 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto max-w-3xl">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
             <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
           </div>
-          <div className="mt-10 grid gap-4">
-            {faqs.map(({ q, a }) => (
+          <div className="mt-8 grid gap-4">
+            {faqs.slice(0, 4).map(({ q, a }) => (
               <details
                 key={q}
                 className="card-hover !p-5"
@@ -965,11 +950,25 @@ export function AnalyzerApp() {
                 <p className="mt-4 text-base leading-7 text-[var(--text-muted)]">{a}</p>
               </details>
             ))}
+            <details className="card-hover !p-5">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold text-[var(--graphite)]">
+                <span>More questions</span>
+                <ChevronRight className="h-5 w-5 shrink-0 text-[var(--champagne)] transition group-open:rotate-90" aria-hidden="true" />
+              </summary>
+              <div className="mt-4 grid gap-4">
+                {faqs.slice(4).map(({ q, a }) => (
+                  <div key={q}>
+                    <h3 className="text-base font-bold text-[var(--graphite)]">{q}</h3>
+                    <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{a}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
           </div>
         </div>
       </section>
 
-      <section id="resources" className="bg-[var(--paper)] px-5 py-16 text-[var(--graphite)] sm:px-7">
+      <section id="resources" className="bg-[var(--paper)] px-5 py-12 text-[var(--graphite)] sm:px-7">
         <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer tools</p>
