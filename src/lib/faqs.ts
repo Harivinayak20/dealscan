@@ -14,7 +14,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What marketplaces does it work with?",
-    a: "It works with public listings from Craigslist, Facebook Marketplace, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Paste the link, seller notes, or a listing photo.",
+    a: "Link extraction works with public listings from Craigslist, Cars.com, Autotrader, CarGurus, and dealer inventory pages. Facebook Marketplace requires a login, so for those paste the ad text or upload a screenshot — the analysis works the same.",
   },
   {
     q: "Do you store my listings or personal data?",

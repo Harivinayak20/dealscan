@@ -610,7 +610,7 @@ export function AnalyzerApp() {
 
           <section
             id="analyzer"
-            className="rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6"
+            className="flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 lg:self-stretch"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -836,8 +836,8 @@ export function AnalyzerApp() {
               <span className="text-xs font-medium text-[var(--text-muted)]">{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
             </div>
 
-            <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
-              Works with Craigslist, Facebook Marketplace, Autotrader, Cars.com, CarGurus, and any dealer page.
+            <p className="mt-auto pt-4 text-xs leading-5 text-[var(--text-muted)]">
+              Works with Craigslist, Autotrader, Cars.com, CarGurus, and most dealer pages. Facebook Marketplace links need a login, so paste the ad text or a screenshot instead.
             </p>
             </>
             )}

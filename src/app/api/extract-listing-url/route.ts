@@ -15,6 +15,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Send a listing URL as JSON." }, { status: 400 });
   }
 
+  // Facebook requires a login and aggressively blocks readers; fetching it
+  // can even exceed Worker limits. Fail fast with a useful suggestion.
+  if (/(^|\/\/|\.)(facebook\.com|fb\.com|fb\.me|instagram\.com)/i.test(url)) {
+    return NextResponse.json(
+      {
+        error:
+          "Facebook Marketplace pages need a login, so links can't be read. Copy the ad text into Seller notes or upload a screenshot of the listing instead.",
+      },
+      { status: 400 },
+    );
+  }
+
   try {
     const listing = await scrapeListingUrl(url);
     return NextResponse.json({ listing });
