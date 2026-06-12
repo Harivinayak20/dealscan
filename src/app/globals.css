@@ -767,3 +767,63 @@ select {
   opacity: 1;
   transform: none;
 }
+
+/* Glowing vertical S-curve (ScrollFX) */
+.scrollfx-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.scrollfx-path-glow,
+.scrollfx-path-main,
+.scrollfx-path-core {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.scrollfx-path-glow {
+  stroke: url(#scrollfx-grad);
+  stroke-width: 14;
+  opacity: 0.55;
+  filter: blur(10px);
+}
+
+.scrollfx-path-main {
+  stroke: url(#scrollfx-grad);
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 6px rgba(25, 229, 143, 0.9)) drop-shadow(0 0 14px rgba(255, 209, 102, 0.7));
+}
+
+.scrollfx-path-core {
+  stroke: #ffffff;
+  stroke-width: 1.6;
+  opacity: 0.95;
+}
+
+.scrollfx-arrow path {
+  fill: #ffffff;
+  stroke: #19e58f;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px rgba(25, 229, 143, 1)) drop-shadow(0 0 18px rgba(255, 209, 102, 0.9));
+}
+
+.scrollfx-arrow-halo {
+  fill: rgba(25, 229, 143, 0.22);
+  animation: scrollfx-halo 1.6s ease-in-out infinite !important;
+  animation-duration: 1.6s !important;
+}
+
+@keyframes scrollfx-halo {
+  0%, 100% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.25;
+  }
+}
