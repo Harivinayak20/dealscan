@@ -7,6 +7,7 @@ export type Guide = {
   slug: string;
   title: string;
   description: string;
+  quickAnswer: string;
   readTime: string;
   updatedAt: string;
   quickChecks: string[];
@@ -19,6 +20,8 @@ export const guides: Guide[] = [
     title: "Used car red flags that should slow you down",
     description:
       "A practical checklist for title issues, mileage gaps, seller behavior, price traps, and missing proof before you visit a car.",
+    quickAnswer:
+      "The biggest used-car red flags are title problems (salvage, rebuilt, missing, or \"title in mail\"), a price far below comparable cars, a seller who avoids sharing the VIN or allowing inspection, and mileage that does not match the car's wear. One of these means verify before you visit; two or more usually means walk away.",
     readTime: "7 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -56,6 +59,8 @@ export const guides: Guide[] = [
     title: "How to price a used car before messaging the seller",
     description:
       "A simple pricing workflow using mileage, title status, condition, options, market comps, and seller proof.",
+    quickAnswer:
+      "To price a used car, build a comp set of the same year, trim, mileage band, and title status, then adjust down for missing records, unclear history, or maintenance that is due. Decide your fair range, first offer, and walk-away number before you message the seller.",
     readTime: "8 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -93,6 +98,8 @@ export const guides: Guide[] = [
     title: "Pre-purchase inspection checklist for used cars",
     description:
       "What to check yourself, what to ask the mechanic, and when an inspection should change the offer.",
+    quickAnswer:
+      "A pre-purchase inspection at an independent mechanic costs roughly $100 to $250 and checks the frame, fluids, brakes, suspension, and computer codes before you commit. If a seller refuses an inspection, treat it as a serious red flag and lower your offer or walk away.",
     readTime: "6 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -130,6 +137,8 @@ export const guides: Guide[] = [
     title: "Questions to ask a private seller before a test drive",
     description:
       "A message script for checking title, VIN, records, condition, payment, inspection, and meeting safety before you go.",
+    quickAnswer:
+      "Before a test drive, ask the seller why they are selling, how long they have owned the car, whether the title is clean and in their name, what has been repaired or replaced, and whether a pre-purchase inspection is okay. Honest sellers answer all five easily; friction on any of them is a warning sign.",
     readTime: "5 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -167,6 +176,8 @@ export const guides: Guide[] = [
     title: "How to buy your first used car without getting ripped off",
     description:
       "A step-by-step guide for first-time buyers: budgeting, searching, inspecting, negotiating, and closing the deal with confidence.",
+    quickAnswer:
+      "First-time buyers avoid the worst outcomes with four habits: verify the title and VIN, compare the price to real comparable listings, get a pre-purchase inspection, and never pay before the paperwork is done. Most bad purchases happen because the buyer was rushed.",
     readTime: "9 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -204,6 +215,8 @@ export const guides: Guide[] = [
     title: "Used car negotiation tips that actually work",
     description:
       "How to negotiate with private sellers and dealers using evidence, timing, and simple scripts.",
+    quickAnswer:
+      "Good used-car negotiation is evidence-based: anchor your offer to comparable listings and documented needs like tires, brakes, or missing records, not to feelings. Set a walk-away number before you arrive and be genuinely willing to use it.",
     readTime: "7 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -241,6 +254,8 @@ export const guides: Guide[] = [
     title: "Common Craigslist and Facebook Marketplace car scams to avoid",
     description:
       "How to spot fake listings, title washing, odometer rollback, and seller scams before you lose money.",
+    quickAnswer:
+      "The most common marketplace car scams are fake escrow services, deposit-before-viewing requests, cloned listings copied from real ads, washed titles, and shipped cars that do not exist. Never send money before seeing the car, the title, and the seller's ID together.",
     readTime: "6 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -278,6 +293,8 @@ export const guides: Guide[] = [
     title: "What mileage is too high for a used car?",
     description:
       "How to evaluate mileage by make, model, maintenance history, and how it affects the deal score.",
+    quickAnswer:
+      "There is no single number that makes mileage too high — a 120,000-mile Toyota with records can be a better buy than a 60,000-mile car with none. Judge mileage against the model's reliability, the maintenance proof, and the price, using roughly 12,000 miles per year as the baseline.",
     readTime: "6 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -315,6 +332,8 @@ export const guides: Guide[] = [
     title: "Used car financing guide for private-party purchases",
     description:
       "How to get pre-approved, compare loan rates, and avoid dealer financing traps when buying a used car.",
+    quickAnswer:
+      "For a private-party purchase, get pre-approved with a bank or credit union before you shop; private-party auto loans exist but carry slightly higher rates than dealer financing. Never finance through the seller, and document everything with a bill of sale.",
     readTime: "7 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -352,6 +371,8 @@ export const guides: Guide[] = [
     title: "How to check a used car history before buying",
     description:
       "What a Carfax report covers, what it misses, and how to verify title, accidents, and ownership yourself.",
+    quickAnswer:
+      "Run the VIN through a paid history report like Carfax or AutoCheck, the free NICB VINCheck for theft and salvage records, and NHTSA.gov for open recalls. A clean report does not guarantee a clean car — unreported accidents are common — so pair it with an inspection.",
     readTime: "5 min read",
     updatedAt: "2026-06-08",
     quickChecks: [
@@ -389,6 +410,8 @@ export const guides: Guide[] = [
     title: "When is the best time to buy a used car?",
     description:
       "How month-end, model-year changeovers, tax season, and weather affect used car prices, and when patience pays off.",
+    quickAnswer:
+      "Used-car deals cluster at the end of the month and quarter, in late fall and winter, and around model-year turnover when trade-ins surge. The biggest factor is still listing age: a car that has been sitting for weeks negotiates far better than a fresh ad.",
     readTime: "6 min read",
     updatedAt: "2026-06-11",
     quickChecks: [
@@ -426,6 +449,8 @@ export const guides: Guide[] = [
     title: "Used car test drive checklist: what to look, listen, and feel for",
     description:
       "A step-by-step test drive routine covering cold start, brakes, transmission, steering, electronics, and the questions to ask after.",
+    quickAnswer:
+      "A complete test drive includes a cold start, highway speeds, hard braking, tight turns in both directions, and every electronic feature in the car. Listen for knocks, feel for pulls and vibrations, watch the gauges, and compare what you find to what the ad claimed.",
     readTime: "7 min read",
     updatedAt: "2026-06-11",
     quickChecks: [
@@ -463,6 +488,8 @@ export const guides: Guide[] = [
     title: "Buying from a dealer vs a private seller: which is right for you?",
     description:
       "Price, paperwork, fees, warranties, and risk compared, so you know what you are trading when you pick where to buy.",
+    quickAnswer:
+      "Dealers offer recourse, financing, and easier paperwork but charge more; private sellers are cheaper but sell as-is, so the verification is on you. Buy from a dealer if you need financing or certainty, and buy private if you can inspect, verify, and pay carefully.",
     readTime: "7 min read",
     updatedAt: "2026-06-11",
     quickChecks: [
@@ -500,6 +527,8 @@ export const guides: Guide[] = [
     title: "Buying a used electric car: battery health, range, and red flags",
     description:
       "How to evaluate battery degradation, charging history, warranty transfer, and pricing when buying a used EV.",
+    quickAnswer:
+      "On a used electric car, battery health decides the deal: check the state-of-health reading, real-world range against the original spec, and whether the battery warranty (typically 8 years or 100,000 miles) transfers to you. A degraded pack can cost more than the car is worth.",
     readTime: "8 min read",
     updatedAt: "2026-06-11",
     quickChecks: [
@@ -537,6 +566,8 @@ export const guides: Guide[] = [
     title: "Used car paperwork: how to handle title transfer, bill of sale, and registration",
     description:
       "The exact documents you need when buying from a private seller, how to avoid title problems, and what to do at the DMV.",
+    quickAnswer:
+      "To transfer a used car you need the signed title with no blank fields, a bill of sale, an odometer disclosure, and registration in your state, in that order. Never hand over the money until the signed title is in your hand.",
     readTime: "6 min read",
     updatedAt: "2026-06-11",
     quickChecks: [
@@ -565,6 +596,123 @@ export const guides: Guide[] = [
         body: [
           "Most states give you a short window, often 10 to 30 days, to transfer the title and register the car. You will typically need the signed title, bill of sale, proof of insurance, and payment for sales tax and fees.",
           "Arrange insurance before you drive the car home — most insurers can add a car by phone in minutes. Keep copies of everything until the new title arrives in your name.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "facebook-marketplace-car-buying-safety",
+    title: "How to buy a car on Facebook Marketplace without getting scammed",
+    description:
+      "The scams specific to Facebook Marketplace, how to vet a seller profile, and the safe way to handle messaging, viewing, and payment.",
+    quickAnswer:
+      "Buy safely on Facebook Marketplace by checking the seller's profile age and activity, insisting on seeing the car, title, and ID together, meeting at a police-station exchange zone, and never paying a deposit to hold a car. Deposits, shipping offers, and off-platform payment links are the three biggest Marketplace scams.",
+    readTime: "7 min read",
+    updatedAt: "2026-06-12",
+    quickChecks: [
+      "Seller profile is older than a few months with real activity",
+      "No deposit, gift card, crypto, or wire requested before viewing",
+      "Car, signed title, and seller ID can be seen together in person",
+      "Meet in daylight at a public exchange zone, not a random lot",
+    ],
+    sections: [
+      {
+        heading: "Vet the profile before the car",
+        body: [
+          "Marketplace scammers churn through fresh accounts. Before you ask about the car, open the seller's profile: account age, profile photos, mutual activity, and whether the same car appears in other listings at different prices. A days-old account selling a clean car far below market is the single most common scam setup on the platform.",
+          "Reverse-search the listing photos. Cloned listings copy photos and text from a real ad in another city, then invent a reason the price is low. If the same photos show up under a different seller or city, report it and move on.",
+        ],
+      },
+      {
+        heading: "The deposit trap and other money scams",
+        body: [
+          "No legitimate private seller needs money to hold a car for a first viewing. Deposit-to-hold requests, shipping offers from sellers who are suddenly out of state, escrow links, and any payment in gift cards or crypto are all versions of the same scam: getting money before you can verify the car exists.",
+          "Facebook's purchase protection does not cover vehicles, so treat every Marketplace transaction as cash-on-inspection. Pay only when you are holding the signed title, and use a cashier's check or bank transfer completed inside the bank for larger amounts.",
+        ],
+      },
+      {
+        heading: "Verify the listing the same way for every platform",
+        body: [
+          "Once the seller passes the profile check, the rest is normal used-car diligence: VIN, history report, mileage versus wear, service records, and a pre-purchase inspection. Marketplace listings cannot be opened by tools that need a login, so copy the ad text or take a screenshot and paste it into Dealscan to get the same red-flag scan and deal score as any other listing.",
+          "Meet in daylight at a police-station safe exchange zone for the first viewing, bring a friend, and let the seller's reaction to basic verification requests tell you the rest. Friction on the VIN, title, or inspection is your answer.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "offerup-car-scams",
+    title: "OfferUp car scams: what to watch for before you meet a seller",
+    description:
+      "How OfferUp car scams work, which seller signals matter, and the verification steps that protect you on local classifieds apps.",
+    quickAnswer:
+      "The most common OfferUp car scams are deposit-to-hold requests, fake shipping through a phony OfferUp partner, VIN report phishing where the seller insists you buy a report from their link, and curbstoners posing as private owners. Verify the seller's name against the title, pay only in person, and run the VIN yourself through sources you chose.",
+    readTime: "6 min read",
+    updatedAt: "2026-06-12",
+    quickChecks: [
+      "Seller name matches the name on the title",
+      "VIN checked through your own sources, never the seller's link",
+      "No shipping, escrow, deposit, or off-app payment",
+      "TruYou or verified profile, plus real listing history",
+    ],
+    sections: [
+      {
+        heading: "The scams unique to classifieds apps",
+        body: [
+          "OfferUp does not ship cars and has no vehicle escrow service. Any seller who offers shipping, sends an escrow link, or asks for a deposit because they are out of town is running the same scam playbook: the car either does not exist or is not theirs to sell.",
+          "Watch for VIN-report phishing. A scammer insists you buy a history report from a specific site they link, the site collects your card details, and the car was never real. Always run the VIN through a report provider you found yourself.",
+        ],
+      },
+      {
+        heading: "Spotting curbstoners",
+        body: [
+          "Curbstoners are unlicensed flippers who pose as private owners to dump auction cars with hidden problems. The tell is ownership friction: the title is not in their name, they have several cars listed at once, they suggest meeting somewhere that is not their home, and the story about why they are selling is thin.",
+          "Ask one simple question early: is the title in your name? If it is not, the discount needs to be large and the verification needs to be airtight, because title-jumping can leave you with a car you cannot register.",
+        ],
+      },
+      {
+        heading: "A verification routine that works everywhere",
+        body: [
+          "The protection is the same routine every time: VIN first, history report from your own source, mileage against wear, records, inspection, and payment only against a signed title. Paste the ad text into Dealscan before you message the seller to see the red flags and the questions worth asking.",
+          "On meeting day, choose a public exchange zone, verify ID against the title, and walk away from any change in the title story. The car you skip costs you nothing.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "spot-fake-car-listing",
+    title: "How to spot a fake car listing in 60 seconds",
+    description:
+      "The fast checks that expose cloned ads, phantom cars, and bait listings before you waste time or send money.",
+    quickAnswer:
+      "Spot a fake car listing by checking three things: a price meaningfully below every comparable car, stock-looking photos that reverse-search to other ads or dealer sites, and a seller who cannot produce the VIN or answers with a sob story and a shipping offer. Real cars have VINs, local sellers, and prices that make sense.",
+    readTime: "5 min read",
+    updatedAt: "2026-06-12",
+    quickChecks: [
+      "Price is within range of comparable listings",
+      "Photos are original, consistent, and not found elsewhere",
+      "Seller produces the VIN without friction",
+      "Story, location, and contact details all line up",
+    ],
+    sections: [
+      {
+        heading: "The 60-second screen",
+        body: [
+          "Fake listings are built to be skimmed, so slow down for one minute. Check the price against three comparable cars, reverse-search one photo, and ask for the VIN. A phantom car fails at least two of those three checks almost every time.",
+          "Bait pricing has a tell: the discount has no explanation. A real cheap car has a reason in the ad — salvage title, needs work, high miles. A fake cheap car is described as perfect, because the scammer wants maximum replies.",
+        ],
+      },
+      {
+        heading: "Read the seller, not just the ad",
+        body: [
+          "Military deployment, divorce sale, moving overseas this week, selling for a relative: these stories appear constantly in fake ads because they explain both the low price and why you cannot meet. The story itself is not proof of a scam, but a story plus no VIN plus shipping is.",
+          "Templated replies are another tell. If the answers do not engage with your specific questions, you are talking to a script. Ask something only a real owner would know, like what the last repair cost or which tire is newest.",
+        ],
+      },
+      {
+        heading: "Confirm with tools, then verify in person",
+        body: [
+          "Run the VIN through NICB VINCheck for theft and salvage, and look up the plate state if shown. Paste the full ad into Dealscan to surface red flags, price context, and the missing details worth asking about — a listing that hides the basics usually scores poorly for a reason.",
+          "Nothing replaces seeing the car, the title, and the ID together. Until that moment, treat every dollar requested as a scam test you should fail on purpose.",
         ],
       },
     ],

@@ -60,8 +60,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
     dateModified: guide.updatedAt,
     datePublished: guide.updatedAt,
     author: {
-      "@type": "Organization",
-      name: "Dealscan",
+      "@type": "Person",
+      name: "Hari Vinayak",
+      url: `${appUrl}/about`,
     },
     publisher: {
       "@type": "Organization",
@@ -99,7 +100,15 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             {guide.title}
           </h1>
+          <p className="mt-3 text-sm text-[var(--text-muted)]">
+            By <Link href="/about" className="font-semibold underline-offset-2 hover:underline">Hari Vinayak</Link> · Updated {guide.updatedAt}
+          </p>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--text-body)]">{guide.description}</p>
+
+          <div className="mt-6 max-w-3xl rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-5 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-wide text-[var(--racing-green)]">Quick answer</p>
+            <p className="mt-2 text-base leading-7 text-[var(--text-body)]">{guide.quickAnswer}</p>
+          </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[0.72fr_0.28fr] lg:items-start">
             <div className="space-y-8">
