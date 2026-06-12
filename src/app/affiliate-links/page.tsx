@@ -69,7 +69,7 @@ export default function AffiliateLinksPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -105,7 +105,7 @@ export default function AffiliateLinksPage() {
                 className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/90 p-5 shadow-xl shadow-black/5 transition duration-200 hover:-translate-y-1.5 hover:border-[var(--champagne)] hover:shadow-2xl hover:shadow-black/10"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(47,192,140,0.10)] text-[var(--racing-green)] transition group-hover:scale-110 group-hover:bg-[var(--racing-green)] group-hover:text-white">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-2-soft)] text-[var(--racing-green)] transition group-hover:scale-110 group-hover:bg-[var(--racing-green)] group-hover:text-white">
                     <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
                   <ArrowUpRight className="h-6 w-6 text-[var(--text-muted)] transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />

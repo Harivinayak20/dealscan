@@ -4,41 +4,51 @@
 @import "open-props/shadows.min.css";
 
 :root {
-  --graphite: #eef3ef;
+  --graphite: #16201b;
   --charcoal: #111814;
-  --canvas: #0e1411;
-  --paper: #161d19;
-  --mist: #1a221d;
-  --ivory: #121915;
-  --silver: #9fb0a7;
-  --text-body: #c3cfc7;
+  --canvas: #fafafa;
+  --paper: #ffffff;
+  --mist: #edf1ee;
+  --ivory: #f4f6f5;
+  --silver: #6f7974;
+  --text-body: #2e3a34;
   --champagne: #c9a86a;
-  --racing-green: #2fc08c;
+  --racing-green: #123d33;
   --success: #7ca982;
   --warning: #d6a84f;
   --danger: #c45a4a;
-  --background: #0e1411;
-  --foreground: #eef3ef;
-  --card: #161d19;
-  --muted: #8a988f;
+  --background: #fafafa;
+  --foreground: #16201b;
+  --card: #ffffff;
+  --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
-  --focus: #ffd166;
-  --overlay: rgba(14, 20, 17, 0.88);
-  --hero-gradient-1: rgba(26, 122, 88, 0.14);
-  --hero-gradient-2: rgba(201, 168, 106, 0.07);
+  --focus: #c9a86a;
+  --line: rgba(15, 23, 19, 0.12);
+  --accent-2-soft: rgba(18, 61, 51, 0.07);
+  --accent-2-soft-2: rgba(18, 61, 51, 0.13);
+  --accent-2-line: rgba(18, 61, 51, 0.22);
+  --fx-1: #123d33;
+  --fx-2: #0f8f5e;
+  --fx-3: #b07c2e;
+  --fx-arrow-fill: #0d3f31;
+  --fx-arrow-edge: #19c986;
+  --fx-core: #2fc08c;
+  --overlay: rgba(255, 255, 255, 0.90);
+  --hero-gradient-1: rgba(18, 61, 51, 0.05);
+  --hero-gradient-2: rgba(18, 61, 51, 0.06);
 
   --bg: var(--canvas);
   --surface: var(--paper);
   --surface-warm: var(--ivory);
   --fg: var(--graphite);
   --fg-2: var(--charcoal);
-  --text-muted: #93a39b;
+  --text-muted: #4e5b55;
   --border-color: var(--mist);
-  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-subtle: rgba(15, 23, 19, 0.10);
   --accent: var(--champagne);
   --accent-on: var(--graphite);
   --accent-2: var(--racing-green);
-  --accent-2-on: #07120d;
+  --accent-2-on: #ffffff;
   --success-em: var(--success);
   --warn-em: var(--warning);
   --danger-em: var(--danger);
@@ -93,6 +103,40 @@
   --container-gutter-desktop: 32px;
   --container-gutter-tablet: 24px;
   --container-gutter-phone: 16px;
+}
+
+
+:root[data-theme="dark"] {
+  --graphite: #eef3ef;
+  --canvas: #0e1411;
+  --paper: #161d19;
+  --mist: #1a221d;
+  --ivory: #121915;
+  --silver: #9fb0a7;
+  --text-body: #c3cfc7;
+  --background: #0e1411;
+  --foreground: #eef3ef;
+  --card: #161d19;
+  --muted: #8a988f;
+  --overlay: rgba(14, 20, 17, 0.88);
+  --hero-gradient-1: rgba(26, 122, 88, 0.14);
+  --hero-gradient-2: rgba(201, 168, 106, 0.07);
+  --text-muted: #93a39b;
+  --racing-green: #2fc08c;
+  --accent-2-on: #07120d;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --focus: #ffd166;
+  --line: rgba(255, 255, 255, 0.11);
+  --accent-2-soft: rgba(47, 192, 140, 0.10);
+  --accent-2-soft-2: rgba(47, 192, 140, 0.16);
+  --accent-2-line: rgba(47, 192, 140, 0.30);
+  --fx-1: #0d6b4a;
+  --fx-2: #0f8f5e;
+  --fx-3: #ffd166;
+  --fx-arrow-fill: #0d3f31;
+  --fx-arrow-edge: #2bffa8;
+  --fx-core: #36f5a4;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -799,14 +843,14 @@ select {
 }
 
 .scrollfx-path-core {
-  stroke: #36f5a4;
+  stroke: var(--fx-core);
   stroke-width: 1.4;
   opacity: 0.85;
 }
 
 .scrollfx-arrow path {
-  fill: #0d3f31;
-  stroke: #2bffa8;
+  fill: var(--fx-arrow-fill);
+  stroke: var(--fx-arrow-edge);
   stroke-width: 2.5;
   filter: drop-shadow(0 0 8px rgba(43, 255, 168, 0.95)) drop-shadow(0 0 20px rgba(15, 143, 94, 0.8));
 }
@@ -825,5 +869,34 @@ select {
   50% {
     transform: scale(1.25);
     opacity: 0.25;
+  }
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--foreground);
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s var(--ease-standard);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (max-width: 1023px) {
+  .theme-toggle {
+    bottom: 86px;
   }
 }

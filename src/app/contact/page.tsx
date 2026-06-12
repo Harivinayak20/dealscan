@@ -20,7 +20,7 @@ export default function ContactPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -46,7 +46,7 @@ export default function ContactPage() {
             className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <div className="flex items-start gap-4">
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(47,192,140,0.10)] text-[var(--racing-green)] transition group-hover:bg-[var(--racing-green)] group-hover:text-white">
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-2-soft)] text-[var(--racing-green)] transition group-hover:bg-[var(--racing-green)] group-hover:text-white">
                 <Mail className="h-6 w-6" aria-hidden="true" />
               </span>
               <div>
@@ -60,7 +60,7 @@ export default function ContactPage() {
 
           <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <div className="flex items-start gap-4">
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(47,192,140,0.10)] text-[var(--racing-green)]">
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-2-soft)] text-[var(--racing-green)]">
                 <ShieldCheck className="h-6 w-6" aria-hidden="true" />
               </span>
               <div>

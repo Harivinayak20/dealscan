@@ -82,7 +82,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </Link>
           <Link
             href="/guides"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Guides
@@ -122,7 +122,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
               ))}
             </div>
 
-            <aside className="rounded-2xl border border-[rgba(47,192,140,0.28)] bg-[var(--paper)] p-5 shadow-sm lg:sticky lg:top-6">
+            <aside className="rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-5 shadow-sm lg:sticky lg:top-6">
               <h2 className="text-lg font-black">Quick checks</h2>
               <ul className="mt-4 grid gap-3">
                 {guide.quickChecks.map((item) => (

@@ -21,7 +21,7 @@ export default function GuidesPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer

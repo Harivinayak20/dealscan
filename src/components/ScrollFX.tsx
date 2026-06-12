@@ -34,14 +34,14 @@ export function ScrollFX() {
     grad.setAttribute("y1", "0");
     grad.setAttribute("x2", "0");
     grad.setAttribute("y2", "1");
-    for (const [offset, color] of [
-      ["0%", "#0d6b4a"],
-      ["55%", "#0f8f5e"],
-      ["100%", "#ffd166"],
+    for (const [offset, colorVar] of [
+      ["0%", "--fx-1"],
+      ["55%", "--fx-2"],
+      ["100%", "--fx-3"],
     ]) {
       const stop = svgEl("stop");
       stop.setAttribute("offset", offset);
-      stop.setAttribute("stop-color", color);
+      stop.style.stopColor = `var(${colorVar})`;
       grad.appendChild(stop);
     }
     defs.appendChild(grad);

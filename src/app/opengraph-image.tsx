@@ -61,7 +61,7 @@ export default async function OGImage() {
               gap: "16px",
               padding: "8px 20px",
               borderRadius: "999px",
-              border: "1px solid rgba(255,255,255,0.10)",
+              border: "1px solid var(--line)",
               background: "rgba(255,255,255,0.05)",
               color: "#c9a86a",
               fontSize: "18px",

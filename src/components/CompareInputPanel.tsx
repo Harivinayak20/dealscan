@@ -99,7 +99,7 @@ function DraftColumn({
           </span>
           <span className="text-sm font-black text-[var(--graphite)]">Car {label}</span>
         </div>
-        <div className="flex gap-1 rounded-lg border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-0.5">
+        <div className="flex gap-1 rounded-lg border border-[var(--line)] bg-[var(--paper)] p-0.5">
           {(["url", "notes", "manual"] as const).map((mode) => (
             <button
               key={mode}
@@ -130,7 +130,7 @@ function DraftColumn({
               type="button"
               onClick={handleExtractUrl}
               disabled={!draft.url.trim() || isExtracting}
-              className="btn-outline !rounded-xl !border-[rgba(47,192,140,0.32)] !px-3 !py-1.5 !text-xs !text-[var(--racing-green)] hover:!bg-[rgba(47,192,140,0.08)] disabled:opacity-50"
+              className="btn-outline !rounded-xl !border-[var(--accent-2-line)] !px-3 !py-1.5 !text-xs !text-[var(--racing-green)] hover:!bg-[var(--accent-2-soft)] disabled:opacity-50"
             >
               <FileSearch className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
               {isExtracting ? "Extracting..." : "Get details"}

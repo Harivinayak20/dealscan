@@ -56,7 +56,7 @@ export default function HowScoringWorksPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-bold shadow-sm transition hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-bold shadow-sm transition hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -88,7 +88,7 @@ export default function HowScoringWorksPage() {
           ))}
         </section>
 
-        <section className="mt-10 rounded-2xl border border-[rgba(47,192,140,0.30)] bg-[rgba(18,61,51,0.05)] p-6">
+        <section className="mt-10 rounded-2xl border border-[var(--accent-2-line)] bg-[rgba(18,61,51,0.05)] p-6">
           <h2 className="text-lg font-black">What the score cannot know</h2>
           <p className="mt-3 text-sm leading-6 text-[var(--text-body)]">
             The score reads the listing &mdash; it cannot see the car. It does not replace a vehicle history report, a

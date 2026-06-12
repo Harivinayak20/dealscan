@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
 import { ScrollFX } from "@/components/ScrollFX";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
@@ -81,6 +82,12 @@ export default function RootLayout({
     <html lang="en" className={geist.variable}>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}",
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
@@ -88,6 +95,7 @@ export default function RootLayout({
       </head>
       <body>
         <ScrollFX />
+        <ThemeToggle />
         {children}
       </body>
     </html>
