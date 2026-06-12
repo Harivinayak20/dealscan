@@ -492,7 +492,7 @@ export function AnalyzerApp() {
       <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
           <Link href="/" className="leading-tight text-left" aria-label="Dealscan.dev home">
-            <div className="text-2xl font-black">Dealscan.dev</div>
+            <div className="text-xl font-black sm:text-2xl">Dealscan.dev</div>
             <div className="text-[11px] font-bold uppercase text-[var(--racing-green)]">Listing review</div>
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex" aria-label="Primary">

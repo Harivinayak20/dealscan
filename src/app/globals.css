@@ -929,3 +929,10 @@ body::before {
   --aurora-3: rgba(56, 189, 248, 0.06);
   --aurora-4: rgba(167, 139, 250, 0.045);
 }
+
+/* No side gutters on small screens: the curve would run through content */
+@media (max-width: 1023px) {
+  .scrollfx-svg {
+    display: none;
+  }
+}
