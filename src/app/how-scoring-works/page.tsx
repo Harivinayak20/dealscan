@@ -56,7 +56,7 @@ export default function HowScoringWorksPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-bold shadow-sm transition hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-bold shadow-sm transition hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -64,7 +64,7 @@ export default function HowScoringWorksPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-bold text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--graphite)] shadow-sm">
             <Gauge className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Methodology
           </div>
@@ -80,7 +80,7 @@ export default function HowScoringWorksPage() {
 
         <section className="grid gap-4 md:grid-cols-2">
           {factors.map((factor, index) => (
-            <article key={factor.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <article key={factor.title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-[var(--racing-green)]">Factor {index + 1}</div>
               <h2 className="mt-2 text-lg font-black">{factor.title}</h2>
               <p className="mt-3 text-sm leading-6 text-[var(--text-body)]">{factor.text}</p>
@@ -88,7 +88,7 @@ export default function HowScoringWorksPage() {
           ))}
         </section>
 
-        <section className="mt-10 rounded-2xl border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.05)] p-6">
+        <section className="mt-10 rounded-2xl border border-[rgba(47,192,140,0.30)] bg-[rgba(18,61,51,0.05)] p-6">
           <h2 className="text-lg font-black">What the score cannot know</h2>
           <p className="mt-3 text-sm leading-6 text-[var(--text-body)]">
             The score reads the listing &mdash; it cannot see the car. It does not replace a vehicle history report, a

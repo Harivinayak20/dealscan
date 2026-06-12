@@ -19,11 +19,11 @@ export function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
   const title = pageTitles[pathname] ?? "Admin";
 
   return (
-    <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white/90 px-4 py-4 backdrop-blur-md sm:px-6">
+    <header className="sticky top-0 z-20 border-b border-[var(--border-subtle)] bg-white/90 px-4 py-4 backdrop-blur-md sm:px-6">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuToggle}
-          className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100 lg:hidden"
+          className="rounded-lg p-2 text-[var(--text-body)] hover:bg-neutral-100 lg:hidden"
           aria-label="Toggle navigation menu"
         >
           <Menu className="h-5 w-5" aria-hidden="true" />

@@ -66,7 +66,7 @@ export function AuthGate({ children }: AuthGateProps) {
   if (checkingSession) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[rgba(244,240,232,0.94)] px-4">
-        <div className="text-sm font-bold text-neutral-600">Checking admin session...</div>
+        <div className="text-sm font-bold text-[var(--text-body)]">Checking admin session...</div>
       </div>
     );
   }
@@ -77,13 +77,13 @@ export function AuthGate({ children }: AuthGateProps) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[rgba(244,240,232,0.94)] px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 shadow-xl">
+      <div className="w-full max-w-sm rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-8 shadow-xl">
         <div className="text-center">
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-xl bg-[var(--graphite)]">
             <CarFront className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
           </div>
           <h1 className="mt-4 text-2xl font-black tracking-tight text-[var(--graphite)]">Dealscan Admin</h1>
-          <p className="mt-2 text-sm leading-6 text-neutral-600">Enter your admin token to continue.</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">Enter your admin token to continue.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 grid gap-4">
@@ -98,7 +98,7 @@ export function AuthGate({ children }: AuthGateProps) {
                 setError("");
               }}
               placeholder="Admin token"
-              className="min-h-12 w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-base text-[var(--graphite)] outline-none placeholder:text-neutral-500 focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+              className="min-h-12 w-full rounded-xl border border-[var(--border-subtle)] bg-neutral-50 px-4 text-base text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
               autoFocus
             />
           </div>
@@ -118,7 +118,7 @@ export function AuthGate({ children }: AuthGateProps) {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-neutral-500">
+        <p className="mt-6 text-center text-xs text-[var(--text-muted)]">
           Set <code className="rounded bg-neutral-100 px-1.5 py-0.5 font-bold">ADMIN_TOKEN</code> in your server environment.
         </p>
       </div>

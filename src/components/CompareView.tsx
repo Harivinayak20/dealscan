@@ -49,7 +49,7 @@ function LinkGroup({ title, links, icon: Icon }: { title: string; links: Platfor
   if (links.length === 0) return null;
   return (
     <div>
-      <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase text-neutral-500">
+      <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase text-[var(--text-muted)]">
         <Icon className="h-3.5 w-3.5" aria-hidden="true" />
         {title}
       </div>
@@ -60,7 +60,7 @@ function LinkGroup({ title, links, icon: Icon }: { title: string; links: Platfor
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+            className="inline-flex items-center gap-1 rounded-lg border border-[var(--border-subtle)] bg-[var(--paper)] px-2.5 py-1.5 text-xs font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
           >
             {link.label}
             <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -93,7 +93,7 @@ function CompareCard({
   const referenceLinks = allLinks.filter((l) => l.type === "reference");
 
   return (
-    <article className="group rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+    <article className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -102,13 +102,13 @@ function CompareCard({
                 className="absolute inset-0 rounded-full opacity-20"
                 style={{ background: `conic-gradient(${tone.ring} ${result.score * 3.6}deg, #e5e7eb 0deg)` }}
               />
-              <div className="relative grid h-12 w-12 place-items-center rounded-full bg-white">
+              <div className="relative grid h-12 w-12 place-items-center rounded-full bg-[var(--paper)]">
                 <ToneIcon className="h-6 w-6" style={{ color: tone.ring }} aria-hidden="true" />
               </div>
             </div>
             <div>
               <div className="text-xl font-black text-[var(--graphite)]">{vehicleTitle}</div>
-              <div className="mt-1 flex items-center gap-2 text-sm text-neutral-500">
+              <div className="mt-1 flex items-center gap-2 text-sm text-[var(--text-muted)]">
                 <span>Score: <strong className="text-[var(--graphite)]" style={{ color: tone.ring }}>{result.score}/100</strong></span>
                 <span className="text-neutral-300">·</span>
                 <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-black ${tone.soft}`}>
@@ -130,15 +130,15 @@ function CompareCard({
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase text-neutral-500">Seller Price</div>
+            <div className="text-xs font-bold uppercase text-[var(--text-muted)]">Seller Price</div>
             <div className="mt-1 text-xl font-black text-[var(--graphite)]">{sellerPrice}</div>
           </div>
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase text-neutral-500">Market Range</div>
+            <div className="text-xs font-bold uppercase text-[var(--text-muted)]">Market Range</div>
             <div className="mt-1 text-base font-black text-[var(--graphite)]">{marketRange}</div>
           </div>
           <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="text-xs font-bold uppercase text-neutral-500">Flags</div>
+            <div className="text-xs font-bold uppercase text-[var(--text-muted)]">Flags</div>
             <div className="mt-1 flex flex-wrap gap-2">
               {result.greenFlags.length > 0 && (
                 <span className="inline-flex items-center gap-1 text-sm font-bold text-[var(--racing-green)]">
@@ -162,25 +162,25 @@ function CompareCard({
         <div className="mt-3 rounded-xl border border-neutral-100 bg-neutral-50 p-3">
           <div className="flex items-start gap-2">
             <Gauge className="mt-0.5 h-4 w-4 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
-            <p className="text-sm leading-6 text-neutral-700">{summary}</p>
+            <p className="text-sm leading-6 text-[var(--text-body)]">{summary}</p>
           </div>
         </div>
 
         {saved.vinResult && !saved.vinResult.error ? (
           <div className="mt-4 rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-500">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--text-muted)]">
               <span className="flex items-center gap-1">
                 <Wrench className="h-3.5 w-3.5 text-neutral-400" aria-hidden="true" />
-                <strong className="text-neutral-700">{saved.vinResult.year}</strong>
+                <strong className="text-[var(--text-body)]">{saved.vinResult.year}</strong>
               </span>
               <span className="text-neutral-300">·</span>
-              <span className="text-neutral-700 font-medium">{saved.vinResult.make}</span>
+              <span className="text-[var(--text-body)] font-medium">{saved.vinResult.make}</span>
               <span className="text-neutral-300">·</span>
-              <span className="text-neutral-700 font-medium">{saved.vinResult.model}</span>
+              <span className="text-[var(--text-body)] font-medium">{saved.vinResult.model}</span>
               {saved.vinResult.trim && (
                 <>
                   <span className="text-neutral-300">·</span>
-                  <span className="text-neutral-600">{saved.vinResult.trim}</span>
+                  <span className="text-[var(--text-body)]">{saved.vinResult.trim}</span>
                 </>
               )}
             </div>
@@ -189,7 +189,7 @@ function CompareCard({
                 href={`https://www.nhtsa.gov/vehicle/${saved.vinResult.year}/${saved.vinResult.make}/${saved.vinResult.model}/recalls`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
+                className="inline-flex items-center gap-1 rounded-lg border border-[var(--border-subtle)] bg-[var(--paper)] px-2.5 py-1.5 text-xs font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
               >
                 Recall Check
                 <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -198,7 +198,7 @@ function CompareCard({
                 href={`https://www.nicb.org/vincheck?vin=${saved.vinResult.vin}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
+                className="inline-flex items-center gap-1 rounded-lg border border-[var(--border-subtle)] bg-[var(--paper)] px-2.5 py-1.5 text-xs font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:border-[var(--danger)] hover:text-[var(--danger)]"
               >
                 Theft Check
                 <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -213,14 +213,14 @@ function CompareCard({
         </div>
 
         <details className="group mt-4 rounded-xl border border-neutral-100 bg-neutral-50 open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
-          <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-black text-neutral-600 transition hover:text-[var(--graphite)]">
-            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase text-neutral-600 transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
+          <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-black text-[var(--text-body)] transition hover:text-[var(--graphite)]">
+            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--text-body)] transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
               PRO
             </span>
             Negotiation Scripts
             <ChevronRight className="ml-auto h-4 w-4 transition group-open:rotate-90" aria-hidden="true" />
           </summary>
-          <div className="border-t border-neutral-200 px-4 py-3">
+          <div className="border-t border-[var(--border-subtle)] px-4 py-3">
             {(() => {
               const scripts = generateNegotiationScripts(result, sourceText);
               const items: { label: string; script: string }[] = [
@@ -231,16 +231,16 @@ function CompareCard({
               return items.map(({ label, script }) => (
                 <div key={label} className="mb-3 last:mb-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-black uppercase text-neutral-500">{label}</span>
+                    <span className="text-xs font-black uppercase text-[var(--text-muted)]">{label}</span>
                     <button
                       type="button"
                       onClick={() => navigator.clipboard.writeText(script)}
-                      className="rounded-md border border-neutral-300 bg-white px-2 py-1 text-[10px] font-bold text-neutral-600 transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
+                      className="rounded-md border border-[var(--border-subtle)] bg-[var(--paper)] px-2 py-1 text-[10px] font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:text-[var(--champagne)]"
                     >
                       Copy
                     </button>
                   </div>
-                  <p className="mt-1 whitespace-pre-wrap rounded-lg bg-white p-2.5 text-xs leading-relaxed text-neutral-700 shadow-sm">{script}</p>
+                  <p className="mt-1 whitespace-pre-wrap rounded-lg bg-[var(--paper)] p-2.5 text-xs leading-relaxed text-[var(--text-body)] shadow-sm">{script}</p>
                 </div>
               ));
             })()}
@@ -252,7 +252,7 @@ function CompareCard({
         <button
           type="button"
           onClick={() => onViewDetails(saved.id)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] bg-white px-4 py-2.5 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.10)] hover:shadow-sm"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] bg-[var(--paper)] px-4 py-2.5 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.10)] hover:shadow-sm"
         >
           View Full Analysis
           <ChevronRight className="h-4 w-4" aria-hidden="true" />
@@ -316,7 +316,7 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
               <button
                 type="button"
                 onClick={onBack}
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:shadow-sm"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:shadow-sm"
               >
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                 Back
@@ -326,7 +326,7 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
                 {savedResults.length}
               </span>
             </div>
-            <p className="mt-2 text-base leading-6 text-neutral-600">
+            <p className="mt-2 text-base leading-6 text-[var(--text-body)]">
               Sorted by score &mdash; best deal first
             </p>
           </div>
@@ -346,7 +346,7 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
           <div className="mt-20 text-center">
             <ShoppingCart className="mx-auto h-16 w-16 text-neutral-300" aria-hidden="true" />
             <h2 className="mt-6 text-2xl font-black text-neutral-400">No deals saved yet</h2>
-            <p className="mt-3 text-base text-neutral-500">
+            <p className="mt-3 text-base text-[var(--text-muted)]">
               Analyze a listing and click <strong>&ldquo;Add to Compare&rdquo;</strong> to save it here.
             </p>
             <button

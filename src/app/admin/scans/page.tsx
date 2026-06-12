@@ -5,7 +5,7 @@ import { ScansTable } from "@/components/admin/ScansTable";
 export default function AdminScans() {
   return (
     <div className="grid gap-6">
-      <p className="text-sm leading-6 text-neutral-600">
+      <p className="text-sm leading-6 text-[var(--text-body)]">
         Review, filter, and manage all deal scans submitted through the analyzer.
       </p>
       <ScansTable />

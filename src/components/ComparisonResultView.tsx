@@ -26,7 +26,7 @@ function ScoreBadge({ score, label }: { score: number | null; label: string }) {
           className="absolute inset-0 rounded-full opacity-20"
           style={{ background: `conic-gradient(${tone.ring} ${score * 3.6}deg, #e5e7eb 0deg)` }}
         />
-        <div className="relative grid h-12 w-12 place-items-center rounded-full bg-white">
+        <div className="relative grid h-12 w-12 place-items-center rounded-full bg-[var(--paper)]">
           <span className="text-lg font-black" style={{ color: tone.ring }}>{score}</span>
         </div>
       </div>
@@ -191,18 +191,18 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
         </p>
 
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
             <ScoreBadge score={listingA?.score ?? null} label={comparison.aTitle} />
             {listingA ? (
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-xl bg-neutral-50 p-3">
-                  <div className="text-[10px] font-bold uppercase text-neutral-500">Price</div>
+                  <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Price</div>
                   <div className="mt-1 text-lg font-black text-[var(--graphite)]">
                     {formatCurrency(extractPrice(listingA))}
                   </div>
                 </div>
                 <div className="rounded-xl bg-neutral-50 p-3">
-                  <div className="text-[10px] font-bold uppercase text-neutral-500">Fair Range</div>
+                  <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Fair Range</div>
                   <div className="mt-1 text-sm font-black text-[var(--graphite)]">
                     {listingA.estimatedFairValueRange.low !== null
                       ? `${formatCurrency(listingA.estimatedFairValueRange.low)} – ${formatCurrency(listingA.estimatedFairValueRange.high)}`
@@ -235,18 +235,18 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
             ) : null}
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
             <ScoreBadge score={listingB?.score ?? null} label={comparison.bTitle} />
             {listingB ? (
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-xl bg-neutral-50 p-3">
-                  <div className="text-[10px] font-bold uppercase text-neutral-500">Price</div>
+                  <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Price</div>
                   <div className="mt-1 text-lg font-black text-[var(--graphite)]">
                     {formatCurrency(extractPrice(listingB))}
                   </div>
                 </div>
                 <div className="rounded-xl bg-neutral-50 p-3">
-                  <div className="text-[10px] font-bold uppercase text-neutral-500">Fair Range</div>
+                  <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Fair Range</div>
                   <div className="mt-1 text-sm font-black text-[var(--graphite)]">
                     {listingB.estimatedFairValueRange.low !== null
                       ? `${formatCurrency(listingB.estimatedFairValueRange.low)} – ${formatCurrency(listingB.estimatedFairValueRange.high)}`
@@ -280,53 +280,53 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
           </div>
         </div>
 
-        <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <div className="mt-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
           <h3 className="text-sm font-black uppercase text-[var(--accent-2)]">Differences</h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl bg-neutral-50 p-3">
-              <div className="text-[10px] font-bold uppercase text-neutral-500">Score Delta</div>
+              <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Score Delta</div>
               <div className={`mt-1 text-lg font-black ${scoreDelta > 3 ? "text-green-700" : scoreDelta < -3 ? "text-red-700" : "text-amber-600"}`}>
                 {scoreDelta > 0 ? `+${scoreDelta}` : scoreDelta}
               </div>
             </div>
             <div className="rounded-xl bg-neutral-50 p-3">
-              <div className="text-[10px] font-bold uppercase text-neutral-500">Price</div>
+              <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Price</div>
               <div className="mt-1 text-sm font-black text-[var(--graphite)]">{priceDelta}</div>
             </div>
             <div className="rounded-xl bg-neutral-50 p-3">
-              <div className="text-[10px] font-bold uppercase text-neutral-500">Risk</div>
+              <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Risk</div>
               <div className="mt-1 text-sm font-black text-[var(--graphite)]">{riskDelta}</div>
             </div>
             <div className="rounded-xl bg-neutral-50 p-3">
-              <div className="text-[10px] font-bold uppercase text-neutral-500">Info Gaps</div>
+              <div className="text-[10px] font-bold uppercase text-[var(--text-muted)]">Info Gaps</div>
               <div className="mt-1 text-sm font-black text-[var(--graphite)]">{missingInfoComparison}</div>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <div className="mt-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
           <div className="flex items-start gap-3">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
             <div>
               <h3 className="text-sm font-black uppercase text-[var(--accent-2)]">What to do next</h3>
-              <p className="mt-2 text-sm leading-6 text-neutral-700">{recommendedNextStep}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{recommendedNextStep}</p>
             </div>
           </div>
         </div>
 
         {listingA && listingB ? (
-          <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <div className="mt-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
             <details className="group">
-              <summary className="flex cursor-pointer items-center gap-2 text-sm font-black text-neutral-600 transition hover:text-[var(--graphite)]">
+              <summary className="flex cursor-pointer items-center gap-2 text-sm font-black text-[var(--text-body)] transition hover:text-[var(--graphite)]">
                 Seller questions for each car
                 <ChevronRight className="ml-auto h-4 w-4 transition group-open:rotate-90" aria-hidden="true" />
               </summary>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
-                  <h4 className="text-xs font-black uppercase text-neutral-500">Ask Car A seller</h4>
+                  <h4 className="text-xs font-black uppercase text-[var(--text-muted)]">Ask Car A seller</h4>
                   <ul className="mt-2 space-y-1.5">
                     {listingA.sellerQuestions.map((q, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs leading-5 text-neutral-600">
+                      <li key={i} className="flex items-start gap-2 text-xs leading-5 text-[var(--text-body)]">
                         <span className="mt-1 block h-1 w-1 shrink-0 rounded-full bg-neutral-300" />
                         {q}
                       </li>
@@ -334,10 +334,10 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
                   </ul>
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase text-neutral-500">Ask Car B seller</h4>
+                  <h4 className="text-xs font-black uppercase text-[var(--text-muted)]">Ask Car B seller</h4>
                   <ul className="mt-2 space-y-1.5">
                     {listingB.sellerQuestions.map((q, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs leading-5 text-neutral-600">
+                      <li key={i} className="flex items-start gap-2 text-xs leading-5 text-[var(--text-body)]">
                         <span className="mt-1 block h-1 w-1 shrink-0 rounded-full bg-neutral-300" />
                         {q}
                       </li>

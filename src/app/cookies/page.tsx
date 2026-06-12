@@ -20,7 +20,7 @@ export default function CookiesPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -28,19 +28,19 @@ export default function CookiesPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <Cookie className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Cookies
           </div>
           <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             Cookie and local storage policy.
           </h1>
-          <p className="mt-5 text-lg leading-8 text-neutral-700">
+          <p className="mt-5 text-lg leading-8 text-[var(--text-body)]">
             The core analyzer works without an account. Some browser storage and advertising technologies may be used when optional features or ads are enabled.
           </p>
         </section>
 
-        <section className="space-y-5 text-sm leading-7 text-neutral-700">
+        <section className="space-y-5 text-sm leading-7 text-[var(--text-body)]">
           {[
             {
               title: "Local storage",
@@ -59,13 +59,13 @@ export default function CookiesPage() {
               text: "You can clear Dealscan local storage in your browser. You can also manage Google ad personalization through Google Ad Settings or opt out of some personalized advertising through industry opt-out tools.",
             },
           ].map((item) => (
-            <article key={item.title} className="rounded-2xl border border-neutral-200 bg-white p-6">
+            <article key={item.title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
               <h2 className="text-lg font-black text-[var(--graphite)]">{item.title}</h2>
               <p className="mt-2">{item.text}</p>
             </article>
           ))}
 
-          <div className="rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white p-6">
+          <div className="rounded-2xl border border-[rgba(201,168,106,0.30)] bg-[var(--paper)] p-6">
             <div className="flex items-start gap-4">
               <Settings className="mt-1 h-5 w-5 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
               <p>
@@ -74,7 +74,7 @@ export default function CookiesPage() {
             </div>
           </div>
 
-          <p className="text-sm leading-6 text-neutral-600">
+          <p className="text-sm leading-6 text-[var(--text-body)]">
             Manage Google ad personalization at <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" className="font-bold text-[var(--racing-green)] underline">Google Ad Settings</a>.
             You can also visit <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="font-bold text-[var(--racing-green)] underline">AboutAds choices</a> for participating third-party opt-outs.
           </p>

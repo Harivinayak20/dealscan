@@ -14,7 +14,7 @@ export function CsvExportButton({ data, filename = "export", headers, mapper }: 
   return (
     <button
       onClick={() => exportToCsv(filename, headers, data.map(mapper))}
-      className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-[var(--graphite)] transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:shadow-sm"
+      className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-4 text-sm font-bold text-[var(--graphite)] transition hover:-translate-y-0.5 hover:border-[var(--champagne)] hover:shadow-sm"
     >
       <Download className="h-4 w-4" aria-hidden="true" />
       Export CSV

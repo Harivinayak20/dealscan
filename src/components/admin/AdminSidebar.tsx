@@ -43,8 +43,8 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
     <aside
       className={
         isMobile
-          ? "flex h-full w-full flex-col bg-white"
-          : "flex h-full w-64 flex-col border-r border-neutral-200 bg-white"
+          ? "flex h-full w-full flex-col bg-[var(--paper)]"
+          : "flex h-full w-64 flex-col border-r border-[var(--border-subtle)] bg-[var(--paper)]"
       }
     >
       <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-5">
@@ -58,7 +58,7 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
           </div>
         </Link>
         {isMobile && onClose && (
-          <button onClick={onClose} className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100" aria-label="Close menu">
+          <button onClick={onClose} className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-neutral-100" aria-label="Close menu">
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
         )}
@@ -78,7 +78,7 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
                   className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold transition ${
                     isActive
                       ? "bg-[var(--graphite)] text-white"
-                      : "text-neutral-600 hover:bg-neutral-100 hover:text-[var(--graphite)]"
+                      : "text-[var(--text-body)] hover:bg-neutral-100 hover:text-[var(--graphite)]"
                   }`}
                 >
                   <Icon className="h-5 w-5" aria-hidden="true" />
@@ -94,14 +94,14 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
         <Link
           href="/"
           onClick={onClose}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-neutral-600 transition hover:bg-neutral-100 hover:text-[var(--graphite)]"
+          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-[var(--text-body)] transition hover:bg-neutral-100 hover:text-[var(--graphite)]"
         >
           <FileText className="h-5 w-5" aria-hidden="true" />
           Public Site
         </Link>
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-neutral-600 transition hover:bg-red-50 hover:text-[var(--danger)]"
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-[var(--text-body)] transition hover:bg-red-50 hover:text-[var(--danger)]"
         >
           <LogOut className="h-5 w-5" aria-hidden="true" />
           Logout

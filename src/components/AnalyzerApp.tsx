@@ -489,7 +489,7 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
-      <header className="sticky top-0 z-40 border-b border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-[rgba(255,255,255,0.10)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
           <Link href="/" className="leading-tight text-left" aria-label="Dealscan.dev home">
             <div className="text-2xl font-black">Dealscan.dev</div>
@@ -509,7 +509,7 @@ export function AnalyzerApp() {
               <button
                 type="button"
                 onClick={() => setViewMode("compare")}
-                className="relative flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.20)] bg-[rgba(18,61,51,0.08)] px-3.5 py-1.5 text-sm font-bold text-[var(--racing-green)] transition hover:bg-[rgba(18,61,51,0.14)]"
+                className="relative flex items-center gap-1.5 rounded-full border border-[rgba(47,192,140,0.32)] bg-[rgba(47,192,140,0.10)] px-3.5 py-1.5 text-sm font-bold text-[var(--racing-green)] transition hover:bg-[rgba(47,192,140,0.16)]"
               >
                 <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                 Compare
@@ -532,7 +532,7 @@ export function AnalyzerApp() {
 
       <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[0.62fr_1fr] md:items-start lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white/95 p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
+          <aside className="rounded-[1.35rem] border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Used-car listing check</p>
             <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
               Find out if this listing is worth it.
@@ -542,8 +542,8 @@ export function AnalyzerApp() {
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(18,61,51,0.18)] bg-[rgba(18,61,51,0.07)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(47,192,140,0.30)] bg-[rgba(47,192,140,0.10)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(47,192,140,0.30)] bg-[rgba(47,192,140,0.10)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
             </div>
 
             <div className="mt-5 grid gap-2 text-sm font-medium text-[var(--text-body)]">
@@ -552,14 +552,14 @@ export function AnalyzerApp() {
                 "Spot title, mileage, and seller red flags",
                 "Get the questions to ask before you visit",
               ].map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-xl border border-[rgba(32,40,35,0.08)] bg-[var(--canvas)] px-3 py-2">
+                <div key={item} className="flex items-start gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[var(--canvas)] px-3 py-2">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
                   <span>{item}</span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-[rgba(32,40,35,0.10)] bg-white shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)]">
+            <div className="mt-6 overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)]">
               <div className="flex items-center justify-between gap-2 border-b border-[rgba(32,40,35,0.07)] bg-[var(--paper)] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--racing-green)]" aria-hidden="true" />
@@ -574,7 +574,7 @@ export function AnalyzerApp() {
                     style={{ background: "conic-gradient(from 0deg, var(--danger) 137deg, rgba(32,40,35,0.07) 137deg)" }}
                     aria-label="Sample deal score: 38 out of 100"
                   >
-                    <div className="grid h-[3.4rem] w-[3.4rem] place-items-center rounded-full bg-white">
+                    <div className="grid h-[3.4rem] w-[3.4rem] place-items-center rounded-full bg-[var(--paper)]">
                       <span className="text-xl font-black leading-none text-[var(--danger)]">38</span>
                       <span className="-mt-0.5 text-[9px] font-semibold leading-none text-[var(--text-muted)]">/ 100</span>
                     </div>
@@ -610,7 +610,7 @@ export function AnalyzerApp() {
 
           <section
             id="analyzer"
-            className="rounded-[1.35rem] border border-[rgba(32,40,35,0.10)] bg-white p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6"
+            className="rounded-[1.35rem] border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -628,7 +628,7 @@ export function AnalyzerApp() {
                   className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     !compareMode
                       ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                      : "border border-[rgba(47,192,140,0.28)] bg-[rgba(47,192,140,0.08)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
                   }`}
                 >
                   Single
@@ -639,7 +639,7 @@ export function AnalyzerApp() {
                   className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     compareMode
                       ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[rgba(18,61,51,0.16)] bg-[rgba(18,61,51,0.06)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                      : "border border-[rgba(47,192,140,0.28)] bg-[rgba(47,192,140,0.08)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
                   }`}
                 >
                   Compare
@@ -668,7 +668,7 @@ export function AnalyzerApp() {
                     key={example.id}
                     type="button"
                     onClick={() => loadExampleListing(example.text)}
-                    className="group w-full rounded-xl border border-[rgba(32,40,35,0.10)] bg-white/70 p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
+                    className="group w-full rounded-xl border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
                   >
                     <span className="block text-sm font-bold text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
                     <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{example.tone}</span>
@@ -696,8 +696,8 @@ export function AnalyzerApp() {
                       }}
                       className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)] ${
                         inputType === method.value
-                          ? "border-[rgba(18,61,51,0.32)] bg-[rgba(18,61,51,0.08)] text-[var(--graphite)] shadow-sm"
-                          : "border-[rgba(32,40,35,0.10)] bg-[var(--canvas)] text-[var(--text-muted)] hover:bg-white"
+                          ? "border-[rgba(18,61,51,0.32)] bg-[rgba(47,192,140,0.10)] text-[var(--graphite)] shadow-sm"
+                          : "border-[rgba(255,255,255,0.10)] bg-[var(--canvas)] text-[var(--text-muted)] hover:bg-[var(--paper)]"
                       }`}
                     >
                       <Icon className={`h-5 w-5 transition group-hover:scale-110 ${inputType === method.value ? "text-[var(--racing-green)]" : "text-[var(--champagne)]"}`} aria-hidden="true" />
@@ -757,7 +757,7 @@ export function AnalyzerApp() {
 
               {inputType === "screenshot" ? (
                 <div className="grid gap-4">
-                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:border-[var(--racing-green)] hover:bg-white focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
+                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
                     <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing photo" />
                     <span className="grid justify-items-center gap-2">
                       <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
@@ -766,7 +766,7 @@ export function AnalyzerApp() {
                     </span>
                   </label>
                   {screenshotPreviewUrl ? (
-                    <img src={screenshotPreviewUrl} alt="Uploaded listing screenshot preview" className="max-h-36 w-full rounded-lg border border-[rgba(32,40,35,0.12)] object-contain" />
+                    <img src={screenshotPreviewUrl} alt="Uploaded listing screenshot preview" className="max-h-36 w-full rounded-lg border border-[rgba(255,255,255,0.12)] object-contain" />
                   ) : null}
                   <textarea
                     value={listingText}
@@ -878,7 +878,7 @@ export function AnalyzerApp() {
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                  className="rounded-2xl border border-[rgba(32,40,35,0.10)] bg-white/75 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-1.5 hover:border-[rgba(18,61,51,0.24)] hover:bg-white"
+                  className="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-white/75 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-1.5 hover:border-[rgba(18,61,51,0.24)] hover:bg-[var(--paper)]"
                 >
                   <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-black">{item.title}</h3>
@@ -997,7 +997,7 @@ export function AnalyzerApp() {
                   className="card-hover group flex items-center justify-between"
                 >
                   <span className="flex items-center gap-4">
-                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[rgba(18,61,51,0.07)] transition group-hover:scale-110">
+                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[rgba(47,192,140,0.10)] transition group-hover:scale-110">
                       <Icon className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
                     </span>
                     <span>
@@ -1022,14 +1022,14 @@ export function AnalyzerApp() {
         <div className="mx-auto max-w-[1200px] pt-12">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
-              <div className="text-2xl font-black text-[var(--ivory)]">Dealscan.dev</div>
+              <div className="text-2xl font-black text-[var(--foreground)]">Dealscan.dev</div>
               <div className="mt-1 text-[11px] font-bold uppercase text-[var(--champagne)]">Listing review</div>
               <p className="mt-4 max-w-xs text-sm leading-7 text-[var(--silver)]">
                 Data-backed used car deal checker. Know the car, not the hype.
               </p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Product</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">Product</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="#analyzer" className="transition hover:text-[var(--champagne)]">Analyze a listing</a></li>
                 <li><a href="#how-it-works" className="transition hover:text-[var(--champagne)]">How it works</a></li>
@@ -1040,7 +1040,7 @@ export function AnalyzerApp() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Resources</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">Resources</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Carfax report</a></li>
                 <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
@@ -1050,7 +1050,7 @@ export function AnalyzerApp() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ivory)]">Company</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--foreground)]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="/about" className="transition hover:text-[var(--champagne)]">About</a></li>
                 <li><a href="/contact" className="transition hover:text-[var(--champagne)]">Contact</a></li>
@@ -1069,7 +1069,7 @@ export function AnalyzerApp() {
         </div>
       </footer>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[rgba(32,40,35,0.10)] bg-[var(--overlay)] p-3 backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[rgba(255,255,255,0.10)] bg-[var(--overlay)] p-3 backdrop-blur-xl lg:hidden">
         <a
           href="#analyzer"
           onClick={(e) => { e.preventDefault(); document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" }); }}

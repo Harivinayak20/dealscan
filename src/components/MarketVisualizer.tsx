@@ -64,16 +64,16 @@ export function MarketVisualizer({
       <div className="border-t border-[rgba(11,13,16,0.10)] px-5 py-4">
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-2 rounded-xl bg-[rgba(201,168,106,0.10)] px-4 py-2">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Listing</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Listing</span>
             <span className="text-lg font-black text-[var(--graphite)]">{formatCurrency(market.listingPrice)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Position</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Position</span>
             <span className="rounded-full px-3 py-1 text-sm font-black" style={{ backgroundColor: `${market.color}20`, color: market.color }}>
               {market.label}
             </span>
           </div>
-          <div className="text-xs text-neutral-500">
+          <div className="text-xs text-[var(--text-muted)]">
             {market.percentDiff > 0 ? "+" : ""}{market.percentDiff}% vs market average
           </div>
         </div>
@@ -143,7 +143,7 @@ export function MarketVisualizer({
           </svg>
         </div>
 
-        <p className="mt-3 text-xs leading-5 text-neutral-500">
+        <p className="mt-3 text-xs leading-5 text-[var(--text-muted)]">
           Position based on {make || "similar"} {model || "vehicles"} ({year || "recent"} model year) in the current market.
         </p>
       </div>

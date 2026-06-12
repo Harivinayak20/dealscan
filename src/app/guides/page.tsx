@@ -21,7 +21,7 @@ export default function GuidesPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -29,14 +29,14 @@ export default function GuidesPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <BookOpen className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Buyer guides
           </div>
           <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             Used car buying advice that helps before you message the seller.
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-neutral-700">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
             Start with red flags, pricing, inspections, and seller questions. Then use the analyzer on the exact listing.
           </p>
         </section>
@@ -46,16 +46,16 @@ export default function GuidesPage() {
             <Link
               key={guide.slug}
               href={`/guides/${guide.slug}`}
-              className="group rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+              className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-black uppercase text-[var(--racing-green)]">{guide.readTime}</p>
                   <h2 className="mt-3 text-2xl font-black leading-tight">{guide.title}</h2>
                 </div>
-                <ArrowRight className="mt-1 h-6 w-6 shrink-0 text-neutral-500 transition group-hover:translate-x-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />
+                <ArrowRight className="mt-1 h-6 w-6 shrink-0 text-[var(--text-muted)] transition group-hover:translate-x-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />
               </div>
-              <p className="mt-4 text-base leading-7 text-neutral-700">{guide.description}</p>
+              <p className="mt-4 text-base leading-7 text-[var(--text-body)]">{guide.description}</p>
             </Link>
           ))}
         </section>

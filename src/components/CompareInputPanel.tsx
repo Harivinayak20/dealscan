@@ -99,7 +99,7 @@ function DraftColumn({
           </span>
           <span className="text-sm font-black text-[var(--graphite)]">Car {label}</span>
         </div>
-        <div className="flex gap-1 rounded-lg border border-[rgba(32,40,35,0.10)] bg-white p-0.5">
+        <div className="flex gap-1 rounded-lg border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-0.5">
           {(["url", "notes", "manual"] as const).map((mode) => (
             <button
               key={mode}
@@ -108,7 +108,7 @@ function DraftColumn({
               className={`rounded-md px-2.5 py-1.5 text-[10px] font-bold uppercase transition ${
                 draft.state === mode
                   ? "bg-[var(--accent-2)] text-white"
-                  : "text-neutral-500 hover:text-[var(--accent-2)]"
+                  : "text-[var(--text-muted)] hover:text-[var(--accent-2)]"
               }`}
             >
               {mode === "url" ? "Link" : mode === "notes" ? "Notes" : "Manual"}
@@ -130,7 +130,7 @@ function DraftColumn({
               type="button"
               onClick={handleExtractUrl}
               disabled={!draft.url.trim() || isExtracting}
-              className="btn-outline !rounded-xl !border-[rgba(18,61,51,0.20)] !px-3 !py-1.5 !text-xs !text-[var(--racing-green)] hover:!bg-[rgba(18,61,51,0.06)] disabled:opacity-50"
+              className="btn-outline !rounded-xl !border-[rgba(47,192,140,0.32)] !px-3 !py-1.5 !text-xs !text-[var(--racing-green)] hover:!bg-[rgba(47,192,140,0.08)] disabled:opacity-50"
             >
               <FileSearch className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
               {isExtracting ? "Extracting..." : "Get details"}

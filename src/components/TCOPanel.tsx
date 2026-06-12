@@ -52,7 +52,7 @@ export function TCOPanel({
                     style={{ width: `${pct}%`, backgroundColor: seg.color }}
                   />
                 </div>
-                <p className="mt-0.5 text-xs text-neutral-500">{seg.detail}</p>
+                <p className="mt-0.5 text-xs text-[var(--text-muted)]">{seg.detail}</p>
               </div>
             );
           })}

@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShieldCheck className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Privacy
           </div>
@@ -37,8 +37,8 @@ export default function PrivacyPage() {
           </h1>
         </section>
 
-        <section className="space-y-6 text-base leading-7 text-neutral-700">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+        <section className="space-y-6 text-base leading-7 text-[var(--text-body)]">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">What DealScan collects</h2>
             <ul className="list-inside list-disc space-y-2">
               <li><strong>Listing text you provide:</strong> Pasted text, extracted URLs, or manually entered details are processed to generate a deal analysis. They are not stored permanently on our servers.</li>
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">What DealScan does not do</h2>
             <ul className="list-inside list-disc space-y-2">
               <li>We do not sell your personal data.</li>
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">Local storage</h2>
             <p className="text-sm leading-6">
               DealScan uses your browser&apos;s local storage to save scan history, watchlist items, and comparison results.
@@ -65,7 +65,7 @@ export default function PrivacyPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">Third-party services</h2>
             <p className="text-sm leading-6">
               DealScan uses Groq for AI-powered analysis when configured. Listing text may be sent to Groq to generate a score and explanation,
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">Advertising and cookies</h2>
             <p className="text-sm leading-6">
               DealScan may display ads when advertising services are configured. Third-party vendors, including Google, may use cookies to serve ads based on a user&apos;s prior visits to DealScan or other websites. Google and its partners may use advertising cookies, web beacons, IP addresses, device identifiers, and similar technologies to serve, personalize, measure, and improve ads.
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">Disclaimer</h2>
             <p className="text-sm leading-6">
               DealScan provides informational estimates only. Deal scores, fair-value ranges, and negotiation guidance

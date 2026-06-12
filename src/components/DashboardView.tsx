@@ -85,7 +85,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:shadow-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:shadow-sm"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back
@@ -145,7 +145,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
             <button
               type="button"
               onClick={exportScans}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-2 text-xs font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:shadow-sm"
             >
               <Download className="h-3.5 w-3.5" aria-hidden="true" />
               Export Scans CSV
@@ -155,7 +155,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
             <button
               type="button"
               onClick={exportComparisons}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-2 text-xs font-bold text-[var(--text-body)] transition hover:-translate-y-0.5 hover:shadow-sm"
             >
               <Download className="h-3.5 w-3.5" aria-hidden="true" />
               Export Comparisons CSV
@@ -189,7 +189,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                       <div className="font-black text-[var(--graphite)]">
                         {comp.aTitle} <span className="text-neutral-400">vs</span> {comp.bTitle}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-neutral-500">
+                      <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
                         <span className="font-bold text-[var(--accent-2)]">{comp.winnerLabel}</span>
                         <span className="text-neutral-300">&middot;</span>
                         <span className={comp.scoreDelta > 0 ? "text-green-700" : comp.scoreDelta < 0 ? "text-red-700" : "text-amber-600"}>
@@ -234,7 +234,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                       </div>
                       <div>
                         <div className="font-black text-[var(--graphite)]">{entry.vehicleTitle}</div>
-                        <div className="flex items-center gap-2 text-sm text-neutral-500">
+                        <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
                           <span className="font-bold" style={{ color: tone.ring }}>{entry.result.score}/100</span>
                           <span className="text-neutral-300">&middot;</span>
                           <TrendIcon entry={entry} />
@@ -276,7 +276,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
                       </div>
                       <div>
                         <div className="font-black text-[var(--graphite)]">{saved.vehicleTitle}</div>
-                        <div className="flex items-center gap-2 text-sm text-neutral-500">
+                        <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
                           <span className="font-bold" style={{ color: tone.ring }}>{saved.result.score}/100</span>
                           <span className="text-neutral-300">&middot;</span>
                           <span>{ago < 1 ? "Just now" : ago < 24 ? `${ago}h ago` : `${Math.floor(ago / 24)}d ago`}</span>
@@ -294,7 +294,7 @@ export function DashboardView({ onBack }: { onBack: () => void }) {
           <div className="mt-20 text-center">
             <Heart className="mx-auto h-16 w-16 text-neutral-300" aria-hidden="true" />
             <h2 className="mt-6 text-2xl font-black text-neutral-400">No activity yet</h2>
-            <p className="mt-3 text-base text-neutral-500">
+            <p className="mt-3 text-base text-[var(--text-muted)]">
               Analyze a listing or compare two cars and it&apos;ll show up here.
             </p>
           </div>

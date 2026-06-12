@@ -27,7 +27,7 @@ export function FlagChips({ title, flags, tone }: FlagChipsProps) {
             </span>
           ))
         ) : (
-          <p className="text-base text-neutral-600">None found in the provided details.</p>
+          <p className="text-base text-[var(--text-body)]">None found in the provided details.</p>
         )}
       </div>
     </section>

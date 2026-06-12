@@ -30,7 +30,7 @@ export function LoadingState() {
           </div>
           <div>
             <p className="text-lg font-black text-[var(--graphite)]">Analyzing listing...</p>
-            <p className="text-sm text-neutral-600">This takes about 10 seconds</p>
+            <p className="text-sm text-[var(--text-body)]">This takes about 10 seconds</p>
           </div>
         </div>
         <div className="grid gap-3">

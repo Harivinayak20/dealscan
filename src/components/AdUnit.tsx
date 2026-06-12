@@ -39,7 +39,7 @@ export function AdUnit({ slot, className = "" }: AdUnitProps) {
   return (
     <aside
       aria-label="Advertisement"
-      className={`mx-auto w-full max-w-[970px] rounded-xl border border-[rgba(32,40,35,0.10)] bg-white/70 p-3 text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] ${className}`}
+      className={`mx-auto w-full max-w-[970px] rounded-xl border border-[rgba(255,255,255,0.10)] bg-[var(--paper)] p-3 text-[var(--graphite)] shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] ${className}`}
     >
       <div className="mb-2 text-center text-[10px] font-black uppercase text-[#7b857f]">
         Advertisement

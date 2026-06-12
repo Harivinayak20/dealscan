@@ -55,7 +55,7 @@ export default function DisclaimerPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -63,21 +63,21 @@ export default function DisclaimerPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShieldAlert className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Disclaimer
           </div>
           <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             Disclaimer and limitation of liability.
           </h1>
-          <p className="mt-4 text-base leading-7 text-neutral-700">
+          <p className="mt-4 text-base leading-7 text-[var(--text-body)]">
             Dealscan is a free research tool. Use it to ask better questions, not as the final word on any car.
           </p>
         </section>
 
-        <section className="space-y-5 text-sm leading-7 text-neutral-700">
+        <section className="space-y-5 text-sm leading-7 text-[var(--text-body)]">
           {sections.map(({ title, text }) => (
-            <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <div key={title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
               <h2 className="text-base font-black text-[var(--graphite)]">{title}</h2>
               <p className="mt-2">{text}</p>
             </div>

@@ -18,10 +18,10 @@ export function AuditLogTable() {
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white shadow-sm">
+    <div className="overflow-x-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] shadow-sm">
       <table className="w-full text-left text-sm">
         <thead>
-          <tr className="border-b border-neutral-100 bg-neutral-50 text-xs font-black uppercase tracking-[0.08em] text-neutral-600">
+          <tr className="border-b border-neutral-100 bg-neutral-50 text-xs font-black uppercase tracking-[0.08em] text-[var(--text-body)]">
             <th className="px-4 py-3">Timestamp</th>
             <th className="px-4 py-3">Action</th>
             <th className="hidden px-4 py-3 md:table-cell">Admin</th>
@@ -31,7 +31,7 @@ export function AuditLogTable() {
         <tbody>
           {entries.map((entry) => (
             <tr key={entry.id} className="border-b border-neutral-100 transition hover:bg-neutral-50">
-              <td className="whitespace-nowrap px-4 py-3 text-neutral-600">
+              <td className="whitespace-nowrap px-4 py-3 text-[var(--text-body)]">
                 {new Date(entry.timestamp).toLocaleString()}
               </td>
               <td className="px-4 py-3">
@@ -40,14 +40,14 @@ export function AuditLogTable() {
                   {entry.action}
                 </span>
               </td>
-              <td className="hidden px-4 py-3 text-neutral-700 md:table-cell">{entry.adminEmail}</td>
-              <td className="px-4 py-3 text-neutral-600">{entry.details}</td>
+              <td className="hidden px-4 py-3 text-[var(--text-body)] md:table-cell">{entry.adminEmail}</td>
+              <td className="px-4 py-3 text-[var(--text-body)]">{entry.details}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-500">
+      <p className="border-t border-neutral-100 px-4 py-3 text-sm text-[var(--text-muted)]">
         {entries.length} entr{entries.length === 1 ? "y" : "ies"}
       </p>
     </div>

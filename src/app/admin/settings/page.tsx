@@ -54,12 +54,12 @@ export default function AdminSettings() {
 
   return (
     <div className="grid max-w-3xl gap-8">
-      <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
         <div className="flex items-center gap-3">
           <SettingsIcon className="h-6 w-6 text-[var(--champagne)]" aria-hidden="true" />
           <h2 className="text-xl font-black text-[var(--graphite)]">Scoring Thresholds</h2>
         </div>
-        <p className="mt-2 text-sm leading-6 text-neutral-600">
+        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">
           Customize the score ranges that determine each verdict level.
         </p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -69,7 +69,7 @@ export default function AdminSettings() {
             { key: "cautionMin", label: "Caution (min)", defaultValue: 55 },
             { key: "redFlagsMin", label: "Red Flags (min)", defaultValue: 40 },
           ] as const).map(({ key, label }) => (
-            <label key={key} className="grid gap-1 text-sm font-bold text-neutral-700">
+            <label key={key} className="grid gap-1 text-sm font-bold text-[var(--text-body)]">
               {label}
               <input
                 type="number"
@@ -77,19 +77,19 @@ export default function AdminSettings() {
                 max={100}
                 value={settings.scoringThresholds[key]}
                 onChange={(e) => updateThreshold(key, Number(e.target.value))}
-                className="min-h-11 rounded-xl border border-neutral-200 bg-white px-3 text-base text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-base text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
               />
             </label>
           ))}
         </div>
       </section>
 
-      <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
         <div className="flex items-center gap-3">
           <SettingsIcon className="h-6 w-6 text-[var(--champagne)]" aria-hidden="true" />
           <h2 className="text-xl font-black text-[var(--graphite)]">Affiliate Links</h2>
         </div>
-        <p className="mt-2 text-sm leading-6 text-neutral-600">
+        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">
           Configure outbound partner URLs for buyer tools.
         </p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -101,25 +101,25 @@ export default function AdminSettings() {
             { key: "obd", label: "OBD2 Scanner" },
             { key: "detailing", label: "Detailing Kit" },
           ] as const).map(({ key, label }) => (
-            <label key={key} className="grid gap-1 text-sm font-bold text-neutral-700">
+            <label key={key} className="grid gap-1 text-sm font-bold text-[var(--text-body)]">
               {label}
               <input
                 type="url"
                 value={settings.affiliateLinks[key]}
                 onChange={(e) => updateAffiliate(key, e.target.value)}
-                className="min-h-11 rounded-xl border border-neutral-200 bg-white px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
               />
             </label>
           ))}
         </div>
       </section>
 
-      <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
         <div className="flex items-center gap-3">
           <SettingsIcon className="h-6 w-6 text-[var(--champagne)]" aria-hidden="true" />
           <h2 className="text-xl font-black text-[var(--graphite)]">Feature Flags</h2>
         </div>
-        <p className="mt-2 text-sm leading-6 text-neutral-600">
+        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">
           Enable or disable platform features.
         </p>
         <div className="mt-5 grid gap-3">
@@ -133,7 +133,7 @@ export default function AdminSettings() {
                 type="checkbox"
                 checked={settings.featureFlags[key]}
                 onChange={() => toggleFlag(key)}
-                className="h-5 w-5 rounded border-neutral-300 text-[var(--champagne)] focus:ring-[var(--champagne)]"
+                className="h-5 w-5 rounded border-[var(--border-subtle)] text-[var(--champagne)] focus:ring-[var(--champagne)]"
               />
               <span className="text-sm font-bold text-[var(--graphite)]">{label}</span>
             </label>
@@ -151,7 +151,7 @@ export default function AdminSettings() {
         </button>
         <button
           onClick={handleReset}
-          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-neutral-200 bg-white px-6 text-sm font-black text-neutral-600 transition hover:border-[var(--danger)] hover:text-[var(--danger)]"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--paper)] px-6 text-sm font-black text-[var(--text-body)] transition hover:border-[var(--danger)] hover:text-[var(--danger)]"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
           Reset to Defaults

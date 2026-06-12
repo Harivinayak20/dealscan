@@ -20,7 +20,7 @@ export default function AboutPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -28,14 +28,14 @@ export default function AboutPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShieldCheck className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             About
           </div>
           <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             Dealscan helps buyers slow down before a bad car deal.
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-neutral-700">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
             The app turns a used-car listing into a practical review: score, warning signs, missing details, pricing context, and the questions to ask before visiting.
           </p>
         </section>
@@ -59,9 +59,9 @@ export default function AboutPage() {
               text: "For product questions, corrections, advertising questions, or partnership inquiries, contact hello@dealscan.dev or use the Contact page.",
             },
           ].map((item) => (
-            <article key={item.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <article key={item.title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
               <h2 className="text-lg font-black">{item.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-neutral-700">{item.text}</p>
+              <p className="mt-3 text-sm leading-6 text-[var(--text-body)]">{item.text}</p>
             </article>
           ))}
         </section>

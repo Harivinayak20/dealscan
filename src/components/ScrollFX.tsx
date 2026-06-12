@@ -75,17 +75,33 @@ export function ScrollFX() {
       svg.style.width = `${width}px`;
       svg.style.height = `${height}px`;
 
-      const cx = width / 2;
-      const amp = Math.min(width * 0.4, 480);
-      const step = Math.max(560, height / 12);
-      let d = `M ${cx} 0`;
-      let side = 1;
-      for (let y = 0; y < height - 80; y += step) {
-        const x = cx + side * amp;
-        const end = Math.min(y + step, height - 80);
-        d += ` C ${x} ${y + step * 0.3}, ${x} ${y + step * 0.7}, ${cx} ${end}`;
-        side = -side;
+      // Run down the side gutters, outside the centered content column,
+      // and only swing across at the boundaries between sections.
+      const leftX = Math.max(18, (width - 1200) / 2 - 28);
+      const rightX = width - leftX;
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("main > section, main > footer")
+      );
+      const scrollY = window.scrollY;
+      const crossings = sections
+        .slice(1)
+        .map((s) => s.getBoundingClientRect().top + scrollY)
+        .filter((y) => y > 360 && y < height - 360)
+        .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 760);
+
+      const sway = 320;
+      let side: 0 | 1 = 0;
+      let x = side === 0 ? leftX : rightX;
+      let d = `M ${x} 60`;
+      for (const y of crossings) {
+        const ox = side === 0 ? rightX : leftX;
+        d += ` L ${x} ${y - sway}`;
+        d += ` C ${x} ${y}, ${ox} ${y}, ${ox} ${y + sway}`;
+        side = side === 0 ? 1 : 0;
+        x = ox;
       }
+      d += ` L ${x} ${height - 60}`;
+
       for (const p of paths) p.setAttribute("d", d);
       total = mainPath.getTotalLength();
       for (const p of paths) {

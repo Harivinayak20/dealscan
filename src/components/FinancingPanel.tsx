@@ -29,7 +29,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
       <div className="border-t border-[rgba(11,13,16,0.10)] px-5 py-4">
         <div className="grid gap-4 sm:grid-cols-4">
           <label className="grid gap-1">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Down Payment</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Down Payment</span>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-neutral-400">$</span>
               <input
@@ -43,7 +43,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
             </div>
           </label>
           <label className="grid gap-1">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Trade-In</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Trade-In</span>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-neutral-400">$</span>
               <input
@@ -56,7 +56,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
             </div>
           </label>
           <label className="grid gap-1">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">APR</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">APR</span>
             <div className="relative">
               <input
                 type="number"
@@ -71,7 +71,7 @@ export function FinancingPanel({ price }: { price: number | null }) {
             </div>
           </label>
           <div className="grid gap-1">
-            <span className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">Loan Amount</span>
+            <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Loan Amount</span>
             <div className="flex h-[42px] items-center rounded-xl bg-[rgba(201,168,106,0.10)] px-3 text-lg font-black text-[var(--graphite)]">
               {formatCurrency(Math.max(0, price - down - trade))}
             </div>
@@ -85,13 +85,13 @@ export function FinancingPanel({ price }: { price: number | null }) {
               className={`rounded-xl border-2 p-4 transition ${
                 p.termMonths === plan.termMonths
                   ? "border-[var(--champagne)] bg-[rgba(201,168,106,0.08)]"
-                  : "border-neutral-200 bg-white"
+                  : "border-[var(--border-subtle)] bg-[var(--paper)]"
               }`}
             >
-              <div className="text-xs font-bold uppercase tracking-[0.08em] text-neutral-500">{p.termMonths} months</div>
+              <div className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">{p.termMonths} months</div>
               <div className="mt-1 text-2xl font-black text-[var(--graphite)]">{formatCurrency(p.monthlyPayment)}</div>
-              <div className="mt-1 text-xs text-neutral-500">
-                <span className="font-bold text-neutral-600">{formatCurrency(p.totalInterest)}</span> interest
+              <div className="mt-1 text-xs text-[var(--text-muted)]">
+                <span className="font-bold text-[var(--text-body)]">{formatCurrency(p.totalInterest)}</span> interest
               </div>
               <div className="text-xs text-neutral-400">Total: {formatCurrency(p.totalCost)}</div>
             </div>

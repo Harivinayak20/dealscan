@@ -69,7 +69,7 @@ export default function AffiliateLinksPage() {
           </Link>
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Analyzer
@@ -77,17 +77,17 @@ export default function AffiliateLinksPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-white/70 px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShoppingBag className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Buyer tools
           </div>
           <h1 className="mt-6 max-w-3xl text-5xl font-black leading-tight tracking-tight sm:text-6xl">
             Check the basics before you buy.
           </h1>
-          <p className="mt-5 max-w-2xl text-xl leading-8 text-neutral-700">
+          <p className="mt-5 max-w-2xl text-xl leading-8 text-[var(--text-body)]">
             History, inspection, insurance, payments, and simple tools in one place.
           </p>
-          <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-neutral-700">
+          <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-[var(--text-body)]">
             <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you. This does not influence our deal analysis or scoring.
           </p>
         </section>
@@ -105,19 +105,19 @@ export default function AffiliateLinksPage() {
                 className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/90 p-5 shadow-xl shadow-black/5 transition duration-200 hover:-translate-y-1.5 hover:border-[var(--champagne)] hover:shadow-2xl hover:shadow-black/10"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(18,61,51,0.08)] text-[var(--racing-green)] transition group-hover:scale-110 group-hover:bg-[var(--racing-green)] group-hover:text-white">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(47,192,140,0.10)] text-[var(--racing-green)] transition group-hover:scale-110 group-hover:bg-[var(--racing-green)] group-hover:text-white">
                     <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  <ArrowUpRight className="h-6 w-6 text-neutral-500 transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />
+                  <ArrowUpRight className="h-6 w-6 text-[var(--text-muted)] transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[var(--racing-green)]" aria-hidden="true" />
                 </div>
                 <h2 className="mt-5 text-xl font-black tracking-tight">{link.title}</h2>
-                <p className="mt-2 text-base leading-7 text-neutral-700">{link.description}</p>
+                <p className="mt-2 text-base leading-7 text-[var(--text-body)]">{link.description}</p>
               </a>
             );
           })}
         </section>
 
-        <p className="mt-8 text-sm leading-6 text-neutral-600">
+        <p className="mt-8 text-sm leading-6 text-[var(--text-body)]">
           Links open third-party sites under their own terms and privacy policies. Always verify pricing, title status, vehicle history, loan terms, insurance rates, and inspection findings independently.
         </p>
       </div>

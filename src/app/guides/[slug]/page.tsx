@@ -82,7 +82,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </Link>
           <Link
             href="/guides"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(11,13,16,0.12)] bg-white px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             Guides
@@ -99,15 +99,15 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
             {guide.title}
           </h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-neutral-700">{guide.description}</p>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--text-body)]">{guide.description}</p>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[0.72fr_0.28fr] lg:items-start">
             <div className="space-y-8">
               {guide.sections.map((section, index) => (
                 <div key={section.heading}>
-                  <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+                  <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
                     <h2 className="text-2xl font-black leading-tight">{section.heading}</h2>
-                    <div className="mt-4 space-y-4 text-base leading-8 text-neutral-700">
+                    <div className="mt-4 space-y-4 text-base leading-8 text-[var(--text-body)]">
                       {section.body.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}
@@ -122,11 +122,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
               ))}
             </div>
 
-            <aside className="rounded-2xl border border-[rgba(18,61,51,0.16)] bg-white p-5 shadow-sm lg:sticky lg:top-6">
+            <aside className="rounded-2xl border border-[rgba(47,192,140,0.28)] bg-[var(--paper)] p-5 shadow-sm lg:sticky lg:top-6">
               <h2 className="text-lg font-black">Quick checks</h2>
               <ul className="mt-4 grid gap-3">
                 {guide.quickChecks.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm leading-6 text-neutral-700">
+                  <li key={item} className="flex gap-2 text-sm leading-6 text-[var(--text-body)]">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
@@ -136,7 +136,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
                 <SearchCheck className="h-4 w-4" aria-hidden="true" />
                 Check a listing
               </Link>
-              <p className="mt-4 text-xs leading-5 text-neutral-500">
+              <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
                 Some buyer-tool links on Dealscan may be affiliate links. Deal scores stay independent.
               </p>
             </aside>
@@ -149,7 +149,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
                 <Link
                   key={related.slug}
                   href={`/guides/${related.slug}`}
-                  className="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+                  className="group flex flex-col rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
                 >
                   <p className="text-xs font-black uppercase text-[var(--racing-green)]">{related.readTime}</p>
                   <h3 className="mt-2 flex-1 text-lg font-black leading-snug">{related.title}</h3>

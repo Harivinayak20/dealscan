@@ -79,10 +79,10 @@ export function ScansTable() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white shadow-sm">
+      <div className="overflow-x-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] shadow-sm">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-neutral-100 bg-neutral-50 text-xs font-black uppercase tracking-[0.08em] text-neutral-600">
+            <tr className="border-b border-neutral-100 bg-neutral-50 text-xs font-black uppercase tracking-[0.08em] text-[var(--text-body)]">
               <th className="px-4 py-3">
                 <button onClick={() => toggleSort("vehicleTitle")} className="flex items-center gap-1 hover:text-[var(--graphite)]">
                   Vehicle <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
@@ -121,7 +121,7 @@ export function ScansTable() {
                     {scan.score}
                   </span>
                 </td>
-                <td className="hidden px-4 py-3 text-neutral-700 md:table-cell">{scan.verdict}</td>
+                <td className="hidden px-4 py-3 text-[var(--text-body)] md:table-cell">{scan.verdict}</td>
                 <td className="px-4 py-3"><StatusBadge status={scan.status} /></td>
                 <td className="hidden px-4 py-3 sm:table-cell">
                   <span className={`font-bold ${
@@ -130,7 +130,7 @@ export function ScansTable() {
                     {scan.confidence}
                   </span>
                 </td>
-                <td className="hidden px-4 py-3 text-neutral-600 lg:table-cell">
+                <td className="hidden px-4 py-3 text-[var(--text-body)] lg:table-cell">
                   {new Date(scan.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">
@@ -156,7 +156,7 @@ export function ScansTable() {
         </table>
       </div>
 
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-[var(--text-muted)]">
         Showing {filtered.length} of {scans.length} scans
       </p>
     </div>

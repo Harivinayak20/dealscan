@@ -55,7 +55,7 @@ export function ShareByEmail({
     <div className="rounded-xl border border-[rgba(201,168,106,0.40)] bg-[rgba(201,168,106,0.06)] p-4">
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm font-black text-[var(--graphite)]">Email this analysis</span>
-        <button type="button" onClick={() => setOpen(false)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-neutral-500 hover:!text-[var(--danger)]">
+        <button type="button" onClick={() => setOpen(false)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-[var(--text-muted)] hover:!text-[var(--danger)]">
           Cancel
         </button>
       </div>

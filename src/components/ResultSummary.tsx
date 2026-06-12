@@ -128,12 +128,12 @@ function MiniMetric({
     <article className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 text-sm font-black text-neutral-700">
+          <div className="flex items-center gap-2 text-sm font-black text-[var(--text-body)]">
             {label}
             <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
           </div>
           <div className="mt-2 text-2xl font-black text-[var(--graphite)]">{value}</div>
-          <p className="mt-1 text-sm leading-6 text-neutral-600">{note}</p>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-body)]">{note}</p>
         </div>
         <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
       </div>
@@ -143,7 +143,7 @@ function MiniMetric({
 
 function ConditionPill({ label, value, risky = false }: { label: string; value: string; risky?: boolean }) {
   return (
-    <div className="flex min-w-36 items-center gap-3 border-r border-neutral-200 px-4 py-3 last:border-r-0">
+    <div className="flex min-w-36 items-center gap-3 border-r border-[var(--border-subtle)] px-4 py-3 last:border-r-0">
       {risky ? (
         <CircleAlert className="h-6 w-6 text-[var(--warning)]" aria-hidden="true" />
       ) : (
@@ -165,7 +165,7 @@ function ReasonCard({ label, note, score }: { label: string; note: string; score
     <article className="flex min-h-32 justify-between gap-3 rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
       <div>
         <h3 className="text-base font-black leading-6 text-[var(--graphite)]">{label}</h3>
-        <p className="mt-2 text-sm leading-6 text-neutral-600">{note}</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{note}</p>
       </div>
       <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${tone.soft}`}>
         <Icon className="h-6 w-6" aria-hidden="true" />
@@ -306,12 +306,12 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                       const urlMatch = sourceText.match(/https?:\/\/[^\s]+/);
                       if (urlMatch) {
                         const src = detectSource(urlMatch[0]);
-                        return <span className="inline-flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 px-2 py-0.5 text-xs font-bold text-neutral-500">{src.icon} {src.name}</span>;
+                        return <span className="inline-flex items-center gap-1 rounded-md border border-[var(--border-subtle)] bg-neutral-50 px-2 py-0.5 text-xs font-bold text-[var(--text-muted)]">{src.icon} {src.name}</span>;
                       }
                       return null;
                     })()}
                   </div>
-                <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-neutral-600">
+                <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-[var(--text-body)]">
                   <span className="flex items-center gap-2">
                     <Gauge className="h-5 w-5" aria-hidden="true" />
                     {mileage}
@@ -327,7 +327,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 </div>
               </div>
               <div className="grid gap-2 md:justify-items-end">
-                <div className="text-sm font-bold text-neutral-600">Seller Price</div>
+                <div className="text-sm font-bold text-[var(--text-body)]">Seller Price</div>
                 <div className="text-3xl font-black text-[var(--graphite)]">{sellerPrice}</div>
                 <a
                   href="#listing-source"
@@ -344,7 +344,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
             <section className="animate-fade-in-up rounded-2xl border border-[rgba(201,168,106,0.25)] bg-[rgba(201,168,106,0.08)] px-4 py-3">
               <div className="flex items-start gap-3">
                 <Gauge className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
-                <p className="text-base leading-7 text-neutral-700">{summary}</p>
+                <p className="text-base leading-7 text-[var(--text-body)]">{summary}</p>
               </div>
             </section>
           ) : null}
@@ -357,10 +357,10 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                   <Icon className="h-5 w-5" aria-hidden="true" />
                   {result.verdict}
                 </div>
-                <p className="text-xs font-bold text-neutral-500">{tone.label} confidence: {result.confidence}</p>
+                <p className="text-xs font-bold text-[var(--text-muted)]">{tone.label} confidence: {result.confidence}</p>
                 <p className="mt-1 text-[10px] leading-4 text-neutral-400">Informational only &mdash; verify VIN, title, and inspection yourself.</p>
                 <div className="mt-3 rounded-xl border border-[rgba(245,158,11,0.25)] bg-[rgba(245,158,11,0.08)] p-3">
-                  <p className="text-xs font-bold leading-5 text-neutral-700">
+                  <p className="text-xs font-bold leading-5 text-[var(--text-body)]">
                     <span className="text-[var(--warning)]">⚠️</span> This is not a substitute for a mechanic inspection or vehicle history report. Always have a trusted mechanic inspect the car in person and verify the title before buying.
                   </p>
                 </div>
@@ -393,12 +393,12 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                       <ShoppingCart className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-neutral-600">Our Verdict</div>
+                      <div className="text-xs font-bold text-[var(--text-body)]">Our Verdict</div>
                       <div className="text-2xl font-black text-[var(--racing-green)]">
                         {result.score >= 80 ? "Buy" : result.score >= 60 ? "Negotiate" : "Wait"}
                       </div>
                     </div>
-                    <p className="ml-auto text-sm leading-6 text-neutral-700">{result.summary}</p>
+                    <p className="ml-auto text-sm leading-6 text-[var(--text-body)]">{result.summary}</p>
                   </div>
                 </div>
               </div>
@@ -423,7 +423,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                   <section className="rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[rgba(52,119,186,0.08)] p-4">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <p className="text-xs font-black uppercase text-neutral-600">VIN detected</p>
+                        <p className="text-xs font-black uppercase text-[var(--text-body)]">VIN detected</p>
                         <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{detectedVin}</p>
                       </div>
                       <button
@@ -456,13 +456,13 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 ) : null}
 
                 {vinResult ? (
-                  <section className="rounded-2xl border border-[rgba(52,119,186,0.25)] bg-white p-4">
+                  <section className="rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[var(--paper)] p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-xs font-black uppercase text-neutral-600">VIN Decode</p>
+                        <p className="text-xs font-black uppercase text-[var(--text-body)]">VIN Decode</p>
                         <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{vinResult.vin}</p>
                       </div>
-                      <button onClick={() => setVinResult(null)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-neutral-500 hover:!text-[var(--danger)]">Dismiss</button>
+                      <button onClick={() => setVinResult(null)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-[var(--text-muted)] hover:!text-[var(--danger)]">Dismiss</button>
                     </div>
                     {vinResult.error ? (
                       <p className="mt-3 text-sm text-[var(--danger)]">{vinResult.error}</p>
@@ -480,7 +480,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                           { label: "Plant", value: vinResult.plantCity && vinResult.plantState ? `${vinResult.plantCity}, ${vinResult.plantState}` : null },
                         ].filter((r) => r.value).map((r) => (
                           <div key={r.label} className="rounded-lg bg-neutral-50 p-2">
-                            <div className="text-xs font-bold text-neutral-600">{r.label}</div>
+                            <div className="text-xs font-bold text-[var(--text-body)]">{r.label}</div>
                             <div className="font-bold text-[var(--graphite)]">{r.value}</div>
                           </div>
                         ))}
@@ -490,8 +490,8 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 ) : null}
 
                 {vinLoading ? (
-                  <section className="rounded-2xl border border-neutral-200 bg-white p-4">
-                    <p className="text-sm font-bold text-neutral-600">Decoding VIN...</p>
+                  <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4">
+                    <p className="text-sm font-bold text-[var(--text-body)]">Decoding VIN...</p>
                   </section>
                 ) : null}
 
@@ -527,7 +527,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
 
                 <NegotiationScriptsSection result={result} sourceText={sourceText} />
 
-                <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-neutral-600">
+                <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-[var(--text-body)]">
                   <h3 className="text-base font-black text-[var(--graphite)]">Trust notes</h3>
                   <div className="mt-3 grid gap-2">
                     {trustLayerStatements.map((statement) => (
@@ -538,7 +538,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
 
                 <section id="listing-source" className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4">
                   <h3 className="text-base font-black text-[var(--graphite)]">Listing text</h3>
-                  <p className="mt-2 max-h-24 overflow-auto rounded-lg bg-[rgba(244,240,232,0.72)] p-3 text-sm leading-6 text-neutral-700">
+                  <p className="mt-2 max-h-24 overflow-auto rounded-lg bg-[rgba(244,240,232,0.72)] p-3 text-sm leading-6 text-[var(--text-body)]">
                     {sourceText || "No listing text was provided."}
                   </p>
                 </section>
@@ -551,7 +551,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 text-base font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-5 text-base font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:shadow-md"
             >
               <Download className="h-5 w-5" aria-hidden="true" />
               Report
@@ -576,7 +576,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
               className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border px-5 text-base font-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md disabled:pointer-events-none disabled:opacity-60 ${
                 isCompared
                   ? "border-[rgba(124,169,130,0.55)] bg-[rgba(124,169,130,0.12)] text-[var(--racing-green)]"
-                  : "border-[rgba(201,168,106,0.55)] bg-white text-[var(--graphite)] hover:bg-[rgba(201,168,106,0.14)]"
+                  : "border-[rgba(201,168,106,0.55)] bg-[var(--paper)] text-[var(--graphite)] hover:bg-[rgba(201,168,106,0.14)]"
               }`}
             >
               {isCompared ? (
@@ -621,7 +621,7 @@ function NegotiationScriptsSection({ result, sourceText }: { result: AnalyzeList
           {items.map(({ label, script }, i) => (
             <div key={label}>
               <div className="mb-1 flex items-center justify-between gap-2">
-                <span className="text-sm font-black uppercase text-neutral-500">{label}</span>
+                <span className="text-sm font-black uppercase text-[var(--text-muted)]">{label}</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -634,7 +634,7 @@ function NegotiationScriptsSection({ result, sourceText }: { result: AnalyzeList
                   {copiedIndex === i ? "Copied!" : "Copy"}
                 </button>
               </div>
-              <p className="whitespace-pre-wrap rounded-xl bg-[rgba(244,240,232,0.72)] p-4 text-base leading-7 text-neutral-700">{script}</p>
+              <p className="whitespace-pre-wrap rounded-xl bg-[rgba(244,240,232,0.72)] p-4 text-base leading-7 text-[var(--text-body)]">{script}</p>
             </div>
           ))}
         </div>
