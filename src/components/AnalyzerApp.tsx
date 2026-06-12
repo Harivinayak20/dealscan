@@ -495,15 +495,18 @@ export function AnalyzerApp() {
           <span className="text-left text-base sm:text-lg">
             <Logo />
           </span>
-          <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex" aria-label="Primary">
-            <a href="#how-it-works" onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }} className="transition hover:text-[var(--racing-green)]">
+          <nav className="flex items-center gap-4 text-sm font-semibold lg:gap-7" aria-label="Primary">
+            <a href="#how-it-works" onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }} className="hidden transition hover:text-[var(--racing-green)] lg:inline">
               How it works
             </a>
-            <Link href="/how-scoring-works" className="transition hover:text-[var(--racing-green)]">
+            <Link href="/how-scoring-works" className="hidden transition hover:text-[var(--racing-green)] lg:inline">
               Scoring
             </Link>
             <Link href="/guides" className="transition hover:text-[var(--racing-green)]">
               Guides
+            </Link>
+            <Link href="/cars" className="transition hover:text-[var(--racing-green)]">
+              Car checks
             </Link>
             {savedResults.length > 0 ? (
               <button
@@ -1036,6 +1039,7 @@ export function AnalyzerApp() {
                 <li><a href="#faq" className="transition hover:text-[var(--champagne)]">FAQ</a></li>
                 <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
                 <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
+                <li><Link href="/cars" className="transition hover:text-[var(--champagne)]">Buyer checks by model</Link></li>
               </ul>
             </div>
             <div>

@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { carModels } from "@/lib/car-models";
 import { guides } from "@/lib/guides";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ["", "/guides", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
+  const staticRoutes = ["", "/guides", "/cars", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
 
   return [
     ...staticRoutes.map((route) => ({
@@ -17,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guides.map((guide) => ({
       url: `${appUrl}/guides/${guide.slug}`,
       lastModified: new Date(guide.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...carModels.map((car) => ({
+      url: `${appUrl}/cars/${car.slug}`,
+      lastModified: new Date(car.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
