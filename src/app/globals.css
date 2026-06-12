@@ -896,10 +896,17 @@ body::before {
   --aurora-1: rgba(96, 165, 250, 0.08);
 }
 
-/* No side gutters on small screens: the curve would run through content */
+/* Small screens: the path runs straight down the left edge with a smaller
+   car, so slim the track to match */
 @media (max-width: 1023px) {
-  .scrollfx-svg {
-    display: none;
+  .scrollfx-track {
+    stroke-width: 8;
+    stroke-dasharray: 8 6;
+  }
+
+  .scrollfx-track-gap {
+    stroke-width: 3;
+    stroke-dasharray: 8 6;
   }
 }
 

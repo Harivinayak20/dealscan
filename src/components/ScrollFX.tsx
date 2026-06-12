@@ -89,6 +89,7 @@ export function ScrollFX() {
     document.body.appendChild(svg);
 
     let total = 0;
+    let carScale = 1;
     const pathShapes = [maskPath, trackBase, trackGap];
 
     const rebuild = () => {
@@ -98,19 +99,26 @@ export function ScrollFX() {
       svg.style.width = `${width}px`;
       svg.style.height = `${height}px`;
 
+      // Narrow screens have no real gutters: drive a smaller car straight
+      // down the left edge instead of swinging across the content.
+      const narrow = width < 1024;
+      carScale = narrow ? 0.55 : 1;
+
       // Run down the side gutters, outside the centered content column,
       // and only swing across at the boundaries between sections.
-      const leftX = Math.max(18, (width - 1200) / 2 - 28);
+      const leftX = narrow ? 12 : Math.max(18, (width - 1200) / 2 - 28);
       const rightX = width - leftX;
       const sections = Array.from(
         document.querySelectorAll<HTMLElement>("main > section, main > footer")
       );
       const scrollY = window.scrollY;
-      const crossings = sections
-        .slice(1)
-        .map((s) => s.getBoundingClientRect().top + scrollY)
-        .filter((y) => y > 300 && y < height - 320)
-        .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 600);
+      const crossings = narrow
+        ? []
+        : sections
+            .slice(1)
+            .map((s) => s.getBoundingClientRect().top + scrollY)
+            .filter((y) => y > 300 && y < height - 320)
+            .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 600);
 
       const sway = 280;
       let side: 0 | 1 = 0;
@@ -158,7 +166,7 @@ export function ScrollFX() {
       if (delta < -180) delta += 360;
       angle = lastAngle + delta * 0.25;
       lastAngle = angle;
-      car.setAttribute("transform", `translate(${tip.x} ${tip.y}) rotate(${angle})`);
+      car.setAttribute("transform", `translate(${tip.x} ${tip.y}) rotate(${angle}) scale(${carScale})`);
     };
 
     const tick = () => {
