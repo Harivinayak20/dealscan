@@ -4,8 +4,6 @@ export type PlatformLink = {
   type: "marketplace" | "reference";
 };
 
-export type LinkCategory = "marketplace" | "reference";
-
 function extractVehicleInfo(sourceText: string): { make?: string; model?: string; year?: string; vin?: string } {
   const vinMatch = sourceText.match(/\b([A-HJ-NPR-Z0-9]{17})\b/);
   const vin = vinMatch?.[1];
@@ -127,24 +125,4 @@ export function generateMarketplaceLinks(sourceText: string): PlatformLink[] {
   });
 
   return links;
-}
-
-export function categorizeLinks(links: PlatformLink[]): { marketplace: PlatformLink[]; reference: PlatformLink[] } {
-  return {
-    marketplace: links.filter((l) => l.type === "marketplace"),
-    reference: links.filter((l) => l.type === "reference"),
-  };
-}
-
-export function generateCompareMarketplaceLinks(make: string, model: string, year?: string): PlatformLink[] {
-  const searchQuery = [year, make, model].filter(Boolean).join(" ");
-  const encoded = encode(searchQuery);
-
-  return [
-    { label: "Cars.com", url: `https://www.cars.com/shopping/results/?stock_type=all&makes[]=${encode(make.toLowerCase())}&models[]=${encode(make.toLowerCase())}-${encode(model.toLowerCase())}`, type: "marketplace" as const },
-    { label: "Autotrader", url: `https://www.autotrader.com/cars-for-sale/${encoded}?searchRadius=100`, type: "marketplace" as const },
-    { label: "CarGurus", url: `https://www.cargurus.com/Cars/l-Used-${encode(make.toLowerCase())}-${encode(model.toLowerCase())}-${year ? `d${year}` : "c"}`, type: "marketplace" as const },
-    { label: "Craigslist", url: `https://craigslist.org/search/cta?query=${encoded}`, type: "marketplace" as const },
-    { label: "Facebook Marketplace", url: `https://www.facebook.com/marketplace/search/?query=${encoded}`, type: "marketplace" as const },
-  ];
 }

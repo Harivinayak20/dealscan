@@ -49,7 +49,3 @@ export function calculateFinancing(
 export function formatCurrency(n: number): string {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 }
-
-export function roundTo50(n: number): number {
-  return Math.round(n / 50) * 50;
-}

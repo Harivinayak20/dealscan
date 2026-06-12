@@ -9,64 +9,87 @@ function svgEl<K extends keyof SVGElementTagNameMap>(name: K): SVGElementTagName
 }
 
 /**
- * Site-wide scroll effects, plain JS + CSS transitions so they work in
- * every browser:
+ * Top-down Nissan Skyline R34 GT-R (nose points toward +x), centered on the
+ * origin. A photoreal cutout (public/r34-topdown.webp, trimmed 1200x524) over
+ * a soft ground shadow.
+ */
+function buildCar(): SVGGElement {
+  const car = svgEl("g");
+  car.setAttribute("class", "scrollfx-car");
+
+  const LENGTH = 120;
+  const WIDTH = (LENGTH * 524) / 1200;
+
+  const shadow = svgEl("ellipse");
+  shadow.setAttribute("cx", "0");
+  shadow.setAttribute("cy", "0");
+  shadow.setAttribute("rx", String(LENGTH / 2 - 4));
+  shadow.setAttribute("ry", String(WIDTH / 2));
+  shadow.setAttribute("fill", "rgba(0,0,0,0.16)");
+  car.appendChild(shadow);
+
+  const img = svgEl("image");
+  img.setAttribute("href", "/r34-topdown.webp");
+  img.setAttribute("x", String(-LENGTH / 2));
+  img.setAttribute("y", String(-WIDTH / 2));
+  img.setAttribute("width", String(LENGTH));
+  img.setAttribute("height", String(WIDTH));
+  img.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  car.appendChild(img);
+
+  return car;
+}
+
+/**
+ * Site-wide scroll effects, plain JS + CSS so they work in every browser:
  * - a horizontal progress bar that fills while scrolling
- * - a glowing vertical S-curve that draws itself down the page, with a
- *   glowing arrowhead riding its tip
+ * - tire tracks drawn down the page gutters as you scroll, with a red
+ *   sports car driving at the tip
  * - sections that fade-and-rise into place as they enter the viewport
  */
 export function ScrollFX() {
   useEffect(() => {
-    const bar = document.createElement("div");
-    bar.className = "scrollfx-bar";
-    document.body.appendChild(bar);
-
-    // --- Glowing S-curve overlay ---
+    // --- Tire-track overlay ---
     const svg = svgEl("svg");
     svg.setAttribute("class", "scrollfx-svg");
     svg.setAttribute("aria-hidden", "true");
 
+    // A clip rect that grows with scroll reveals the tracks. Far cheaper to
+    // update per frame than a stroke-dash mask over a page-sized path.
     const defs = svgEl("defs");
-    const grad = svgEl("linearGradient");
-    grad.setAttribute("id", "scrollfx-grad");
-    grad.setAttribute("x1", "0");
-    grad.setAttribute("y1", "0");
-    grad.setAttribute("x2", "0");
-    grad.setAttribute("y2", "1");
-    for (const [offset, colorVar] of [
-      ["0%", "--fx-1"],
-      ["55%", "--fx-2"],
-      ["100%", "--fx-3"],
-    ]) {
-      const stop = svgEl("stop");
-      stop.setAttribute("offset", offset);
-      stop.style.stopColor = `var(${colorVar})`;
-      grad.appendChild(stop);
-    }
-    defs.appendChild(grad);
+    const clip = svgEl("clipPath");
+    clip.setAttribute("id", "scrollfx-reveal");
+    clip.setAttribute("clipPathUnits", "userSpaceOnUse");
+    const clipRect = svgEl("rect");
+    clipRect.setAttribute("x", "0");
+    clipRect.setAttribute("y", "0");
+    clipRect.setAttribute("width", "0");
+    clipRect.setAttribute("height", "0");
+    clip.appendChild(clipRect);
+    defs.appendChild(clip);
     svg.appendChild(defs);
 
-    const glowPath = svgEl("path");
-    glowPath.setAttribute("class", "scrollfx-path-glow");
-    const mainPath = svgEl("path");
-    mainPath.setAttribute("class", "scrollfx-path-main");
-    const corePath = svgEl("path");
-    corePath.setAttribute("class", "scrollfx-path-core");
-    const arrow = svgEl("g");
-    arrow.setAttribute("class", "scrollfx-arrow");
-    const arrowShape = svgEl("path");
-    arrowShape.setAttribute("d", "M 0 -16 L 12 8 L 0 2 L -12 8 Z");
-    const arrowHalo = svgEl("circle");
-    arrowHalo.setAttribute("class", "scrollfx-arrow-halo");
-    arrowHalo.setAttribute("r", "22");
-    arrow.appendChild(arrowHalo);
-    arrow.appendChild(arrowShape);
-    svg.append(glowPath, mainPath, corePath, arrow);
+    // invisible geometry path: position/length lookups only
+    const maskPath = svgEl("path");
+    maskPath.setAttribute("fill", "none");
+    maskPath.setAttribute("stroke", "none");
+    svg.appendChild(maskPath);
+
+    const tracks = svgEl("g");
+    tracks.setAttribute("clip-path", "url(#scrollfx-reveal)");
+    const trackBase = svgEl("path");
+    trackBase.setAttribute("class", "scrollfx-track");
+    const trackGap = svgEl("path");
+    trackGap.setAttribute("class", "scrollfx-track-gap");
+    tracks.append(trackBase, trackGap);
+    svg.appendChild(tracks);
+
+    const car = buildCar();
+    svg.appendChild(car);
     document.body.appendChild(svg);
 
     let total = 0;
-    const paths = [glowPath, mainPath, corePath];
+    const pathShapes = [maskPath, trackBase, trackGap];
 
     const rebuild = () => {
       const width = document.documentElement.clientWidth;
@@ -86,13 +109,13 @@ export function ScrollFX() {
       const crossings = sections
         .slice(1)
         .map((s) => s.getBoundingClientRect().top + scrollY)
-        .filter((y) => y > 360 && y < height - 360)
-        .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 760);
+        .filter((y) => y > 300 && y < height - 320)
+        .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 600);
 
-      const sway = 320;
+      const sway = 280;
       let side: 0 | 1 = 0;
       let x = side === 0 ? leftX : rightX;
-      let d = `M ${x} 60`;
+      let d = `M ${x} 150`;
       for (const y of crossings) {
         const ox = side === 0 ? rightX : leftX;
         d += ` L ${x} ${y - sway}`;
@@ -102,43 +125,62 @@ export function ScrollFX() {
       }
       d += ` L ${x} ${height - 60}`;
 
-      for (const p of paths) p.setAttribute("d", d);
-      total = mainPath.getTotalLength();
-      for (const p of paths) {
-        p.style.strokeDasharray = `${total}`;
-      }
+      for (const p of pathShapes) p.setAttribute("d", d);
+      total = maskPath.getTotalLength();
+      clipRect.setAttribute("width", String(width));
     };
 
-    // One visual update per frame, no matter how many scroll events fire.
+    // The car eases toward the scroll position in its own animation loop,
+    // so it glides smoothly no matter how jumpy the scroll events are.
+    let shown = 0;
+    let lastAngle = 90;
     let frame = 0;
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
+
+    const targetProgress = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      return max > 0 ? doc.scrollTop / max : 0;
+    };
+
+    const render = (progress: number) => {
+      if (total <= 0) return;
+      const drawn = total * progress;
+      const tip = maskPath.getPointAtLength(drawn);
+      clipRect.setAttribute("height", String(Math.max(0, tip.y - 6)));
+      const ahead = maskPath.getPointAtLength(Math.min(drawn + 3, total));
+      let angle =
+        drawn + 5 > total
+          ? 90
+          : (Math.atan2(ahead.y - tip.y, ahead.x - tip.x) * 180) / Math.PI;
+      // blend along the shortest rotation so the car never twitches
+      let delta = angle - lastAngle;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      angle = lastAngle + delta * 0.25;
+      lastAngle = angle;
+      car.setAttribute("transform", `translate(${tip.x} ${tip.y}) rotate(${angle})`);
+    };
+
+    const tick = () => {
+      const target = targetProgress();
+      shown += (target - shown) * 0.34;
+      if (Math.abs(target - shown) < 0.0004) {
+        shown = target;
+        render(shown);
         frame = 0;
-        update();
-      });
+        return;
+      }
+      render(shown);
+      frame = requestAnimationFrame(tick);
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(tick);
     };
 
     const update = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      const progress = max > 0 ? doc.scrollTop / max : 0;
-      bar.style.transform = `scaleX(${progress})`;
-
-      if (total > 0) {
-        const drawn = total * progress;
-        for (const p of paths) {
-          p.style.strokeDashoffset = `${total - drawn}`;
-        }
-        const tip = mainPath.getPointAtLength(drawn);
-        const ahead = mainPath.getPointAtLength(Math.min(drawn + 2, total));
-        const angle =
-          (Math.atan2(ahead.y - tip.y, ahead.x - tip.x) * 180) / Math.PI + 90;
-        arrow.setAttribute(
-          "transform",
-          `translate(${tip.x} ${tip.y}) rotate(${drawn + 4 > total ? 90 : angle})`
-        );
-      }
+      shown = targetProgress();
+      render(shown);
     };
 
     let raf = 0;
@@ -167,7 +209,10 @@ export function ScrollFX() {
 
     const seen = new WeakSet<Element>();
     const scan = () => {
-      document.querySelectorAll("main section, main footer, main article > div").forEach((el) => {
+      // Animate the inner content divs, not the sections themselves: a
+      // transform on a section flattens its stacking order and lets the
+      // car paint over the text while the reveal runs.
+      document.querySelectorAll("main section > div, main footer > div, main article > div").forEach((el) => {
         if (seen.has(el)) return;
         seen.add(el);
         const rect = el.getBoundingClientRect();
@@ -191,7 +236,6 @@ export function ScrollFX() {
       window.removeEventListener("resize", queueRebuild);
       observer.disconnect();
       mutations.disconnect();
-      bar.remove();
       svg.remove();
     };
   }, []);

@@ -11,7 +11,7 @@
   --mist: #edf1ee;
   --ivory: #f4f6f5;
   --silver: #6f7974;
-  --text-body: #2e3a34;
+  --text-body: #232e28;
   --champagne: #c9a86a;
   --racing-green: #123d33;
   --success: #7ca982;
@@ -23,7 +23,7 @@
   --muted: #a7adb5;
   --border: rgba(244, 240, 232, 0.12);
   --focus: #c9a86a;
-  --line: rgba(15, 23, 19, 0.12);
+  --line: rgba(15, 23, 19, 0.18);
   --accent-2-soft: rgba(18, 61, 51, 0.07);
   --accent-2-soft-2: rgba(18, 61, 51, 0.13);
   --accent-2-line: rgba(18, 61, 51, 0.22);
@@ -42,9 +42,9 @@
   --surface-warm: var(--ivory);
   --fg: var(--graphite);
   --fg-2: var(--charcoal);
-  --text-muted: #4e5b55;
+  --text-muted: #41504a;
   --border-color: var(--mist);
-  --border-subtle: rgba(15, 23, 19, 0.10);
+  --border-subtle: rgba(15, 23, 19, 0.16);
   --accent: var(--champagne);
   --accent-on: var(--graphite);
   --accent-2: var(--racing-green);
@@ -787,19 +787,6 @@ select {
 /* Site-wide scroll effects (driven by ScrollFX component).
    Plain transitions so they work in every browser; !important keeps the
    global reduced-motion reset from zeroing them out. */
-.scrollfx-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  height: 4px;
-  background: linear-gradient(90deg, var(--racing-green), var(--champagne));
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-  pointer-events: none;
-}
-
 .fx-reveal {
   opacity: 0;
   transform: translateY(26px);
@@ -812,65 +799,54 @@ select {
   transform: none;
 }
 
-/* Glowing vertical S-curve (ScrollFX) */
+/* Tire tracks + car (ScrollFX). Sits above section backgrounds but below
+   content: every section's inner container is lifted one layer up. */
 .scrollfx-svg {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 50;
+  z-index: 0;
   pointer-events: none;
   overflow: visible;
 }
 
-.scrollfx-path-glow,
-.scrollfx-path-main,
-.scrollfx-path-core {
+main section > div,
+main footer > div,
+main article {
+  position: relative;
+  z-index: 1;
+}
+
+.scrollfx-track,
+.scrollfx-track-gap {
   fill: none;
-  stroke-linecap: round;
+  stroke-linecap: butt;
 }
 
-/* Glow is layered strokes instead of blur/drop-shadow filters: SVG filters
-   force expensive repaints of a page-sized layer on every scroll frame. */
-.scrollfx-path-glow {
-  stroke: url(#scrollfx-grad);
-  stroke-width: 22;
-  opacity: 0.16;
+/* Two parallel rails: a wide dashed rubber stroke with the page background
+   carved through its middle. Revealed by the scroll-driven mask. */
+.scrollfx-track {
+  stroke: var(--track-rubber);
+  stroke-width: 15;
+  stroke-dasharray: 14 11;
 }
 
-.scrollfx-path-main {
-  stroke: url(#scrollfx-grad);
-  stroke-width: 9;
-  opacity: 0.45;
+.scrollfx-track-gap {
+  stroke: var(--background);
+  stroke-width: 6;
+  stroke-dasharray: 14 11;
 }
 
-.scrollfx-path-core {
-  stroke: var(--fx-core);
-  stroke-width: 3;
-  opacity: 0.95;
+:root {
+  --track-rubber: rgba(34, 38, 36, 0.42);
 }
 
-.scrollfx-arrow path {
-  fill: var(--fx-arrow-fill);
-  stroke: var(--fx-arrow-edge);
-  stroke-width: 2.5;
-  filter: drop-shadow(0 0 8px rgba(43, 255, 168, 0.95)) drop-shadow(0 0 20px rgba(15, 143, 94, 0.8));
+:root[data-theme="dark"] {
+  --track-rubber: rgba(255, 255, 255, 0.20);
 }
 
-.scrollfx-arrow-halo {
-  fill: rgba(15, 143, 94, 0.28);
-  animation: scrollfx-halo 1.6s ease-in-out infinite !important;
-  animation-duration: 1.6s !important;
-}
-
-@keyframes scrollfx-halo {
-  0%, 100% {
-    transform: scale(0.7);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.25);
-    opacity: 0.25;
-  }
+.scrollfx-car {
+  will-change: transform;
 }
 
 /* Theme toggle */
@@ -909,25 +885,15 @@ body::before {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 88% -8%, var(--aurora-1), transparent 40rem),
-    radial-gradient(circle at 102% 38%, var(--aurora-2), transparent 32rem),
-    radial-gradient(circle at -6% 18%, var(--aurora-3), transparent 36rem),
-    radial-gradient(ellipse at 46% 64%, var(--aurora-4), transparent 30rem);
+  background: radial-gradient(ellipse 90rem 40rem at 50% -12rem, var(--aurora-1), transparent 70%);
 }
 
 :root {
-  --aurora-1: rgba(168, 85, 247, 0.14);
-  --aurora-2: rgba(236, 72, 153, 0.08);
-  --aurora-3: rgba(56, 189, 248, 0.10);
-  --aurora-4: rgba(167, 139, 250, 0.06);
+  --aurora-1: rgba(96, 165, 250, 0.22);
 }
 
 :root[data-theme="dark"] {
-  --aurora-1: rgba(168, 85, 247, 0.10);
-  --aurora-2: rgba(236, 72, 153, 0.05);
-  --aurora-3: rgba(56, 189, 248, 0.06);
-  --aurora-4: rgba(167, 139, 250, 0.045);
+  --aurora-1: rgba(96, 165, 250, 0.08);
 }
 
 /* No side gutters on small screens: the curve would run through content */
@@ -935,4 +901,54 @@ body::before {
   .scrollfx-svg {
     display: none;
   }
+}
+
+/* 3D logo: extruded type over a soft underglow, slight lift on hover */
+.logo-3d {
+  position: relative;
+  color: var(--foreground);
+  text-shadow:
+    0 1px 0 rgba(18, 61, 51, 0.55),
+    0 2px 0 rgba(18, 61, 51, 0.40),
+    0 3px 0 rgba(18, 61, 51, 0.25),
+    0 5px 8px rgba(15, 23, 19, 0.30);
+  transition: transform 0.2s var(--ease-standard), text-shadow 0.2s var(--ease-standard);
+}
+
+.logo-3d::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -0.18em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--logo-glow), transparent 70%);
+  filter: blur(5px);
+  transition: opacity 0.2s var(--ease-standard);
+}
+
+:root {
+  --logo-glow: rgba(59, 130, 246, 0.55);
+}
+
+:root[data-theme="dark"] {
+  --logo-glow: rgba(255, 255, 255, 0.40);
+}
+
+.logo-3d:hover {
+  transform: translateY(-2px);
+  text-shadow:
+    0 2px 0 rgba(18, 61, 51, 0.55),
+    0 4px 0 rgba(18, 61, 51, 0.35),
+    0 6px 0 rgba(18, 61, 51, 0.20),
+    0 9px 14px rgba(15, 23, 19, 0.35);
+}
+
+:root[data-theme="dark"] .logo-3d {
+  text-shadow:
+    0 1px 0 rgba(47, 192, 140, 0.45),
+    0 2px 0 rgba(47, 192, 140, 0.28),
+    0 3px 0 rgba(47, 192, 140, 0.16),
+    0 5px 10px rgba(0, 0, 0, 0.6);
 }

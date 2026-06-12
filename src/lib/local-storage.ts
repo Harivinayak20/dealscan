@@ -17,10 +17,3 @@ export function saveSavedResults<T>(results: T[]): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(results));
   } catch { /* storage full or unavailable */ }
 }
-
-export function clearSavedResults(): void {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch { /* noop */ }
-}

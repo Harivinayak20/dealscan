@@ -71,22 +71,6 @@ export function removeWatch(id: string): void {
   saveRaw(entries);
 }
 
-export function simulatePriceChange(id: string): WatchEntry | null {
-  const entries = loadRaw();
-  const idx = entries.findIndex((e) => e.id === id);
-  if (idx < 0) return null;
-  const entry = entries[idx];
-  const currentPrice = entry.price;
-  if (currentPrice === null) return entry;
-  const drop = Math.round(currentPrice * (0.02 + Math.random() * 0.06));
-  const newPrice = currentPrice - drop;
-  entry.price = newPrice;
-  entry.priceHistory.push({ date: Date.now(), price: newPrice });
-  entries[idx] = entry;
-  saveRaw(entries);
-  return entry;
-}
-
 export function getPriceTrend(entry: WatchEntry): "up" | "down" | "stable" {
   if (entry.priceHistory.length < 2) return "stable";
   const first = entry.priceHistory[0].price;

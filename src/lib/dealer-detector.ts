@@ -35,8 +35,3 @@ export function detectSource(url: string | undefined | null): SourceInfo {
   const domain = match?.[1] ?? "";
   return { name: domain || "Direct Link", domain, type: "unknown", badge: "WEB", icon: "🔗" };
 }
-
-export function isDealerListing(url: string | undefined | null): boolean {
-  const source = detectSource(url);
-  return source.type === "dealer" || source.type === "marketplace";
-}
