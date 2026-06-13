@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { carModels } from "@/lib/car-models";
 import { guides } from "@/lib/guides";
 import { yearsToAvoid } from "@/lib/years-to-avoid";
+import { allValueYears } from "@/lib/pricing";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -33,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(entry.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...allValueYears().map(({ slug, year }) => ({
+      url: `${appUrl}/cars/${slug}/${year}-value`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

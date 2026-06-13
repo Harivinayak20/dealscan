@@ -148,6 +148,25 @@ export function estimatePrice(
   };
 }
 
+// Years this model was sold (parsed from car-models), capped at the current
+// year, for generating per-year value pages.
+export function modelYears(slug: string, currentYear: number = new Date().getFullYear()): number[] {
+  const m = carModels.find((c) => c.slug === slug);
+  if (!m || !MODELS[slug]) return [];
+  const nums = m.years.match(/\d{4}/g);
+  if (!nums) return [];
+  const start = Number(nums[0]);
+  const end = Math.min(Number(nums[nums.length - 1]), currentYear);
+  const out: number[] = [];
+  for (let y = start; y <= end; y++) out.push(y);
+  return out;
+}
+
+// Every {slug, year} pair with pricing data, for static generation + sitemap.
+export function allValueYears(): { slug: string; year: number }[] {
+  return Object.keys(MODELS).flatMap((slug) => modelYears(slug).map((year) => ({ slug, year })));
+}
+
 // Flags whether a model-year falls in a documented "years to avoid" range.
 export function avoidFlag(slug: string, modelYear: number): { years: string; reason: string } | null {
   const entry = yearsToAvoid.find((e) => e.slug === slug);
