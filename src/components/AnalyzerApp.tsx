@@ -565,6 +565,14 @@ export function AnalyzerApp() {
               ))}
             </div>
 
+            <Link
+              href="/price-checker"
+              className="mt-4 flex items-center justify-between gap-2 rounded-xl border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3 py-2.5 text-sm font-bold text-[var(--racing-green)] transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <span>No listing yet? Check what a car is worth free</span>
+              <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+            </Link>
+
             <div className="mt-6 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)] shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)]">
               <div className="flex items-center justify-between gap-2 border-b border-[rgba(32,40,35,0.07)] bg-[var(--paper)] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                 <span className="inline-flex items-center gap-1.5">

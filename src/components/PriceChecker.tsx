@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, SearchCheck, TriangleAlert } from "lucide-react";
 import { avoidFlag, estimatePrice, priceCheckerModels, type Condition } from "@/lib/pricing";
@@ -19,6 +19,30 @@ export function PriceChecker() {
   const [condition, setCondition] = useState<Condition>("good");
   const [title, setTitle] = useState<"clean" | "branded">("clean");
   const [asking, setAsking] = useState("");
+
+  // Read deep-link params on mount so model pages can link a pre-filled car.
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const car = p.get("car");
+    if (car && MODELS.some((m) => m.slug === car)) setSlug(car);
+    const y = p.get("year");
+    if (y) setYear(y);
+    const mi = p.get("miles");
+    if (mi) setMiles(mi);
+    const c = p.get("condition");
+    if (c === "excellent" || c === "good" || c === "fair" || c === "rough") setCondition(c);
+    const t = p.get("title");
+    if (t === "branded" || t === "clean") setTitle(t);
+    const a = p.get("asking");
+    if (a) setAsking(a);
+  }, []);
+
+  // Keep the URL in sync so any result can be copied and shared.
+  useEffect(() => {
+    const p = new URLSearchParams({ car: slug, year, miles, condition, title });
+    if (asking) p.set("asking", asking);
+    window.history.replaceState(null, "", `?${p.toString()}`);
+  }, [slug, year, miles, condition, title, asking]);
 
   const modelYear = Number(year) || 0;
   const milesNum = Number(miles) || 0;
