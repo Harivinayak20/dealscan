@@ -491,45 +491,51 @@ export function AnalyzerApp() {
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
       <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-7">
-          <span className="text-left text-base sm:text-lg">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-3 gap-y-3 px-5 py-3 sm:flex-nowrap sm:px-7 sm:py-4">
+          <span className="order-1 text-left text-lg">
             <Logo />
           </span>
-          <nav className="flex items-center gap-4 text-sm font-semibold lg:gap-7" aria-label="Primary">
-            <a href="#how-it-works" onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }} className="hidden transition hover:text-[var(--racing-green)] lg:inline">
+
+          <nav
+            className="order-3 flex w-full items-center justify-center gap-1 rounded-full border border-white/10 bg-[var(--graphite)] p-1.5 text-sm font-semibold shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] sm:order-2 sm:w-auto sm:gap-0.5 sm:p-1"
+            aria-label="Primary"
+          >
+            <a
+              href="#how-it-works"
+              onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }}
+              className="hidden rounded-full px-3.5 py-1.5 text-[var(--ivory)] transition hover:bg-white/10 lg:inline"
+            >
               How it works
             </a>
-            <Link href="/how-scoring-works" className="hidden transition hover:text-[var(--racing-green)] lg:inline">
+            <Link href="/how-scoring-works" className="hidden rounded-full px-3.5 py-1.5 text-[var(--ivory)] transition hover:bg-white/10 lg:inline">
               Scoring
             </Link>
-            <Link href="/guides" className="transition hover:text-[var(--racing-green)]">
+            <Link href="/guides" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
               Guides
             </Link>
-            <Link href="/cars" className="transition hover:text-[var(--racing-green)]">
+            <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
               Car checks
             </Link>
-            <Link href="/price-checker" className="transition hover:text-[var(--racing-green)]">
+            <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
               Price checker
             </Link>
             {savedResults.length > 0 ? (
               <button
                 type="button"
                 onClick={() => setViewMode("compare")}
-                className="relative flex items-center gap-1.5 rounded-full border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3.5 py-1.5 text-sm font-bold text-[var(--racing-green)] transition hover:bg-[var(--accent-2-soft-2)]"
+                className="relative flex items-center gap-1.5 rounded-full bg-[var(--racing-green)] px-3 py-1.5 text-sm font-bold text-white transition hover:opacity-90"
               >
                 <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                 Compare
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--racing-green)] text-xs font-bold text-white">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-xs font-bold text-[var(--racing-green)]">
                   {savedResults.length}
                 </span>
               </button>
             ) : null}
           </nav>
-          <div className="flex items-center gap-3 sm:gap-4">
-            <a
-              href="#analyzer"
-              className="btn-pill"
-            >
+
+          <div className="order-2 flex items-center sm:order-3">
+            <a href="#analyzer" className="btn-pill">
               Check a Listing
             </a>
           </div>
@@ -866,12 +872,12 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="market-data" className="bg-[var(--mist)] px-5 py-12 text-[var(--graphite)] sm:px-7">
+      <section id="market-data" className="bg-[var(--mist)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">How it helps</p>
-              <h2 className="mt-2 text-3xl font-black">Price check. Risk check. Buyer next steps.</h2>
+              <h2 className="mt-2 text-3xl font-black sm:text-4xl">Price check. Risk check. Buyer next steps.</h2>
             </div>
             <p className="text-lg leading-8 text-[var(--text-body)]">
               Dealscan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
@@ -904,7 +910,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-12 text-[var(--graphite)] sm:px-7">
+      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-[1200px]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
@@ -945,7 +951,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="faq" className="bg-[var(--ivory)] px-5 py-12 text-[var(--graphite)] sm:px-7">
+      <section id="faq" className="bg-[var(--ivory)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-3xl">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
@@ -982,11 +988,11 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="resources" className="bg-[var(--paper)] px-5 py-12 text-[var(--graphite)] sm:px-7">
+      <section id="resources" className="bg-[var(--paper)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer tools</p>
-            <h2 className="mt-2 text-4xl font-black">After the scan, verify before you buy.</h2>
+            <h2 className="mt-2 text-3xl font-black sm:text-4xl">After the scan, verify before you buy.</h2>
             <p className="mt-4 text-lg leading-8 text-[var(--text-body)]">
               History report, pre-purchase inspection, insurance, and financing — the four checks that protect you after a promising scan.
             </p>

@@ -18,8 +18,11 @@ export const metadata: Metadata = {
     "Paste any used car listing and get a clear deal score, red flags, market price range, and negotiation guidance before you message the seller.",
   manifest: "/manifest.json",
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/favicon.svg" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   appleWebApp: {
     capable: true,

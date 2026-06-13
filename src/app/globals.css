@@ -910,52 +910,13 @@ body::before {
   }
 }
 
-/* 3D logo: extruded type over a soft underglow, slight lift on hover */
+/* Logo wordmark: plain and crisp, with a subtle lift on hover */
 .logo-3d {
   position: relative;
   color: var(--foreground);
-  text-shadow:
-    0 1px 0 rgba(18, 61, 51, 0.55),
-    0 2px 0 rgba(18, 61, 51, 0.40),
-    0 3px 0 rgba(18, 61, 51, 0.25),
-    0 5px 8px rgba(15, 23, 19, 0.30);
-  transition: transform 0.2s var(--ease-standard), text-shadow 0.2s var(--ease-standard);
-}
-
-.logo-3d::before {
-  content: "";
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  bottom: -0.18em;
-  height: 0.55em;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, var(--logo-glow), transparent 70%);
-  filter: blur(5px);
-  transition: opacity 0.2s var(--ease-standard);
-}
-
-:root {
-  --logo-glow: rgba(59, 130, 246, 0.55);
-}
-
-:root[data-theme="dark"] {
-  --logo-glow: rgba(255, 255, 255, 0.40);
+  transition: transform 0.2s var(--ease-standard);
 }
 
 .logo-3d:hover {
-  transform: translateY(-2px);
-  text-shadow:
-    0 2px 0 rgba(18, 61, 51, 0.55),
-    0 4px 0 rgba(18, 61, 51, 0.35),
-    0 6px 0 rgba(18, 61, 51, 0.20),
-    0 9px 14px rgba(15, 23, 19, 0.35);
-}
-
-:root[data-theme="dark"] .logo-3d {
-  text-shadow:
-    0 1px 0 rgba(47, 192, 140, 0.45),
-    0 2px 0 rgba(47, 192, 140, 0.28),
-    0 3px 0 rgba(47, 192, 140, 0.16),
-    0 5px 10px rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
 }
