@@ -757,6 +757,746 @@ export const carModels: CarModel[] = [
     ],
     updatedAt: "2026-06-12",
   },
+  {
+    slug: "used-toyota-highlander",
+    make: "Toyota",
+    model: "Highlander",
+    years: "2008–2024",
+    quickAnswer:
+      "A used Toyota Highlander is one of the most dependable three-row SUVs you can buy, and the known issues are cheap to check: oil cooler line leaks on 2008–2013 V6 models, water pump seepage on the same engine, and a slightly hesitant 8-speed automatic on 2017–2019 cars that is annoying rather than fatal. The bigger risk is price — Highlanders carry a strong reputation premium, so verify the condition matches the asking price.",
+    mileageNote:
+      "The 3.5L V6 routinely clears 250,000 miles. A 140,000-mile Highlander with dealer records is a safer buy than an 80,000-mile one with none. Hybrids age well too, but ask about hybrid battery health past 150,000 miles.",
+    knownIssues: [
+      "2008–2013 V6: rubber oil cooler line can rupture and dump oil — check for the updated metal line and any oil loss history",
+      "2GR-FE V6 water pump weeps coolant with age — look for pink crust around the pump and front of the engine",
+      "2017–2019 8-speed automatic: low-speed hesitation and clunky shifts — test drive in stop-and-go; software updates improved it",
+      "2020+ models are largely trouble-free; focus on accident history and dealer service gaps instead",
+    ],
+    verify: [
+      "No oil drips under the engine and no oil-loss history (2008–2013)",
+      "Coolant level and water pump area dry",
+      "Smooth low-speed shifting on the test drive (2017–2019)",
+      "Hybrid battery health report past 150,000 miles on Hybrid trims",
+    ],
+    faqs: [
+      {
+        q: "Which used Highlander years should I avoid?",
+        a: "None are truly bad. Be most careful with 2008–2013 oil cooler lines and early 2017–2019 transmission behavior. 2014–2016 and 2020+ are the cleanest picks.",
+      },
+      {
+        q: "Is the Highlander Hybrid worth it used?",
+        a: "Usually yes — the hybrid system is one of the most proven on the road. Past 150,000 miles, price in possible battery replacement and ask for a hybrid health check.",
+      },
+      {
+        q: "Highlander vs Pilot used — which is the safer buy?",
+        a: "The Highlander, in most years. The Pilot's V6 is strong but its VCM cylinder deactivation and 9-speed transmission generate more complaints than anything on the Highlander.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-toyota-prius",
+    make: "Toyota",
+    model: "Prius",
+    years: "2010–2024",
+    quickAnswer:
+      "A used Prius is a great commuter buy if you know the generation: 2010–2015 (Gen 3) cars have real risks — EGR clogging that can lead to head gasket failure, and a brake actuator that costs $2,000+ when it fails — while 2016+ (Gen 4) cars are dramatically more robust. On any Prius, check hybrid battery health and confirm the catalytic converter hasn't been stolen and replaced with a cheap aftermarket unit.",
+    mileageNote:
+      "Prius taxis routinely pass 300,000 miles. Hybrid batteries usually last 150,000–250,000 miles; replacements run $1,500–$3,000 installed, so price high-mileage cars accordingly.",
+    knownIssues: [
+      "2010–2015: EGR system clogs with carbon, raising combustion temps — a known path to head gasket failure; cold-start rattle or misfire is the warning sign",
+      "2010–2015: brake actuator failure — listen for an abnormal pump noise and check for ABS/brake warning lights",
+      "Catalytic converter theft is rampant — look underneath for shiny welds or aftermarket cats, which can fail emissions",
+      "Hybrid battery degradation past 150,000 miles — a dealer or shop health report is worth the $100",
+    ],
+    verify: [
+      "No head gasket symptoms: white smoke or rough cold start (Gen 3)",
+      "No brake system warning lights and normal pedal feel",
+      "Original catalytic converter or documented quality replacement",
+      "Hybrid battery health report on cars past 120,000 miles",
+    ],
+    faqs: [
+      {
+        q: "Which used Prius years should I avoid?",
+        a: "Approach 2010–2014 with the most caution due to EGR-related head gasket failures and brake actuator costs. 2016+ Gen 4 cars are far more trouble-free.",
+      },
+      {
+        q: "How much does a Prius hybrid battery cost to replace?",
+        a: "Roughly $1,500–$3,000 installed depending on new vs refurbished. If a high-mileage Prius is priced near market, that risk should be your negotiation lever.",
+      },
+      {
+        q: "Is a high-mileage Prius safe to buy?",
+        a: "Yes, if it has records and a healthy battery report. The drivetrain outlasts the badge's stereotype — neglect and deferred EGR cleaning are the real killers.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-toyota-sienna",
+    make: "Toyota",
+    model: "Sienna",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Toyota Sienna is the most durable minivan choice, but test the things that actually fail: power sliding doors (cable failures are notorious and run $500–$1,500 per side), oil cooler line leaks on 2011–2016 V6 cars, and transmission shudder on 2017–2020 8-speeds. 2021+ Siennas are hybrid-only and very reliable, but verify it isn't a heavily-used rideshare or shuttle van.",
+    mileageNote:
+      "The V6 easily passes 250,000 miles. Family-hauled Siennas with highway miles are great buys; airport-shuttle or rideshare vans with crushed interiors at low prices are not.",
+    knownIssues: [
+      "Power sliding door cable and motor failures — cycle both doors several times from the key fob, the dash button, and the handles",
+      "2011–2016 V6: oil cooler line leaks, same as other 2GR vans — check for drips and the updated part",
+      "2017–2020 8-speed: low-speed shudder and hesitation — test in parking-lot speeds",
+      "2021+ hybrid: solid record so far; check tire wear (heavy van) and confirm software recalls are done",
+    ],
+    verify: [
+      "Both sliding doors open and close smoothly from every control",
+      "No oil leaks at the oil cooler lines (2011–2016)",
+      "Smooth low-speed shifting (2017–2020)",
+      "Interior wear matches the odometer — shuttle vans hide hard lives",
+    ],
+    faqs: [
+      {
+        q: "Which used Sienna years should I avoid?",
+        a: "No year is a disaster. Budget for sliding door repairs on any older Sienna, watch oil cooler lines on 2011–2016, and prefer 2021+ if you want the fewest issues.",
+      },
+      {
+        q: "Are Sienna sliding door repairs expensive?",
+        a: "Yes — cable assemblies run $500–$1,500 per door installed. A door that hesitates, grinds, or reverses is your strongest negotiating point on price.",
+      },
+      {
+        q: "Sienna vs Odyssey used — which holds up better?",
+        a: "The Sienna, usually. The Odyssey rides nicer but brings VCM oil consumption and more transmission complaints. The Sienna's faults are doors and hoses, not the drivetrain.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-toyota-4runner",
+    make: "Toyota",
+    model: "4Runner",
+    years: "2010–2024",
+    quickAnswer:
+      "A used Toyota 4Runner is mechanically one of the safest SUV buys — the 4.0L V6 and 5-speed automatic are dated but nearly indestructible — so your real job is checking for frame rust, off-road abuse, and overpricing. 4Runners hold value so well that asking prices are routinely $2,000–$4,000 over fair market, and a cheap one usually has rust or a hidden hit.",
+    mileageNote:
+      "300,000 miles is achievable. A 150,000-mile highway 4Runner with records beats a 90,000-mile lifted one that's been rock crawling. Mileage matters less than how it was used.",
+    knownIssues: [
+      "Frame and underbody rust on northern cars — inspect the frame rails, crossmembers, and skid plates, not just the body",
+      "Off-road abuse: check for dented skid plates, bent control arms, mud in crevices, and aftermarket lift quality",
+      "2010–2013: some brake master cylinder complaints — confirm a firm pedal",
+      "The drivetrain itself rarely fails; most problems trace to modification, rust, or neglect",
+    ],
+    verify: [
+      "Frame rails and crossmembers for rust, especially northeast/midwest cars",
+      "Suspension components if lifted — quality of parts and install",
+      "Service records confirming regular fluid changes",
+      "Price against fair market — 4Runner listings run high; negotiate from comps",
+    ],
+    faqs: [
+      {
+        q: "Which used 4Runner years should I avoid?",
+        a: "The 5th gen (2010–2024) has no bad years mechanically. Avoid specific trucks instead: rusted frames, sloppy lifts, and hard off-road use are the dealbreakers.",
+      },
+      {
+        q: "Why are used 4Runners so expensive?",
+        a: "Reliability reputation plus off-road demand keeps resale extremely strong. That also means overpriced listings are normal — compare several comps and be willing to walk.",
+      },
+      {
+        q: "Is a lifted 4Runner a red flag?",
+        a: "Not automatically, but it shifts the burden of proof. Ask who installed the lift, look for quality brands, and check tires, ball joints, and alignment wear closely.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-honda-pilot",
+    make: "Honda",
+    model: "Pilot",
+    years: "2009–2024",
+    quickAnswer:
+      "A used Honda Pilot is a solid family SUV with one recurring theme: VCM, Honda's cylinder deactivation, which causes oil consumption, fouled spark plugs, and worn engine mounts on 2009–2015 models especially. On 2016–2018 Touring and Elite trims, test the 9-speed automatic carefully — early ones shift roughly. Records of the timing belt service (every ~100,000 miles) matter because this is an interference engine.",
+    mileageNote:
+      "Pilots reach 200,000+ miles routinely when the timing belt is done on schedule. Check oil level on the spot — VCM-era engines that burn oil and ran low have shortened lives.",
+    knownIssues: [
+      "VCM cylinder deactivation (2009–2015 worst): oil consumption, spark plug fouling, vibration, and engine mount wear — many owners install VCM disablers",
+      "2016–2018 9-speed (ZF): harsh or delayed shifts and occasional limp mode — test drive thoroughly; 6-speed trims are safer",
+      "Timing belt is a ~$1,000 service due every 100,000 miles — no proof means budget for it now",
+      "2009–2011: some transmission torque converter shudder — feel for vibration at light throttle around 35–45 mph",
+    ],
+    verify: [
+      "Oil level on the dipstick and any oil-consumption history",
+      "Timing belt service receipt with date and mileage",
+      "Shift quality on 9-speed trims (2016–2018)",
+      "Engine mounts: clunks or shudder on acceleration from a stop",
+    ],
+    faqs: [
+      {
+        q: "Which used Pilot years should I avoid?",
+        a: "Be most cautious with 2009–2011 (VCM oil burning plus transmission shudder) and 2016 first-year 9-speed models. 2019+ Pilots are the cleanest.",
+      },
+      {
+        q: "What is VCM and should it scare me off?",
+        a: "Variable Cylinder Management shuts cylinders to save fuel but causes oil burning and vibration as miles climb. It's manageable — check oil records and current level — but it's your main negotiating point.",
+      },
+      {
+        q: "Has the timing belt been done — and does it matter?",
+        a: "A lot. The V6 is an interference engine: a snapped belt destroys it. If there's no receipt around 100,000 miles, subtract a $1,000 service from your offer.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-honda-odyssey",
+    make: "Honda",
+    model: "Odyssey",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Honda Odyssey drives better than any minivan but carries known drivetrain quirks: VCM-related oil consumption on 2011–2017 models, torque converter shudder on 2014–2017 6-speeds, and rough early shifts from the 2018–2019 9/10-speeds. Cycle the power sliding doors repeatedly — door repairs are common and not cheap. A well-documented Odyssey is a great family buy; an undocumented one deserves a hard look at the oil.",
+    mileageNote:
+      "200,000+ miles is common with maintenance. Timing belt service every ~100,000 miles is mandatory budgeting, same as the Pilot. Check oil level on the test drive.",
+    knownIssues: [
+      "VCM oil consumption and spark plug fouling (2011–2017) — verify oil level and ask about top-offs",
+      "2014–2017: torque converter shudder at light throttle — a fluid change helps early cases, but feel for it on the drive",
+      "2018–2019: 9-speed shift quality complaints; the 10-speed (2018+ Touring/Elite) is better",
+      "Power sliding doors: motors, cables, and sensors fail with age — test every door function",
+    ],
+    verify: [
+      "Oil level and consumption history on VCM engines",
+      "Timing belt receipt near 100,000 miles",
+      "Sliding doors from fob, dash, and handles — several cycles",
+      "Smooth light-throttle cruising with no shudder (2014–2017)",
+    ],
+    faqs: [
+      {
+        q: "Which used Odyssey years should I avoid?",
+        a: "2014–2017 carry the most drivetrain complaints (shudder plus VCM oil burning). 2011–2013 are decent with records; 2020+ are the safest picks.",
+      },
+      {
+        q: "Odyssey vs Sienna used — which is the better buy?",
+        a: "The Odyssey wins on driving feel and interior; the Sienna wins on drivetrain durability. If you buy the Odyssey, prioritize oil records and transmission behavior.",
+      },
+      {
+        q: "Are the sliding doors really a problem?",
+        a: "Often enough to test seriously. A hesitating or reversing door means a repair bill of several hundred dollars per side — use it in negotiation.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-mazda-3",
+    make: "Mazda",
+    model: "Mazda3",
+    years: "2010–2024",
+    quickAnswer:
+      "A used Mazda3 is one of the best value picks in compact cars — Skyactiv engines (2012+) are genuinely reliable and the conventional 6-speed automatic avoids CVT drama entirely. Check rust on the rear wheel arches and rocker panels of pre-2014 cars in snow states, and confirm the expensive LED headlights work on 2014–2018 models. Enthusiast-owned manuals deserve a check for hard launches and cheap mods.",
+    mileageNote:
+      "Skyactiv engines pass 200,000 miles with basic care. The 6-speed automatic is one of the most durable in the class — fluid changes every 60,000 miles or so keep it that way.",
+    knownIssues: [
+      "Rust on rear wheel arches and rockers, 2010–2013 especially in salt states — look closely and check under trim",
+      "2014–2018: LED headlight unit failures — a single replacement can run $800+; verify both work fully",
+      "2010–2013 2.0/2.5: generally solid; check motor mounts and clutch wear on manuals",
+      "Infotainment screen ghost touches on 2014–2018 — test the touchscreen and commander knob",
+    ],
+    verify: [
+      "Wheel arches and rockers for bubbling paint or filler",
+      "Both headlights, all functions, on 2014–2018 LED-equipped cars",
+      "Clean fluid and smooth shifts from the 6-speed auto",
+      "No boy-racer mods: intake, exhaust, lowering springs",
+    ],
+    faqs: [
+      {
+        q: "Which used Mazda3 years should I avoid?",
+        a: "None are bad mechanically. Watch rust on 2010–2013 cars and headlight/infotainment costs on 2014–2018. 2019+ models are excellent across the board.",
+      },
+      {
+        q: "Is the Mazda3 as reliable as a Civic or Corolla?",
+        a: "Close enough that condition matters more than badge. You also skip the CVT (Corolla) and turbo oil-dilution (Civic 1.5T) concerns — the Mazda's 6-speed auto is a known quantity.",
+      },
+      {
+        q: "Why is this Mazda3 cheaper than equivalent Civics?",
+        a: "Mazda resale runs lower despite similar reliability — that's the value play. Just make sure the discount isn't actually rust or a salvage history.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-mazda-cx-5",
+    make: "Mazda",
+    model: "CX-5",
+    years: "2013–2024",
+    quickAnswer:
+      "A used Mazda CX-5 is the sleeper pick among compact SUVs: Skyactiv engines and a conventional automatic give it a better reliability record than most rivals, with no CVT or major engine recall to worry about. Check the LED headlights on 2016+ cars (expensive units), listen for rear wheel bearing hum on higher-mileage examples, and on 2018+ cylinder-deactivation 2.5L engines confirm smooth light-throttle cruising.",
+    mileageNote:
+      "200,000 miles is realistic with oil changes. The 6-speed automatic is durable; fluid service by 60,000–80,000 miles is cheap insurance on any used example.",
+    knownIssues: [
+      "2016+: LED headlight failures out of warranty are pricey — verify both units fully work",
+      "Rear wheel bearings hum at 80,000+ miles on some cars — listen at highway speed",
+      "2018+ 2.5 with cylinder deactivation: occasional light-throttle shudder complaints — feel for it cruising at 40–50 mph",
+      "2013–2015: infotainment aging and occasional A/C actuator clicks; drivetrain itself is strong",
+    ],
+    verify: [
+      "Both headlights work in all modes (2016+)",
+      "No droning/humming from rear bearings at speed",
+      "Smooth cruising on 2018+ 2.5L non-turbo engines",
+      "Transmission fluid service history past 60,000 miles",
+    ],
+    faqs: [
+      {
+        q: "Which used CX-5 years should I avoid?",
+        a: "None stand out as bad. The 2013 first year has the most small complaints; 2017+ second generation is the sweet spot for refinement and reliability.",
+      },
+      {
+        q: "Is the CX-5 turbo (2019+) reliable?",
+        a: "So far yes — the 2.5T has a good record. Prefer one with synthetic oil changes on schedule and no tune; boosted engines forgive less neglect.",
+      },
+      {
+        q: "CX-5 vs RAV4 or CR-V used?",
+        a: "The CX-5 typically costs less for equal years and skips the CR-V's 1.5T oil-dilution question and RAV4 price premium. Its weak spots — headlights, bearings — are cheaper than engine problems.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-subaru-forester",
+    make: "Subaru",
+    model: "Forester",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Subaru Forester is a capable all-weather buy with two documented soft spots: oil consumption on 2011–2015 FB25 engines (subject of a class action — check for top-off habits) and CVT reliability on 2014–2018 cars, for which Subaru extended the warranty to 10 years/100,000 miles. 2019+ models mostly trade those for minor annoyances like windshield cracking and battery drain. Verify head gasket history on anything older you're cross-shopping.",
+    mileageNote:
+      "200,000 miles is attainable, but Subarus punish neglect more than Toyotas. An oil-fed, CVT-serviced Forester at 120,000 miles beats a vague-history one at 70,000.",
+    knownIssues: [
+      "2011–2015: FB25 oil consumption — check the dipstick now and ask how often oil is added between changes",
+      "2014–2018: CVT failures led Subaru to extend coverage to 100,000 miles — confirm whether the CVT was serviced or replaced",
+      "2019+: windshield stress cracking and parasitic battery drain complaints — ask about replacements",
+      "AWD system needs four matched tires — mismatched tread depths cause drivetrain wear",
+    ],
+    verify: [
+      "Current oil level and consumption history (2011–2015)",
+      "CVT service or replacement records (2014–2018)",
+      "All four tires same brand/model with even wear",
+      "No head gasket seepage on high-mileage examples",
+    ],
+    faqs: [
+      {
+        q: "Which used Forester years should I avoid?",
+        a: "Be most careful with 2014–2016: they combine the oil-consumption engine with the early CVT. 2019+ models have the cleanest record.",
+      },
+      {
+        q: "Is the Forester CVT a dealbreaker?",
+        a: "No, but it's a checkpoint. Subaru's extended warranty acknowledgment means you should ask directly: serviced, replaced, or original? Factor the answer into price.",
+      },
+      {
+        q: "Why do tires matter so much on a used Subaru?",
+        a: "Full-time AWD needs all four tires within about 2/32\" of each other. A seller who replaced one or two tires cheaply may have quietly stressed the drivetrain.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-subaru-crosstrek",
+    make: "Subaru",
+    model: "Crosstrek",
+    years: "2013–2024",
+    quickAnswer:
+      "A used Subaru Crosstrek holds value stubbornly because demand is high, so your job is mostly verifying it wasn't neglected: 2013–2017 FB20 engines can consume oil (check the dipstick), the CVT on 2013–2018 cars falls under Subaru's extended 100,000-mile coverage, and the 2.0L is slow enough that many were driven hard. Mechanically honest examples are great small-AWD buys.",
+    mileageNote:
+      "200,000 miles is realistic with care. The engine is understressed in daily driving; oil top-off neglect and skipped CVT fluid are what shorten lives.",
+    knownIssues: [
+      "2013–2017: oil consumption on the FB20 — verify level and top-off habits",
+      "2013–2018 CVT: extended warranty to 100,000 miles tells you what to ask about — service history or replacement",
+      "2018+: windshield cracking complaints and minor battery drain issues",
+      "Underpowered on highways — test a full-throttle merge; a screaming but smooth CVT is normal, shudder is not",
+    ],
+    verify: [
+      "Oil level on the dipstick today (2013–2017)",
+      "CVT fluid service records",
+      "Four matched tires with even wear (AWD requirement)",
+      "No accident repair from its small-car-in-snow life",
+    ],
+    faqs: [
+      {
+        q: "Which used Crosstrek years should I avoid?",
+        a: "2013–2015 carry the most oil-consumption and early-CVT risk. 2018+ second-generation cars are the safest, with mostly minor complaints.",
+      },
+      {
+        q: "Why are used Crosstreks so expensive for their size?",
+        a: "Outdoorsy demand plus Subaru loyalty. Expect to pay near-new prices for 3-year-old examples — which makes verifying condition more important, not less.",
+      },
+      {
+        q: "Is the Crosstrek too slow to buy?",
+        a: "It's slow but functional. The buying risk isn't speed — it's that previous owners flogged it. Listen for CVT shudder under hard acceleration rather than judging the spec sheet.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-chevrolet-malibu",
+    make: "Chevrolet",
+    model: "Malibu",
+    years: "2013–2024",
+    quickAnswer:
+      "A used Chevrolet Malibu is a genuine value play — it depreciates hard, so you get a lot of car per dollar — but pick the engine carefully: the 2016+ 1.5L turbo has documented oil consumption and turbo failures, while the 2.5L and the 2.0T are sturdier. Many Malibus were rental or fleet cars; that's not automatically bad, but verify maintenance actually happened and check for the stop/start system behaving properly.",
+    mileageNote:
+      "150,000–200,000 miles is reachable with care. Fleet cars often have consistent oil changes — ask for the auction or fleet maintenance printout if it was one.",
+    knownIssues: [
+      "2016+ 1.5T: oil consumption and turbo failures — check oil level, listen for turbo whine, look for blue smoke on startup",
+      "2013–2015 2.5L: stop/start system glitches and some starter complaints — watch the restart behavior at lights",
+      "2016+: occasional transmission shudder on 6-speed cars — feel for vibration at light throttle",
+      "Rental/fleet history is common — verify with the history report and match wear to miles",
+    ],
+    verify: [
+      "Oil level and any consumption history (1.5T especially)",
+      "Smooth stop/start cycles during the test drive",
+      "History report for rental/fleet use and accident records",
+      "All electronics: infotainment, sensors, cameras — fleet cars get rough use",
+    ],
+    faqs: [
+      {
+        q: "Which used Malibu years should I avoid?",
+        a: "Approach 2016–2018 1.5T cars with the most caution unless oil records are solid. The 2.0T and the 2013–2015 2.5L are the more durable picks.",
+      },
+      {
+        q: "Is a former rental Malibu a bad buy?",
+        a: "Not necessarily — rentals get regular oil changes but rough handling. Price should reflect it: a former rental should cost noticeably less than a one-owner car.",
+      },
+      {
+        q: "Why is this Malibu so much cheaper than an Accord or Camry?",
+        a: "Depreciation and badge perception, not necessarily condition. That's the opportunity — but it also means resale will stay soft when you sell.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-chevrolet-tahoe",
+    make: "Chevrolet",
+    model: "Tahoe",
+    years: "2007–2024",
+    quickAnswer:
+      "A used Chevrolet Tahoe is a capable family hauler with one dominant risk: AFM/DFM lifter failure on the 5.3L V8, which can require a $3,000+ top-end repair and affects 2007–2021 models broadly. Listen cold for ticking, check for a misfire history, and ask directly whether lifters were ever replaced. Also inspect autoride/air suspension on loaded trims and assume any Tahoe may have towed — look at the hitch wear.",
+    mileageNote:
+      "250,000 miles is possible on a cared-for 5.3, but lifter risk is mileage-blind. A documented lifter/cam repair already done can actually make a higher-mileage truck the safer buy.",
+    knownIssues: [
+      "AFM/DFM lifter collapse on 5.3/6.2 V8s — cold-start ticking, misfires, or a check-engine light for cylinder misfire are the tells",
+      "2007–2014: dash cracking, door lock actuators, and HVAC blend door failures",
+      "Loaded trims: autoride shocks and air compressor failures are expensive — test ride height and listen for the compressor",
+      "Towing history: check hitch, transmission fluid condition, and rear suspension sag",
+    ],
+    verify: [
+      "Cold start: no ticking or misfire, no startup rattle",
+      "Any lifter, cam, or engine top-end repair receipts",
+      "Air/autoride suspension holds height overnight (ask) and rides level",
+      "Transmission fluid condition and towing wear",
+    ],
+    faqs: [
+      {
+        q: "Which used Tahoe years should I avoid?",
+        a: "Lifter risk spans 2007–2021, but 2015–2020 5.3L trucks generate the most complaints. A truck with documented lifter repair, or a 2022+ with the updated engines, is the safer route.",
+      },
+      {
+        q: "How expensive is the AFM lifter failure?",
+        a: "Commonly $2,500–$4,500 at independent shops since the heads come off. That's why a cold-start listen and misfire-history check matter more than anything else on this truck.",
+      },
+      {
+        q: "Should I avoid a Tahoe that towed?",
+        a: "Light towing is fine — these are built for it. What you're avoiding is neglected towing: burnt transmission fluid, sagging rear springs, and brake wear without service records.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-gmc-sierra-1500",
+    make: "GMC",
+    model: "Sierra 1500",
+    years: "2014–2024",
+    quickAnswer:
+      "A used GMC Sierra 1500 shares everything with the Silverado, including the problems: AFM/DFM lifter failures on 5.3L and 6.2L V8s, the well-known 'Chevy shake' driveline vibration on 2014–2019 trucks with the 8-speed, and condenser failures. Listen to a cold start, feel for vibration at 65–75 mph, and check whether the 8-speed has had the fluid swap that mitigates shudder. Work trucks hide hard lives — match bed and hitch wear to the story.",
+    mileageNote:
+      "These V8s can pass 250,000 miles, and a documented lifter repair already done removes the biggest unknown. Judge service proof over the odometer.",
+    knownIssues: [
+      "AFM/DFM lifter collapse (5.3/6.2) — cold ticking, misfires, check-engine history",
+      "2014–2019 8-speed: torque converter shudder ('Chevy shake') — GM's fluid change helps; ask if it was done",
+      "AC condenser failures, especially 2014–2018 — confirm cold AC",
+      "Check for work-truck abuse: bed damage, hitch wear, brake controller wiring, suspension sag",
+    ],
+    verify: [
+      "Cold start with no ticking; misfire history scan if possible",
+      "Highway test at 65–75 mph for driveline vibration",
+      "AC blows cold at idle",
+      "Service records and signs of towing or plow duty",
+    ],
+    faqs: [
+      {
+        q: "Which used Sierra years should I avoid?",
+        a: "2014–2019 carry the densest cluster: lifter risk plus 8-speed shudder. A 6-speed truck, or one with documented lifter and fluid service, is the safer pick.",
+      },
+      {
+        q: "Sierra vs Silverado used — any real difference?",
+        a: "Mechanically they're twins; buy on condition and price, not badge. Sierra trims often carry a small price premium for the same hardware.",
+      },
+      {
+        q: "Is the 'Chevy shake' fixable?",
+        a: "Often — GM's torque converter fluid exchange (Mobil 1 LV ATF HP) resolves many cases. If the truck still shakes on your test drive, price it as an open repair, not a quirk.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-ford-fusion",
+    make: "Ford",
+    model: "Fusion",
+    years: "2013–2020",
+    quickAnswer:
+      "A used Ford Fusion can be a bargain midsize sedan, but the engine choice decides the risk: the 1.5T and 1.6T EcoBoost engines have a documented coolant-intrusion problem that can destroy the engine, while the 2.5L and the 2.0 hybrid are the durable picks. Check for coolant loss with no visible leak — that's the tell — and verify the long list of recalls (door latches, steering) was completed.",
+    mileageNote:
+      "2.5L and hybrid models regularly exceed 200,000 miles. EcoBoost cars need a stricter standard: coolant history, records, and a cold-start check before you trust high mileage.",
+    knownIssues: [
+      "1.5T/1.6T EcoBoost: coolant leaks into cylinders — unexplained coolant loss, white exhaust smoke, or misfires after warm-up are dealbreakers",
+      "Door latch recalls — doors that won't stay shut; confirm recall completion by VIN",
+      "Swollen lug nuts: the capped lug nuts deform and strand you at a flat tire — a cheap fix, but check",
+      "Power steering rack failures on 2013–2016 — feel for notchy or heavy spots",
+    ],
+    verify: [
+      "Coolant level with a cold engine and any top-off history (EcoBoost)",
+      "All recalls completed — run the VIN at ford.com",
+      "Steering feel: smooth and even lock to lock",
+      "Hybrid battery behavior on hybrid trims: engine cycling, EV mode works",
+    ],
+    faqs: [
+      {
+        q: "Which used Fusion years and engines should I avoid?",
+        a: "Avoid 2013–2019 1.5T/1.6T EcoBoost cars without pristine coolant history. The 2.5L and the hybrid are the reliable choices and worth seeking out specifically.",
+      },
+      {
+        q: "Why are used Fusions so cheap?",
+        a: "Ford killed the model in 2020, sedans are out of fashion, and fleets dumped them. A 2.5L or hybrid Fusion is genuinely undervalued; an EcoBoost is cheap for a reason.",
+      },
+      {
+        q: "Is the Fusion Hybrid a good used buy?",
+        a: "Yes — it shares proven hybrid hardware logic with Toyota-style systems and routinely passes 200,000 miles in taxi fleets. Check the hybrid battery cycles properly and price in age.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-ford-mustang",
+    make: "Ford",
+    model: "Mustang",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Ford Mustang is mechanically stout — the 5.0 Coyote V8 is one of the most durable performance engines around — so the real risks are human: crash repairs, hard launches, cheap tunes, and hidden track use. Run the history report, look for overspray and panel gaps, and ask directly about tunes on EcoBoost cars. On 2011–2014 manuals, test the MT82 gearbox for notchy or crunchy shifts.",
+    mileageNote:
+      "A stock, adult-owned 5.0 at 100,000 miles is a better buy than a modified 40,000-mile car. EcoBoost engines are fine stock but forgive tuning poorly.",
+    knownIssues: [
+      "Accident and abuse history — Mustangs lead crash statistics; inspect paint depth, panel gaps, and frame rails",
+      "2011–2014 MT82 manual: notchy 1-2 shifts and crunches when cold — test thoroughly",
+      "2015–2017 2.3 EcoBoost: head gasket failures on early cars, worsened by tunes — ask about coolant loss and tuning history",
+      "Clutch and rear tire condition reveal launch habits — fresh rear tires on a cheap car ask a question",
+    ],
+    verify: [
+      "History report plus visual crash-repair inspection",
+      "Stock tune confirmation — ask, and look for aftermarket intake/exhaust/downpipe",
+      "Cold manual shift quality (2011–2014)",
+      "Coolant level and history on EcoBoost cars",
+    ],
+    faqs: [
+      {
+        q: "Which used Mustang years should I avoid?",
+        a: "No year is inherently bad; specific cars are. Highest caution: 2011–2014 manuals (gearbox), early tuned EcoBoosts, and anything with sketchy repair history.",
+      },
+      {
+        q: "Should I avoid a modified Mustang?",
+        a: "Mild bolt-ons with receipts from an adult owner can be fine. Tunes without supporting records, drag radials, or a laundry list of cheap parts — walk away; there are plenty of stock cars.",
+      },
+      {
+        q: "Is the EcoBoost Mustang reliable?",
+        a: "Stock, yes — it's a solid commuter coupe. The risk profile changes completely with a tune, which stresses the head gasket and turbo. Stock and documented is the rule.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-jeep-grand-cherokee",
+    make: "Jeep",
+    model: "Grand Cherokee",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Jeep Grand Cherokee offers a lot of capability per dollar, but it demands a careful inspection: air suspension failures on 2014+ loaded trims are a $1,500+ repair, 2011–2013 3.6L V6s had cylinder head failures (left bank), early TIPM electrical modules cause no-start gremlins, and the 2014–2015 shifter recall must be verified done. Buy a documented one and it's a great truck; buy blind and it's a gamble.",
+    mileageNote:
+      "The 3.6 V6 and 5.7 V8 can both pass 200,000 miles with care. Air suspension and electronics age on calendar time as much as miles — a low-mile loaded trim isn't automatically safe.",
+    knownIssues: [
+      "Quadra-Lift air suspension (2014+): compressor and strut failures — confirm it raises/lowers through all modes and holds height",
+      "2011–2013 3.6L: cylinder head failure on the left bank — ticking or misfire on cylinders 2/4/6; many were replaced under extended warranty",
+      "2011–2013 TIPM (power module): fuel pump relay and electrical gremlins — intermittent no-starts are the symptom",
+      "2014–2015: monostable shifter recall (rollaway risk) — verify recall completion by VIN",
+    ],
+    verify: [
+      "Air suspension cycles through all heights and holds overnight",
+      "Cylinder head replacement records on 2011–2013 V6s",
+      "All recalls completed by VIN",
+      "4WD system engages properly in all modes",
+    ],
+    faqs: [
+      {
+        q: "Which used Grand Cherokee years should I avoid?",
+        a: "2011–2014 carry the most documented risk: early V6 heads, TIPM electrics, and first-year air suspension. 2016+ WK2s are meaningfully better; 2022+ is a new generation.",
+      },
+      {
+        q: "Is the air suspension worth the risk?",
+        a: "It's excellent when working and expensive when not. On a 2014+ trim with Quadra-Lift, test every height mode and budget for a compressor eventually — or buy a steel-spring trim.",
+      },
+      {
+        q: "Grand Cherokee vs 4Runner used?",
+        a: "The Jeep rides and tows better and costs less used; the 4Runner will likely outlast it with less drama. Pick the Jeep with records and an inspection; pick the 4Runner if you keep cars a decade.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-kia-sorento",
+    make: "Kia",
+    model: "Sorento",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Kia Sorento can be a strong value, but the 2.4L and 2.0T Theta II engines (2011–2019) are the same family behind Kia's massive engine-failure recalls — verify by VIN whether recalls were done and whether the engine was already replaced, which is actually a plus. Listen for any rod-bearing knock cold, and on 2011–2021 key-start models confirm the anti-theft software update was applied.",
+    mileageNote:
+      "A Sorento with a replaced engine or clean recall history can run a long time; V6 models avoid the Theta issue entirely. Maintenance proof matters more than miles here.",
+    knownIssues: [
+      "Theta II 2.4/2.0T (2011–2019): rod bearing failure — listen cold for knock, check recall status and knock-sensor software update by VIN",
+      "Already-replaced engines are common and good news — ask for the replacement paperwork",
+      "2011–2021 key-start models: Kia theft wave — confirm the immobilizer software update and check for broken steering column trim",
+      "3.3 V6 models skip the Theta drama; their checks are routine — fluids, mounts, brakes",
+    ],
+    verify: [
+      "Cold-start listen for engine knock (Theta II cars)",
+      "Recall and engine-replacement history by VIN",
+      "Anti-theft software update sticker or dealer confirmation",
+      "Steering column and door lock condition (theft attempts)",
+    ],
+    faqs: [
+      {
+        q: "Which used Sorento years should I avoid?",
+        a: "Be most careful with 2011–2019 2.4L and 2.0T cars lacking recall documentation. The V6 trims and 2021+ models are the cleaner paths.",
+      },
+      {
+        q: "Is a Sorento with a replaced engine a red flag?",
+        a: "Usually the opposite — Kia replaced engines under recall with updated parts. Paperwork in hand, it's arguably safer than an original-engine car with no records.",
+      },
+      {
+        q: "Does the Kia theft problem affect the Sorento?",
+        a: "Key-start 2011–2021 models are in the affected group. The free software update largely fixes it, but unpatched cars can be hard to insure — confirm before you buy.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-hyundai-tucson",
+    make: "Hyundai",
+    model: "Tucson",
+    years: "2016–2024",
+    quickAnswer:
+      "A used Hyundai Tucson is a sensible budget SUV with two generation-specific checks: 2016–2018 cars with the 1.6T use a dual-clutch transmission that hesitates from a stop (test it on a hill), and the 2.0L engines have enough oil-consumption complaints that you should check the dipstick and service history on the spot. Confirm anti-theft updates on key-start cars, and the 2022+ generation has been solid.",
+    mileageNote:
+      "150,000–200,000 miles is reasonable with documented oil changes. Oil-starved examples die young — the dipstick check at the showing is non-negotiable.",
+    knownIssues: [
+      "2016–2018 1.6T DCT: hesitation and roll-back from stops, especially uphill — test exactly that; software updates helped some cars",
+      "2.0L Nu engine: oil consumption complaints — check level and ask about top-offs",
+      "Key-start 2016–2021 models: confirm the anti-theft software update (Hyundai theft wave)",
+      "Engine recalls vary by year and engine — run the VIN before the test drive",
+    ],
+    verify: [
+      "Uphill stop-and-go behavior on DCT cars (2016–2018)",
+      "Oil level on the dipstick and consumption history",
+      "Anti-theft update and intact steering column",
+      "Open recalls by VIN at hyundaiusa.com",
+    ],
+    faqs: [
+      {
+        q: "Which used Tucson years should I avoid?",
+        a: "2016–2018 1.6T DCT cars without software updates frustrate in traffic, and any 2.0L without oil records is a gamble. 2022+ models have the strongest early record.",
+      },
+      {
+        q: "Is the Tucson's dual-clutch transmission bad?",
+        a: "It's a trade-off: efficient when rolling, awkward from stops. Drive it in the exact traffic you face daily. If the hesitation bothers you on the test drive, it will bother you for years.",
+      },
+      {
+        q: "How do I check the Hyundai theft issue on this car?",
+        a: "Key-start (non push-button) 2016–2021 cars need the free immobilizer software update. Ask for proof, look for a window sticker, or have a dealer run the VIN — some insurers surcharge unpatched cars.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-volkswagen-jetta",
+    make: "Volkswagen",
+    model: "Jetta",
+    years: "2011–2024",
+    quickAnswer:
+      "A used VW Jetta is a comfortable, efficient compact that rewards documented maintenance and punishes neglect: 2011–2013 1.4/1.8/2.0 TSI engines had timing chain tensioner failures that can destroy the engine (a cold-start rattle is the warning), water pumps fail on a schedule, and carbon buildup needs periodic cleaning on direct-injection engines. The 2011–2014 2.5L five-cylinder is the unsung durable pick.",
+    mileageNote:
+      "With records, 180,000+ miles is realistic. Without records, even 60,000 miles deserves skepticism — deferred VW maintenance compounds faster than on Japanese rivals.",
+    knownIssues: [
+      "EA888 TSI (2011–2013 especially): timing chain tensioner failure — listen for rattle at cold start; updated tensioner receipts are gold",
+      "Plastic water pumps fail around 60,000–100,000 miles — coolant smell or low level is the tell",
+      "Carbon buildup on direct-injection engines: rough idle and lost power — walnut blasting service ~$400–600",
+      "DSG-equipped cars need fluid service every 40,000 miles — ask for proof",
+    ],
+    verify: [
+      "Cold-start listen for chain rattle",
+      "Coolant level and water pump replacement records",
+      "DSG service receipts on dual-clutch cars",
+      "Scan for stored codes — VWs log everything",
+    ],
+    faqs: [
+      {
+        q: "Which used Jetta years should I avoid?",
+        a: "Early EA888 turbo cars (2011–2013) without tensioner documentation are the riskiest. The 2.5L five-cylinder of the same era and 2019+ 1.4T cars have better records.",
+      },
+      {
+        q: "Are used VWs really money pits?",
+        a: "Documented ones, no — parts are reasonable and the engines are solid once known issues are addressed. Undocumented ones, often yes. The records are the whole game.",
+      },
+      {
+        q: "What's the cheapest reliable used Jetta?",
+        a: "A 2011–2014 2.5L SE with records. It's thirstier and less refined than the turbos, but the engine is famously durable and avoids the tensioner and carbon drama.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
+  {
+    slug: "used-lexus-rx-350",
+    make: "Lexus",
+    model: "RX 350",
+    years: "2010–2024",
+    quickAnswer:
+      "A used Lexus RX 350 is arguably the most reliable luxury SUV on the market — the 3.5L V6 is the same proven Toyota engine family that runs forever — so the checklist is short: water pump seepage and oil cooler line leaks on 2010–2015 cars, full service history (luxury cars suffer when third owners skip maintenance), and honest pricing, because RX listings carry a badge premium. High-mileage examples with dealer records are genuinely safe buys.",
+    mileageNote:
+      "250,000+ miles is common. An RX with 130,000 documented miles routinely outlasts a German rival with 60,000. Prioritize the service folder over the odometer.",
+    knownIssues: [
+      "2010–2015: water pump weep and oil cooler line leaks — check the front of the engine and under the car",
+      "Remote-touch infotainment is dated and the mouse controller divides opinion — test it before assuming you'll adjust",
+      "Third-owner neglect: luxury depreciation means some RXs hit owners who skip $300 services — gaps in records matter",
+      "2016+: very few patterns; check 20-inch wheel/tire condition and panoramic roof drains",
+    ],
+    verify: [
+      "Service history continuity — especially recent owners",
+      "Dry water pump and oil cooler lines (2010–2015)",
+      "All power features: tailgate, seats, sunroof",
+      "Price against comps — badge premium invites overpricing",
+    ],
+    faqs: [
+      {
+        q: "Which used RX 350 years should I avoid?",
+        a: "None, really — this is one of the safest used luxury buys. The 2010–2012 cars are just older; verify leaks were addressed and the interior wasn't neglected.",
+      },
+      {
+        q: "Is a high-mileage RX 350 still worth buying?",
+        a: "With records, yes — these engines are proven past 250,000 miles. A 140,000-mile one-owner RX with a dealer folder is a better risk than most 70,000-mile luxury SUVs.",
+      },
+      {
+        q: "RX 350 vs German luxury SUVs used?",
+        a: "The RX trades sportiness for durability and running costs that are a fraction of BMW/Mercedes equivalents. If the goal is luxury that doesn't surprise you, the RX is the answer.",
+      },
+    ],
+    updatedAt: "2026-06-12",
+  },
 ];
 
 export function getCarModel(slug: string) {

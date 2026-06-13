@@ -118,6 +118,13 @@ export default async function CarModelPage({ params }: CarPageProps) {
           <div className="mt-6 max-w-3xl rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-5 shadow-sm">
             <p className="text-sm font-black uppercase tracking-wide text-[var(--racing-green)]">Quick answer</p>
             <p className="mt-2 text-base leading-7 text-[var(--text-body)]">{car.quickAnswer}</p>
+            <Link
+              href={`/cars/${car.slug}/years-to-avoid`}
+              className="mt-3 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline"
+            >
+              {car.make} {car.model} years to avoid (and best years to buy)
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[0.72fr_0.28fr] lg:items-start">

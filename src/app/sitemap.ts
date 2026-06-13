@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { carModels } from "@/lib/car-models";
 import { guides } from "@/lib/guides";
+import { yearsToAvoid } from "@/lib/years-to-avoid";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -24,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...carModels.map((car) => ({
       url: `${appUrl}/cars/${car.slug}`,
       lastModified: new Date(car.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...yearsToAvoid.map((entry) => ({
+      url: `${appUrl}/cars/${entry.slug}/years-to-avoid`,
+      lastModified: new Date(entry.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
