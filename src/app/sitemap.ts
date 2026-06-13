@@ -7,7 +7,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ["", "/guides", "/cars", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
+  const staticRoutes = ["", "/guides", "/cars", "/price-checker", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
 
   return [
     ...staticRoutes.map((route) => ({

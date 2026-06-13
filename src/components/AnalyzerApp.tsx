@@ -508,6 +508,9 @@ export function AnalyzerApp() {
             <Link href="/cars" className="transition hover:text-[var(--racing-green)]">
               Car checks
             </Link>
+            <Link href="/price-checker" className="transition hover:text-[var(--racing-green)]">
+              Price checker
+            </Link>
             {savedResults.length > 0 ? (
               <button
                 type="button"
@@ -1040,6 +1043,7 @@ export function AnalyzerApp() {
                 <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
                 <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
                 <li><Link href="/cars" className="transition hover:text-[var(--champagne)]">Buyer checks by model</Link></li>
+                <li><Link href="/price-checker" className="transition hover:text-[var(--champagne)]">Used car price checker</Link></li>
               </ul>
             </div>
             <div>
