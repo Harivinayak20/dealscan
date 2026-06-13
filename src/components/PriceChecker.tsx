@@ -12,7 +12,8 @@ function money(n: number) {
   return `$${n.toLocaleString()}`;
 }
 
-export function PriceChecker() {
+export function PriceChecker({ embed = false }: { embed?: boolean }) {
+  const linkProps = embed ? { target: "_blank" as const, rel: "noopener" } : {};
   const [slug, setSlug] = useState(MODELS[0]?.slug ?? "");
   const [year, setYear] = useState("2018");
   const [miles, setMiles] = useState("60000");
@@ -157,7 +158,7 @@ export function PriceChecker() {
                 </p>
                 <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{avoid.reason}</p>
                 {selected ? (
-                  <Link href={`/cars/${slug}/years-to-avoid`} className="mt-3 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline">
+                  <Link href={`/cars/${slug}/years-to-avoid`} {...linkProps} className="mt-3 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline">
                     {selected.make} {selected.model} years to avoid
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
@@ -179,12 +180,12 @@ export function PriceChecker() {
             </details>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/#analyzer" className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
+              <Link href="/#analyzer" {...linkProps} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
                 <SearchCheck className="h-4 w-4" aria-hidden="true" />
                 Check this exact listing
               </Link>
               {selected ? (
-                <Link href={`/cars/${slug}`} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-5 text-sm font-black transition hover:-translate-y-1 hover:border-[var(--champagne)]">
+                <Link href={`/cars/${slug}`} {...linkProps} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-5 text-sm font-black transition hover:-translate-y-1 hover:border-[var(--champagne)]">
                   Known issues
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>

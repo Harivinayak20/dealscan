@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, CarFront } from "lucide-react";
 import Link from "next/link";
 import { PriceChecker } from "@/components/PriceChecker";
+import { EmbedSnippet } from "@/components/EmbedSnippet";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -67,6 +68,10 @@ export default function PriceCheckerPage() {
 
           <div className="mt-8">
             <PriceChecker />
+          </div>
+
+          <div className="mt-10 max-w-3xl">
+            <EmbedSnippet />
           </div>
 
           <p className="mt-8 max-w-3xl text-xs leading-5 text-[var(--text-muted)]">

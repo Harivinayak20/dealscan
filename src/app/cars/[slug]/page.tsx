@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CarFront, CheckCircle2, SearchCheck, Wrench } from "lucide-react";
 import Link from "next/link";
 import { carModels, getCarModel } from "@/lib/car-models";
+import { modelYears } from "@/lib/pricing";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -197,6 +198,22 @@ export default async function CarModelPage({ params }: CarPageProps) {
               </p>
             </aside>
           </div>
+
+          <section className="mt-12">
+            <h2 className="text-2xl font-black">What is a used {car.make} {car.model} worth by year?</h2>
+            <p className="mt-2 text-base leading-7 text-[var(--text-body)]">Free value estimate for each year, with a price-by-mileage table and year-specific risks.</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {modelYears(car.slug).slice().reverse().map((y) => (
+                <Link
+                  key={y}
+                  href={`/cars/${car.slug}/${y}-value`}
+                  className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
+                >
+                  {y} value
+                </Link>
+              ))}
+            </div>
+          </section>
 
           <section className="mt-12">
             <h2 className="text-2xl font-black">More buyer checks</h2>
