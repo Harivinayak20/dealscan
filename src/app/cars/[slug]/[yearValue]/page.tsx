@@ -12,8 +12,6 @@ type ValuePageProps = {
   params: Promise<{ slug: string; yearValue: string }>;
 };
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allValueYears().map(({ slug, year }) => ({ slug, yearValue: `${year}-value` }));
 }
