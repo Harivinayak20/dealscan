@@ -535,7 +535,7 @@ export function AnalyzerApp() {
           </nav>
 
           <div className="order-2 flex items-center sm:order-3">
-            <a href="#analyzer" className="btn-pill !min-h-9 !px-4 !text-xs sm:!min-h-12 sm:!px-7 sm:!text-sm">
+            <a href="#analyzer" className="btn-pill !min-h-11 !px-4 !text-xs sm:!min-h-12 sm:!px-7 sm:!text-sm">
               Check a Listing
             </a>
           </div>
