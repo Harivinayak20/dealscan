@@ -28,7 +28,7 @@ export default function CookiesPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <Cookie className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Cookies
           </div>
@@ -65,7 +65,7 @@ export default function CookiesPage() {
             </article>
           ))}
 
-          <div className="rounded-2xl border border-[rgba(201,168,106,0.30)] bg-[var(--paper)] p-6">
+          <div className="rounded-2xl border border-[rgba(169,130,83,0.30)] bg-[var(--paper)] p-6">
             <div className="flex items-start gap-4">
               <Settings className="mt-1 h-5 w-5 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
               <p>

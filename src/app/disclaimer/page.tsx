@@ -63,7 +63,7 @@ export default function DisclaimerPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShieldAlert className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Disclaimer
           </div>

@@ -10,7 +10,7 @@ export function FlagChips({ title, flags, tone }: FlagChipsProps) {
   const Icon = tone === "green" ? CheckCircle2 : OctagonAlert;
   const classes =
     tone === "green"
-      ? "border-[rgba(124,169,130,0.35)] bg-[rgba(124,169,130,0.16)] text-[#123D33]"
+      ? "border-[rgba(124,169,130,0.35)] bg-[rgba(124,169,130,0.16)] text-[#3f4d36]"
       : "border-[rgba(196,90,74,0.35)] bg-[rgba(196,90,74,0.14)] text-[#61261f]";
 
   return (

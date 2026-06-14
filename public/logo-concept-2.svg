@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
   <!-- Shield with checkmark -->
-  <path d="M50 22L90 30V60C90 82 72 100 50 106C28 100 10 82 10 60V30L50 22Z" stroke="#123d33" stroke-width="4.5" fill="#f7f2ea"/>
+  <path d="M50 22L90 30V60C90 82 72 100 50 106C28 100 10 82 10 60V30L50 22Z" stroke="#b7603a" stroke-width="4.5" fill="#f7f2ea"/>
   <path d="M50 30L82 38V60C82 78 67.6 93.2 50 98C32.4 93.2 18 78 18 60V38L50 30Z" fill="#f7f2ea"/>
   <!-- checkmark -->
-  <path d="M32 53L44 66L68 42" stroke="#123d33" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 53L44 66L68 42" stroke="#b7603a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- dots accent -->
   <circle cx="50" cy="18" r="3" fill="#c9a86a"/>
   <circle cx="42" cy="20" r="2" fill="#c9a86a" opacity="0.5"/>
   <circle cx="58" cy="20" r="2" fill="#c9a86a" opacity="0.5"/>
   <!-- text -->
   <text x="108" y="48" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#202823" letter-spacing="-0.5">deal</text>
-  <text x="108" y="78" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#123d33" letter-spacing="-0.5">scan</text>
+  <text x="108" y="78" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#b7603a" letter-spacing="-0.5">scan</text>
   <text x="190" y="62" font-family="system-ui,-apple-system,sans-serif" font-size="9" font-weight="700" fill="#c9a86a" letter-spacing="2">VERIFIED</text>
 </svg>

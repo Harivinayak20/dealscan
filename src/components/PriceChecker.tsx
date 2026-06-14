@@ -68,7 +68,7 @@ export function PriceChecker({ embed = false }: { embed?: boolean }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
       {/* Inputs */}
-      <div className="rounded-2xl border-2 border-[rgba(18,61,51,0.30)] bg-[var(--accent-2-soft)] p-5 shadow-[0_18px_44px_-26px_rgba(18,61,51,0.45)] sm:p-6">
+      <div className="rounded-2xl border-2 border-[rgba(183,96,58,0.30)] bg-[var(--accent-2-soft)] p-5 shadow-[0_18px_44px_-26px_rgba(183,96,58,0.45)] sm:p-6">
         <div className="grid gap-4">
           <label className="grid gap-1.5">
             <span className="text-sm font-bold text-[var(--graphite)]">Car</span>

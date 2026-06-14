@@ -27,6 +27,7 @@ export function SiteChrome() {
         <span className="balloon balloon-2" />
         <span className="balloon balloon-3" />
         <span className="balloon balloon-4" />
+        <span className="balloon balloon-5" />
       </div>
       <ScrollFX />
       <ThemeToggle />

@@ -17,7 +17,7 @@ export function MetricsCard({ label, value, note, icon: Icon, trend }: MetricsCa
           <p className="mt-1 text-3xl font-black text-[var(--graphite)]">{value}</p>
           {note && <p className="mt-1 text-xs text-[var(--text-muted)]">{note}</p>}
         </div>
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[rgba(201,168,106,0.12)]">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[rgba(169,130,83,0.12)]">
           <Icon className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
         </span>
       </div>

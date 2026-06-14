@@ -2,7 +2,7 @@
   <defs>
     <linearGradient id="g1" x1="0" y1="0" x2="120" y2="120">
       <stop offset="0%" stop-color="#c9a86a"/>
-      <stop offset="100%" stop-color="#123d33"/>
+      <stop offset="100%" stop-color="#b7603a"/>
     </linearGradient>
   </defs>
   <!-- Magnifying glass with car -->
@@ -15,6 +15,6 @@
   <circle cx="63" cy="63" r="4" fill="#c9a86a"/>
   <!-- text -->
   <text x="115" y="47" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#202823" letter-spacing="-0.5">deal</text>
-  <text x="115" y="78" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#123d33" letter-spacing="-0.5">scan</text>
+  <text x="115" y="78" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="800" fill="#b7603a" letter-spacing="-0.5">scan</text>
   <text x="194" y="62" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#c9a86a" letter-spacing="2">✦</text>
 </svg>

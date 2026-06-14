@@ -20,7 +20,7 @@ export function LoadingState() {
 
   return (
     <div
-      className="rounded-2xl border border-[rgba(201,168,106,0.18)] bg-[rgba(244,240,232,0.96)] p-6 shadow-[0_24px_70px_-46px_rgba(11,13,16,0.80)]"
+      className="rounded-2xl border border-[rgba(169,130,83,0.18)] bg-[rgba(244,240,232,0.96)] p-6 shadow-[0_24px_70px_-46px_rgba(11,13,16,0.80)]"
       role="status"
     >
       <div className="grid gap-4">
@@ -46,7 +46,7 @@ export function LoadingState() {
                   isComplete
                     ? "border-[rgba(124,169,130,0.30)] bg-[rgba(124,169,130,0.10)] text-[var(--racing-green)]"
                     : isActive
-                      ? "border-[rgba(201,168,106,0.40)] bg-[rgba(201,168,106,0.10)] text-[var(--graphite)]"
+                      ? "border-[rgba(169,130,83,0.40)] bg-[rgba(169,130,83,0.10)] text-[var(--graphite)]"
                       : "border-transparent text-neutral-400"
                 }`}
               >

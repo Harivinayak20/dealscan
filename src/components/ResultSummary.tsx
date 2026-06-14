@@ -331,7 +331,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 <div className="text-3xl font-black text-[var(--graphite)]">{sellerPrice}</div>
                 <a
                   href="#listing-source"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] px-5 text-base font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.14)] hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[rgba(169,130,83,0.55)] px-5 text-base font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(169,130,83,0.14)] hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
                 >
                   View Listing
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -341,7 +341,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
           </section>
 
           {summary ? (
-            <section className="animate-fade-in-up rounded-2xl border border-[rgba(201,168,106,0.25)] bg-[rgba(201,168,106,0.08)] px-4 py-3">
+            <section className="animate-fade-in-up rounded-2xl border border-[rgba(169,130,83,0.25)] bg-[rgba(169,130,83,0.08)] px-4 py-3">
               <div className="flex items-start gap-3">
                 <Gauge className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
                 <p className="text-base leading-7 text-[var(--text-body)]">{summary}</p>
@@ -576,7 +576,7 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
               className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border px-5 text-base font-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md disabled:pointer-events-none disabled:opacity-60 ${
                 isCompared
                   ? "border-[rgba(124,169,130,0.55)] bg-[rgba(124,169,130,0.12)] text-[var(--racing-green)]"
-                  : "border-[rgba(201,168,106,0.55)] bg-[var(--paper)] text-[var(--graphite)] hover:bg-[rgba(201,168,106,0.14)]"
+                  : "border-[rgba(169,130,83,0.55)] bg-[var(--paper)] text-[var(--graphite)] hover:bg-[rgba(169,130,83,0.14)]"
               }`}
             >
               {isCompared ? (
@@ -610,7 +610,7 @@ function NegotiationScriptsSection({ result, sourceText }: { result: AnalyzeList
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   return (
-    <details className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
+    <details className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)] open:ring-2 open:ring-[rgba(169,130,83,0.25)]">
       <summary className="flex cursor-pointer items-center gap-2 px-5 py-4 text-lg font-black text-[var(--graphite)] transition hover:text-[var(--racing-green)]">
         <Wrench className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
         Negotiation Scripts

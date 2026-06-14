@@ -63,7 +63,7 @@ export function MarketVisualizer({
       </summary>
       <div className="border-t border-[rgba(11,13,16,0.10)] px-5 py-4">
         <div className="flex flex-wrap items-center gap-4 text-sm">
-          <div className="flex items-center gap-2 rounded-xl bg-[rgba(201,168,106,0.10)] px-4 py-2">
+          <div className="flex items-center gap-2 rounded-xl bg-[rgba(169,130,83,0.10)] px-4 py-2">
             <span className="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">Listing</span>
             <span className="text-lg font-black text-[var(--graphite)]">{formatCurrency(market.listingPrice)}</span>
           </div>

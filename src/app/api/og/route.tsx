@@ -35,7 +35,7 @@ export async function GET(request: Request) {
           height: 630,
           display: "flex",
           flexDirection: "column",
-          background: "linear-gradient(135deg, #0b0d10 0%, #14181d 50%, #0b0d10 100%)",
+          background: "linear-gradient(135deg, #1c1a17 0%, #14181d 50%, #1c1a17 100%)",
           fontFamily: "Geist, Inter, sans-serif",
           position: "relative",
           overflow: "hidden",
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
             width: "600px",
             height: "600px",
             borderRadius: "50%",
-            background: "rgba(201,168,106,0.12)",
+            background: "rgba(169,130,83,0.12)",
             filter: "blur(60px)",
           }}
         />
@@ -62,7 +62,7 @@ export async function GET(request: Request) {
             width: "700px",
             height: "700px",
             borderRadius: "50%",
-            background: "rgba(18,61,51,0.30)",
+            background: "rgba(183,96,58,0.30)",
             filter: "blur(80px)",
           }}
         />
@@ -70,12 +70,12 @@ export async function GET(request: Request) {
           <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
             <rect width="100" height="100" rx="20" fill="#c9a86a"/>
             <g transform="translate(50,50) scale(1.1)">
-              <path d="M-8-28 L8-28 L14-16 L10-16 L8-22 L-8-22 L-10-16 L-14-16Z" fill="#0b0d10"/>
-              <rect x="-18" y="-16" width="36" height="22" rx="4" fill="#0b0d10"/>
+              <path d="M-8-28 L8-28 L14-16 L10-16 L8-22 L-8-22 L-10-16 L-14-16Z" fill="#1c1a17"/>
+              <rect x="-18" y="-16" width="36" height="22" rx="4" fill="#1c1a17"/>
               <rect x="-14" y="-12" width="8" height="6" rx="1.5" fill="#c9a86a"/>
               <rect x="6" y="-12" width="8" height="6" rx="1.5" fill="#c9a86a"/>
-              <rect x="-20" y="6" width="8" height="14" rx="2" fill="#0b0d10"/>
-              <rect x="12" y="6" width="14" height="2" rx="2" fill="#0b0d10"/>
+              <rect x="-20" y="6" width="8" height="14" rx="2" fill="#1c1a17"/>
+              <rect x="12" y="6" width="14" height="2" rx="2" fill="#1c1a17"/>
               <circle cx="-16" cy="20" r="4" fill="#c9a86a"/>
               <circle cx="16" cy="20" r="4" fill="#c9a86a"/>
             </g>
@@ -113,7 +113,7 @@ export async function GET(request: Request) {
                     width: 140,
                     height: 140,
                     borderRadius: "50%",
-                    background: "#0b0d10",
+                    background: "#1c1a17",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

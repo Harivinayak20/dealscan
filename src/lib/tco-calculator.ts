@@ -56,7 +56,7 @@ export function calculateTCO(
   const segments: TCOSegment[] = [
     { label: "Loan Payment", monthly: monthlyPayment, yearly: monthlyPayment * 12, color: "#c9a86a", detail: `${monthlyPayment}/mo × 12 months` },
     { label: "Insurance", monthly: insuranceMonthly, yearly: insuranceMonthly * 12, color: "#7ca982", detail: `Based on ${make || "standard"} rates, ${age}-year-old vehicle` },
-    { label: "Fuel", monthly: fuelMonthly, yearly: fuelMonthly * 12, color: "#123d33", detail: `${annualMiles.toLocaleString()} mi/yr, 25 mpg avg, $3.50/gal` },
+    { label: "Fuel", monthly: fuelMonthly, yearly: fuelMonthly * 12, color: "#b7603a", detail: `${annualMiles.toLocaleString()} mi/yr, 25 mpg avg, $3.50/gal` },
     { label: "Maintenance", monthly: maintenanceMonthly, yearly: maintenanceMonthly * 12, color: "#d6a84f", detail: `Age-adjusted: ${ageCat} vehicle${score < 70 ? " + risk premium" : ""}` },
     { label: "Depreciation", monthly: depreciationMonthly, yearly: depreciationMonthly * 12, color: "#c45a4a", detail: `~${(annualDepreciationRate * 100).toFixed(0)}% annual loss` },
   ];

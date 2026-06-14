@@ -64,7 +64,7 @@ export default function HowScoringWorksPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--graphite)] shadow-sm">
             <Gauge className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Methodology
           </div>
@@ -88,7 +88,7 @@ export default function HowScoringWorksPage() {
           ))}
         </section>
 
-        <section className="mt-10 rounded-2xl border border-[var(--accent-2-line)] bg-[rgba(18,61,51,0.05)] p-6">
+        <section className="mt-10 rounded-2xl border border-[var(--accent-2-line)] bg-[rgba(183,96,58,0.05)] p-6">
           <h2 className="text-lg font-black">What the score cannot know</h2>
           <p className="mt-3 text-sm leading-6 text-[var(--text-body)]">
             The score reads the listing &mdash; it cannot see the car. It does not replace a vehicle history report, a

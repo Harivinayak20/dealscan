@@ -77,7 +77,7 @@ export default function AffiliateLinksPage() {
         </header>
 
         <section className="py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,168,106,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">
             <ShoppingBag className="h-4 w-4 text-[var(--champagne)]" aria-hidden="true" />
             Buyer tools
           </div>
@@ -87,7 +87,7 @@ export default function AffiliateLinksPage() {
           <p className="mt-5 max-w-2xl text-xl leading-8 text-[var(--text-body)]">
             History, inspection, insurance, payments, and simple tools in one place.
           </p>
-          <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(201,168,106,0.30)] bg-white/75 p-4 text-sm leading-6 text-[var(--text-body)]">
+          <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(169,130,83,0.30)] bg-white/75 p-4 text-sm leading-6 text-[var(--text-body)]">
             <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you. This does not influence our deal analysis or scoring.
           </p>
         </section>

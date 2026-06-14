@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   other: {
     "mobile-web-app-capable": "yes",
-    "theme-color": "#f7f2ea",
+    "theme-color": "#faf8f3",
     ...(ADSENSE_ENABLED && ADSENSE_CLIENT_ID
       ? { "google-adsense-account": ADSENSE_CLIENT_ID }
       : {}),

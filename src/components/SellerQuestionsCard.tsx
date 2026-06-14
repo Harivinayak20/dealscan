@@ -14,7 +14,7 @@ export function SellerQuestionsCard({ questions }: SellerQuestionsCardProps) {
       <ol className="mt-3 grid gap-3">
         {questions.map((question, index) => (
           <li key={question} className="flex gap-3 text-base leading-7 text-[var(--graphite)]">
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[rgba(201,168,106,0.18)] text-sm font-black text-[var(--graphite)]">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[rgba(169,130,83,0.18)] text-sm font-black text-[var(--graphite)]">
               {index + 1}
             </span>
             <span>{question}</span>

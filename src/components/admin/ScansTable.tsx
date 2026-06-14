@@ -137,7 +137,7 @@ export function ScansTable() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/admin/scans/${scan.id}`}
-                      className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[var(--champagne)] transition hover:bg-[rgba(201,168,106,0.10)]"
+                      className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[var(--champagne)] transition hover:bg-[rgba(169,130,83,0.10)]"
                     >
                       View <ChevronRight className="h-3 w-3" aria-hidden="true" />
                     </Link>

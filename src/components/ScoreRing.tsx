@@ -10,7 +10,7 @@ export function scoreTone(score: number) {
     return {
       label: "Good",
       ring: "#7CA982",
-      soft: "bg-[rgba(124,169,130,0.16)] text-[#123D33] border-[rgba(124,169,130,0.35)]",
+      soft: "bg-[rgba(124,169,130,0.16)] text-[#3f4d36] border-[rgba(124,169,130,0.35)]",
       icon: CheckCircle2,
     };
   }

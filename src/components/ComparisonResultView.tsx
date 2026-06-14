@@ -117,7 +117,7 @@ export function ComparisonResultView({ comparison, onBack }: ComparisonResultVie
     };
 
   const winnerTone = winner === "tie" ? { ring: "#d6a84f", soft: "border-amber-200 bg-amber-50 text-amber-700" }
-    : { ring: "#123d33", soft: "border-green-200 bg-green-50 text-green-800" };
+    : { ring: "#b7603a", soft: "border-green-200 bg-green-50 text-green-800" };
 
   return (
     <section className="min-h-screen bg-[rgba(244,240,232,0.94)]">

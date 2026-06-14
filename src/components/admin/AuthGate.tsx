@@ -98,7 +98,7 @@ export function AuthGate({ children }: AuthGateProps) {
                 setError("");
               }}
               placeholder="Admin token"
-              className="min-h-12 w-full rounded-xl border border-[var(--border-subtle)] bg-neutral-50 px-4 text-base text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+              className="min-h-12 w-full rounded-xl border border-[var(--border-subtle)] bg-neutral-50 px-4 text-base text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
               autoFocus
             />
           </div>

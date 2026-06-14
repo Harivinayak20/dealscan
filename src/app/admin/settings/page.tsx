@@ -77,7 +77,7 @@ export default function AdminSettings() {
                 max={100}
                 value={settings.scoringThresholds[key]}
                 onChange={(e) => updateThreshold(key, Number(e.target.value))}
-                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-base text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-base text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
               />
             </label>
           ))}
@@ -107,7 +107,7 @@ export default function AdminSettings() {
                 type="url"
                 value={settings.affiliateLinks[key]}
                 onChange={(e) => updateAffiliate(key, e.target.value)}
-                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+                className="min-h-11 rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
               />
             </label>
           ))}

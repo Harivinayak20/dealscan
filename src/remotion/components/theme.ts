@@ -1,15 +1,18 @@
+// Warm Editorial Luxury — LIGHT. Bone ground, espresso ink, cognac + amber
+// accents, sage for positive, terracotta for danger. Matches the site.
+// Keys are kept stable so every composition flows through unchanged.
 export const colors = {
-  ink: "#05070b",
-  panel: "rgba(13, 18, 28, 0.78)",
-  panelStrong: "rgba(18, 24, 36, 0.94)",
-  line: "rgba(255, 255, 255, 0.14)",
-  text: "#f7fbff",
-  muted: "#93a4b7",
-  blue: "#28a8ff",
-  cyan: "#7de1ff",
-  green: "#36e39a",
-  yellow: "#ffd166",
-  red: "#ff4e64",
+  ink: "#faf7f1", // warm bone ground
+  panel: "rgba(255, 255, 255, 0.74)",
+  panelStrong: "#ffffff",
+  line: "rgba(28, 26, 23, 0.12)",
+  text: "#1c1a17", // espresso
+  muted: "#6f685b", // taupe
+  blue: "#b7603a", // cognac clay (primary accent)
+  cyan: "#c98a3c", // amber highlight
+  green: "#5f8a52", // deep sage — positive / good deal
+  yellow: "#bf8a2e", // amber caution
+  red: "#c0492f", // terracotta danger
 };
 
 export const fontStack =

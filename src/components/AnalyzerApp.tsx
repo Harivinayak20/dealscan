@@ -471,7 +471,7 @@ export function AnalyzerApp() {
     return (
       <>
         {notice ? (
-          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 animate-slide-down rounded-2xl border border-[rgba(201,168,106,0.35)] bg-[var(--ivory)] px-5 py-3 text-sm font-bold text-[var(--graphite)] shadow-xl">
+          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 animate-slide-down rounded-2xl border border-[rgba(169,130,83,0.35)] bg-[var(--ivory)] px-5 py-3 text-sm font-bold text-[var(--graphite)] shadow-xl">
             {notice}
           </div>
         ) : null}
@@ -497,26 +497,26 @@ export function AnalyzerApp() {
           </span>
 
           <nav
-            className="order-3 flex w-full items-center justify-center gap-1 rounded-full border border-white/10 bg-[var(--graphite)] p-1.5 text-sm font-semibold shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] sm:order-2 sm:w-auto sm:gap-0.5 sm:p-1"
+            className="order-3 flex w-full items-center justify-center gap-1 rounded-full border border-[var(--line)] bg-[var(--paper)] p-1.5 text-sm font-semibold shadow-[0_8px_24px_-14px_rgba(60,40,28,0.28)] sm:order-2 sm:w-auto sm:gap-0.5 sm:p-1"
             aria-label="Primary"
           >
             <a
               href="#how-it-works"
               onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }}
-              className="hidden rounded-full px-3.5 py-1.5 text-[var(--ivory)] transition hover:bg-white/10 lg:inline"
+              className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline"
             >
               How it works
             </a>
-            <Link href="/how-scoring-works" className="hidden rounded-full px-3.5 py-1.5 text-[var(--ivory)] transition hover:bg-white/10 lg:inline">
+            <Link href="/how-scoring-works" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline">
               Scoring
             </Link>
-            <Link href="/guides" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
+            <Link href="/guides" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Guides
             </Link>
-            <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
+            <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Car checks
             </Link>
-            <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--ivory)] transition hover:bg-white/10 sm:flex-none sm:py-1.5">
+            <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Price checker
             </Link>
             {savedResults.length > 0 ? (
@@ -535,7 +535,7 @@ export function AnalyzerApp() {
           </nav>
 
           <div className="order-2 flex items-center sm:order-3">
-            <a href="#analyzer" className="btn-pill">
+            <a href="#analyzer" className="btn-pill !min-h-9 !px-4 !text-xs sm:!min-h-12 sm:!px-7 sm:!text-sm">
               Check a Listing
             </a>
           </div>
@@ -630,7 +630,7 @@ export function AnalyzerApp() {
 
           <section
             id="analyzer"
-            className="order-1 flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 lg:self-stretch"
+            className="order-1 flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 md:self-start"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -648,7 +648,7 @@ export function AnalyzerApp() {
                   className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     !compareMode
                       ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(183,96,58,0.10)]"
                   }`}
                 >
                   Single
@@ -659,7 +659,7 @@ export function AnalyzerApp() {
                   className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
                     compareMode
                       ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(18,61,51,0.10)]"
+                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(183,96,58,0.10)]"
                   }`}
                 >
                   Compare
@@ -697,7 +697,7 @@ export function AnalyzerApp() {
                       }}
                       className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)] ${
                         inputType === method.value
-                          ? "border-[rgba(18,61,51,0.32)] bg-[var(--accent-2-soft)] text-[var(--graphite)] shadow-sm"
+                          ? "border-[rgba(183,96,58,0.32)] bg-[var(--accent-2-soft)] text-[var(--graphite)] shadow-sm"
                           : "border-[var(--line)] bg-[var(--canvas)] text-[var(--text-muted)] hover:bg-[var(--paper)]"
                       }`}
                     >
@@ -710,7 +710,7 @@ export function AnalyzerApp() {
               ))}
             </div>
 
-            <div className="mt-5 rounded-2xl border-2 border-[rgba(18,61,51,0.30)] bg-[var(--accent-2-soft)] p-4 shadow-[0_18px_44px_-26px_rgba(18,61,51,0.45)]">
+            <div className="mt-5 rounded-2xl border border-[rgba(183,96,58,0.20)] bg-[var(--accent-2-soft)] p-4 shadow-[0_14px_36px_-26px_rgba(183,96,58,0.32)]">
               {inputType === "url" ? (
                 <div className="grid gap-3">
                   <label className="grid gap-2">
@@ -856,7 +856,7 @@ export function AnalyzerApp() {
               </div>
             </div>
 
-            <p className="mt-auto pt-4 text-xs leading-5 text-[var(--text-muted)]">
+            <p className="mt-5 text-xs leading-5 text-[var(--text-muted)]">
               Works with Craigslist, Autotrader, Cars.com, CarGurus, and most dealer pages. Facebook Marketplace links need a login, so paste the ad text or a screenshot instead.
             </p>
             </>
@@ -898,7 +898,7 @@ export function AnalyzerApp() {
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                  className="rounded-2xl border border-[var(--line)] bg-white/75 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-1.5 hover:border-[rgba(18,61,51,0.24)] hover:bg-[var(--paper)]"
+                  className="rounded-2xl border border-[var(--line)] bg-white/75 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-1.5 hover:border-[rgba(183,96,58,0.24)] hover:bg-[var(--paper)]"
                 >
                   <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-black">{item.title}</h3>
@@ -921,7 +921,7 @@ export function AnalyzerApp() {
           </div>
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
                 <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Deal Score &amp; Verdict</h3>
@@ -930,7 +930,7 @@ export function AnalyzerApp() {
               </p>
             </div>
             <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
                 <FileSearch className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Red &amp; Green Flags</h3>
@@ -939,7 +939,7 @@ export function AnalyzerApp() {
               </p>
             </div>
             <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(201,168,106,0.14)]">
+              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
                 <BadgeDollarSign className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
               </div>
               <h3 className="mt-5 text-xl font-black">Price Range &amp; Offer Target</h3>
@@ -1036,19 +1036,19 @@ export function AnalyzerApp() {
         <AdUnit slot={ADSENSE_HOME_SLOT} />
       </section>
 
-      <footer className="bg-[var(--charcoal)] px-5 pb-28 pt-0 text-[#cbd3ce] sm:px-7 lg:pb-12">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(201,168,106,0.6)] to-transparent" aria-hidden="true" />
+      <footer className="bg-[var(--charcoal)] px-5 pb-28 pt-0 text-[#c9bda8] sm:px-7 lg:pb-12">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(169,130,83,0.6)] to-transparent" aria-hidden="true" />
         <div className="mx-auto max-w-[1200px] pt-12">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
-              <div className="text-lg text-[#eef3ef]"><Logo /></div>
+              <div className="text-lg text-[#f3eee3]"><Logo /></div>
               <div className="mt-1 text-[11px] font-bold uppercase text-[var(--champagne)]">Listing review</div>
               <p className="mt-4 max-w-xs text-sm leading-7 text-[var(--silver)]">
                 Data-backed used car deal checker. Know the car, not the hype.
               </p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#eef3ef]">Product</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#f3eee3]">Product</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="#analyzer" className="transition hover:text-[var(--champagne)]">Analyze a listing</a></li>
                 <li><a href="#how-it-works" className="transition hover:text-[var(--champagne)]">How it works</a></li>
@@ -1061,7 +1061,7 @@ export function AnalyzerApp() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#eef3ef]">Resources</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#f3eee3]">Resources</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Carfax report</a></li>
                 <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
@@ -1071,7 +1071,7 @@ export function AnalyzerApp() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#eef3ef]">Company</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#f3eee3]">Company</h3>
               <ul className="mt-4 grid gap-3 text-sm font-bold">
                 <li><a href="/about" className="transition hover:text-[var(--champagne)]">About</a></li>
                 <li><a href="/contact" className="transition hover:text-[var(--champagne)]">Contact</a></li>

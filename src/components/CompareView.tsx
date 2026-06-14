@@ -212,9 +212,9 @@ function CompareCard({
           <LinkGroup title="Reference data" links={referenceLinks} icon={ShieldCheck} />
         </div>
 
-        <details className="group mt-4 rounded-xl border border-neutral-100 bg-neutral-50 open:ring-2 open:ring-[rgba(201,168,106,0.25)]">
+        <details className="group mt-4 rounded-xl border border-neutral-100 bg-neutral-50 open:ring-2 open:ring-[rgba(169,130,83,0.25)]">
           <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-black text-[var(--text-body)] transition hover:text-[var(--graphite)]">
-            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--text-body)] transition group-open:bg-[rgba(201,168,106,0.20)] group-open:text-[var(--champagne)]">
+            <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--text-body)] transition group-open:bg-[rgba(169,130,83,0.20)] group-open:text-[var(--champagne)]">
               PRO
             </span>
             Negotiation Scripts
@@ -252,7 +252,7 @@ function CompareCard({
         <button
           type="button"
           onClick={() => onViewDetails(saved.id)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(201,168,106,0.55)] bg-[var(--paper)] px-4 py-2.5 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(201,168,106,0.10)] hover:shadow-sm"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(169,130,83,0.55)] bg-[var(--paper)] px-4 py-2.5 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(169,130,83,0.10)] hover:shadow-sm"
         >
           View Full Analysis
           <ChevronRight className="h-4 w-4" aria-hidden="true" />

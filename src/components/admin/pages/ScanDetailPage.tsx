@@ -63,7 +63,7 @@ export default function ScanDetailPage() {
       <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(201,168,106,0.12)]">
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-[rgba(169,130,83,0.12)]">
               <CarFront className="h-6 w-6 text-[var(--champagne)]" aria-hidden="true" />
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function ScanDetailPage() {
               id="scan-status"
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value as ScanStatus)}
-              className="mt-1 min-h-11 w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+              className="mt-1 min-h-11 w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] px-3 text-sm text-[var(--graphite)] outline-none focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
             >
               {statusOptions.map((s) => (
                 <option key={s} value={s}>{statusLabel(s)}</option>
@@ -136,7 +136,7 @@ export default function ScanDetailPage() {
               onChange={(e) => setNotes(e.target.value)}
               rows={4}
               placeholder="Add internal notes about this scan..."
-              className="mt-1 min-h-24 w-full resize-y rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] p-3 text-sm leading-6 text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+              className="mt-1 min-h-24 w-full resize-y rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] p-3 text-sm leading-6 text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
             />
           </div>
           <button

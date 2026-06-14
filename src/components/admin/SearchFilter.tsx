@@ -14,7 +14,7 @@ export function SearchFilter({ value, onChange, placeholder = "Search..." }: Sea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="min-h-10 w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] pl-9 pr-8 text-sm text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(201,168,106,0.20)]"
+        className="min-h-10 w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--paper)] pl-9 pr-8 text-sm text-[var(--graphite)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--champagne)] focus:ring-2 focus:ring-[rgba(169,130,83,0.20)]"
       />
       {value && (
         <button
