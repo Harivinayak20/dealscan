@@ -99,28 +99,26 @@ export function ScrollFX() {
       svg.style.width = `${width}px`;
       svg.style.height = `${height}px`;
 
-      // Narrow screens have no real gutters: drive a smaller car straight
-      // down the left edge instead of swinging across the content.
+      // On narrow screens the car weaves within the screen (behind the cards
+      // and text) with smaller turns; on wide screens it runs the gutters.
       const narrow = width < 1024;
-      carScale = narrow ? 0.55 : 1;
+      carScale = narrow ? 0.45 : 1;
 
-      // Run down the side gutters, outside the centered content column,
-      // and only swing across at the boundaries between sections.
-      const leftX = narrow ? 12 : Math.max(18, (width - 1200) / 2 - 28);
+      const leftX = narrow ? 14 : Math.max(18, (width - 1200) / 2 - 28);
       const rightX = width - leftX;
+      const sway = narrow ? 130 : 280;
+      const minGap = narrow ? 360 : 600;
+
+      // Swing across at the boundaries between sections.
       const sections = Array.from(
         document.querySelectorAll<HTMLElement>("main > section, main > footer")
       );
       const scrollY = window.scrollY;
-      const crossings = narrow
-        ? []
-        : sections
-            .slice(1)
-            .map((s) => s.getBoundingClientRect().top + scrollY)
-            .filter((y) => y > 300 && y < height - 320)
-            .filter((y, i, arr) => i === 0 || y - arr[i - 1] > 600);
-
-      const sway = 280;
+      const crossings = sections
+        .slice(1)
+        .map((s) => s.getBoundingClientRect().top + scrollY)
+        .filter((y) => y > 300 && y < height - 320)
+        .filter((y, i, arr) => i === 0 || y - arr[i - 1] > minGap);
       let side: 0 | 1 = 0;
       let x = side === 0 ? leftX : rightX;
       let d = `M ${x} 150`;
@@ -164,14 +162,14 @@ export function ScrollFX() {
       let delta = angle - lastAngle;
       if (delta > 180) delta -= 360;
       if (delta < -180) delta += 360;
-      angle = lastAngle + delta * 0.25;
+      angle = lastAngle + delta * 0.18;
       lastAngle = angle;
       car.setAttribute("transform", `translate(${tip.x} ${tip.y}) rotate(${angle}) scale(${carScale})`);
     };
 
     const tick = () => {
       const target = targetProgress();
-      shown += (target - shown) * 0.34;
+      shown += (target - shown) * 0.2;
       if (Math.abs(target - shown) < 0.0004) {
         shown = target;
         render(shown);

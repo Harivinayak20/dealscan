@@ -22,6 +22,12 @@ export function SiteChrome() {
   if (isEmbed) return null;
   return (
     <>
+      <div className="ambient" aria-hidden="true">
+        <span className="balloon balloon-1" />
+        <span className="balloon balloon-2" />
+        <span className="balloon balloon-3" />
+        <span className="balloon balloon-4" />
+      </div>
       <ScrollFX />
       <ThemeToggle />
     </>

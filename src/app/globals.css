@@ -878,22 +878,88 @@ main article {
   }
 }
 
-/* Aurora tint: fixed behind-the-content wash, visible while scrolling */
-body::before {
-  content: "";
+/* Ambient balloons: soft, crafted, slowly drifting glows behind all content.
+   A transparent fixed layer at z-0, so the blobs only show through gaps,
+   margins, and empty space — present but barely-there, and always moving. */
+.ambient {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(ellipse 90rem 40rem at 50% -12rem, var(--aurora-1), transparent 70%);
 }
 
-:root {
-  --aurora-1: rgba(96, 165, 250, 0.22);
+.balloon {
+  position: absolute;
+  border-radius: 52% 48% 43% 57% / 55% 52% 48% 45%;
+  filter: blur(46px);
+  will-change: transform, border-radius;
 }
 
-:root[data-theme="dark"] {
-  --aurora-1: rgba(96, 165, 250, 0.08);
+.balloon-1 {
+  top: -8vh;
+  left: -5vw;
+  width: 44vw;
+  height: 44vw;
+  background: radial-gradient(circle at 36% 30%, rgba(47, 160, 130, 0.6), rgba(18, 61, 51, 0.28) 56%, transparent 76%);
+  animation: amb-float-a 34s ease-in-out infinite, amb-morph 19s ease-in-out infinite;
+}
+
+.balloon-2 {
+  top: 4vh;
+  right: -10vw;
+  width: 38vw;
+  height: 38vw;
+  background: radial-gradient(circle at 40% 34%, rgba(201, 168, 106, 0.55), rgba(201, 168, 106, 0.2) 54%, transparent 74%);
+  animation: amb-float-b 41s ease-in-out infinite, amb-morph 23s ease-in-out infinite;
+}
+
+.balloon-3 {
+  bottom: -12vh;
+  left: 16vw;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle at 42% 38%, rgba(96, 165, 250, 0.48), rgba(96, 165, 250, 0.18) 53%, transparent 74%);
+  animation: amb-float-c 47s ease-in-out infinite, amb-morph 27s ease-in-out infinite;
+}
+
+.balloon-4 {
+  top: 40vh;
+  left: 42vw;
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(circle at 38% 32%, rgba(47, 160, 130, 0.4), transparent 72%);
+  animation: amb-float-a 55s ease-in-out infinite reverse, amb-morph 21s ease-in-out infinite;
+}
+
+@keyframes amb-float-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(5vw, -4vh, 0) scale(1.12); }
+}
+
+@keyframes amb-float-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-6vw, 5vh, 0) scale(1.1); }
+}
+
+@keyframes amb-float-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.04); }
+  50% { transform: translate3d(4vw, 6vh, 0) scale(0.94); }
+}
+
+@keyframes amb-morph {
+  0%, 100% { border-radius: 52% 48% 43% 57% / 55% 52% 48% 45%; }
+  50% { border-radius: 45% 55% 58% 42% / 47% 44% 56% 53%; }
+}
+
+:root[data-theme="dark"] .balloon {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balloon {
+    animation: none;
+  }
 }
 
 /* Small screens: the path runs straight down the left edge with a smaller
