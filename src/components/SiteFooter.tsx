@@ -16,8 +16,17 @@ export function SiteFooter() {
 
   if (hidden) return null;
 
+  // The homepage has a fixed mobile CTA bar pinned to the bottom, so the footer
+  // needs extra bottom padding there to clear it. Other pages have no such bar,
+  // so the standard padding keeps the footer flush with the bottom of the page.
+  const isHome = pathname === "/";
+
   return (
-    <footer className="bg-[var(--charcoal)] px-5 pb-28 pt-0 text-[#c9bda8] sm:px-7 lg:pb-12">
+    <footer
+      className={`bg-[var(--charcoal)] px-5 pt-0 text-[#c9bda8] sm:px-7 ${
+        isHome ? "pb-28 lg:pb-12" : "pb-12"
+      }`}
+    >
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(169,130,83,0.6)] to-transparent" aria-hidden="true" />
       <div className="mx-auto max-w-[1200px] pt-12">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">

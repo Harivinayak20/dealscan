@@ -27,5 +27,13 @@
 		// Enable image optimization
 		// see https://opennext.js.org/cloudflare/howtos/image
 		"binding": "IMAGES"
-	}
+	},
+	"d1_databases": [
+		{
+			// First-party, cookieless analytics + event log for the admin dashboard.
+			"binding": "DB",
+			"database_name": "dealscan_analytics",
+			"database_id": "d4ce4c90-af8a-4f73-8bb1-56b978350869"
+		}
+	]
 }

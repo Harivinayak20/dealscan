@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
+import { Analytics } from "@/components/Analytics";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
@@ -99,6 +100,7 @@ export default function RootLayout({
         <AdSenseScript />
       </head>
       <body>
+        <Analytics />
         <SiteChrome />
         {children}
         <SiteFooter />

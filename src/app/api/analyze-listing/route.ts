@@ -5,6 +5,13 @@ import { analyzeListingRequestSchema } from "@/lib/analyze-listing-schema";
 import { getAiProviderConfig, runAnalysisWithFailover } from "@/lib/ai-providers";
 import { analyzeListingLocally } from "@/lib/local-analyzer";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { recordScan } from "@/lib/analytics";
+import { verdictToStatus } from "@/lib/admin-types";
+
+function extractVehicleTitle(text: string): string | null {
+  const match = text.match(/\b(19|20)\d{2}\s+[A-Za-z]+\s+[A-Za-z0-9-]+(?:\s+[A-Za-z0-9-]+){0,3}/);
+  return match?.[0].replace(/,$/, "") ?? null;
+}
 
 export async function POST(request: Request) {
   const limit = 10;
@@ -35,6 +42,14 @@ export async function POST(request: Request) {
   const cachedResult = getCachedAnalysis(cacheKey);
 
   if (cachedResult) {
+    await recordScan({
+      vehicleTitle: extractVehicleTitle(body.listingText),
+      score: cachedResult.result.score,
+      verdict: verdictToStatus(cachedResult.result.verdict),
+      confidence: cachedResult.result.confidence,
+      inputType: body.inputType,
+      source: cachedResult.analysisMode === "local" ? "local" : "groq",
+    });
     return NextResponse.json({
       result: cachedResult.result,
       analysisMode: cachedResult.analysisMode,
@@ -56,6 +71,14 @@ export async function POST(request: Request) {
 
   if (!providerConfig.enabled) {
     setCachedAnalysis(cacheKey, localResult, "local");
+    await recordScan({
+      vehicleTitle: extractVehicleTitle(body.listingText),
+      score: localResult.score,
+      verdict: verdictToStatus(localResult.verdict),
+      confidence: localResult.confidence,
+      inputType: body.inputType,
+      source: "local",
+    });
 
     return NextResponse.json({
       result: localResult,
@@ -73,6 +96,15 @@ export async function POST(request: Request) {
   if (analysisMode !== "local") {
     setCachedAnalysis(cacheKey, result, analysisMode);
   }
+
+  await recordScan({
+    vehicleTitle: extractVehicleTitle(body.listingText),
+    score: result.score,
+    verdict: verdictToStatus(result.verdict),
+    confidence: result.confidence,
+    inputType: body.inputType,
+    source: analysisMode === "local" ? "local" : "groq",
+  });
 
   return NextResponse.json({
     result,
