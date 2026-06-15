@@ -553,7 +553,7 @@ export function AnalyzerApp() {
               Find out if this listing is worth it.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
-              Paste the listing and get a deal score, the red flags, and the price you should actually offer — in about 10 seconds.
+              Paste the listing and get a deal score, the red flags, and the price you should actually offer, in about 10 seconds.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
