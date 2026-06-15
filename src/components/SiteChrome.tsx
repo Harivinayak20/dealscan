@@ -11,6 +11,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 export function SiteChrome() {
   const pathname = usePathname();
   const isEmbed = pathname?.startsWith("/embed") ?? false;
+  // The admin dashboard is a data tool, not the marketing site: no scrolling car.
+  const isAdmin = pathname?.startsWith("/admin") ?? false;
 
   useEffect(() => {
     if (isEmbed) return;
@@ -29,7 +31,7 @@ export function SiteChrome() {
         <span className="balloon balloon-4" />
         <span className="balloon balloon-5" />
       </div>
-      <ScrollFX />
+      {!isAdmin && <ScrollFX />}
       <ThemeToggle />
     </>
   );

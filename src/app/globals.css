@@ -223,6 +223,16 @@ body > footer {
   flex-shrink: 0;
 }
 
+/* Pages set min-h-screen (min-height:100vh) on their <main> for background
+   fill. With the flex sticky-footer above, that forced full-viewport height
+   only creates dead space between short content and the footer. Neutralize it
+   for the top-level page element (higher specificity than the utility class)
+   so the footer sits right under the content; flex-grow still fills the
+   viewport when content is short. */
+body > .min-h-screen {
+  min-height: 0;
+}
+
 button,
 input,
 textarea,
