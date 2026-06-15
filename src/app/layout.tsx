@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
 import { SiteChrome } from "@/components/SiteChrome";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
@@ -100,6 +101,7 @@ export default function RootLayout({
       <body>
         <SiteChrome />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );
