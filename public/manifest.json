@@ -1,6 +1,6 @@
 {
-  "name": "Dealscan — Used Car Deal Checker",
-  "short_name": "Dealscan",
+  "name": "DealScan — Used Car Deal Checker",
+  "short_name": "DealScan",
   "description": "AI-powered used car listing analyzer. Score any listing, detect red flags, and negotiate with confidence.",
   "start_url": "/",
   "scope": "/",

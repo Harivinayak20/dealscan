@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, Mail, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Contact Dealscan",
-  description: "Contact Dealscan for product questions, corrections, advertising questions, and partnership inquiries.",
+  title: "Contact DealScan",
+  description: "Contact DealScan for product questions, corrections, advertising questions, and partnership inquiries.",
 };
 
 export default function ContactPage() {
@@ -16,7 +16,7 @@ export default function ContactPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -36,7 +36,7 @@ export default function ContactPage() {
             Questions, corrections, and partnerships.
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--text-body)]">
-            Email Dealscan for product support, content corrections, advertising questions, and buyer-tool partnership inquiries.
+            Email DealScan for product support, content corrections, advertising questions, and buyer-tool partnership inquiries.
           </p>
         </section>
 
@@ -66,7 +66,7 @@ export default function ContactPage() {
               <div>
                 <h2 className="text-xl font-black">Buyer safety note</h2>
                 <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">
-                  Dealscan does not sell vehicles, broker purchases, hold deposits, or represent sellers. Always verify title, VIN, payment, and inspection details directly before buying a car.
+                  DealScan does not sell vehicles, broker purchases, hold deposits, or represent sellers. Always verify title, VIN, payment, and inspection details directly before buying a car.
                 </p>
               </div>
             </div>

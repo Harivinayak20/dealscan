@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Dealscan Disclaimer and Limitation of Liability",
-  description: "Liability policy for Dealscan: estimates only, no warranties, buyer responsibility, and limitation of liability.",
+  title: "DealScan Disclaimer and Limitation of Liability",
+  description: "Liability policy for DealScan: estimates only, no warranties, buyer responsibility, and limitation of liability.",
 };
 
 const sections = [
@@ -14,7 +14,7 @@ const sections = [
   },
   {
     title: "Not professional advice",
-    text: "Dealscan does not provide mechanical, legal, financial, insurance, tax, lending, or appraisal advice. Nothing on this site is a substitute for a licensed mechanic's pre-purchase inspection, a vehicle history report, a title search, or professional legal or financial counsel.",
+    text: "DealScan does not provide mechanical, legal, financial, insurance, tax, lending, or appraisal advice. Nothing on this site is a substitute for a licensed mechanic's pre-purchase inspection, a vehicle history report, a title search, or professional legal or financial counsel.",
   },
   {
     title: "Your purchase decisions are yours",
@@ -22,19 +22,19 @@ const sections = [
   },
   {
     title: "No warranties",
-    text: "Dealscan is provided free of charge, as is and as available, without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy, and non-infringement. We do not warrant that the service will be uninterrupted, error-free, or secure.",
+    text: "DealScan is provided free of charge, as is and as available, without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy, and non-infringement. We do not warrant that the service will be uninterrupted, error-free, or secure.",
   },
   {
     title: "Limitation of liability",
-    text: "To the maximum extent permitted by law, Dealscan and its operator are not liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages — including money lost on a vehicle purchase, repair costs, lost profits, or data loss — arising from your use of, or inability to use, this site, even if advised of the possibility of such damages. Where liability cannot be excluded, it is limited to the amount you paid to use Dealscan, which is zero.",
+    text: "To the maximum extent permitted by law, DealScan and its operator are not liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages — including money lost on a vehicle purchase, repair costs, lost profits, or data loss — arising from your use of, or inability to use, this site, even if advised of the possibility of such damages. Where liability cannot be excluded, it is limited to the amount you paid to use DealScan, which is zero.",
   },
   {
     title: "Third-party sites and sellers",
-    text: "Dealscan links to third-party marketplaces, tools, and resources and analyzes listings created by third-party sellers. We do not control and are not responsible for third-party content, conduct, products, or transactions. Dealscan is not a party to any transaction between you and a seller.",
+    text: "DealScan links to third-party marketplaces, tools, and resources and analyzes listings created by third-party sellers. We do not control and are not responsible for third-party content, conduct, products, or transactions. DealScan is not a party to any transaction between you and a seller.",
   },
   {
     title: "Indemnity",
-    text: "You agree to hold Dealscan and its operator harmless from claims arising out of your vehicle purchases, your interactions with sellers, or your violation of these terms.",
+    text: "You agree to hold DealScan and its operator harmless from claims arising out of your vehicle purchases, your interactions with sellers, or your violation of these terms.",
   },
   {
     title: "Changes",
@@ -51,7 +51,7 @@ export default function DisclaimerPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -71,7 +71,7 @@ export default function DisclaimerPage() {
             Disclaimer and limitation of liability.
           </h1>
           <p className="mt-4 text-base leading-7 text-[var(--text-body)]">
-            Dealscan is a free research tool. Use it to ask better questions, not as the final word on any car.
+            DealScan is a free research tool. Use it to ask better questions, not as the final word on any car.
           </p>
         </section>
 

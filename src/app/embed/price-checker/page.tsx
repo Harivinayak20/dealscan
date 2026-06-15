@@ -5,8 +5,8 @@ import { PriceChecker } from "@/components/PriceChecker";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Price Checker (Embed) — Dealscan",
-  description: "Free used car fair price estimator widget by Dealscan.",
+  title: "Used Car Price Checker (Embed) — DealScan",
+  description: "Free used car fair price estimator widget by DealScan.",
   alternates: { canonical: "/embed/price-checker" },
   robots: { index: false, follow: true },
 };
@@ -18,7 +18,7 @@ export default function EmbedPriceCheckerPage() {
         <div className="mb-4 flex items-center justify-between gap-3">
           <p className="text-sm font-black tracking-tight">Used car price checker</p>
           <Link href="/price-checker" target="_blank" rel="noopener" className="text-xs font-bold text-[var(--racing-green)] underline-offset-2 hover:underline">
-            by Dealscan.dev
+            by DealScan.dev
           </Link>
         </div>
 
@@ -28,7 +28,7 @@ export default function EmbedPriceCheckerPage() {
           <Link href="/price-checker" target="_blank" rel="noopener" className="font-semibold text-[var(--racing-green)] hover:underline">
             Free Used Car Price Checker
           </Link>{" "}
-          by Dealscan · {appUrl.replace("https://", "")}
+          by DealScan · {appUrl.replace("https://", "")}
         </p>
       </div>
     </main>

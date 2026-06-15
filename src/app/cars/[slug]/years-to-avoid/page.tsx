@@ -71,7 +71,7 @@ export default async function YearsToAvoidPage({ params }: YearsPageProps) {
       },
       publisher: {
         "@type": "Organization",
-        name: "Dealscan",
+        name: "DealScan",
       },
       mainEntityOfPage: `${appUrl}/cars/${car.slug}/years-to-avoid`,
     },
@@ -107,7 +107,7 @@ export default async function YearsToAvoidPage({ params }: YearsPageProps) {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href={`/cars/${car.slug}`}
@@ -191,7 +191,7 @@ export default async function YearsToAvoidPage({ params }: YearsPageProps) {
           <section className="mt-8 max-w-3xl rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
             <h2 className="text-2xl font-black leading-tight">Found a {car.model} listing? Check the actual car.</h2>
             <p className="mt-3 text-base leading-7 text-[var(--text-body)]">
-              Paste the ad link or text into the analyzer and Dealscan scores the deal, flags year-specific risks when they apply, and lists the questions worth asking this specific seller.
+              Paste the ad link or text into the analyzer and DealScan scores the deal, flags year-specific risks when they apply, and lists the questions worth asking this specific seller.
             </p>
             <Link href="/#analyzer" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-6 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
               <SearchCheck className="h-4 w-4" aria-hidden="true" />

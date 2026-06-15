@@ -17,7 +17,7 @@ export function GET() {
   const body = publisherId
     ? `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0\n`
     : [
-        "# Dealscan ads.txt",
+        "# DealScan ads.txt",
         "# Add ADSENSE_PUBLISHER_ID=pub-0000000000000000 after AdSense approval.",
         "# Google line format: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
         "",

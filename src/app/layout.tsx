@@ -13,20 +13,22 @@ const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
-  title: "Dealscan — AI-Powered Used Car Listing Analyzer",
+  title: "DealScan — AI-Powered Used Car Listing Analyzer",
   description:
     "Paste any used car listing and get a clear deal score, red flags, market price range, and negotiation guidance before you message the seller.",
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   appleWebApp: {
     capable: true,
-    title: "Dealscan",
+    title: "DealScan",
     statusBarStyle: "black-translucent",
   },
   other: {
@@ -38,17 +40,17 @@ export const metadata: Metadata = {
   },
   verification: googleSiteVerification ? { google: googleSiteVerification } : undefined,
   openGraph: {
-    title: "Dealscan — Used Car Deal Checker",
+    title: "DealScan — Used Car Deal Checker",
     description:
       "Score any used car listing in seconds. Know the car, not the hype.",
     url: appUrl,
-    siteName: "Dealscan",
+    siteName: "DealScan",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dealscan — Used Car Deal Checker",
+    title: "DealScan — Used Car Deal Checker",
     description:
       "Score any used car listing in seconds. Know the car, not the hype.",
   },
@@ -61,7 +63,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Dealscan",
+  name: "DealScan",
   url: appUrl,
   description:
     "AI-powered used car listing analyzer that scores listings, detects red flags, estimates fair prices, and provides negotiation guidance.",

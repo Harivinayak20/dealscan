@@ -301,12 +301,12 @@ export function CompareView({ savedResults, onRemove, onClearAll, onBack }: Comp
   return (
     <section className="min-h-screen bg-[rgba(244,240,232,0.94)] px-5 py-8 text-[var(--graphite)] sm:px-7">
       <div className="mx-auto max-w-[1600px]">
-        <Link href="/" className="mb-6 inline-flex items-center gap-3 transition hover:-translate-y-0.5" aria-label="Dealscan.dev home">
+        <Link href="/" className="mb-6 inline-flex items-center gap-3 transition hover:-translate-y-0.5" aria-label="DealScan.dev home">
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--graphite)] text-[var(--champagne)]">
             <CarFront className="h-6 w-6" aria-hidden="true" />
           </span>
           <span>
-            <span className="block text-2xl font-black">Dealscan.dev</span>
+            <span className="block text-2xl font-black">DealScan.dev</span>
             <span className="block text-[11px] font-bold uppercase text-[var(--racing-green)]">Listing review</span>
           </span>
         </Link>

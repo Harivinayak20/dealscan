@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About Dealscan",
-  description: "Learn how Dealscan helps used car buyers review listings, spot red flags, and prepare better seller questions.",
+  title: "About DealScan",
+  description: "Learn how DealScan helps used car buyers review listings, spot red flags, and prepare better seller questions.",
 };
 
 export default function AboutPage() {
@@ -16,7 +16,7 @@ export default function AboutPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -33,7 +33,7 @@ export default function AboutPage() {
             About
           </div>
           <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-            Dealscan helps buyers slow down before a bad car deal.
+            DealScan helps buyers slow down before a bad car deal.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
             The app turns a used-car listing into a practical review: score, warning signs, missing details, pricing context, and the questions to ask before visiting.
@@ -44,11 +44,11 @@ export default function AboutPage() {
           {[
             {
               title: "What it is",
-              text: "Dealscan is an informational buyer tool for public listings, screenshots, and seller notes. It is built for everyday shoppers who need a faster way to judge whether a listing deserves more time.",
+              text: "DealScan is an informational buyer tool for public listings, screenshots, and seller notes. It is built for everyday shoppers who need a faster way to judge whether a listing deserves more time.",
             },
             {
               title: "What it is not",
-              text: "Dealscan is not a mechanic, appraiser, lender, insurance agent, or vehicle-history provider. Every score is an estimate that should be checked against title records, inspection results, and your own budget.",
+              text: "DealScan is not a mechanic, appraiser, lender, insurance agent, or vehicle-history provider. Every score is an estimate that should be checked against title records, inspection results, and your own budget.",
             },
             {
               title: "How it makes money",
@@ -68,7 +68,7 @@ export default function AboutPage() {
 
         <div className="mt-8">
           <Link href="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]">
-            Contact Dealscan
+            Contact DealScan
           </Link>
         </div>
       </div>

@@ -66,7 +66,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Dealscan",
+      name: "DealScan",
     },
     mainEntityOfPage: `${appUrl}/guides/${guide.slug}`,
   };
@@ -79,7 +79,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/guides"
@@ -146,7 +146,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
                 Check a listing
               </Link>
               <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
-                Some buyer-tool links on Dealscan may be affiliate links. Deal scores stay independent.
+                Some buyer-tool links on DealScan may be affiliate links. Deal scores stay independent.
               </p>
             </aside>
           </div>

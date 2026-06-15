@@ -4,7 +4,7 @@ import Link from "next/link";
 import { carModels } from "@/lib/car-models";
 
 export const metadata: Metadata = {
-  title: "Used Car Buyer Checks by Model — Dealscan",
+  title: "Used Car Buyer Checks by Model — DealScan",
   description:
     "Model-by-model used car buying checks: known issues, years to avoid, what to verify, and fair mileage expectations before you message the seller.",
   alternates: { canonical: "/cars" },
@@ -19,7 +19,7 @@ export default function CarsIndexPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"

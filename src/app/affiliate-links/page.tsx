@@ -65,7 +65,7 @@ export default function AffiliateLinksPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -88,7 +88,7 @@ export default function AffiliateLinksPage() {
             History, inspection, insurance, payments, and simple tools in one place.
           </p>
           <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(169,130,83,0.30)] bg-white/75 p-4 text-sm leading-6 text-[var(--text-body)]">
-            <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. Dealscan.dev may earn a commission from qualifying purchases at no extra cost to you. This does not influence our deal analysis or scoring.
+            <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. DealScan.dev may earn a commission from qualifying purchases at no extra cost to you. This does not influence our deal analysis or scoring.
           </p>
         </section>
 

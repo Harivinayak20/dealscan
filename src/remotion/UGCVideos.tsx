@@ -294,7 +294,7 @@ export function IsThisAScam() {
                 transform: `translateY(${bob(frame, 5, 44)}px)`,
               }}
             >
-              Let&apos;s run it through Dealscan...
+              Let&apos;s run it through DealScan...
             </div>
           </div>
         </Sequence>
@@ -458,7 +458,7 @@ export function RedFlagCheck() {
           <UrgencyFlash amount={flash} />
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16, paddingTop: 40 }}>
             <div style={{ fontFamily: fontStack, fontSize: 32, fontWeight: 900, color: colors.red, textTransform: "uppercase", letterSpacing: 3, opacity: enter(frame - 290, 0, 10), transform: `scale(${pulse(frame, 0.03, 22)})`, transformOrigin: "left" }}>
-              🚩 Dealscan found {overpricedFlags.length} problems
+              🚩 DealScan found {overpricedFlags.length} problems
             </div>
             {overpricedFlags.map((flag, i) => (
               <FlagItem key={flag} label={flag} index={i} start={18} type="red" />

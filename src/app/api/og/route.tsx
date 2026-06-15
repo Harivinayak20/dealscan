@@ -81,7 +81,7 @@ export async function GET(request: Request) {
             </g>
           </svg>
           <span style={{ color: "#c9a86a", fontSize: 24, fontWeight: 900, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            Dealscan
+            DealScan
           </span>
         </div>
 

@@ -82,7 +82,7 @@ export function AuthGate({ children }: AuthGateProps) {
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-xl bg-[var(--graphite)]">
             <CarFront className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
           </div>
-          <h1 className="mt-4 text-2xl font-black tracking-tight text-[var(--graphite)]">Dealscan Admin</h1>
+          <h1 className="mt-4 text-2xl font-black tracking-tight text-[var(--graphite)]">DealScan Admin</h1>
           <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">Enter your admin token to continue.</p>
         </div>
 

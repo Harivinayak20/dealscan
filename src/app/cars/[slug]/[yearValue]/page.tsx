@@ -94,7 +94,7 @@ export default async function ValueYearPage({ params }: ValuePageProps) {
       dateModified: car.updatedAt,
       datePublished: car.updatedAt,
       author: { "@type": "Person", name: "Hari Vinayak", url: `${appUrl}/about` },
-      publisher: { "@type": "Organization", name: "Dealscan" },
+      publisher: { "@type": "Organization", name: "DealScan" },
       mainEntityOfPage: `${appUrl}/cars/${slug}/${yearValue}`,
     },
     {
@@ -126,7 +126,7 @@ export default async function ValueYearPage({ params }: ValuePageProps) {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href={`/cars/${slug}`}
@@ -238,7 +238,7 @@ export default async function ValueYearPage({ params }: ValuePageProps) {
               <section className="rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
                 <h2 className="text-2xl font-black leading-tight">Found a {year} {car.model} listing?</h2>
                 <p className="mt-3 text-base leading-7 text-[var(--text-body)]">
-                  Paste the ad into the analyzer and Dealscan scores the deal against this value, flags the risks above when they apply, and lists what to ask the seller.
+                  Paste the ad into the analyzer and DealScan scores the deal against this value, flags the risks above when they apply, and lists what to ask the seller.
                 </p>
                 <Link href="/#analyzer" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-6 text-sm font-black transition hover:-translate-y-1 hover:border-[var(--champagne)]">
                   Check a listing free

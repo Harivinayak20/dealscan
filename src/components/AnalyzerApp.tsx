@@ -715,7 +715,7 @@ export function AnalyzerApp() {
                 <div className="grid gap-3">
                   <label className="grid gap-2">
                     <span className="text-sm font-bold text-[var(--graphite)]">Listing link</span>
-                    <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the public ad link and hit Check deal. Dealscan reads the car details for you — no retyping.</span>
+                    <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the public ad link and hit Check deal. DealScan reads the car details for you — no retyping.</span>
                     <input
                       value={listingUrl}
                       onChange={(event) => {
@@ -880,12 +880,12 @@ export function AnalyzerApp() {
               <h2 className="mt-2 text-3xl font-black sm:text-4xl">Price check. Risk check. Buyer next steps.</h2>
             </div>
             <p className="text-lg leading-8 text-[var(--text-body)]">
-              Dealscan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
+              DealScan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
             </p>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "Reads the ad", note: "Paste the listing link and Dealscan pulls together the car details for you.", icon: LinkIcon, href: "#analyzer" },
+              { title: "Reads the ad", note: "Paste the listing link and DealScan pulls together the car details for you.", icon: LinkIcon, href: "#analyzer" },
               { title: "Scores the deal", note: "Price, mileage, title status, condition, and seller claims — scored 0 to 100 with a smarter starting offer.", icon: LineChart, href: "#market-data" },
               { title: "Checks history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
               { title: "Plans the visit", note: "Know what to ask, what to verify, and when to walk away.", icon: Wrench, href: partnerLinks.inspection },
@@ -997,7 +997,7 @@ export function AnalyzerApp() {
               History report, pre-purchase inspection, insurance, and financing — the four checks that protect you after a promising scan.
             </p>
             <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
-              Some buyer-tool links may be affiliate links. Dealscan may earn a commission at no extra cost to you, and scoring stays independent.
+              Some buyer-tool links may be affiliate links. DealScan may earn a commission at no extra cost to you, and scoring stays independent.
             </p>
             <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
               View all buyer tools
@@ -1084,7 +1084,7 @@ export function AnalyzerApp() {
             </div>
           </div>
           <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/35">
-            <p>Dealscan.dev provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.</p>
+            <p>DealScan.dev provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.</p>
 
           </div>
         </div>

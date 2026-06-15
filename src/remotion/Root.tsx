@@ -1,6 +1,9 @@
 import { Composition, Folder } from "remotion";
 import { DealScanPromo } from "./DealScanPromo";
 import { IsThisAScam, DealScoreReveal, RedFlagCheck } from "./UGCVideos";
+import { UGCViralScam } from "./UGCViralScam";
+import { UGCViralDealScore } from "./UGCViralDealScore";
+import { UGCViralRedFlag } from "./UGCViralRedFlag";
 
 export const RemotionRoot = () => {
   return (
@@ -39,6 +42,30 @@ export const RemotionRoot = () => {
           id="RedFlagCheck"
           component={RedFlagCheck}
           durationInFrames={1000}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="UGCViralScam"
+          component={UGCViralScam}
+          durationInFrames={300}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="UGCViralDealScore"
+          component={UGCViralDealScore}
+          durationInFrames={300}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        <Composition
+          id="UGCViralRedFlag"
+          component={UGCViralRedFlag}
+          durationInFrames={300}
           fps={30}
           width={1080}
           height={1920}

@@ -16,7 +16,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <Link href="/" className="text-2xl font-black tracking-tight text-[var(--ivory)]">
-            Dealscan
+            DealScan
           </Link>
         </div>
       </header>

@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, Cookie, Settings } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Dealscan Cookie Policy",
-  description: "How Dealscan uses local storage, advertising cookies, affiliate links, and third-party ad choices.",
+  title: "DealScan Cookie Policy",
+  description: "How DealScan uses local storage, advertising cookies, affiliate links, and third-party ad choices.",
 };
 
 export default function CookiesPage() {
@@ -16,7 +16,7 @@ export default function CookiesPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -44,11 +44,11 @@ export default function CookiesPage() {
           {[
             {
               title: "Local storage",
-              text: "Dealscan uses browser local storage to keep scan history, saved comparisons, and watchlist items on your device. This helps the dashboard work without requiring an account.",
+              text: "DealScan uses browser local storage to keep scan history, saved comparisons, and watchlist items on your device. This helps the dashboard work without requiring an account.",
             },
             {
               title: "Advertising cookies",
-              text: "When advertising is enabled, third-party vendors including Google may use cookies to serve ads based on visits to Dealscan or other websites. Google and its partners may use advertising cookies to personalize, measure, and improve ad delivery.",
+              text: "When advertising is enabled, third-party vendors including Google may use cookies to serve ads based on visits to DealScan or other websites. Google and its partners may use advertising cookies to personalize, measure, and improve ad delivery.",
             },
             {
               title: "Affiliate links",
@@ -56,7 +56,7 @@ export default function CookiesPage() {
             },
             {
               title: "Your choices",
-              text: "You can clear Dealscan local storage in your browser. You can also manage Google ad personalization through Google Ad Settings or opt out of some personalized advertising through industry opt-out tools.",
+              text: "You can clear DealScan local storage in your browser. You can also manage Google ad personalization through Google Ad Settings or opt out of some personalized advertising through industry opt-out tools.",
             },
           ].map((item) => (
             <article key={item.title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">

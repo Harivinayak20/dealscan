@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Dealscan Privacy Policy",
-  description: "How Dealscan handles listing text, browser storage, third-party services, affiliate links, advertising, and cookies.",
+  title: "DealScan Privacy Policy",
+  description: "How DealScan handles listing text, browser storage, third-party services, affiliate links, advertising, and cookies.",
 };
 
 export default function PrivacyPage() {
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"

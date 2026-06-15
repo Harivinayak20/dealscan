@@ -166,7 +166,7 @@ async function fetchWithSafeRedirects(startUrl: URL, fetcher: FetchLike, userAge
     const response = await fetcher(currentUrl, {
       headers: {
         accept: "text/html,application/xhtml+xml",
-        "user-agent": userAgent ?? "DealscanBot/1.0 (+https://dealscan.dev)",
+        "user-agent": userAgent ?? "DealScanBot/1.0 (+https://dealscan.dev)",
       },
       redirect: "manual",
     });

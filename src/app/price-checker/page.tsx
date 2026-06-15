@@ -7,7 +7,7 @@ import { EmbedSnippet } from "@/components/EmbedSnippet";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Value & Fair Price Checker — Free, No Signup | Dealscan",
+  title: "Used Car Value & Fair Price Checker — Free, No Signup | DealScan",
   description:
     "Free used car value estimator. Enter year, make, model, mileage, and condition to get a fair price range and a verdict on the asking price — no email, no signup.",
   alternates: { canonical: "/price-checker" },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Dealscan Used Car Price Checker",
+  name: "DealScan Used Car Price Checker",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Web",
   url: `${appUrl}/price-checker`,
@@ -41,7 +41,7 @@ export default function PriceCheckerPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/cars"

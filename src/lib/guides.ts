@@ -42,7 +42,7 @@ export const guides: Guide[] = [
         heading: "Compare the story to the numbers",
         body: [
           "Price, mileage, model year, ownership history, and condition should tell one coherent story. A very cheap car with perfect photos and no detail is not a bargain yet. It is an unanswered question.",
-          "Look for gaps: a seller claims one owner but has no records, says highway miles but the seat and steering wheel look heavily worn, or says clean title while refusing to share the VIN. Dealscan flags these patterns because they change what you should ask before you spend time driving to see the car.",
+          "Look for gaps: a seller claims one owner but has no records, says highway miles but the seat and steering wheel look heavily worn, or says clean title while refusing to share the VIN. DealScan flags these patterns because they change what you should ask before you spend time driving to see the car.",
         ],
       },
       {
@@ -198,7 +198,7 @@ export const guides: Guide[] = [
         heading: "Search with purpose, not just price",
         body: [
           "Pick two or three models that fit your needs and research their common issues, typical price ranges, and maintenance costs. This lets you spot a bad deal fast because you already know what a good one looks like.",
-          "Use Dealscan to check every listing you are serious about. Paste the URL or seller notes and get a deal score, red flag check, and price estimate before you message the seller.",
+          "Use DealScan to check every listing you are serious about. Paste the URL or seller notes and get a deal score, red flag check, and price estimate before you message the seller.",
         ],
       },
       {
@@ -269,7 +269,7 @@ export const guides: Guide[] = [
         heading: "The too-good-to-be-true price trap",
         body: [
           "A 2019 Toyota Camry with 40,000 miles listed for $8,000 is not a bargain. It is a bait listing. Scammers use unrealistically low prices to get you to engage before you think critically.",
-          "If the price is 30% or more below market for no clear reason, run the listing through Dealscan first. Check the VIN, request a photo of the title, and insist on meeting in person.",
+          "If the price is 30% or more below market for no clear reason, run the listing through DealScan first. Check the VIN, request a photo of the title, and insist on meeting in person.",
         ],
       },
       {
@@ -321,7 +321,7 @@ export const guides: Guide[] = [
       {
         heading: "Let the deal score guide you",
         body: [
-          "Dealscan factors mileage against vehicle age in the deal score. A car with 15,000 miles per year is average. Over 20,000 per year reduces the score. Under 10,000 per year improves it.",
+          "DealScan factors mileage against vehicle age in the deal score. A car with 15,000 miles per year is average. Over 20,000 per year reduces the score. Under 10,000 per year improves it.",
           "But a high score on mileage alone does not mean a good deal if the car has title issues or missing maintenance. Always combine the score with a mechanic inspection.",
         ],
       },
@@ -400,7 +400,7 @@ export const guides: Guide[] = [
         heading: "Use the report as a negotiation tool",
         body: [
           "If the report shows an accident or title issue, get a repair estimate and use it to negotiate. If the report is clean but the car has obvious issues, do not assume the clean report overrides what you can see.",
-          "A clean report plus a pre-purchase inspection plus a Dealscan analysis gives you as much information as you can reasonably get before buying. Use all three together.",
+          "A clean report plus a pre-purchase inspection plus a DealScan analysis gives you as much information as you can reasonably get before buying. Use all three together.",
         ],
       },
     ],
@@ -439,7 +439,7 @@ export const guides: Guide[] = [
         heading: "Seller motivation beats the calendar",
         body: [
           "A listing that has been up for 45 days, a seller who is moving, or someone who already bought their next car will negotiate in any month. Ask how long the car has been for sale and why they are selling.",
-          "Run any listing through Dealscan first. A fair price in a slow month is still better than an inflated price with a small end-of-month discount.",
+          "Run any listing through DealScan first. A fair price in a slow month is still better than an inflated price with a small end-of-month discount.",
         ],
       },
     ],
@@ -517,7 +517,7 @@ export const guides: Guide[] = [
         heading: "The decision in practice",
         body: [
           "If you need financing, want a warranty, or are short on time, a dealer makes sense — just negotiate the out-the-door price. If you want the lowest price and can do your own diligence, private party usually wins.",
-          "In both cases the same rules apply: run the listing through Dealscan, check the VIN, and pay for an independent inspection. Where you buy changes the paperwork, not the diligence.",
+          "In both cases the same rules apply: run the listing through DealScan, check the VIN, and pay for an independent inspection. Where you buy changes the paperwork, not the diligence.",
         ],
       },
     ],
@@ -633,7 +633,7 @@ export const guides: Guide[] = [
       {
         heading: "Verify the listing the same way for every platform",
         body: [
-          "Once the seller passes the profile check, the rest is normal used-car diligence: VIN, history report, mileage versus wear, service records, and a pre-purchase inspection. Marketplace listings cannot be opened by tools that need a login, so copy the ad text or take a screenshot and paste it into Dealscan to get the same red-flag scan and deal score as any other listing.",
+          "Once the seller passes the profile check, the rest is normal used-car diligence: VIN, history report, mileage versus wear, service records, and a pre-purchase inspection. Marketplace listings cannot be opened by tools that need a login, so copy the ad text or take a screenshot and paste it into DealScan to get the same red-flag scan and deal score as any other listing.",
           "Meet in daylight at a police-station safe exchange zone for the first viewing, bring a friend, and let the seller's reaction to basic verification requests tell you the rest. Friction on the VIN, title, or inspection is your answer.",
         ],
       },
@@ -672,7 +672,7 @@ export const guides: Guide[] = [
       {
         heading: "A verification routine that works everywhere",
         body: [
-          "The protection is the same routine every time: VIN first, history report from your own source, mileage against wear, records, inspection, and payment only against a signed title. Paste the ad text into Dealscan before you message the seller to see the red flags and the questions worth asking.",
+          "The protection is the same routine every time: VIN first, history report from your own source, mileage against wear, records, inspection, and payment only against a signed title. Paste the ad text into DealScan before you message the seller to see the red flags and the questions worth asking.",
           "On meeting day, choose a public exchange zone, verify ID against the title, and walk away from any change in the title story. The car you skip costs you nothing.",
         ],
       },
@@ -711,7 +711,7 @@ export const guides: Guide[] = [
       {
         heading: "Confirm with tools, then verify in person",
         body: [
-          "Run the VIN through NICB VINCheck for theft and salvage, and look up the plate state if shown. Paste the full ad into Dealscan to surface red flags, price context, and the missing details worth asking about — a listing that hides the basics usually scores poorly for a reason.",
+          "Run the VIN through NICB VINCheck for theft and salvage, and look up the plate state if shown. Paste the full ad into DealScan to surface red flags, price context, and the missing details worth asking about — a listing that hides the basics usually scores poorly for a reason.",
           "Nothing replaces seeing the car, the title, and the ID together. Until that moment, treat every dollar requested as a scam test you should fail on purpose.",
         ],
       },

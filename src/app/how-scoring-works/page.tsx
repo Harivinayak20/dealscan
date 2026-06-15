@@ -3,9 +3,9 @@ import { ArrowLeft, CarFront, Gauge } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "How the Dealscan Score Works",
+  title: "How the DealScan Score Works",
   description:
-    "A transparent breakdown of the eight factors behind every Dealscan deal score, what moves the score up or down, and what the score cannot know.",
+    "A transparent breakdown of the eight factors behind every DealScan deal score, what moves the score up or down, and what the score cannot know.",
 };
 
 const factors = [
@@ -52,7 +52,7 @@ export default function HowScoringWorksPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"

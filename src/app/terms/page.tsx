@@ -3,8 +3,8 @@ import { ArrowLeft, CarFront, FileText } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Dealscan Terms",
-  description: "Terms, affiliate disclosure, advertising disclosure, and buyer responsibility notes for Dealscan.",
+  title: "DealScan Terms",
+  description: "Terms, affiliate disclosure, advertising disclosure, and buyer responsibility notes for DealScan.",
 };
 
 export default function TermsPage() {
@@ -16,7 +16,7 @@ export default function TermsPage() {
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
               <CarFront className="h-6 w-6" aria-hidden="true" />
             </span>
-            Dealscan.dev
+            DealScan.dev
           </Link>
           <Link
             href="/"
@@ -41,7 +41,7 @@ export default function TermsPage() {
           {[
             {
               title: "Informational use only",
-              text: "Dealscan provides estimates and buyer guidance based on listing information. It does not provide professional mechanical, legal, insurance, tax, lending, or appraisal advice.",
+              text: "DealScan provides estimates and buyer guidance based on listing information. It does not provide professional mechanical, legal, insurance, tax, lending, or appraisal advice.",
             },
             {
               title: "Buyer responsibility",
@@ -49,11 +49,11 @@ export default function TermsPage() {
             },
             {
               title: "Affiliate disclosure",
-              text: "Some links to buyer tools may be affiliate links. Dealscan may earn a commission if you buy through those links at no extra cost to you. Affiliate relationships do not influence deal scoring.",
+              text: "Some links to buyer tools may be affiliate links. DealScan may earn a commission if you buy through those links at no extra cost to you. Affiliate relationships do not influence deal scoring.",
             },
             {
               title: "Advertising disclosure",
-              text: "Dealscan may display advertising when ad services are configured. Ads are labeled and should not be treated as product recommendations or endorsements.",
+              text: "DealScan may display advertising when ad services are configured. Ads are labeled and should not be treated as product recommendations or endorsements.",
             },
             {
               title: "No guarantee",

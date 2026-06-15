@@ -5,8 +5,8 @@ import { Check, Code2, Copy } from "lucide-react";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
-const SNIPPET = `<iframe src="${appUrl}/embed/price-checker" width="100%" height="680" style="border:1px solid #e5e0d6;border-radius:16px;max-width:760px" title="Used Car Price Checker by Dealscan" loading="lazy"></iframe>
-<p style="font:13px sans-serif"><a href="${appUrl}/price-checker" target="_blank" rel="noopener">Used Car Price Checker</a> by Dealscan</p>`;
+const SNIPPET = `<iframe src="${appUrl}/embed/price-checker" width="100%" height="680" style="border:1px solid #e5e0d6;border-radius:16px;max-width:760px" title="Used Car Price Checker by DealScan" loading="lazy"></iframe>
+<p style="font:13px sans-serif"><a href="${appUrl}/price-checker" target="_blank" rel="noopener">Used Car Price Checker</a> by DealScan</p>`;
 
 export function EmbedSnippet() {
   const [copied, setCopied] = useState(false);

@@ -9,8 +9,8 @@ export const faqs: Faq[] = [
     a: "The score checks the price, mileage, title status, condition, seller claims, red flags, good signs, and missing details. It is meant to help you decide what to ask next, not replace a mechanic or vehicle history report.",
   },
   {
-    q: "Is Dealscan free to use?",
-    a: "Yes. Everything on Dealscan is completely free — the analyzer, comparisons, guides, and scan history. There are no paid tiers and we do not ask for any payment.",
+    q: "Is DealScan free to use?",
+    a: "Yes. Everything on DealScan is completely free — the analyzer, comparisons, guides, and scan history. There are no paid tiers and we do not ask for any payment.",
   },
   {
     q: "What marketplaces does it work with?",
@@ -22,7 +22,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Can I use it on mobile?",
-    a: "Yes. Dealscan works on any modern phone browser. You can paste a link, paste seller notes, or upload a listing photo.",
+    a: "Yes. DealScan works on any modern phone browser. You can paste a link, paste seller notes, or upload a listing photo.",
   },
   {
     q: "How accurate is the pricing estimate?",
