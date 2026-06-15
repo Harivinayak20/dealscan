@@ -516,6 +516,9 @@ export function AnalyzerApp() {
             <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Car checks
             </Link>
+            <Link href="/fees" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline">
+              Fees
+            </Link>
             <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Price checker
             </Link>
@@ -1057,6 +1060,7 @@ export function AnalyzerApp() {
                 <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
                 <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
                 <li><Link href="/cars" className="transition hover:text-[var(--champagne)]">Buyer checks by model</Link></li>
+                <li><Link href="/fees" className="transition hover:text-[var(--champagne)]">Dealer fees explained</Link></li>
                 <li><Link href="/price-checker" className="transition hover:text-[var(--champagne)]">Used car price checker</Link></li>
               </ul>
             </div>
