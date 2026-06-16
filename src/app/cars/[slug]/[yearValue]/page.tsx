@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CarFront, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { getCarModel } from "@/lib/car-models";
 import { allValueYears, avoidFlag, estimatePrice, modelYears } from "@/lib/pricing";
@@ -123,9 +123,7 @@ export default async function ValueYearPage({ params }: ValuePageProps) {
       <div className="mx-auto max-w-5xl">
         <header className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5">
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--graphite)] text-[var(--ivory)] shadow-lg shadow-black/20">
-              <CarFront className="h-6 w-6" aria-hidden="true" />
-            </span>
+            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-11 w-11 rounded-full" />
             DealScan.dev
           </Link>
           <Link
