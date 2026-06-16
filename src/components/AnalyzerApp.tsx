@@ -901,7 +901,7 @@ export function AnalyzerApp() {
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                  className="rounded-2xl border border-[var(--line)] bg-white/75 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] transition hover:-translate-y-1.5 hover:border-[rgba(183,96,58,0.24)] hover:bg-[var(--paper)]"
+                  className="fade-up rounded-2xl border border-[var(--line)] bg-white/70 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] backdrop-blur-md backdrop-saturate-150 transition hover:-translate-y-1.5 hover:border-[rgba(183,96,58,0.24)] hover:bg-white/85"
                 >
                   <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-black">{item.title}</h3>

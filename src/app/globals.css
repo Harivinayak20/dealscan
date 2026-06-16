@@ -14,7 +14,7 @@
   --silver: #79705f;
   --text-body: #3a352d;
   --champagne: #a98253;
-  --racing-green: #b7603a;
+  --racing-green: #a8542e;
   --success: #7e9472;
   --warning: #c98a3c;
   --danger: #c0492f;
@@ -620,13 +620,13 @@ select {
   align-items: center;
   gap: var(--space-1);
   border-radius: var(--radius-pill);
-  background: rgba(124, 169, 130, 0.18);
+  background: rgba(124, 169, 130, 0.20);
   padding: 2px var(--space-3);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--accent-2);
+  color: #3f5a33;
 }
 
 .badge-warning {
@@ -634,13 +634,13 @@ select {
   align-items: center;
   gap: var(--space-1);
   border-radius: var(--radius-pill);
-  background: rgba(214, 168, 79, 0.18);
+  background: rgba(214, 168, 79, 0.22);
   padding: 2px var(--space-3);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--warn-em);
+  color: #7a4d0f;
 }
 
 .badge-danger {
@@ -648,13 +648,13 @@ select {
   align-items: center;
   gap: var(--space-1);
   border-radius: var(--radius-pill);
-  background: rgba(196, 90, 74, 0.18);
+  background: rgba(196, 90, 74, 0.20);
   padding: 2px var(--space-3);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--danger-em);
+  color: #8a2c18;
 }
 
 .input {
@@ -920,6 +920,8 @@ main article {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  /* Softened so the warm blobs never compete with text for contrast. */
+  opacity: 0.5;
 }
 
 /* Filmic grain over the whole ambient layer — the "expensive" finishing touch. */
@@ -1048,4 +1050,69 @@ main article {
 
 .logo-3d:hover {
   transform: translateY(-1px);
+}
+
+/* =========================================================================
+   EXPERIMENT: glassmorphism + entrance/hover motion (added for review).
+   Opt-in utility classes so nothing changes until a component uses them.
+   ========================================================================= */
+
+/* Frosted glass surface. Readable: high-opacity base so text stays crisp,
+   blur only softens the pretty background behind it. */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 18px 40px -24px rgba(28, 26, 23, 0.45);
+}
+
+.glass-card {
+  border-radius: var(--radius-lg, 16px);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 45px -28px rgba(28, 26, 23, 0.5);
+  transition: transform 0.25s var(--ease-standard, ease), box-shadow 0.25s var(--ease-standard, ease);
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 60px -28px rgba(28, 26, 23, 0.55);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass, .glass-card { background: rgba(255, 255, 255, 0.94); }
+}
+
+/* Gentle entrance: fade + rise. Honors reduced-motion. */
+@keyframes ds-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: ds-fade-up 0.6s var(--ease-standard, cubic-bezier(0.22, 1, 0.36, 1)) both;
+}
+
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.12s; }
+.fade-up-3 { animation-delay: 0.19s; }
+.fade-up-4 { animation-delay: 0.26s; }
+
+/* Subtle lift for any interactive card. */
+.lift {
+  transition: transform 0.22s var(--ease-standard, ease), box-shadow 0.22s var(--ease-standard, ease);
+}
+.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 50px -30px rgba(28, 26, 23, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .fade-up-1, .fade-up-2, .fade-up-3, .fade-up-4 { animation: none; }
+  .glass-card:hover, .lift:hover { transform: none; }
 }

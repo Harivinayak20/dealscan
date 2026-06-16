@@ -49,7 +49,7 @@ test("no old racing-green / dark-green palette literals remain in source", () =>
 
 test("core warm tokens are defined in globals.css", () => {
   const css = readFileSync("src/app/globals.css", "utf8");
-  for (const token of ["--racing-green: #b7603a", "--canvas: #fcfbf8", "--champagne: #a98253"]) {
+  for (const token of ["--racing-green: #a8542e", "--canvas: #fcfbf8", "--champagne: #a98253"]) {
     assert.ok(css.includes(token), `globals.css missing warm token: ${token}`);
   }
 });
