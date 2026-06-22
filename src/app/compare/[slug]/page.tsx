@@ -92,19 +92,20 @@ export default async function ComparePage({ params }: ComparePageProps) {
   ];
 
   return (
-    <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
+    <main className="min-h-screen bg-[var(--ivory)] px-4 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5">
-            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-11 w-11 rounded-full" />
-            DealScan.dev
+        <header className="flex items-center justify-between gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-2 text-xl font-black tracking-tight transition hover:-translate-y-0.5 sm:gap-3 sm:text-2xl">
+            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-9 w-9 shrink-0 rounded-full sm:h-11 sm:w-11" />
+            <span className="truncate">DealScan.dev</span>
           </Link>
           <Link
             href="/compare"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-sm font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl sm:text-base"
           >
             <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            All comparisons
+            <span className="hidden sm:inline">All comparisons</span>
+            <span className="sm:hidden">Back</span>
           </Link>
         </header>
 
@@ -118,9 +119,9 @@ export default async function ComparePage({ params }: ComparePageProps) {
           ]}
         />
 
-        <article className="py-12">
+        <article className="py-8 sm:py-12">
           <p className="text-sm font-black uppercase text-[var(--racing-green)]">{comparison.segment}</p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+          <h1 className="mt-3 max-w-4xl text-2xl font-black leading-[1.15] tracking-tight sm:mt-4 sm:text-3xl sm:leading-tight lg:text-4xl">
             Used {aName} vs {bName}: which should you buy?
           </h1>
           <p className="mt-3 text-sm text-[var(--text-muted)]">
@@ -136,8 +137,8 @@ export default async function ComparePage({ params }: ComparePageProps) {
           <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] shadow-sm">
             <div className="grid grid-cols-2 border-b border-[var(--border-subtle)] bg-[var(--mist)]">
               {cars.map(({ name, slug }) => (
-                <div key={slug} className="p-4 text-center">
-                  <Link href={`/cars/${slug}`} className="text-lg font-black leading-snug underline-offset-4 hover:underline">
+                <div key={slug} className="p-3 text-center sm:p-4">
+                  <Link href={`/cars/${slug}`} className="text-base font-black leading-snug underline-offset-4 hover:underline sm:text-lg">
                     {name}
                   </Link>
                 </div>
@@ -145,10 +146,10 @@ export default async function ComparePage({ params }: ComparePageProps) {
             </div>
             <div className="grid grid-cols-2 divide-x divide-[var(--border-subtle)]">
               {cars.map(({ car, slug }) => (
-                <div key={slug} className="p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Model years</p>
-                  <p className="mt-1 text-base font-bold">{car.years}</p>
-                  <p className="mt-3 text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Mileage outlook</p>
+                <div key={slug} className="p-3 sm:p-4">
+                  <p className="text-[11px] font-black uppercase tracking-wide text-[var(--text-muted)] sm:text-xs">Model years</p>
+                  <p className="mt-1 text-sm font-bold sm:text-base">{car.years}</p>
+                  <p className="mt-3 text-[11px] font-black uppercase tracking-wide text-[var(--text-muted)] sm:text-xs">Mileage outlook</p>
                   <p className="mt-1 text-sm leading-6 text-[var(--text-body)]">{car.mileageNote}</p>
                 </div>
               ))}

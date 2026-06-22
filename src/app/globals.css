@@ -188,6 +188,7 @@
 html {
   background: var(--background);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -207,6 +208,16 @@ body {
   color: var(--foreground);
   font-size: 16px;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Prevent long unbroken model names from forcing horizontal overflow on
+   narrow phones; let headings wrap cleanly instead. */
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
 }
 
 /* Sticky footer: the page's top-level content grows to fill the viewport so
