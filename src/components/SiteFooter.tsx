@@ -74,8 +74,20 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
-        <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/35">
-          <p>DealScan.dev provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.</p>
+        <div className="mt-10 border-t border-white/10 pt-6">
+          <p className="text-center text-xs leading-6 text-white/25">
+            DealScan provides estimates based on listing information, not guarantees. Always verify title, history, and condition before purchasing.
+          </p>
+          <div className="mt-4 flex flex-col items-center justify-between gap-2 sm:flex-row">
+            <p className="text-sm text-white/35">
+              © {new Date().getFullYear()} DealScan. All Rights Reserved.
+            </p>
+            <div className="flex gap-4 text-xs text-white/25">
+              <a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a>
+              <a href="/terms" className="transition hover:text-[var(--champagne)]">Terms</a>
+              <a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

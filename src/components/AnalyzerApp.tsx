@@ -545,11 +545,11 @@ export function AnalyzerApp() {
         </div>
       </header>
 
-      <section id="hero" className="bg-[var(--canvas)] px-5 py-8 text-[var(--graphite)] sm:px-7 lg:py-12">
+      <section id="hero" className="bg-[var(--canvas)] px-4 py-5 text-[var(--graphite)] sm:px-7 sm:py-8 lg:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[1fr_0.62fr] md:items-start lg:grid-cols-[1.28fr_0.72fr]">
           <aside className="order-2 rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Used-car listing check</p>
-            <h1 className="mt-3 max-w-xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
+            <h1 className="mt-3 max-w-xl text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl">
               Find out if this listing is worth it.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
@@ -561,7 +561,7 @@ export function AnalyzerApp() {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
             </div>
 
-            <div className="mt-5 grid gap-2 text-sm font-medium text-[var(--text-body)]">
+            <div className="mt-5 hidden gap-2 text-sm font-medium text-[var(--text-body)] md:grid">
               {[
                 "Know if the price is actually fair",
                 "Spot title, mileage, and seller red flags",
@@ -582,7 +582,7 @@ export function AnalyzerApp() {
               <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
             </Link>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)] shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)]">
+            <div className="mt-6 hidden overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)] shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)] md:block">
               <div className="flex items-center justify-between gap-2 border-b border-[rgba(32,40,35,0.07)] bg-[var(--paper)] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--racing-green)]" aria-hidden="true" />
@@ -875,7 +875,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="market-data" className="bg-[var(--mist)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
+      <section id="market-data" className="bg-[var(--mist)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div>
@@ -913,7 +913,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[var(--ivory)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
+      <section id="how-it-works" className="bg-[var(--ivory)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-[1200px]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
@@ -954,7 +954,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="faq" className="bg-[var(--ivory)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
+      <section id="faq" className="bg-[var(--ivory)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto max-w-3xl">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
@@ -991,7 +991,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="resources" className="bg-[var(--paper)] px-5 py-10 text-[var(--graphite)] sm:px-7 sm:py-12">
+      <section id="resources" className="bg-[var(--paper)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
         <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer tools</p>
@@ -1035,7 +1035,7 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="about-dealscan" className="bg-[var(--mist)] px-5 py-12 text-[var(--graphite)] sm:px-7 sm:py-16">
+      <section id="about-dealscan" className="bg-[var(--mist)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-14">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-2xl font-black sm:text-3xl">A smarter way to check any used car listing</h2>
           <div className="mt-6 space-y-5 text-base leading-7 text-[var(--text-body)]">

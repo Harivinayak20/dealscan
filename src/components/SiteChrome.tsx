@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { ScrollFX } from "@/components/ScrollFX";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Site-wide chrome (scroll effects + theme toggle) that must NOT render inside
@@ -33,6 +34,7 @@ export function SiteChrome() {
       </div>
       {!isAdmin && <ScrollFX />}
       <ThemeToggle />
+      <ScrollToTop />
     </>
   );
 }
