@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Contact DealScan",
   description: "Contact DealScan for product questions, corrections, advertising questions, and partnership inquiries.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

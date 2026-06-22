@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "DealScan Privacy Policy",
   description: "How DealScan handles listing text, browser storage, third-party services, affiliate links, advertising, and cookies.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

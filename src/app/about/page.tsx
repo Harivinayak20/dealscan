@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About DealScan",
   description: "Learn how DealScan helps used car buyers review listings, spot red flags, and prepare better seller questions.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

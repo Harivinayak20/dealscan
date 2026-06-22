@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "DealScan Cookie Policy",
   description: "How DealScan uses local storage, advertising cookies, affiliate links, and third-party ad choices.",
+  alternates: { canonical: "/cookies" },
 };
 
 export default function CookiesPage() {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-react";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getCarModel } from "@/lib/car-models";
 import { getYearsToAvoid, yearsToAvoid } from "@/lib/years-to-avoid";
 
@@ -119,6 +120,15 @@ export default async function YearsToAvoidPage({ params }: YearsPageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Cars", href: "/cars" },
+            { name: `${car.make} ${car.model}`, href: `/cars/${car.slug}` },
+            { name: "Years to avoid" },
+          ]}
         />
 
         <article className="py-12">

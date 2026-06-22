@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "DealScan Terms",
   description: "Terms, affiliate disclosure, advertising disclosure, and buyer responsibility notes for DealScan.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

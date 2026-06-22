@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "How the DealScan Score Works",
   description:
     "A transparent breakdown of the eight factors behind every DealScan deal score, what moves the score up or down, and what the score cannot know.",
+  alternates: { canonical: "/how-scoring-works" },
 };
 
 const factors = [

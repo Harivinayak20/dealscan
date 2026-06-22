@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { AdUnit } from "@/components/AdUnit";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
 
@@ -91,6 +92,14 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Guides", href: "/guides" },
+            { name: guide.title },
+          ]}
         />
 
         <article className="py-12">

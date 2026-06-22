@@ -14,6 +14,7 @@ import { partnerLinks } from "@/lib/integration-links";
 export const metadata: Metadata = {
   title: "Buyer Tools and Affiliate Links",
   description: "Used car buyer tools for history reports, inspections, insurance quotes, payment estimates, OBD2 scanners, and detailing kits.",
+  alternates: { canonical: "/affiliate-links" },
 };
 
 const affiliateLinks = [

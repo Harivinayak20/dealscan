@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { AnalyzerApp } from "@/components/AnalyzerApp";
 import { faqs } from "@/lib/faqs";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const faqJsonLd = {

@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "DealScan Disclaimer and Limitation of Liability",
   description: "Liability policy for DealScan: estimates only, no warranties, buyer responsibility, and limitation of liability.",
+  alternates: { canonical: "/disclaimer" },
 };
 
 const sections = [
