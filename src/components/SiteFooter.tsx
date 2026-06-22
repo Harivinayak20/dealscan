@@ -47,6 +47,7 @@ export function SiteFooter() {
               <li><a href="/affiliate-links" className="transition hover:text-[var(--champagne)]">Buyer tools</a></li>
               <li><Link href="/guides" className="transition hover:text-[var(--champagne)]">Buyer guides</Link></li>
               <li><Link href="/cars" className="transition hover:text-[var(--champagne)]">Buyer checks by model</Link></li>
+              <li><Link href="/compare" className="transition hover:text-[var(--champagne)]">Used car comparisons</Link></li>
               <li><Link href="/fees" className="transition hover:text-[var(--champagne)]">Dealer fees explained</Link></li>
               <li><Link href="/price-checker" className="transition hover:text-[var(--champagne)]">Used car price checker</Link></li>
             </ul>

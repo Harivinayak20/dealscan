@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, Wrench } from "lucide
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { carModels, getCarModel } from "@/lib/car-models";
+import { comparisonsForModel } from "@/lib/comparisons";
 import { modelYears } from "@/lib/pricing";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
@@ -53,6 +54,7 @@ export default async function CarModelPage({ params }: CarPageProps) {
 
   const carIndex = carModels.findIndex((m) => m.slug === car.slug);
   const related = [1, 2, 3].map((offset) => carModels[(carIndex + offset) % carModels.length]);
+  const modelComparisons = comparisonsForModel(car.slug);
 
   const jsonLd = [
     {
@@ -221,6 +223,28 @@ export default async function CarModelPage({ params }: CarPageProps) {
               ))}
             </div>
           </section>
+
+          {modelComparisons.length > 0 ? (
+            <section className="mt-12">
+              <h2 className="text-2xl font-black">Compare the {car.make} {car.model}</h2>
+              <p className="mt-2 text-base leading-7 text-[var(--text-body)]">Torn between two models? See the {car.model} head-to-head with its closest rivals.</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {modelComparisons.map(({ comparison, otherSlug }) => {
+                  const other = getCarModel(otherSlug);
+                  if (!other) return null;
+                  return (
+                    <Link
+                      key={comparison.slug}
+                      href={`/compare/${comparison.slug}`}
+                      className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
+                    >
+                      vs {other.make} {other.model}
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
 
           <section className="mt-12">
             <h2 className="text-2xl font-black">More buyer checks</h2>
