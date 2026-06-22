@@ -717,6 +717,129 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "salvage-title-cars",
+    title: "Salvage title cars: what to know before you buy",
+    description:
+      "What a salvage title means for insurance, financing, resale value, and how to evaluate whether the discount is worth the risk.",
+    quickAnswer:
+      "A salvage title means an insurance company declared the car a total loss at some point. Rebuilt salvage cars can be legal and driveable, but they carry higher insurance costs, are harder to finance, lose resale value, and may hide structural damage. The discount needs to be large enough to offset all of those risks — and the car needs a clean rebuild inspection before you buy.",
+    readTime: "7 min read",
+    updatedAt: "2026-06-21",
+    quickChecks: [
+      "Get a pre-purchase inspection specifically for rebuilt salvage vehicles",
+      "Confirm the rebuilt title is issued, not just a salvage title with repairs",
+      "Check insurance quotes before buying — many carriers restrict or exclude coverage",
+      "Price at least 20–40% below comparable clean-title cars to offset the risks",
+    ],
+    sections: [
+      {
+        heading: "What a salvage title actually means",
+        body: [
+          "A vehicle receives a salvage title when an insurance company declares it a total loss — meaning repair costs exceeded a set percentage of the car's value (usually 75–100% depending on the state). The car could have been in a collision, flooded, stolen and recovered, or damaged by hail or fire. After a salvage title is issued, the car legally cannot be driven on public roads until it is repaired and passes a state inspection.",
+          "Once it passes inspection, the state issues a rebuilt or reconstructed title. This is the document you should see if a seller claims the car is roadworthy. A car listed with a salvage title that has not been through the rebuilt process is not legally registered for road use and should not be priced as a daily driver.",
+        ],
+      },
+      {
+        heading: "The real costs of buying a salvage or rebuilt title car",
+        body: [
+          "Insurance is the first hidden cost. Many major insurers will not write comprehensive or collision coverage on rebuilt salvage vehicles. Those that do charge significantly higher premiums. Before you agree on a price, get an actual insurance quote for that VIN — not a general estimate — because the number can be surprising.",
+          "Financing is the second barrier. Most banks and credit unions will not finance a rebuilt title vehicle. If they do, loan terms are less favorable. Cash purchases or specialty lenders are usually the only options, which limits your buyer pool when you eventually try to resell.",
+          "Resale value is the third long-term cost. Rebuilt title cars sell for 20–40% less than comparable clean-title cars because buyers and dealers know the same risks you are weighing now. That discount follows the car for its entire life. If you are buying to flip or to drive for two years and sell, the resale hit may outweigh any upfront savings.",
+        ],
+      },
+      {
+        heading: "How to evaluate a specific salvage title car",
+        body: [
+          "Request the full damage history: what caused the total loss, which body panels and structural components were affected, who did the repair work, and whether an independent inspection was completed post-rebuild. A well-documented rebuild with receipts from a reputable shop is a very different risk from a car with unknown repair history and a fresh coat of paint.",
+          "Book a pre-purchase inspection from a mechanic who has experience with rebuilt vehicles specifically. They will check for frame damage, misaligned panels, paint overspray inside wheel wells and door jambs, and signs of flood damage like corrosion under carpet and behind dashboards. Run the VIN through a history report to see what the original claim described.",
+          "If all of that checks out, price the car at least 20–30% below clean-title comparables, and make sure that discount actually compensates for the insurance premium difference over your ownership period. If the numbers still work, a well-rebuilt car can be a reasonable buy. If the seller is not willing to support a thorough inspection, that is your answer.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "certified-pre-owned-vs-used",
+    title: "Certified pre-owned vs. used car: which is the better deal?",
+    description:
+      "Side-by-side comparison of CPO programs vs. private-party and independent dealer used cars — warranty coverage, inspection standards, and how to evaluate the price premium.",
+    quickAnswer:
+      "Certified pre-owned cars come with a manufacturer-backed warranty extension and a multi-point inspection, but they cost more than comparable non-certified used cars. CPO makes the most sense when the factory warranty has expired and the cost of the CPO premium is less than what an extended warranty or repair risk would cost you. Private-party used cars can be better deals, but they require more due diligence on your part.",
+    readTime: "8 min read",
+    updatedAt: "2026-06-21",
+    quickChecks: [
+      "Compare CPO price against non-certified private-party comps for the same car",
+      "Read the exact CPO warranty terms — coverage varies significantly by brand",
+      "Check whether the CPO car still has remaining factory powertrain warranty",
+      "Factor in the cost of a third-party extended warranty on a non-certified car",
+    ],
+    sections: [
+      {
+        heading: "What certified pre-owned actually means",
+        body: [
+          "CPO programs are run by automakers, not by the dealer. When a car meets the manufacturer's age and mileage eligibility — typically under 5–6 years old and under 60,000–80,000 miles — a dealer puts it through a multi-point inspection checklist and brings it up to the manufacturer's standard. The manufacturer then backs the car with an extended warranty, often a powertrain warranty of 100,000 miles total and a shorter comprehensive warranty.",
+          "The key word is manufacturer-backed. A Toyota CPO warranty is underwritten by Toyota, not the selling dealer. That means you can get warranty work done at any Toyota dealer, and the manufacturer is on the hook if the dealer closes. Dealer-issued 'certified' labels with no manufacturer backing are worth much less — read the paperwork carefully before you assume CPO means factory warranty.",
+        ],
+      },
+      {
+        heading: "The CPO price premium: is it worth it?",
+        body: [
+          "CPO cars typically sell for $1,000 to $3,500 more than identical non-certified used cars. Whether that premium is worth it depends on three things: how much factory warranty is already left on the car, what the CPO warranty actually covers, and how reliable the specific model is.",
+          "If the car is three years old and still has two years of factory bumper-to-bumper warranty remaining, the CPO program adds relatively little value in the near term. If the car is five years old with an expired factory warranty and you are buying a model with known expensive failure points, the CPO extension can easily pay for itself on a single repair.",
+          "Compare the CPO premium against the cost of a third-party extended warranty on a non-certified equivalent. A solid extended warranty from a reputable provider runs $1,200–$2,500 for similar coverage. If the CPO price premium exceeds that range, a private-party car with a third-party warranty may offer better overall value.",
+        ],
+      },
+      {
+        heading: "When private-party used cars beat CPO",
+        body: [
+          "The best private-party used car deals are on well-maintained, single-owner cars from reliable makes that are slightly outside CPO age or mileage eligibility. A 2017 Toyota Camry with 85,000 miles and full service records may not qualify for CPO, but it also costs thousands less than a certified 2019 model. If you put that price difference into a pre-purchase inspection and a third-party extended warranty, you often come out ahead.",
+          "Private sellers also negotiate more freely than dealers. CPO prices at franchised dealerships are typically firm because the certification overhead — inspection cost, reconditioning, warranty pricing — is baked in. Private sellers are selling from personal motivation and often have more flexibility on final price.",
+          "The trade-off is research and due diligence. A private-party car requires you to verify service history, order a vehicle history report, and pay for an independent inspection. A CPO car comes with those steps largely completed by the dealer. Budget $150–$300 for a pre-purchase inspection on any private-party car, treat it as required spending, and the savings over CPO pricing usually remain significant.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "used-car-warranty-guide",
+    title: "Used car warranty guide: what coverage you actually have",
+    description:
+      "How to understand remaining factory warranty, powertrain warranty, extended warranties, and as-is sales before you sign anything.",
+    quickAnswer:
+      "Most used cars are sold with some combination of remaining factory warranty, a dealer warranty, or no warranty at all. Factory warranties transfer with the car automatically — you do not need to pay extra for them. Extended warranties from dealers are almost always overpriced and negotiable. 'As-is' means no warranty from the seller, but you may still have legal protections under state lemon law or implied warranty of merchantability.",
+    readTime: "7 min read",
+    updatedAt: "2026-06-21",
+    quickChecks: [
+      "Look up the original factory warranty terms for the year and make before buying",
+      "Check how much factory warranty is left using the VIN and the manufacturer's website",
+      "Negotiate the dealer extended warranty price separately and never at signing",
+      "Understand your state's implied warranty rules before agreeing to an as-is sale",
+    ],
+    sections: [
+      {
+        heading: "Factory warranties: what transfers automatically",
+        body: [
+          "The original manufacturer's warranty travels with the car, not the owner. If a 2021 Honda Accord came with a 3-year/36,000-mile bumper-to-bumper warranty and 5-year/60,000-mile powertrain warranty, the remaining coverage transfers to you when you buy it used. You do not need to register for it or pay anything extra — present your name, the VIN, and proof of purchase at any authorized dealer and the warranty applies.",
+          "Before you buy any used car, look up the specific warranty terms for that year and model on the manufacturer's website, then check how much remains. Honda, Toyota, Hyundai, Kia, and most major manufacturers let you look up warranty status by VIN online. Hyundai and Kia notably offer 10-year/100,000-mile powertrain warranties on new cars, which can translate into significant remaining coverage on a three or four-year-old used vehicle.",
+        ],
+      },
+      {
+        heading: "Dealer warranties and extended warranties",
+        body: [
+          "Franchised dealers often offer their own short-term used car warranties — typically 30 days or 1,000 miles on older inventory. These are dealer-funded, not manufacturer-backed, and coverage varies significantly. Read the contract to understand what is included and excluded before you assume the warranty means anything meaningful.",
+          "Extended service contracts — often called extended warranties — are separate financial products sold through dealers and third-party companies. They are almost always profitable for the seller, which means they are usually overpriced at the price initially presented. If you want one, research the provider's reputation independently, compare at least two third-party providers, and negotiate the price the same way you negotiate the car price. Dealers often mark up extended warranties by 50–100% over their own cost.",
+          "Good third-party extended warranty providers include Endurance, CARCHEX, and Protect My Car, but read the exclusions carefully. Exclusionary contracts (which list what is not covered) are more comprehensive than inclusionary contracts (which only cover what is listed).",
+        ],
+      },
+      {
+        heading: "As-is sales and your legal rights",
+        body: [
+          "An as-is disclosure means the seller is not offering any warranty on the car. What it does not mean is that you have zero legal protection. Most states impose an implied warranty of merchantability on dealer sales — which means the car must be fit for its basic intended purpose of being driven. A dealer who sells you a car that immediately fails a mechanical system they knew was broken may still be liable in some states.",
+          "As-is protections are stronger in private-party sales. Private sellers are generally not held to the same standard as dealers, and buyers have less recourse after the sale. This is why a pre-purchase inspection matters most on as-is vehicles: it is your only reliable way to discover what you are buying before you own the risk.",
+          "Keep all written communications with the seller if you buy an as-is vehicle that quickly develops problems. In states like California, New York, and Massachusetts, consumer protection laws sometimes provide remedies even when the contract says as-is. Consulting a consumer protection attorney is inexpensive relative to a major repair bill.",
+        ],
+      },
+    ],
+  },
 ];
 
 export function getGuide(slug: string) {

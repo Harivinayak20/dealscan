@@ -1035,6 +1035,41 @@ export function AnalyzerApp() {
         </div>
       </section>
 
+      <section id="about-dealscan" className="bg-[var(--mist)] px-5 py-12 text-[var(--graphite)] sm:px-7 sm:py-16">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-2xl font-black sm:text-3xl">A smarter way to check any used car listing</h2>
+          <div className="mt-6 space-y-5 text-base leading-7 text-[var(--text-body)]">
+            <p>
+              Most used car listings look reasonable at first glance. The price seems fair, the mileage sounds manageable, and the seller says it runs great. The problem is that listings are written to generate interest, not to help buyers evaluate risk. A used car listing analyzer cuts through that. DealScan reads the listing you paste or link and scores the deal based on the factors that actually matter — before you spend time and money visiting.
+            </p>
+            <h3 className="text-lg font-black text-[var(--graphite)]">How the deal score works</h3>
+            <p>
+              Paste any listing link from Craigslist, Cars.com, Autotrader, CarGurus, or a dealer website and DealScan pulls together the details automatically. You can also paste seller notes, enter the car details manually, or upload a listing screenshot. In seconds you get a 0–100 deal score with a plain verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid.
+            </p>
+            <p>
+              The score weighs price against estimated fair market value for that year, make, mileage, and title status. It checks for red flag language — salvage, rebuilt, flood, no title, cash only, as-is, needs work — and green flag signals like service records, clean title, one owner, and recent maintenance. Missing information also counts: a listing that hides the VIN, skips mileage, or avoids interior photos is less trustworthy than one that volunteers every verifiable detail.
+            </p>
+            <h3 className="text-lg font-black text-[var(--graphite)]">The red flags that change the deal</h3>
+            <p>
+              Title status is the highest-impact variable in any used car purchase. A salvage or rebuilt title means the car was declared a total loss by an insurance company at some point. The discount it requires is not cosmetic — it reflects higher insurance premiums, financing difficulty, lower resale value, and the real risk of hidden structural damage. DealScan flags title issues at the top of every result.
+            </p>
+            <p>
+              Mileage tells a second story when cross-checked against the car&apos;s age and maintenance history. A 2014 vehicle with 40,000 miles looks attractive, but abnormally low mileage can mean stored cars with degraded fluids and rubber. High-mileage cars from reliable makes can be strong buys if the service history supports them. The deal score weighs mileage relative to what is typical for the car&apos;s age and class.
+            </p>
+            <p>
+              Price relative to comparable listings is where most buyers get it wrong. Pricing $3,000 to $5,000 below market almost never happens by accident. It usually signals a title problem, a mechanical issue the seller already knows about, or a listing designed to move fast. DealScan estimates a fair market range and flags significant departures in either direction.
+            </p>
+            <h3 className="text-lg font-black text-[var(--graphite)]">After the scan: four steps before you visit</h3>
+            <p>
+              A strong deal score is a starting point, not a guarantee. The four buyer steps that protect you after a good scan: pull a vehicle history report on the VIN to check accident records and title transfers; book a pre-purchase inspection from an independent mechanic before you commit; compare insurance quotes so the full monthly cost is clear; and check financing options before sitting across from a dealer finance office.
+            </p>
+            <p>
+              DealScan links to vetted tools for all four steps after each analysis. Some of those links may be affiliate links — the deal score is never influenced by any partner relationship. The tool itself is completely free, no account required, and scan history saves only in your own browser.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[var(--paper)] px-5 py-8 sm:px-7">
         <AdUnit slot={ADSENSE_HOME_SLOT} />
       </section>
