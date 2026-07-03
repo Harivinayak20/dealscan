@@ -78,6 +78,20 @@ export default function FeesPage() {
             </Link>
           ))}
         </section>
+
+        <section className="mt-12 rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
+          <h2 className="text-2xl font-black leading-tight">Dealer fees in your state</h2>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--text-body)]">
+            Doc fee caps, sales tax, and title costs vary enormously by state — the same paperwork can cost $85 in California and $900 in Virginia. Look up the rules where you are buying.
+          </p>
+          <Link
+            href="/fees/states"
+            className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]"
+          >
+            Browse all 50 states
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </section>
       </div>
     </main>
   );

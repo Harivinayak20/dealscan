@@ -14,6 +14,7 @@ export type Comparison = {
 };
 
 const UPDATED = "2026-06-22";
+const UPDATED_2 = "2026-07-03";
 
 export const comparisons: Comparison[] = [
   {
@@ -267,6 +268,150 @@ export const comparisons: Comparison[] = [
     editorsTake:
       "The Fusion is a strong-value used sedan with sharp styling and a comfortable ride; the Accord holds value better and has the deeper reliability record. Since the Fusion is discontinued, buy on condition and records — the savings can be real if the specific car checks out.",
     updatedAt: UPDATED,
+  },
+  {
+    slug: "toyota-corolla-vs-mazda-3",
+    aSlug: "used-toyota-corolla",
+    bSlug: "used-mazda-3",
+    segment: "Compact sedans",
+    editorsTake:
+      "The Corolla is the appliance that never breaks; the Mazda 3 is the compact that feels a class more expensive inside and drives like it costs more. Reliability is close enough that it rarely decides this one — buy the Mazda if you care how a car feels, the Corolla if you never want to think about it.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "toyota-corolla-vs-hyundai-elantra",
+    aSlug: "used-toyota-corolla",
+    bSlug: "used-hyundai-elantra",
+    segment: "Compact sedans",
+    editorsTake:
+      "The Elantra typically sells for less than an equivalent Corolla and comes better equipped, which makes it the value play. The Corolla answers with the stronger long-term track record and better resale. On engines from Hyundai's recall-affected years, records decide everything — a documented Elantra can be the smarter buy.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "nissan-altima-vs-honda-accord",
+    aSlug: "used-nissan-altima",
+    bSlug: "used-honda-accord",
+    segment: "Midsize sedans",
+    editorsTake:
+      "The Altima is almost always the cheaper car on the used lot, and that discount exists for a reason: its CVT history demands fluid-change proof. The Accord costs more up front but tends to earn it back in durability and resale. An Altima with full CVT service records is a legitimate value; one without records is a gamble.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "ford-escape-vs-honda-cr-v",
+    aSlug: "used-ford-escape",
+    bSlug: "used-honda-cr-v",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The Escape is livelier to drive and cheaper to buy; the CR-V is roomier, holds value better, and has the stronger reliability reputation outside its early 1.5T years. If the budget is tight, a documented Escape is a fine buy — but the CR-V is the one you keep for a decade.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "ford-escape-vs-toyota-rav4",
+    aSlug: "used-ford-escape",
+    bSlug: "used-toyota-rav4",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The RAV4 wins the long game: better resale, a stronger reliability record, and an excellent hybrid. The Escape's case is price — the same year and miles typically costs meaningfully less. If you plan to keep the car past 100k miles, the RAV4's premium usually pays for itself.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "nissan-rogue-vs-honda-cr-v",
+    aSlug: "used-nissan-rogue",
+    bSlug: "used-honda-cr-v",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The Rogue undercuts the CR-V on price and offers a comfortable, quiet cabin. The catch is the CVT: earlier Rogues need documented fluid service to be a safe buy. The CR-V costs more and is worth more — but a well-documented Rogue at a real discount is not the mistake the internet says it is.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "mazda-cx-5-vs-subaru-forester",
+    aSlug: "used-mazda-cx-5",
+    bSlug: "used-subaru-forester",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The CX-5 has the nicer interior and drives with more polish; the Forester counters with standard all-wheel drive, better visibility, and more cargo room. Watch oil consumption on certain older Subaru engines and head gasket history on the oldest ones. Snow-state buyers lean Forester; everyone else usually prefers the CX-5.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "hyundai-tucson-vs-subaru-forester",
+    aSlug: "used-hyundai-tucson",
+    bSlug: "used-subaru-forester",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The Tucson is usually cheaper with a longer original warranty tail; the Forester brings standard AWD and a loyal-owner reliability record. Both have engine eras that demand records — Hyundai's recall years and Subaru's oil-consumption years — so on either one, service history matters more than the badge.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "hyundai-tucson-vs-mazda-cx-5",
+    aSlug: "used-hyundai-tucson",
+    bSlug: "used-mazda-cx-5",
+    segment: "Compact SUVs",
+    editorsTake:
+      "The CX-5 is the driver's pick with the more premium cabin; the Tucson typically costs less for the same year and comes loaded. Mazda's naturally-aspirated engines have an excellent record, which gives the CX-5 the reliability edge unless the Tucson's engine recalls are documented as addressed.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "subaru-outback-vs-toyota-rav4",
+    aSlug: "used-subaru-outback",
+    bSlug: "used-toyota-rav4",
+    segment: "Crossovers",
+    editorsTake:
+      "Different shapes for the same buyer: the Outback is the wagon with a lower load floor, better road manners, and standard AWD; the RAV4 is the upright SUV with stronger resale and a better hybrid. Check Subaru oil-consumption years and CVT service; check RAV4 2019–2020 transmission behavior. Both reward records.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "kia-sorento-vs-honda-pilot",
+    aSlug: "used-kia-sorento",
+    bSlug: "used-honda-pilot",
+    segment: "Three-row SUVs",
+    editorsTake:
+      "The Sorento is the value three-row — smaller, cheaper, often better equipped. The Pilot is the roomier family hauler with the stronger long-haul record, minus some 9-speed transmission grumbles in mid-2010s cars. Need real third-row space, buy the Pilot; occasional third row, the Sorento saves real money.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "ford-explorer-vs-toyota-highlander",
+    aSlug: "used-ford-explorer",
+    bSlug: "used-toyota-highlander",
+    segment: "Three-row SUVs",
+    editorsTake:
+      "The Highlander is the default recommendation: boring, durable, expensive used because everyone knows it. The Explorer is quicker, tows more, and costs less — with a spottier record (water pump on older V6s, early 2020 launch issues). The Highlander premium is real but so is what it buys.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "lexus-rx-350-vs-toyota-highlander",
+    aSlug: "used-lexus-rx-350",
+    bSlug: "used-toyota-highlander",
+    segment: "Midsize SUVs",
+    editorsTake:
+      "Mechanically cousins, which is the point: the RX 350 gives you the plusher cabin and quieter ride on the same famously durable bones, while the Highlander adds a usable third row for less money. A used RX is one of the safest luxury buys there is — pick by whether you need seven seats.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "jeep-grand-cherokee-vs-toyota-4runner",
+    aSlug: "used-jeep-grand-cherokee",
+    bSlug: "used-toyota-4runner",
+    segment: "Off-road SUVs",
+    editorsTake:
+      "The Grand Cherokee is more refined on pavement and cheaper for the year; the 4Runner is cruder, older-feeling, and nearly indestructible — which is why it holds value like nothing else. Buy the Jeep with a thorough records check and a budget for repairs; buy the 4Runner if you want to sell it in five years for most of what you paid.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "toyota-tacoma-vs-ford-f-150",
+    aSlug: "used-toyota-tacoma",
+    bSlug: "used-ford-f-150",
+    segment: "Trucks",
+    editorsTake:
+      "A midsize versus a full-size, but buyers cross-shop them constantly. The Tacoma holds value absurdly well and is the reliability benchmark; the F-150 gives you far more truck — towing, bed, cab space — for the same money used. Commuting and occasional hauling favors the Tacoma; real truck work favors the F-150, engine chosen carefully.",
+    updatedAt: UPDATED_2,
+  },
+  {
+    slug: "tesla-model-3-vs-toyota-prius",
+    aSlug: "used-tesla-model-3",
+    bSlug: "used-toyota-prius",
+    segment: "Efficiency picks",
+    editorsTake:
+      "Both minimize fuel costs by opposite philosophies. The used Model 3 is quick and cheap to run but carries battery-health uncertainty and steeper depreciation — get a battery report before buying. The Prius is the proven play: modest, hybrid batteries with a 200k-mile track record, and no home charger required. Renters and road-trippers often find the Prius the easier car to own.",
+    updatedAt: UPDATED_2,
   },
 ];
 
