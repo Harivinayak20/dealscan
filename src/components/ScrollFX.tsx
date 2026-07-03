@@ -94,7 +94,11 @@ export function ScrollFX() {
 
     const rebuild = () => {
       const width = document.documentElement.clientWidth;
-      const height = document.documentElement.scrollHeight;
+      // Measure the body's own content height, never scrollHeight: the svg is
+      // absolutely positioned against the page, so sizing it from scrollHeight
+      // lets a stale (taller) svg extend the page below the footer whenever
+      // content shrinks or loads late (fonts, ads, collapsed sections).
+      const height = Math.ceil(document.body.getBoundingClientRect().height);
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       svg.style.width = `${width}px`;
       svg.style.height = `${height}px`;
@@ -203,6 +207,12 @@ export function ScrollFX() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", queueRebuild);
 
+    // Content can change height without any DOM mutation (web fonts, images,
+    // ad iframes, <details> toggles). Track the body's size directly so the
+    // overlay always matches the real page height.
+    const resizeObserver = new ResizeObserver(queueRebuild);
+    resizeObserver.observe(document.body);
+
     // --- Section reveals ---
     const observer = new IntersectionObserver(
       (entries) => {
@@ -240,6 +250,7 @@ export function ScrollFX() {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", queueRebuild);
+      resizeObserver.disconnect();
       observer.disconnect();
       mutations.disconnect();
       svg.remove();

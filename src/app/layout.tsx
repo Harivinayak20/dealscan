@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Archivo, Bricolage_Grotesque, IBM_Plex_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { AdSenseScript } from "@/components/AdSenseScript";
 import { Analytics } from "@/components/Analytics";
@@ -8,7 +8,17 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const archivo = Archivo({ subsets: ["latin"], variable: "--font-archivo" });
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-bricolage",
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
+});
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
@@ -35,7 +45,7 @@ export const metadata: Metadata = {
   },
   other: {
     "mobile-web-app-capable": "yes",
-    "theme-color": "#faf8f3",
+    "theme-color": "#f7f1e9",
     ...(ADSENSE_ENABLED && ADSENSE_CLIENT_ID
       ? { "google-adsense-account": ADSENSE_CLIENT_ID }
       : {}),
@@ -62,22 +72,66 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
+const organization = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "Organization",
   name: "DealScan",
   url: appUrl,
+  logo: `${appUrl}/dealscan-logo.png`,
   description:
-    "AI-powered used car listing analyzer that scores listings, detects red flags, estimates fair prices, and provides negotiation guidance.",
-  applicationCategory: "Automotive",
-  operatingSystem: "Web",
-  browserRequirements: "Requires JavaScript",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
+    "DealScan is a free AI tool that scores used car listings, flags risks, estimates fair prices, and helps buyers negotiate.",
+  email: "hello@dealscan.dev",
+  founder: {
+    "@type": "Person",
+    name: "Hari Vinayak",
+    url: `${appUrl}/about`,
   },
 };
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Hari Vinayak",
+  url: `${appUrl}/about`,
+  jobTitle: "Founder",
+  worksFor: { "@type": "Organization", name: "DealScan" },
+  sameAs: ["https://github.com/Harivinayak20"],
+};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "DealScan",
+    url: appUrl,
+    description:
+      "AI-powered used car listing analyzer that scores listings, detects red flags, estimates fair prices, and provides negotiation guidance.",
+    applicationCategory: "Automotive",
+    operatingSystem: "Web",
+    browserRequirements: "Requires JavaScript",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "DealScan",
+    url: appUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${appUrl}/cars?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  },
+  organization,
+  person,
+];
 
 export default function RootLayout({
   children,
@@ -85,7 +139,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={geist.variable}>
+    <html lang="en" className={`${archivo.variable} ${bricolage.variable} ${plexMono.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{

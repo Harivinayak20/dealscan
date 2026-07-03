@@ -6,9 +6,11 @@ import { ScrollFX } from "@/components/ScrollFX";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-// Site-wide chrome (scroll effects + theme toggle) that must NOT render inside
-// the embeddable widget, so embeds stay clean on other people's pages. Also
-// registers the PWA service worker (skipped for embeds).
+// Site-wide chrome (scroll-driven car + theme toggle + scroll-to-top) that
+// must NOT render inside the embeddable widget, so embeds stay clean on other
+// people's pages. Also registers the PWA service worker (skipped for embeds).
+// Design simplification kept the tire-track car but dropped the ambient
+// balloon layer in favor of the calmer paper background.
 export function SiteChrome() {
   const pathname = usePathname();
   const isEmbed = pathname?.startsWith("/embed") ?? false;
@@ -25,13 +27,6 @@ export function SiteChrome() {
   if (isEmbed) return null;
   return (
     <>
-      <div className="ambient" aria-hidden="true">
-        <span className="balloon balloon-1" />
-        <span className="balloon balloon-2" />
-        <span className="balloon balloon-3" />
-        <span className="balloon balloon-4" />
-        <span className="balloon balloon-5" />
-      </div>
       {!isAdmin && <ScrollFX />}
       <ThemeToggle />
       <ScrollToTop />

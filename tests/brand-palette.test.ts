@@ -49,7 +49,8 @@ test("no old racing-green / dark-green palette literals remain in source", () =>
 
 test("core warm tokens are defined in globals.css", () => {
   const css = readFileSync("src/app/globals.css", "utf8");
-  for (const token of ["--racing-green: #a8542e", "--canvas: #fcfbf8", "--champagne: #a98253"]) {
+  // Dealscan design simplification palette: warm paper + burnt orange.
+  for (const token of ["--racing-green: #b4501f", "--canvas: #f7f1e9", "--champagne: #b4501f"]) {
     assert.ok(css.includes(token), `globals.css missing warm token: ${token}`);
   }
 });

@@ -1,7 +1,6 @@
 "use client";
 
-import { BadgeDollarSign, Calculator, Camera, ChevronRight, FileSearch, Gauge, Link as LinkIcon, LineChart, SearchCheck, ShieldCheck, ShoppingCart, TriangleAlert, Wrench } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { SearchCheck, ShoppingCart } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -15,7 +14,7 @@ import { loadSavedResults, saveSavedResults } from "@/lib/local-storage";
 import { extractVin } from "@/lib/vin-decoder";
 import type { VinDecodeResult } from "@/lib/vin-decoder";
 
-import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType, ManualDetails } from "@/lib/analyzer-types";
+import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType } from "@/lib/analyzer-types";
 import { CompareInputPanel } from "@/components/CompareInputPanel";
 import { ComparisonResultView } from "@/components/ComparisonResultView";
 import { AdUnit } from "@/components/AdUnit";
@@ -26,6 +25,7 @@ import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
 import { adminStore } from "@/lib/admin-store";
 import { Logo } from "@/components/Logo";
+import { HeroDemoCard } from "@/components/HeroDemoCard";
 import { faqs } from "@/lib/faqs";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 
@@ -33,56 +33,49 @@ const exampleListings = [
   {
     id: "great",
     label: "Great deal",
-    tone: "Clean records",
     text: "2018 Toyota Camry LE, 72,000 miles, Austin, TX, clean title, one owner, service records available, new tires, recent maintenance, no accidents reported, cold AC, asking $15,900. VIN and title photo available.",
   },
   {
     id: "caution",
     label: "Caution",
-    tone: "Needs proof",
     text: "2016 BMW M3 Sedan, 74,000 miles, Austin, TX, title status unclear, 6-speed manual, asking $28,500. Seller says there are minor issues, limited photos, no service history provided, sold as-is, and price is firm.",
   },
   {
     id: "avoid",
     label: "Avoid",
-    tone: "High risk",
     text: "2009 Nissan Altima, 181,000 miles, Dallas, TX, no title, runs rough, needs work, as-is, cash only, check engine light on, asking $2,400. Seller says it may need transmission work.",
   },
   {
     id: "vague",
     label: "Vague",
-    tone: "Low confidence",
     text: "Honda Civic runs good. Price not listed. Mileage not listed. Text me for details.",
   },
 ];
 
-const inputMethods = [
-  { value: "url", label: "Listing link", note: "Fastest way to check a car", icon: LinkIcon },
-  { value: "text", label: "Seller notes", note: "Paste the ad details", icon: FileSearch },
-  { value: "screenshot", label: "Photo", note: "Use a listing screenshot", icon: Camera },
-  { value: "manual", label: "Car details", note: "Year, miles, price, title", icon: Gauge },
-] satisfies Array<{ value: InputType; label: string; note: string; icon: LucideIcon }>;
+// Hero composer input modes, per the design handoff (mode pill + dropdown).
+const composerModes = {
+  link: { label: "Link", title: "Listing link", note: "Fastest, paste any ad URL", ph: "Paste a listing link…", glyph: "↳" },
+  details: { label: "Details", title: "Paste details", note: "The ad text or seller notes", ph: "Paste the ad text or seller notes…", glyph: "≡" },
+  photo: { label: "Photo", title: "Upload photo", note: "Use a listing screenshot", ph: "Upload a listing screenshot…", glyph: "▤" },
+  vin: { label: "VIN", title: "VIN or plate", note: "Look up by VIN or license plate", ph: "Enter a VIN or license plate…", glyph: "#" },
+} as const;
 
-const quickActions = [
-  { label: "Run VIN Report (Carfax)", note: "Check accidents, owners, title", href: partnerLinks.carfax, icon: FileSearch },
-  { label: "Book Pre-Purchase Inspection", note: "Have a mechanic inspect it", href: partnerLinks.inspection, icon: Wrench },
-  { label: "Get Insurance Quote", note: "Compare rates in minutes", href: partnerLinks.insurance, icon: ShieldCheck },
-  { label: "Estimate Payments", note: "See real loan options", href: partnerLinks.payments, icon: Calculator },
+type HeroMode = keyof typeof composerModes;
+
+const heroModeToInputType: Record<HeroMode, InputType> = {
+  link: "url",
+  details: "text",
+  photo: "screenshot",
+  vin: "text",
+};
+
+// Native partner placements: one blended row + the top utility links only.
+// Deliberately no side rails or drawer promos to keep the site non-invasive.
+const partnerOffers = [
+  { glyph: "%", title: "Compare auto loan rates", note: "Estimate payments before the dealer does", href: partnerLinks.loan },
+  { glyph: "◑", title: "Compare insurance", note: "Quotes from top carriers in minutes", href: partnerLinks.insurance },
+  { glyph: "◈", title: "Vehicle history report", note: "Check accidents, title, and odometer", href: partnerLinks.carfax },
 ];
-
-function manualDetailsToText(details: ManualDetails) {
-  const vehicleName = [details.year, details.make, details.model].filter(Boolean).join(" ");
-
-  return [
-    vehicleName,
-    details.mileage,
-    details.price,
-    details.titleStatus,
-    details.sellerNotes,
-  ]
-    .filter(Boolean)
-    .join(", ");
-}
 
 function vehicleTitleFromText(text: string) {
   const match = text.match(/\b(19|20)\d{2}\s+[A-Za-z]+\s+[A-Za-z0-9-]+(?:\s+[A-Za-z0-9-]+){0,4}/);
@@ -92,10 +85,12 @@ function vehicleTitleFromText(text: string) {
 
 export function AnalyzerApp() {
   const [inputType, setInputType] = useState<InputType>("url");
+  const [heroMode, setHeroMode] = useState<HeroMode>("link");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [vinValue, setVinValue] = useState("");
   const [listingUrl, setListingUrl] = useState("");
   const [lastExtractedUrl, setLastExtractedUrl] = useState("");
   const [listingText, setListingText] = useState("");
-  const [manualDetails, setManualDetails] = useState<ManualDetails>({});
   const [screenshotPreviewUrl, setScreenshotPreviewUrl] = useState<string | null>(null);
   const [screenshotDataUrl, setScreenshotDataUrl] = useState<string | null>(null);
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
@@ -113,24 +108,41 @@ export function AnalyzerApp() {
   const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
   const [isComparing, setIsComparing] = useState(false);
 
-  const analysisText = inputType === "manual" ? manualDetailsToText(manualDetails) : listingText.trim();
+  const analysisText = listingText.trim();
   const isBusy = isLoading || isScraping || isOcrLoading || isComparing;
 
   useEffect(() => {
     saveSavedResults(savedResults);
   }, [savedResults]);
 
-  useKeyboardShortcut("Enter", (event) => {
-    const target = event.target as HTMLElement;
-    const isInput = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
-    if (isInput && (event.metaKey || event.ctrlKey) && !isBusy) {
-      event.preventDefault();
-      void analyzeListing();
-    }
-  });
+  function pickComposerMode(mode: HeroMode) {
+    setHeroMode(mode);
+    setInputType(heroModeToInputType[mode]);
+    setMenuOpen(false);
+    setError("");
+    setSourceNotice("");
+  }
 
-  function updateManualField(key: keyof ManualDetails, value: string) {
-    setManualDetails((current) => ({ ...current, [key]: value }));
+  async function handleComposerSubmit() {
+    if (isBusy) return;
+
+    if (heroMode === "vin") {
+      setError("");
+      setResult(null);
+      setNotice("");
+      const vin = vinValue.trim();
+      if (!vin) {
+        setError("Enter a VIN or license plate first.");
+        return;
+      }
+      await submitAnalysis({
+        inputType: "text",
+        listingText: `VIN or plate: ${vin}. Evaluate this vehicle listing.`,
+      });
+      return;
+    }
+
+    await analyzeListing(heroModeToInputType[heroMode]);
   }
 
   function readFileAsDataUrl(file: File) {
@@ -334,9 +346,17 @@ export function AnalyzerApp() {
       inputType: activeInputType,
       listingText: normalizedAnalysisText,
       sourceUrl,
-      manualDetails: activeInputType === "manual" ? manualDetails : undefined,
     });
   }
+
+  useKeyboardShortcut("Enter", (event) => {
+    const target = event.target as HTMLElement;
+    const isInput = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
+    if (isInput && (event.metaKey || event.ctrlKey) && !isBusy) {
+      event.preventDefault();
+      void analyzeListing();
+    }
+  });
 
   async function analyzeCompare(a: ListingDraft, b: ListingDraft) {
     setIsComparing(true);
@@ -439,9 +459,11 @@ export function AnalyzerApp() {
     setError("");
     setNotice("");
     setInputType("url");
+    setHeroMode("link");
+    setMenuOpen(false);
+    setVinValue("");
     setListingUrl("");
     setListingText("");
-    setManualDetails({});
     setScreenshotPreviewUrl(null);
     setScreenshotDataUrl(null);
     setViewMode("analyzer");
@@ -490,6 +512,16 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
+      <div className="border-b border-[var(--border-subtle)] bg-[var(--paper)]">
+        <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-4 py-2 sm:px-7">
+          <span className="mono-label text-xs text-[var(--muted)]">Independent used-car deal checks</span>
+          <div className="hidden items-center gap-5 text-[13px] font-semibold md:flex">
+            <a href={partnerLinks.loan} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Get financing →</a>
+            <a href={partnerLinks.insurance} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Insurance quotes →</a>
+            <a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Vehicle history →</a>
+          </div>
+        </div>
+      </div>
       <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-3 gap-y-3 px-5 py-3 sm:flex-nowrap sm:px-7 sm:py-4">
           <span className="order-1 text-left text-lg">
@@ -548,493 +580,361 @@ export function AnalyzerApp() {
         </div>
       </header>
 
-      <section id="hero" className="bg-[var(--canvas)] px-4 py-5 text-[var(--graphite)] sm:px-7 sm:py-8 lg:py-12">
-        <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[1fr_0.62fr] md:items-start lg:grid-cols-[1.28fr_0.72fr]">
-          <aside className="order-2 rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-5 shadow-[0_18px_60px_-48px_rgba(32,40,35,0.55)] sm:p-7 lg:sticky lg:top-28">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Used-car listing check</p>
-            <h1 className="mt-3 max-w-xl text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl">
-              Find out if this listing is worth it.
+      <section id="hero" className="hero-sheen relative overflow-hidden px-4 py-8 sm:px-7 sm:py-14 lg:py-20">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-1/4 left-1/2 h-[70%] w-[min(70vw,720px)] -translate-x-1/2 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(26,22,19,0.05), transparent 70%)" }}
+        />
+        <div className="relative z-[2] mx-auto grid max-w-[1180px] items-center gap-10 md:grid-cols-2 lg:gap-14">
+          <div className="min-w-0">
+            <p className="eyebrow text-[13px]">Used-car listing check</p>
+            <h1 className="mt-4 font-display text-[clamp(40px,9vw,66px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-[var(--graphite)]">
+              <span className="rise rise-1 block">Find out if</span>
+              <span className="rise rise-2 block">this listing is</span>
+              <span className="rise rise-3 block text-[var(--racing-green)]">worth it.</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--text-body)] sm:text-lg">
-              Paste the listing and get a deal score, the red flags, and the price you should actually offer, in about 10 seconds.
+            <p className="mt-5 max-w-[460px] text-[clamp(16px,4.4vw,20px)] leading-[1.5] text-[var(--text-body)]">
+              Paste any car listing and get a deal score, the red flags, and the price you should actually offer, in about 10 seconds.
             </p>
 
-            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3 py-1.5 text-[var(--racing-green)]">✓ No account needed</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3 py-1.5 text-[var(--racing-green)]">✓ Nothing stored on our servers</span>
-            </div>
-
-            <div className="mt-5 hidden gap-2 text-sm font-medium text-[var(--text-body)] md:grid">
-              {[
-                "Know if the price is actually fair",
-                "Spot title, mileage, and seller red flags",
-                "Get the questions to ask before you visit",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-xl border border-[var(--line)] bg-[var(--canvas)] px-3 py-2">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-
-            <Link
-              href="/price-checker"
-              className="mt-4 flex items-center justify-between gap-2 rounded-xl border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] px-3 py-2.5 text-sm font-bold text-[var(--racing-green)] transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <span>No listing yet? Check what a car is worth free</span>
-              <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-            </Link>
-
-            <div className="mt-6 hidden overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)] shadow-[0_18px_44px_-28px_rgba(32,40,35,0.40)] md:block">
-              <div className="flex items-center justify-between gap-2 border-b border-[rgba(32,40,35,0.07)] bg-[var(--paper)] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--racing-green)]" aria-hidden="true" />
-                  Sample scan
-                </span>
-                <span className="text-[var(--graphite)]">2009 Nissan Altima · $2,400</span>
-              </div>
-              <div className="p-4">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-full shadow-[0_8px_20px_-10px_rgba(196,90,74,0.55)]"
-                    style={{ background: "conic-gradient(from 0deg, var(--danger) 137deg, rgba(32,40,35,0.07) 137deg)" }}
-                    aria-label="Sample deal score: 38 out of 100"
-                  >
-                    <div className="grid h-[3.4rem] w-[3.4rem] place-items-center rounded-full bg-[var(--paper)]">
-                      <span className="text-xl font-black leading-none text-[var(--danger)]">38</span>
-                      <span className="-mt-0.5 text-[9px] font-semibold leading-none text-[var(--text-muted)]">/ 100</span>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="badge-danger">Avoid</span>
-                    <p className="mt-1.5 text-sm leading-5 text-[var(--text-body)]">Priced low for a reason — two dealbreakers in the ad.</p>
-                  </div>
-                </div>
-                <div className="mt-3.5 flex flex-wrap gap-2 text-xs font-semibold text-[var(--danger)]">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(196,90,74,0.22)] bg-[rgba(196,90,74,0.08)] px-2.5 py-1">
-                    <TriangleAlert className="h-3 w-3" aria-hidden="true" />
-                    No title
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(196,90,74,0.22)] bg-[rgba(196,90,74,0.08)] px-2.5 py-1">
-                    <TriangleAlert className="h-3 w-3" aria-hidden="true" />
-                    Possible transmission failure
-                  </span>
-                </div>
-                <div className="mt-3.5 border-t border-[rgba(32,40,35,0.07)] pt-3">
-                  <Link href="/how-scoring-works" className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--racing-green)] underline-offset-4 hover:underline">
-                    How the score works
-                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
-              Every scan checks 17 red-flag patterns and 12 green flags across price, mileage, title, condition, and seller claims.
-            </p>
-          </aside>
-
-          <section
-            id="analyzer"
-            className="order-1 flex flex-col rounded-[1.35rem] border border-[var(--line)] bg-[var(--paper)] p-4 text-[var(--graphite)] shadow-[0_30px_90px_-58px_rgba(32,40,35,0.55)] sm:p-6 md:self-start"
-          >
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--racing-green)]">
-                  {compareMode ? "Compare cars" : "Check the car"}
-                </p>
-                <h2 className="mt-1 text-2xl font-black">
-                  {compareMode ? "Compare two listings" : "Check a listing"}
-                </h2>
-              </div>
-              <div className="flex gap-2">
+            <div id="analyzer" className="relative mt-8 max-w-[566px]">
+              <div className="flex flex-wrap gap-2 rounded-2xl border border-[rgba(0,0,0,0.06)] bg-[var(--paper)] p-2 shadow-[0_22px_50px_-20px_rgba(0,0,0,0.6)]">
                 <button
                   type="button"
-                  onClick={() => setCompareMode(false)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                    !compareMode
-                      ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(183,96,58,0.10)]"
-                  }`}
+                  onClick={() => setMenuOpen((open) => !open)}
+                  aria-expanded={menuOpen}
+                  aria-label="Choose how to check a listing"
+                  className="flex items-center gap-1.5 whitespace-nowrap rounded-xl bg-[var(--chip)] px-4 py-3 text-[15px] font-semibold text-[var(--text-muted)] transition hover:text-[var(--graphite)]"
                 >
-                  Single
+                  {composerModes[heroMode].label}
+                  <span className="text-[10px] opacity-65" aria-hidden="true">▼</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setCompareMode(true)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                    compareMode
-                      ? "bg-[var(--accent-2)] text-white"
-                      : "border border-[var(--accent-2-line)] bg-[var(--accent-2-soft)] text-[var(--racing-green)] hover:bg-[rgba(183,96,58,0.10)]"
-                  }`}
-                >
-                  Compare
-                </button>
-              </div>
-            </div>
-
-            {compareMode ? (
-              <div className="mt-5">
-                <CompareInputPanel
-                  onCompare={(a, b) => {
-                    void analyzeCompare(a, b);
-                  }}
-                  isBusy={isBusy}
-                />
-              </div>
-            ) : (
-              <>
-            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Ways to check a car listing">
-              {inputMethods.map((method) => (
-                (() => {
-                  const Icon = method.icon;
-
-                  return (
-                    <a
-                      key={method.value}
-                      href={`#${method.value}`}
-                      role="tab"
-                      aria-selected={inputType === method.value}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setInputType(method.value);
-                        setError("");
-                        setSourceNotice("");
-                      }}
-                      className={`group grid min-h-24 gap-2 rounded-2xl border p-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)] ${
-                        inputType === method.value
-                          ? "border-[rgba(183,96,58,0.32)] bg-[var(--accent-2-soft)] text-[var(--graphite)] shadow-sm"
-                          : "border-[var(--line)] bg-[var(--canvas)] text-[var(--text-muted)] hover:bg-[var(--paper)]"
-                      }`}
-                    >
-                      <Icon className={`h-5 w-5 transition group-hover:scale-110 ${inputType === method.value ? "text-[var(--racing-green)]" : "text-[var(--champagne)]"}`} aria-hidden="true" />
-                      <span className="text-sm font-bold">{method.label}</span>
-                      <span className={`text-xs leading-4 ${inputType === method.value ? "text-[var(--text-muted)]" : "text-[var(--text-muted)]"}`}>{method.note}</span>
-                    </a>
-                  );
-                })()
-              ))}
-            </div>
-
-            <div className="mt-5 rounded-2xl border border-[rgba(183,96,58,0.20)] bg-[var(--accent-2-soft)] p-4 shadow-[0_14px_36px_-26px_rgba(183,96,58,0.32)]">
-              {inputType === "url" ? (
-                <div className="grid gap-3">
-                  <label className="grid gap-2">
-                    <span className="text-sm font-bold text-[var(--graphite)]">Listing link</span>
-                    <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the public ad link and hit Check deal. DealScan reads the car details for you — no retyping.</span>
-                    <input
-                      value={listingUrl}
-                      onChange={(event) => {
-                        setListingUrl(event.target.value);
-                        setLastExtractedUrl("");
-                      }}
-                      placeholder="https://www.example.com/listing/2019-toyota-camry"
-                      className="input"
-                    />
-                  </label>
-                  {listingText ? (
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold text-[var(--graphite)]">Car details found</span>
-                      <textarea
-                        value={listingText}
-                        onChange={(event) => setListingText(event.target.value)}
-                        rows={4}
-                        maxLength={LISTING_TEXT_MAX_LENGTH}
-                        className="textarea"
-                      />
-                    </label>
-                  ) : null}
-                </div>
-              ) : null}
-
-              {inputType === "text" ? (
-                <label className="grid gap-2">
-                  <span className="text-sm font-bold text-[var(--graphite)]">Seller notes</span>
-                  <span className="text-sm leading-6 text-[var(--text-muted)]">Paste the seller description. Include price, mileage, title, VIN, and condition when available.</span>
-                  <textarea
-                    value={listingText}
-                    onChange={(event) => setListingText(event.target.value)}
-                    rows={5}
-                    maxLength={LISTING_TEXT_MAX_LENGTH}
-                    placeholder="Example: 2019 Toyota Camry LE, 72,000 miles, clean title, one owner, asking $15,900..."
-                    className="textarea sm:min-h-44"
-                  />
-                </label>
-              ) : null}
-
-              {inputType === "screenshot" ? (
-                <div className="grid gap-4">
-                  <label className="grid min-h-24 cursor-pointer place-items-center rounded-lg border border-dashed border-[rgba(32,40,35,0.18)] bg-[var(--canvas)] p-4 text-center transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus-within:ring-2 focus-within:ring-[var(--racing-green)]">
-                    <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing photo" />
-                    <span className="grid justify-items-center gap-2">
-                      <Camera className="h-8 w-8 text-[var(--champagne)]" aria-hidden="true" />
-                      <span className="text-base font-bold">Upload listing photo</span>
-                      <span className="text-sm text-[var(--text-muted)]">Use this when the listing is easier to share as an image.</span>
+                {heroMode === "photo" ? (
+                  <label className="flex min-w-[120px] flex-1 cursor-pointer items-center px-1.5 text-base text-[var(--muted)]">
+                    <input type="file" accept="image/*" className="sr-only" onChange={handleScreenshotChange} aria-label="Upload listing screenshot" />
+                    <span className="truncate">
+                      {screenshotPreviewUrl ? "Screenshot added, hit Check deal" : "Upload a listing screenshot…"}
                     </span>
                   </label>
-                  {screenshotPreviewUrl ? (
-                    <img src={screenshotPreviewUrl} alt="Uploaded listing screenshot preview" className="max-h-36 w-full rounded-lg border border-[var(--line)] object-contain" />
-                  ) : null}
+                ) : (
+                  <input
+                    value={heroMode === "link" ? listingUrl : heroMode === "details" ? listingText : vinValue}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (heroMode === "link") {
+                        setListingUrl(value);
+                        setLastExtractedUrl("");
+                      } else if (heroMode === "details") {
+                        setListingText(value);
+                      } else {
+                        setVinValue(value);
+                      }
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" && !isBusy) {
+                        event.preventDefault();
+                        void handleComposerSubmit();
+                      }
+                    }}
+                    maxLength={LISTING_TEXT_MAX_LENGTH}
+                    placeholder={composerModes[heroMode].ph}
+                    className="min-w-[120px] flex-1 bg-transparent px-1.5 text-base text-[var(--graphite)] outline-none"
+                  />
+                )}
+                <button
+                  type="button"
+                  disabled={isBusy}
+                  onClick={() => void handleComposerSubmit()}
+                  aria-label="Check listing and generate deal score"
+                  className="flex-[1_0_auto] rounded-xl bg-[#B4501F] px-6 py-[13px] text-base font-bold text-[#FFFDFA] transition hover:-translate-y-0.5 hover:bg-[#9A421A] hover:shadow-[0_12px_26px_-10px_rgba(180,80,31,0.6)] disabled:pointer-events-none disabled:opacity-60"
+                >
+                  Check deal
+                </button>
+              </div>
+              {menuOpen ? (
+                <>
+                  <div className="fixed inset-0 z-[5]" onClick={() => setMenuOpen(false)} aria-hidden="true" />
+                  <div className="absolute left-0 top-[calc(100%+8px)] z-[6] w-[min(90vw,270px)] rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-1.5 shadow-[0_26px_54px_-18px_rgba(0,0,0,0.45)]">
+                    {(Object.keys(composerModes) as HeroMode[]).map((mode) => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => pickComposerMode(mode)}
+                        className="flex w-full items-center gap-3 rounded-[11px] px-3 py-2.5 text-left transition hover:bg-[var(--chip)]"
+                      >
+                        <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[10px] bg-[var(--chip)] font-display text-[17px] font-bold text-[var(--racing-green)]" aria-hidden="true">
+                          {composerModes[mode].glyph}
+                        </span>
+                        <span>
+                          <span className="block font-display text-[15px] font-bold text-[var(--graphite)]">{composerModes[mode].title}</span>
+                          <span className="block text-xs text-[var(--muted)]">{composerModes[mode].note}</span>
+                        </span>
+                      </button>
+                    ))}
+                    <div className="mx-2 my-1 border-t border-[var(--line)]" aria-hidden="true" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCompareMode(true);
+                        setMenuOpen(false);
+                        window.setTimeout(() => document.getElementById("compare")?.scrollIntoView({ behavior: "smooth" }), 60);
+                      }}
+                      className="flex w-full items-center gap-3 rounded-[11px] px-3 py-2.5 text-left transition hover:bg-[var(--chip)]"
+                    >
+                      <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[10px] bg-[var(--chip)] font-display text-[17px] font-bold text-[var(--racing-green)]" aria-hidden="true">
+                        ⇄
+                      </span>
+                      <span>
+                        <span className="block font-display text-[15px] font-bold text-[var(--graphite)]">Compare two cars</span>
+                        <span className="block text-xs text-[var(--muted)]">Score two listings side by side</span>
+                      </span>
+                    </button>
+                  </div>
+                </>
+              ) : null}
+            </div>
+
+            {heroMode === "photo" && (screenshotPreviewUrl || listingText) ? (
+              <div className="mt-4 max-w-[566px] rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-3">
+                {screenshotPreviewUrl ? (
+                  <img src={screenshotPreviewUrl} alt="Uploaded listing screenshot preview" className="max-h-32 w-full rounded-lg border border-[var(--line)] object-contain" />
+                ) : null}
+                {listingText ? (
                   <textarea
                     value={listingText}
                     onChange={(event) => setListingText(event.target.value)}
                     rows={3}
                     maxLength={LISTING_TEXT_MAX_LENGTH}
-                    placeholder="Listing details will appear here. You can edit anything that looks wrong..."
-                    className="textarea"
+                    className="textarea mt-3"
+                    aria-label="Listing details read from your screenshot"
                   />
-                </div>
-              ) : null}
+                ) : null}
+              </div>
+            ) : null}
 
-              {inputType === "manual" ? (
-                <div className="grid gap-3">
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    {[
-                      ["year", "Year", "2023"],
-                      ["make", "Make", "Chevrolet"],
-                      ["model", "Model", "Cruze"],
-                      ["mileage", "Mileage", "68,000 mi"],
-                      ["price", "Price", "$9,800"],
-                      ["titleStatus", "Title", "Clean title"],
-                    ].map(([key, label, placeholder]) => (
-                      <label key={key} className="grid gap-1 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                        {label}
-                        <input
-                          value={manualDetails[key as keyof ManualDetails] ?? ""}
-                          onChange={(event) => updateManualField(key as keyof ManualDetails, event.target.value)}
-                          placeholder={placeholder}
-                          className="input"
-                        />
-                      </label>
-                    ))}
-                  </div>
-                  <label className="grid gap-1 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                    Seller Notes
-                    <textarea
-                      value={manualDetails.sellerNotes ?? ""}
-                      onChange={(event) => updateManualField("sellerNotes", event.target.value)}
-                      rows={3}
-                      maxLength={1800}
-                      placeholder="Add condition, options, maintenance, accident history, or unclear claims."
-                      className="textarea"
-                    />
-                  </label>
-                </div>
-              ) : null}
+            <div className="mt-4 text-sm font-medium text-[var(--silver)]">
+              No account needed&nbsp;&nbsp;·&nbsp;&nbsp;Nothing stored on our servers&nbsp;&nbsp;·&nbsp;&nbsp;Free
             </div>
 
-            <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <span className="mono-label text-[11px] uppercase tracking-[0.12em] text-[var(--muted)]">New here? See a real scan</span>
+              {exampleListings.map((example) => (
+                <button
+                  key={example.id}
+                  type="button"
+                  onClick={() => loadExampleListing(example.text)}
+                  className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-[13px] font-semibold text-[var(--text-muted)] transition hover:border-[rgba(180,80,31,0.35)] hover:text-[var(--racing-green)]"
+                >
+                  {example.label}
+                </button>
+              ))}
+            </div>
+
+            {error ? <div className="mt-4 max-w-[566px]"><ErrorState message={error} /></div> : null}
+            {sourceNotice ? <p className="notice mt-4 max-w-[566px]">{sourceNotice}</p> : null}
+            {isBusy ? <div className="mt-4 max-w-[566px]"><LoadingState /></div> : null}
+          </div>
+
+          <div className="min-w-0">
+            <HeroDemoCard />
+          </div>
+        </div>
+      </section>
+
+      {compareMode ? (
+        <section id="compare" className="px-4 py-8 sm:px-7">
+          <div className="mx-auto max-w-[1180px] rounded-[20px] border border-[var(--line)] bg-[var(--paper)] p-4 sm:p-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <div>
+                <p className="eyebrow">Compare cars</p>
+                <h2 className="mt-1 text-2xl font-extrabold">Compare two listings</h2>
+              </div>
               <button
                 type="button"
-                disabled={isBusy}
-                onClick={() => {
-                  if (!isBusy) {
-                    void analyzeListing();
-                  }
-                }}
-                aria-label="Check listing and generate deal score"
-                className={`group btn-pill min-w-52 ${
-                  isBusy ? "pointer-events-none opacity-60" : ""
-                }`}
+                onClick={() => setCompareMode(false)}
+                className="rounded-full border border-[var(--line)] px-3.5 py-1.5 text-xs font-bold text-[var(--text-muted)] transition hover:text-[var(--graphite)]"
               >
-                <SearchCheck className="h-5 w-5 transition group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
-                Check deal
+                Close ✕
               </button>
-              <span className="text-xs font-medium text-[var(--text-muted)]">{analysisText.length} / {LISTING_TEXT_MAX_LENGTH}</span>
             </div>
-
-            <div className="card mt-5 !bg-[var(--canvas)]">
-              <div className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                New here? See a real scan
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-4">
-                {exampleListings.map((example) => (
-                  <button
-                    key={example.id}
-                    type="button"
-                    onClick={() => loadExampleListing(example.text)}
-                    className="group w-full rounded-xl border border-[var(--line)] bg-[var(--paper)] p-3 text-left transition hover:border-[var(--racing-green)] hover:bg-[var(--paper)] focus:outline-none focus:ring-2 focus:ring-[var(--racing-green)]"
-                  >
-                    <span className="block text-sm font-bold text-[var(--graphite)] transition group-hover:text-[var(--racing-green)]">{example.label}</span>
-                    <span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{example.tone}</span>
-                  </button>
-                ))}
-              </div>
+            <div className="mt-5">
+              <CompareInputPanel
+                onCompare={(a, b) => {
+                  void analyzeCompare(a, b);
+                }}
+                isBusy={isBusy}
+              />
             </div>
+          </div>
+        </section>
+      ) : null}
 
-            <p className="mt-5 text-xs leading-5 text-[var(--text-muted)]">
-              Works with Craigslist, Autotrader, Cars.com, CarGurus, and most dealer pages. Facebook Marketplace links need a login, so paste the ad text or a screenshot instead.
-            </p>
-            </>
-            )}
-            {error ? <div className="mt-4"><ErrorState message={error} /></div> : null}
-            {sourceNotice ? (
-              <p className="notice mt-4">
-                {sourceNotice}
-              </p>
-            ) : null}
-            {isBusy ? <div className="mt-4"><LoadingState /></div> : null}
-          </section>
+      <section aria-label="Supported marketplaces" className="border-y border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-6 sm:px-7">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-7 gap-y-3">
+          <span className="mono-label text-xs text-[var(--muted)]">Reads listings from</span>
+          {["AutoTrader", "Cars.com", "CarGurus", "Edmunds", "TrueCar", "CarMax", "KBB"].map((name) => (
+            <span key={name} className="font-display text-[clamp(16px,4vw,19px)] font-bold text-[var(--muted)] transition hover:text-[var(--graphite)]">
+              {name}
+            </span>
+          ))}
         </div>
       </section>
 
-      <section id="market-data" className="bg-[var(--mist)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
+      <section id="how-it-works" className="bg-[var(--canvas)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-14">
         <div className="mx-auto max-w-[1200px]">
-          <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">How it helps</p>
-              <h2 className="mt-2 text-3xl font-black sm:text-4xl">Price check. Risk check. Buyer next steps.</h2>
-            </div>
-            <p className="text-lg leading-8 text-[var(--text-body)]">
-              DealScan turns a messy car ad into simple buyer guidance: the deal score, warning signs, missing details, and what to ask next.
-            </p>
-          </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <p className="eyebrow">How it works</p>
+          <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">Three steps, about ten seconds.</h2>
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
             {[
-              { title: "Reads the ad", note: "Paste the listing link and DealScan pulls together the car details for you.", icon: LinkIcon, href: "#analyzer" },
-              { title: "Scores the deal", note: "Price, mileage, title status, condition, and seller claims — scored 0 to 100 with a smarter starting offer.", icon: LineChart, href: "#market-data" },
-              { title: "Checks history", note: "History report links help buyers verify title, mileage, ownership, and accidents.", icon: FileSearch, href: partnerLinks.carfax },
-              { title: "Plans the visit", note: "Know what to ask, what to verify, and when to walk away.", icon: Wrench, href: partnerLinks.inspection },
-            ].map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <a
-                  key={item.title}
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "sponsored noopener noreferrer" : undefined}
-                  className="fade-up rounded-2xl border border-[var(--line)] bg-white/70 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.64)] backdrop-blur-md backdrop-saturate-150 transition hover:-translate-y-1.5 hover:border-[rgba(183,96,58,0.24)] hover:bg-white/85"
-                >
-                  <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
-                  <h3 className="mt-5 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">{item.note}</p>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="how-it-works" className="bg-[var(--ivory)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
-        <div className="mx-auto max-w-[1200px]">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">See it in action</p>
-            <h2 className="mt-2 text-3xl font-black sm:text-4xl">What you get with every scan</h2>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--text-body)]">
-              Paste any listing and get a full breakdown in seconds — score, flags, pricing, and what to ask the seller.
-            </p>
-          </div>
-          <div className="mt-8 grid gap-6 lg:grid-cols-3">
-            <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
-                <Gauge className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
+              { n: "01", title: "Paste the link", note: "Drop in any public ad. DealScan reads the car details for you, no retyping." },
+              { n: "02", title: "We check the market", note: "Price, title, and mileage are scored against real comparable sales near you." },
+              { n: "03", title: "Get your verdict", note: "A clear deal score, the red flags, and a fair offer you can actually make." },
+            ].map((step) => (
+              <div key={step.n} className="card-hover">
+                <span className="mono-label text-sm font-semibold text-[var(--racing-green)]">{step.n}</span>
+                <h3 className="mt-4 font-display text-[22px] font-bold">{step.title}</h3>
+                <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{step.note}</p>
               </div>
-              <h3 className="mt-5 text-xl font-black">Deal Score &amp; Verdict</h3>
-              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
-                A clear 0–100 score with a verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid. Know instantly if it&apos;s worth your time.
-              </p>
-            </div>
-            <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
-                <FileSearch className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
-              </div>
-              <h3 className="mt-5 text-xl font-black">Red &amp; Green Flags</h3>
-              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
-                We scan for 17 red flag patterns (salvage, flood, no title) and 12 green flags (service records, one owner, clean Carfax).
-              </p>
-            </div>
-            <div className="card-hover">
-              <div className="grid h-14 w-14 place-items-center rounded-xl bg-[rgba(169,130,83,0.14)]">
-                <BadgeDollarSign className="h-7 w-7 text-[var(--champagne)]" aria-hidden="true" />
-              </div>
-              <h3 className="mt-5 text-xl font-black">Price Range &amp; Offer Target</h3>
-              <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
-                Fair market range, suggested offer, and negotiation talking points. Know what to pay before you message the seller.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" className="bg-[var(--ivory)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
-        <div className="mx-auto max-w-3xl">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">FAQ</p>
-            <h2 className="mt-2 text-3xl font-black sm:text-4xl">Frequently asked questions</h2>
-          </div>
-          <div className="mt-8 grid gap-4">
-            {faqs.slice(0, 4).map(({ q, a }) => (
-              <details
-                key={q}
-                className="card-hover !p-5"
-              >
-                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold text-[var(--graphite)]">
-                  <span>{q}</span>
-                  <ChevronRight className="h-5 w-5 shrink-0 text-[var(--champagne)] transition group-open:rotate-90" aria-hidden="true" />
-                </summary>
-                <p className="mt-4 text-base leading-7 text-[var(--text-muted)]">{a}</p>
-              </details>
             ))}
-            <details className="card-hover !p-5">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold text-[var(--graphite)]">
-                <span>More questions</span>
-                <ChevronRight className="h-5 w-5 shrink-0 text-[var(--champagne)] transition group-open:rotate-90" aria-hidden="true" />
-              </summary>
-              <div className="mt-4 grid gap-4">
-                {faqs.slice(4).map(({ q, a }) => (
-                  <div key={q}>
-                    <h3 className="text-base font-bold text-[var(--graphite)]">{q}</h3>
-                    <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{a}</p>
-                  </div>
-                ))}
-              </div>
-            </details>
           </div>
         </div>
       </section>
 
-      <section id="resources" className="bg-[var(--paper)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
-        <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.65fr_1.35fr]">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer tools</p>
-            <h2 className="mt-2 text-3xl font-black sm:text-4xl">After the scan, verify before you buy.</h2>
-            <p className="mt-4 text-lg leading-8 text-[var(--text-body)]">
-              History report, pre-purchase inspection, insurance, and financing — the four checks that protect you after a promising scan.
-            </p>
-            <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
-              Some buyer-tool links may be affiliate links. DealScan may earn a commission at no extra cost to you, and scoring stays independent.
-            </p>
-            <a href="/affiliate-links" className="btn-pill mt-5 !min-h-11 !rounded-full !bg-[var(--graphite)] !text-[var(--ivory)] hover:!bg-[var(--racing-green)]">
-              View all buyer tools
-            </a>
+      <section aria-label="Partner offers" className="bg-[var(--canvas)] px-4 pb-2 text-[var(--graphite)] sm:px-7">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="font-display text-[17px] font-bold">Popular with buyers</span>
+            <span className="mono-label text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">Sponsored</span>
           </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {quickActions.map((action) => {
-              const Icon = action.icon;
+          <div className="mt-3.5 grid gap-3.5 lg:grid-cols-3">
+            {partnerOffers.map((offer) => (
+              <a
+                key={offer.title}
+                href={offer.href}
+                target="_blank"
+                rel="sponsored noopener noreferrer"
+                className="flex items-center gap-3.5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-22px_rgba(0,0,0,0.4)]"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--chip)] font-display text-[19px] font-extrabold text-[var(--racing-green)]" aria-hidden="true">
+                  {offer.glyph}
+                </span>
+                <span>
+                  <span className="block font-display text-[15.5px] font-bold text-[var(--graphite)]">{offer.title}</span>
+                  <span className="mt-0.5 block text-[12.5px] text-[var(--text-muted)]">{offer.note}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-[var(--muted)]">
+            Partner links may earn DealScan a commission at no cost to you. Scoring stays independent.
+          </p>
+        </div>
+      </section>
 
-              return (
-                <a
-                  key={action.label}
-                  href={action.href}
-                  target="_blank"
-                  rel="sponsored noopener noreferrer"
-                  className="card-hover group flex items-center justify-between"
-                >
-                  <span className="flex items-center gap-4">
-                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-[var(--accent-2-soft)] transition group-hover:scale-110">
-                      <Icon className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
-                    </span>
-                    <span>
-                      <span className="block text-base font-bold">{action.label}</span>
-                      <span className="text-sm text-[var(--text-muted)]">{action.note}</span>
-                    </span>
-                  </span>
-                  <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
-                </a>
-              );
-            })}
+      <section id="features" className="bg-[var(--canvas)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-12">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="grid gap-4 lg:grid-cols-3">
+            {[
+              { glyph: "$", title: "Fair-price check", note: "See the real market value and exactly how far this asking price sits from it." },
+              { glyph: "!", title: "Red-flag detection", note: "Title, mileage, and seller signals that quietly hint at trouble ahead." },
+              { glyph: "?", title: "Questions to ask", note: "A tailored checklist to bring to the test drive so nothing gets missed." },
+            ].map((feature) => (
+              <div key={feature.title} className="card-hover">
+                <div className="grid h-10 w-10 place-items-center rounded-[11px] bg-[var(--chip)] font-display text-[20px] font-extrabold text-[var(--racing-green)]" aria-hidden="true">
+                  {feature.glyph}
+                </div>
+                <h3 className="mt-4 font-display text-[20px] font-bold">{feature.title}</h3>
+                <p className="mt-2 text-[15px] leading-[1.55] text-[var(--text-muted)]">{feature.note}</p>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section id="sample" className="border-y border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-14">
+        <div className="mx-auto grid max-w-[1200px] gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+          <div>
+            <p className="eyebrow">A real scan</p>
+            <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">Every scan ends with a number and a next step.</h2>
+            <p className="mt-4 max-w-[400px] text-lg leading-[1.55] text-[var(--text-muted)]">
+              No jargon, no dashboards to learn. Just how good the deal is, why, and what to offer.
+            </p>
+          </div>
+          <div className="rounded-[20px] border border-[var(--border-subtle)] bg-[var(--ivory)] p-5 sm:p-6">
+            <div className="flex flex-wrap items-center gap-5">
+              <div
+                className="grid h-[110px] w-[110px] shrink-0 place-items-center rounded-full"
+                style={{ background: "conic-gradient(#3F8A5B 0% 82%, var(--line) 82% 100%)" }}
+                aria-label="Sample deal score: 82 out of 100"
+              >
+                <div className="grid h-[84px] w-[84px] place-items-center rounded-full bg-[var(--ivory)] text-center">
+                  <span className="font-display text-2xl font-extrabold leading-none">82</span>
+                  <span className="text-[10px] font-semibold text-[var(--text-muted)]">out of 100</span>
+                </div>
+              </div>
+              <div>
+                <div className="mono-label text-[11px] text-[var(--muted)]">2019 Toyota Camry SE</div>
+                <div className="font-display text-[26px] font-extrabold text-[var(--gink)]">Great deal</div>
+                <div className="text-sm text-[var(--text-muted)]">Listed $18,400 · fair value ~$19,800</div>
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4">
+              {[
+                { label: "Price vs. market", pct: 88, note: "Strong", warn: false },
+                { label: "Title & history", pct: 94, note: "Clean", warn: false },
+                { label: "Mileage confidence", pct: 58, note: "Needs proof", warn: true },
+              ].map((bar) => (
+                <div key={bar.label}>
+                  <div className="flex items-center justify-between text-sm font-semibold">
+                    <span>{bar.label}</span>
+                    <span className={bar.warn ? "text-[#8a6d3b]" : "text-[var(--gink)]"}>{bar.note}</span>
+                  </div>
+                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-[var(--line)]">
+                    <div
+                      className="h-full rounded-full"
+                      style={{ width: `${bar.pct}%`, background: bar.warn ? "var(--warning)" : "var(--success)" }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-[14px] bg-[var(--chip)] px-4 py-3.5">
+              <div>
+                <div className="text-xs font-semibold text-[var(--text-muted)]">Suggested offer</div>
+                <div className="font-display text-[28px] font-extrabold leading-none">$17,000</div>
+              </div>
+              <a href="#analyzer" className="btn-pill !min-h-11">See full report</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-[var(--canvas)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-14">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="eyebrow">FAQ</p>
+          <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">Good to know.</h2>
+          <div className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2">
+            {faqs.slice(0, 4).map(({ q, a }) => (
+              <div key={q} className="border-t border-[var(--line)] pt-5">
+                <h3 className="font-display text-[19px] font-bold text-[var(--graphite)]">{q}</h3>
+                <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{a}</p>
+              </div>
+            ))}
+          </div>
+          <details className="mt-6 border-t border-[var(--line)] pt-5">
+            <summary className="cursor-pointer font-display text-[19px] font-bold text-[var(--graphite)]">
+              More questions
+            </summary>
+            <div className="mt-4 grid gap-x-10 gap-y-6 md:grid-cols-2">
+              {faqs.slice(4).map(({ q, a }) => (
+                <div key={q}>
+                  <h3 className="font-display text-base font-bold text-[var(--graphite)]">{q}</h3>
+                  <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{a}</p>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       </section>
 
@@ -1045,6 +945,9 @@ export function AnalyzerApp() {
             <p>
               Most used car listings look reasonable at first glance. The price seems fair, the mileage sounds manageable, and the seller says it runs great. The problem is that listings are written to generate interest, not to help buyers evaluate risk. A used car listing analyzer cuts through that. DealScan reads the listing you paste or link and scores the deal based on the factors that actually matter — before you spend time and money visiting.
             </p>
+            <details className="group">
+            <summary className="cursor-pointer text-sm font-bold text-[var(--racing-green)] underline-offset-4 hover:underline group-open:hidden">Keep reading: how the score works and the red flags that matter</summary>
+            <div className="space-y-5">
             <h3 className="text-lg font-black text-[var(--graphite)]">How the deal score works</h3>
             <p>
               Paste any listing link from Craigslist, Cars.com, Autotrader, CarGurus, or a dealer website and DealScan pulls together the details automatically. You can also paste seller notes, enter the car details manually, or upload a listing screenshot. In seconds you get a 0–100 deal score with a plain verdict: Great Deal, Decent Deal, Proceed with Caution, or Avoid.
@@ -1069,11 +972,62 @@ export function AnalyzerApp() {
             <p>
               DealScan links to vetted tools for all four steps after each analysis. Some of those links may be affiliate links — the deal score is never influenced by any partner relationship. The tool itself is completely free, no account required, and scan history saves only in your own browser.
             </p>
+            </div>
+            </details>
           </div>
         </div>
       </section>
 
-      <section className="bg-[var(--paper)] px-5 py-8 sm:px-7">
+      <section className="bg-[var(--canvas)] px-4 py-8 sm:px-7 sm:py-14">
+        <div className="relative mx-auto max-w-[1200px] overflow-hidden rounded-[26px] bg-[#1a1613] px-6 py-10 text-center sm:px-10 sm:py-16">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-16 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[rgba(180,80,31,0.4)] blur-[80px]"
+          />
+          <h2 className="relative text-3xl font-extrabold text-[#f7f1e9] sm:text-4xl">
+            Check your listing in 10 seconds.
+          </h2>
+          <p className="relative mt-3 text-base text-[#c7bcaf] sm:text-lg">
+            Paste the link, get the score. No account, no cost, no catch.
+          </p>
+          <div className="relative mx-auto mt-8 flex max-w-[560px] flex-wrap gap-2 rounded-2xl bg-[#fffdfa] p-2">
+            <input
+              value={listingUrl}
+              onChange={(event) => {
+                setListingUrl(event.target.value);
+                setLastExtractedUrl("");
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !isBusy) {
+                  event.preventDefault();
+                  setInputType("url");
+                  setHeroMode("link");
+                  document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+                  void analyzeListing("url");
+                }
+              }}
+              placeholder="Paste a listing link…"
+              aria-label="Listing link"
+              className="min-w-[140px] flex-1 bg-transparent px-4 text-base text-[#1a1613] outline-none placeholder:text-[#b3a89c]"
+            />
+            <button
+              type="button"
+              disabled={isBusy}
+              onClick={() => {
+                setInputType("url");
+                setHeroMode("link");
+                document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+                void analyzeListing("url");
+              }}
+              className="flex-[1_0_auto] rounded-xl bg-[#B4501F] px-7 py-4 text-base font-bold text-[#FFFDFA] transition hover:-translate-y-0.5 hover:bg-[#9A421A] hover:shadow-[0_12px_26px_-10px_rgba(180,80,31,0.7)] disabled:pointer-events-none disabled:opacity-60"
+            >
+              Check deal
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[var(--canvas)] px-5 py-8 sm:px-7">
         <AdUnit slot={ADSENSE_HOME_SLOT} />
       </section>
 

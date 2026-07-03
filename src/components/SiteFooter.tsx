@@ -29,8 +29,8 @@ export function SiteFooter() {
     >
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(169,130,83,0.6)] to-transparent" aria-hidden="true" />
       <div className="mx-auto max-w-[1200px] pt-12">
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="col-span-2 lg:col-span-1">
             <div className="text-lg text-[#f3eee3]"><Logo /></div>
             <div className="mt-1 text-[11px] font-bold uppercase text-[var(--champagne)]">Listing review</div>
             <p className="mt-4 max-w-xs text-sm leading-7 text-[var(--silver)]">
