@@ -1,7 +1,6 @@
 import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Logo } from "@/components/Logo";
 import {
   BadgeDollarSign,
   CarFront,
@@ -253,9 +252,13 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             aria-label="DealScan.dev home"
-            className="text-2xl"
+            className="logo-3d relative inline-flex items-center gap-2 py-[0.2em] text-[2.25rem] font-black leading-none tracking-tight"
           >
-            <Logo />
+            <span
+              aria-hidden="true"
+              className="inline-block h-[0.55em] w-[0.55em] rotate-45 rounded-[2px] bg-[var(--racing-green)]"
+            />
+            <span className="font-display">DealScan</span>
           </button>
           <div className="flex items-center gap-3">
             <Link href="/dashboard" className="hidden text-sm font-bold text-[var(--silver)] transition hover:text-[var(--champagne)] sm:block">
