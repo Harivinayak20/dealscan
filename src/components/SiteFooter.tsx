@@ -50,11 +50,13 @@ export function SiteFooter() {
               <li><Link href="/compare" className="transition hover:text-[var(--champagne)]">Used car comparisons</Link></li>
               <li><Link href="/fees" className="transition hover:text-[var(--champagne)]">Dealer fees explained</Link></li>
               <li><Link href="/price-checker" className="transition hover:text-[var(--champagne)]">Used car price checker</Link></li>
+              <li><Link href="/widget" className="transition hover:text-[var(--champagne)]">Embed DealScan</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-[#f3eee3]">Resources</h3>
             <ul className="mt-4 grid gap-3 text-sm font-bold">
+              <li><Link href="/best" className="transition hover:text-[var(--champagne)]">Best used cars</Link></li>
               <li><a href={partnerLinks.carfax} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Carfax report</a></li>
               <li><a href={partnerLinks.inspection} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">PPI booking</a></li>
               <li><a href={partnerLinks.insurance} target="_blank" rel="sponsored noopener noreferrer" className="transition hover:text-[var(--champagne)]">Insurance quote</a></li>

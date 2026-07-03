@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import {
   BadgeDollarSign,
   CarFront,
@@ -245,14 +246,17 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
     <section id="analysis-result" className="min-h-screen bg-[rgba(244,240,232,0.94)] text-[var(--graphite)]">
       <header className="sticky top-0 z-20 border-b border-white/10 bg-[rgba(11,13,16,0.90)] text-[var(--ivory)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-3 transition hover:-translate-y-0.5" aria-label="DealScan.dev home">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-[var(--champagne)] text-[var(--graphite)]">
-              <CarFront className="h-6 w-6" aria-hidden="true" />
-            </div>
-            <div className="text-2xl font-black">
-              DealScan.dev
-            </div>
-          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              onReset();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            aria-label="DealScan.dev home"
+            className="text-2xl"
+          >
+            <Logo />
+          </button>
           <div className="flex items-center gap-3">
             <Link href="/dashboard" className="hidden text-sm font-bold text-[var(--silver)] transition hover:text-[var(--champagne)] sm:block">
               Dashboard
