@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { carModels, getCarModel } from "@/lib/car-models";
 import { comparisonsForModel } from "@/lib/comparisons";
+import { listsForModel } from "@/lib/best-lists";
 import { modelYears } from "@/lib/pricing";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
@@ -71,6 +72,7 @@ export default async function CarModelPage({ params }: CarPageProps) {
   const carIndex = carModels.findIndex((m) => m.slug === car.slug);
   const related = [1, 2, 3].map((offset) => carModels[(carIndex + offset) % carModels.length]);
   const modelComparisons = comparisonsForModel(car.slug);
+  const modelLists = listsForModel(car.slug);
 
   const jsonLd = [
     {
@@ -260,6 +262,24 @@ export default async function CarModelPage({ params }: CarPageProps) {
                     </Link>
                   );
                 })}
+              </div>
+            </section>
+          ) : null}
+
+          {modelLists.length > 0 ? (
+            <section className="mt-12">
+              <h2 className="text-2xl font-black">Is the {car.make} {car.model} a best used car pick?</h2>
+              <p className="mt-2 text-base leading-7 text-[var(--text-body)]">The {car.model} makes these DealScan shortlists — see where it ranks and what to buy it against.</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {modelLists.map((list) => (
+                  <Link
+                    key={list.slug}
+                    href={`/best/${list.slug}`}
+                    className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
+                  >
+                    {list.title}
+                  </Link>
+                ))}
               </div>
             </section>
           ) : null}
