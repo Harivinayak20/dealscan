@@ -2,12 +2,27 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, Wrench } from "lucide-react";
 import Link from "next/link";
+import { AdUnit } from "@/components/AdUnit";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { carModels, getCarModel } from "@/lib/car-models";
 import { comparisonsForModel } from "@/lib/comparisons";
 import { modelYears } from "@/lib/pricing";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
+
+// Build a 150-160 char meta description from complete sentences, never cut mid-word.
+function metaDescription(text: string) {
+  if (text.length <= 160) return text;
+  const sentences = text.match(/[^.!?]+[.!?]+/g) ?? [text];
+  let out = "";
+  for (const sentence of sentences) {
+    if ((out + sentence).length > 160) break;
+    out += sentence;
+  }
+  out = out.trim();
+  return out.length >= 120 ? out : `${text.slice(0, 157).trimEnd()}…`;
+}
 
 type CarPageProps = {
   params: Promise<{
@@ -28,16 +43,17 @@ export async function generateMetadata({ params }: CarPageProps): Promise<Metada
   }
 
   const title = `Is a used ${car.make} ${car.model} a good deal? Known issues & buyer checks`;
+  const description = metaDescription(car.quickAnswer);
 
   return {
     title,
-    description: car.quickAnswer.slice(0, 155),
+    description,
     alternates: {
       canonical: `/cars/${car.slug}`,
     },
     openGraph: {
       title,
-      description: car.quickAnswer.slice(0, 155),
+      description,
       url: `${appUrl}/cars/${car.slug}`,
       type: "article",
     },
@@ -162,6 +178,8 @@ export default async function CarModelPage({ params }: CarPageProps) {
                   ))}
                 </ul>
               </section>
+
+              <AdUnit slot={ADSENSE_IN_ARTICLE_SLOT} />
 
               <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
                 <h2 className="text-2xl font-black leading-tight">How much mileage is okay?</h2>

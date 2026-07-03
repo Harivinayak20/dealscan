@@ -20,3 +20,6 @@ yarn-error.log*
 !.dev.vars.example
 .claude/
 animation-proof/
+
+# Social content workflow (local marketing assets, not app code)
+social/

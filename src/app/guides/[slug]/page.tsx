@@ -53,24 +53,59 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const guideIndex = guides.findIndex((g) => g.slug === guide.slug);
   const relatedGuides = [1, 2, 3].map((offset) => guides[(guideIndex + offset) % guides.length]);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: guide.title,
-    description: guide.description,
-    dateModified: guide.updatedAt,
-    datePublished: guide.updatedAt,
-    author: {
-      "@type": "Person",
-      name: "Hari Vinayak",
-      url: `${appUrl}/about`,
+  const isProcedural = /inspection|negotiation|check|test-drive|paperwork/.test(guide.slug);
+
+  const jsonLd: Record<string, unknown>[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: guide.title,
+      description: guide.description,
+      dateModified: guide.updatedAt,
+      datePublished: guide.updatedAt,
+      author: {
+        "@type": "Person",
+        name: "Hari Vinayak",
+        url: `${appUrl}/about`,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "DealScan",
+      },
+      mainEntityOfPage: `${appUrl}/guides/${guide.slug}`,
     },
-    publisher: {
-      "@type": "Organization",
-      name: "DealScan",
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: guide.title,
+          acceptedAnswer: { "@type": "Answer", text: guide.quickAnswer },
+        },
+        ...guide.sections.map((section) => ({
+          "@type": "Question",
+          name: section.heading,
+          acceptedAnswer: { "@type": "Answer", text: section.body.join(" ") },
+        })),
+      ],
     },
-    mainEntityOfPage: `${appUrl}/guides/${guide.slug}`,
-  };
+  ];
+
+  if (isProcedural) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: guide.title,
+      description: guide.description,
+      step: guide.sections.map((section, index) => ({
+        "@type": "HowToStep",
+        position: index + 1,
+        name: section.heading,
+        text: section.body.join(" "),
+      })),
+    });
+  }
 
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
@@ -116,6 +151,18 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <p className="text-sm font-black uppercase tracking-wide text-[var(--racing-green)]">Quick answer</p>
             <p className="mt-2 text-base leading-7 text-[var(--text-body)]">{guide.quickAnswer}</p>
           </div>
+
+          <section id="summary" className="mt-6 max-w-3xl rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 shadow-sm">
+            <h2 className="text-sm font-black uppercase tracking-wide text-[var(--racing-green)]">Key takeaways</h2>
+            <ul className="mt-3 grid gap-2">
+              {guide.quickChecks.slice(0, 3).map((item) => (
+                <li key={item} className="flex gap-2 text-base leading-7 text-[var(--text-body)]">
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[0.72fr_0.28fr] lg:items-start">
             <div className="space-y-8">
