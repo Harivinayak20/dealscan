@@ -7,12 +7,13 @@ import { allValueYears } from "@/lib/pricing";
 import { comparisons } from "@/lib/comparisons";
 import { stateFees } from "@/lib/state-fees";
 import { bestLists } from "@/lib/best-lists";
+import { allProblemPages } from "@/lib/problem-pages";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ["", "/guides", "/cars", "/compare", "/best", "/fees", "/fees/states", "/price-checker", "/vin", "/changelog", "/widget", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
+  const staticRoutes = ["", "/guides", "/cars", "/compare", "/best", "/fees", "/fees/states", "/price-checker", "/vin", "/changelog", "/research", "/widget", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer"] as const;
 
   return [
     ...staticRoutes.map((route) => ({
@@ -50,6 +51,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    })),
+    ...allProblemPages().map(({ slug, year }) => ({
+      url: `${appUrl}/cars/${slug}/problems/${year}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
     ...stateFees.map((entry) => ({
       url: `${appUrl}/fees/states/${entry.slug}`,

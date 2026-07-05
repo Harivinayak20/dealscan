@@ -840,6 +840,129 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "dealscan-vs-visor",
+    title: "DealScan vs Visor: which car-buying tool do you actually need?",
+    description:
+      "Visor searches the whole dealer market; DealScan judges the specific listing in front of you. How the two buyer-side tools differ and why many shoppers use both.",
+    quickAnswer:
+      "Visor (visor.vin) is a car search engine: it aggregates dealer inventory nationwide and adds market context like days-on-lot and price history. DealScan is a deal analyzer: paste any single listing — dealer or private party — and get a 0-100 score, red flags, missing info, and a negotiation plan. Use Visor to find candidates; use DealScan to decide whether the one you found deserves your money.",
+    readTime: "6 min read",
+    updatedAt: "2026-07-05",
+    quickChecks: [
+      "Searching the whole market? Visor's aggregation and map are built for that",
+      "Judging one specific listing? DealScan scores it and arms your negotiation",
+      "Private-party car (Craigslist, FB Marketplace)? Visor doesn't cover those; DealScan scans any listing",
+      "Both are buyer-side: neither sells your contact info to dealers as a lead",
+    ],
+    sections: [
+      {
+        heading: "Two different jobs in the same purchase",
+        body: [
+          "A used-car purchase has a search phase and a judgment phase. Search tools — Visor, Autotrader, CarGurus — answer \"what's out there?\". Judgment is a different question: is THIS car, at THIS price, from THIS seller, a deal or a trap? That's the phase where most money is won or lost, and it's the phase DealScan is built for.",
+          "Visor earns real credit for its buyer-side stance: listings pulled straight from dealer sites, no sponsored placement, no lead selling. DealScan shares that philosophy and applies it to analysis — nobody can pay to change a score, and you never hand over contact info to see a result.",
+        ],
+      },
+      {
+        heading: "What Visor gives you that DealScan doesn't",
+        body: [
+          "Nationwide dealer inventory in one search, a map view, dynamic filters down to installed factory options, saved searches, and (on the paid Visor Plus tier) sold-listing data and price-history tracking across the whole market. If you're still deciding which car to buy or scanning the country for a specific spec, it's an excellent search engine.",
+          "DealScan doesn't aggregate inventory and doesn't try to — search is a solved problem with many good tools. We'd rather be the second opinion you run on whatever any of them surfaces.",
+        ],
+      },
+      {
+        heading: "What DealScan gives you that Visor doesn't",
+        body: [
+          "A verdict. Visor shows you data and leaves the judgment to you; DealScan reads the actual listing text and returns a 0-100 deal score, a fair-price range, red flags (title language, mileage inconsistencies, pressure tactics), what the listing conveniently leaves out, questions to ask the seller, and a suggested opening offer. It also covers the riskiest half of the used market — private-party listings — that dealer-inventory search engines don't index at all.",
+          "And it's free without an account: no signup to scan, and the free VIN lookup covers specs, recalls, safety ratings, and MPG from government data.",
+        ],
+      },
+      {
+        heading: "The honest recommendation",
+        body: [
+          "Use both. Find candidates on Visor (or anywhere else), then paste each listing URL into DealScan before you message the seller. Two buyer-side tools, two phases of the purchase, zero lead forms between you and the answer.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "visor-alternatives",
+    title: "Visor.vin alternatives: the buyer-side car tool stack for 2026",
+    description:
+      "Visor is great at market-wide search, but it's one tool in a bigger buyer-side toolkit. The free alternatives and complements for search, VIN checks, valuation, and deal analysis.",
+    quickAnswer:
+      "There's no single replacement for Visor because it does one job — market-wide dealer search — very well. The real buyer-side stack in 2026: a search engine (Visor, AutoTempest, CarGurus) to find candidates, a free VIN check (DealScan's /vin, NHTSA.gov) for recalls and specs, a valuation source for price context, and a deal analyzer (DealScan) to score the specific listing and plan the negotiation before you contact anyone.",
+    readTime: "7 min read",
+    updatedAt: "2026-07-05",
+    quickChecks: [
+      "Market-wide search: Visor, AutoTempest (aggregates aggregators), CarGurus",
+      "Free VIN check: DealScan /vin (specs, recalls, safety, MPG), NHTSA.gov",
+      "Price context: DealScan price checker, KBB/Edmunds ranges",
+      "Deal judgment: DealScan analyzer — score, red flags, negotiation plan",
+    ],
+    sections: [
+      {
+        heading: "Why people look for alternatives at all",
+        body: [
+          "Visor covers dealer inventory in the US and Canada. The gaps shoppers hit: private-party listings (Craigslist, Facebook Marketplace, OfferUp) aren't there, deeper data like sold prices sits behind the paid Plus tier, and — by design — it presents data rather than judging a specific deal for you.",
+          "None of those gaps mean 'switch tools'. They mean the search engine is one layer of a stack, and the layers above it are where a buyer's real questions get answered.",
+        ],
+      },
+      {
+        heading: "The four-layer buyer stack",
+        body: [
+          "Layer 1 — Search: Visor for clean dealer-market search; AutoTempest to sweep multiple sources including some private-party sites; CarGurus for its deal-rating labels (with the caveat that it's a dealer-funded marketplace).",
+          "Layer 2 — Identity: run the VIN. DealScan's free VIN lookup pulls factory specs, open recalls, NHTSA crash-test ratings, and EPA fuel economy with no signup; NHTSA.gov is the primary source if you want it raw.",
+          "Layer 3 — Price context: a fair-range estimate from DealScan's transparent price checker or the traditional KBB/Edmunds books, so an asking price has something to be measured against.",
+          "Layer 4 — Judgment: paste the actual listing into the DealScan analyzer. It scores the deal 0-100, surfaces red flags and missing information, and hands you seller questions and an opening-offer range. This is the layer nothing in the search tier provides.",
+        ],
+      },
+      {
+        heading: "What to avoid",
+        body: [
+          "Paid 'VIN report' sites that charge for data the government publishes free, marketplaces that require your phone number before showing a price (that's a lead form, and you're the product), and any tool promising a definitive value without showing how it got there. A good buyer-side tool shows its work.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "best-free-vin-check",
+    title: "Best free VIN check in 2026: what's actually free vs. a paywall funnel",
+    description:
+      "Most 'free VIN check' sites are lead funnels for paid reports. What a VIN can genuinely tell you for free — specs, recalls, safety ratings, MPG — and where each piece comes from.",
+    quickAnswer:
+      "A genuinely free VIN check exists because the underlying data is public: NHTSA decodes any VIN into full factory specs, publishes every safety recall, and rates crash tests, while the EPA publishes fuel economy. DealScan's VIN lookup combines all four with no signup. What a free check can NOT give you is title and accident history — that data is privately held (NMVTIS, Carfax, AutoCheck) and always costs money from any legitimate source.",
+    readTime: "6 min read",
+    updatedAt: "2026-07-05",
+    quickChecks: [
+      "Free and legitimate: specs, open recalls, crash-test ratings, MPG (government data)",
+      "Never free anywhere: title brands, accident history, odometer records (NMVTIS/Carfax)",
+      "'Free VIN report' sites that end at a credit-card form are funnels, not tools",
+      "Always ask the seller for the VIN before visiting — refusal is itself a red flag",
+    ],
+    sections: [
+      {
+        heading: "What the VIN actually encodes",
+        body: [
+          "The 17-character VIN identifies the exact vehicle as built: year, make, model, trim, engine, transmission, drivetrain, restraint systems, and the plant that assembled it. The government's vPIC database decodes all of it for free — that's the same source behind DealScan's VIN lookup, which adds NHTSA recalls, crash-test star ratings, and EPA fuel economy on one page with no account.",
+          "Recalls matter most in a used purchase: recall repairs are free at franchised dealers forever, so an open recall is both a safety item and a pre-purchase to-do you can hand the seller.",
+        ],
+      },
+      {
+        heading: "What no free check can give you",
+        body: [
+          "Title status, accident records, salvage brands, and odometer history live in NMVTIS and in private databases like Carfax and AutoCheck. Every legitimate source of that data charges for it — so a site advertising a 'free VIN history report' either shows you the free government data and calls it history, or funnels you to a paid report at the last step.",
+          "The honest workflow: run the free check first (specs, recalls, safety), and pay for ONE history report only on the car you're serious enough to inspect. That sequencing saves both money and disappointment.",
+        ],
+      },
+      {
+        heading: "From VIN check to deal check",
+        body: [
+          "A VIN check tells you what the car is; it can't tell you whether the listing is a good deal. That's the analyzer's job: paste the listing and DealScan scores it, flags risk language, computes a fair-price range, and suggests an opening offer. VIN first, scan second, inspection third — in that order, before any money moves.",
+        ],
+      },
+    ],
+  },
 ];
 
 export function getGuide(slug: string) {
