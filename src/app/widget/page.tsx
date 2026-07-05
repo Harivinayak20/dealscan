@@ -58,11 +58,7 @@ const jsonLd = {
   description: "Embed DealScan's free used car deal checker widget on your site in one line of code.",
   dateModified: "2026-07-03",
   datePublished: "2026-07-03",
-  author: {
-    "@type": "Person",
-    name: "Hari Vinayak",
-    url: `${appUrl}/about`,
-  },
+  author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
   publisher: {
     "@type": "Organization",
     name: "DealScan",

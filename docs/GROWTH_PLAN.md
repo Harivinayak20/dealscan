@@ -54,9 +54,11 @@ Publish quarterly stats from anonymized scan data: average overpricing by model,
 Growing share of "is this a good deal on a used car" queries happen in ChatGPT/Perplexity. Make DealScan citable: statistics pages with clean claims + numbers, consistent entity info (Organization schema already present), llms.txt, and the research hub. AI citations also drive the "as seen in" credibility loop.
 
 ### 3e. Non-SEO kindling (while SEO compounds)
-- Reddit (r/UsedCars, r/whatcarshouldIbuy, r/personalfinance threads): genuinely helpful answers with scan results, tool mention only where natural. 2–3/week.
-- Short-form video: the `/dealscan-social` pipeline already exists — "I scanned this sketchy Craigslist ad" content format.
-- An email capture ("price-drop / new-scam alerts") so traffic becomes an owned audience.
+> ⚠️ Quiet-operator constraint (July 2026, see VISOR_TEARDOWN.md §8): no owner-identifiable founder posture anywhere public. Everything below runs under the DealScan brand or a delegate, or is deferred pending the attorney consult.
+- Reddit (r/UsedCars, r/whatcarshouldIbuy, r/personalfinance threads): genuinely helpful answers with scan results, tool mention only where natural. 2–3/week — brand/delegate account only.
+- Short-form video: the `/dealscan-social` pipeline already exists — "I scanned this sketchy Craigslist ad" content format. Brand-voiced, no personal face/name.
+- An email capture ("price-drop / new-scam alerts") so traffic becomes an owned audience. ✅ Shipped (watch alerts, Wave 2).
+- Revenue priority under the constraint: ads/affiliate (passive) before Pro subscriptions (active operation).
 
 ## 4. Big-company collaborations (see `co-marketing` skill)
 

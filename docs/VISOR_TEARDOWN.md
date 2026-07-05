@@ -80,13 +80,20 @@ Steal their *mechanics* (memory, market context, alerts, public shipping, episod
 - **DealScan Pro**: $4.99/week or $9.99/month at `/pricing`. Stripe Checkout + webhook behind `STRIPE_*` env vars; a founding-member waitlist renders until they're set. Entitlement = signed HttpOnly cookie backed by a `pro_members` D1 row.
 - Gating is deliberately thin: Pro lifts the watch cap (3 → 50) and scan rate limits. Scanning, scoring, and VIN checks stay free — the buyer-side promise is the moat.
 
-## 8. The human 20% (owner's jobs — cannot be automated)
+## 8. The human 20% — adjusted for a quiet-operator posture
 
-1. **Reddit founder presence, 30 min/day** (r/UsedCars, r/whatcarshouldIbuy, r/askcarsales, r/personalfinance): genuinely answer questions; mention the tool only where it truly helps. This exact behavior built Visor's 77% direct traffic.
-2. **Accounts/keys (~1 hour once)**: Resend, Stripe, Google Search Console, Cloudflare cron trigger.
-3. **Post the generated videos** 3×/week (TikTok / Shorts / Reels).
-4. **Send the drafted PR pitches** for each data study.
-5. **Decide**: Pro pricing, brand voice, and sign-off on each SEO tranche.
+**Operating constraint (July 2026):** the owner must NOT publicly present as the active operator/founder of DealScan (visa posture: no founder branding, no press, no "I'm building X" posts; metrics collected privately as an evidence file; degree of permissible hands-on involvement to be confirmed with an immigration attorney — that consult gates everything below). The product now reflects this: no personal names in bylines or schema, all authorship is the DealScan organization.
+
+1. **Attorney consult first.** Confirms what the owner can personally touch (code, merges, support email). Until then, prefer passive/deferred options everywhere.
+2. **Community presence — delegated or deferred.** Visor's growth channel (authentic Reddit engagement) still works, but it must be a brand/team account or a trusted delegate, never the owner's identifiable founder persona. If no delegate exists, defer; SEO + product loops carry growth meanwhile.
+3. **Accounts/keys (~1 hour once)**: Resend, Stripe, Google Search Console, Cloudflare cron trigger. (Confirm with attorney whether even this is owner-safe or should be done by a delegate.)
+4. **Videos and PR pitches**: publish under the DealScan brand only, or via a delegate; no personal face/name attached.
+5. **Metrics evidence file (private)**: export the admin dashboard numbers (scans/day, listings tracked, watches, revenue once live) monthly into a dated internal log. Never publish; this is documentation, not marketing.
+6. **Decide**: Pro pricing, brand voice, and sign-off on each SEO tranche — decisions can be quiet; only public-facing operation is constrained.
+
+**Monetization order flips under this constraint:** ads/affiliate revenue (passive — infrastructure already exists behind `NEXT_PUBLIC_ENABLE_ADSENSE` and the affiliate link flags) comes before Pro subscriptions, which imply active operation (support, billing issues). Keep Pro in waitlist mode until the attorney consult clears how it can be run.
+
+_Note: this section records a strategy posture, not legal advice._
 
 ## 9. KPIs
 

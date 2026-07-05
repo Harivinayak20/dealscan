@@ -82,11 +82,7 @@ export default async function CarModelPage({ params }: CarPageProps) {
       description: car.quickAnswer,
       dateModified: car.updatedAt,
       datePublished: car.updatedAt,
-      author: {
-        "@type": "Person",
-        name: "Hari Vinayak",
-        url: `${appUrl}/about`,
-      },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: {
         "@type": "Organization",
         name: "DealScan",
@@ -140,7 +136,7 @@ export default async function CarModelPage({ params }: CarPageProps) {
             Is a used {car.make} {car.model} a good deal?
           </h1>
           <p className="mt-3 text-sm text-[var(--text-muted)]">
-            By <Link href="/about" className="font-semibold underline-offset-2 hover:underline">Hari Vinayak</Link> · Updated {car.updatedAt}
+            By the <Link href="/about" className="font-semibold underline-offset-2 hover:underline">DealScan team</Link> · Updated {car.updatedAt}
           </p>
 
           <div className="mt-6 max-w-3xl rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-5 shadow-sm">

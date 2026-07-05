@@ -59,7 +59,7 @@ export default async function ProblemYearPage({ params }: ProblemPageProps) {
       description: answer.slice(0, 160),
       dateModified: data.updatedAt,
       datePublished: data.updatedAt,
-      author: { "@type": "Person", name: "Hari Vinayak", url: `${appUrl}/about` },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: { "@type": "Organization", name: "DealScan" },
       mainEntityOfPage: `${appUrl}/cars/${slug}/problems/${data.year}`,
     },

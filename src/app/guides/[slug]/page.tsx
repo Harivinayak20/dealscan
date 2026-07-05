@@ -63,11 +63,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
       description: guide.description,
       dateModified: guide.updatedAt,
       datePublished: guide.updatedAt,
-      author: {
-        "@type": "Person",
-        name: "Hari Vinayak",
-        url: `${appUrl}/about`,
-      },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: {
         "@type": "Organization",
         name: "DealScan",
@@ -143,7 +139,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             {guide.title}
           </h1>
           <p className="mt-3 text-sm text-[var(--text-muted)]">
-            By <Link href="/about" className="font-semibold underline-offset-2 hover:underline">Hari Vinayak</Link> · Updated {guide.updatedAt}
+            By the <Link href="/about" className="font-semibold underline-offset-2 hover:underline">DealScan team</Link> · Updated {guide.updatedAt}
           </p>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--text-body)]">{guide.description}</p>
 

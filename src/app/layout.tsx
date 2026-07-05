@@ -81,21 +81,6 @@ const organization = {
   description:
     "DealScan is a free AI tool that scores used car listings, flags risks, estimates fair prices, and helps buyers negotiate.",
   email: "hello@dealscan.dev",
-  founder: {
-    "@type": "Person",
-    name: "Hari Vinayak",
-    url: `${appUrl}/about`,
-  },
-};
-
-const person = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Hari Vinayak",
-  url: `${appUrl}/about`,
-  jobTitle: "Founder",
-  worksFor: { "@type": "Organization", name: "DealScan" },
-  sameAs: ["https://github.com/Harivinayak20"],
 };
 
 const jsonLd = [
@@ -130,7 +115,6 @@ const jsonLd = [
     },
   },
   organization,
-  person,
 ];
 
 export default function RootLayout({

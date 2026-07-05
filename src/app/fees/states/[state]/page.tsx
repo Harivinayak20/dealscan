@@ -90,11 +90,7 @@ export default async function StateFeePage({ params }: StatePageProps) {
       description: `Doc fee, sales tax, title, and registration costs when buying a used car in ${entry.name}.`,
       dateModified: entry.updatedAt,
       datePublished: entry.updatedAt,
-      author: {
-        "@type": "Person",
-        name: "Hari Vinayak",
-        url: `${appUrl}/about`,
-      },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: {
         "@type": "Organization",
         name: "DealScan",

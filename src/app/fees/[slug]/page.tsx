@@ -59,11 +59,7 @@ export default async function FeePage({ params }: FeePageProps) {
       description: fee.description,
       dateModified: fee.updatedAt,
       datePublished: fee.updatedAt,
-      author: {
-        "@type": "Person",
-        name: "Hari Vinayak",
-        url: `${appUrl}/about`,
-      },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: {
         "@type": "Organization",
         name: "DealScan",

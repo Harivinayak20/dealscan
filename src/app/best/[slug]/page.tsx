@@ -78,11 +78,7 @@ export default async function BestListPage({ params }: BestListPageProps) {
       description: list.metaDescription,
       dateModified: list.updatedAt,
       datePublished: list.updatedAt,
-      author: {
-        "@type": "Person",
-        name: "Hari Vinayak",
-        url: `${appUrl}/about`,
-      },
+      author: { "@type": "Organization", name: "DealScan", url: `${appUrl}/about` },
       publisher: {
         "@type": "Organization",
         name: "DealScan",
@@ -127,7 +123,7 @@ export default async function BestListPage({ params }: BestListPageProps) {
             {list.title}
           </h1>
           <p className="mt-3 text-sm text-[var(--text-muted)]">
-            By <Link href="/about" className="font-semibold underline-offset-2 hover:underline">Hari Vinayak</Link> · Updated {list.updatedAt}
+            By the <Link href="/about" className="font-semibold underline-offset-2 hover:underline">DealScan team</Link> · Updated {list.updatedAt}
           </p>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--text-body)]">{list.intro}</p>
 
