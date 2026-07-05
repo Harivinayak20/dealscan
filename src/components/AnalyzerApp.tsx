@@ -15,6 +15,7 @@ import { extractVin } from "@/lib/vin-decoder";
 import type { VinDecodeResult } from "@/lib/vin-decoder";
 
 import type { AnalysisMode, AnalyzeListingRequest, AnalyzeListingResult, InputType } from "@/lib/analyzer-types";
+import type { ListingMemory, MarketContext } from "@/lib/listing-memory";
 import { CompareInputPanel } from "@/components/CompareInputPanel";
 import { ComparisonResultView } from "@/components/ComparisonResultView";
 import { AdUnit } from "@/components/AdUnit";
@@ -94,6 +95,8 @@ export function AnalyzerApp() {
   const [screenshotPreviewUrl, setScreenshotPreviewUrl] = useState<string | null>(null);
   const [screenshotDataUrl, setScreenshotDataUrl] = useState<string | null>(null);
   const [result, setResult] = useState<AnalyzeListingResult | null>(null);
+  const [listingMemory, setListingMemory] = useState<ListingMemory | null>(null);
+  const [marketContext, setMarketContext] = useState<MarketContext | null>(null);
   const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("groq");
   const [notice, setNotice] = useState("");
   const [viewMode, setViewMode] = useState<"analyzer" | "result" | "compare" | "comparison-result">("analyzer");
@@ -269,9 +272,13 @@ export function AnalyzerApp() {
         result: AnalyzeListingResult;
         analysisMode?: AnalysisMode;
         notice?: string;
+        listingMemory?: ListingMemory | null;
+        marketContext?: MarketContext | null;
       };
 
       setResult(data.result);
+      setListingMemory(data.listingMemory ?? null);
+      setMarketContext(data.marketContext ?? null);
       setViewMode("result");
       setAnalysisMode(data.analysisMode ?? "groq");
       if (data.notice) {
@@ -456,6 +463,8 @@ export function AnalyzerApp() {
 
   function reset() {
     setResult(null);
+    setListingMemory(null);
+    setMarketContext(null);
     setError("");
     setNotice("");
     setInputType("url");
@@ -500,6 +509,8 @@ export function AnalyzerApp() {
         <ResultSummary
           result={result}
           analysisMode={analysisMode}
+          listingMemory={listingMemory}
+          marketContext={marketContext}
           sourceText={lastAnalyzedText}
           vehicleTitle={vehicleTitleFromText(lastAnalyzedText)}
           summary={generateDealSummary(result, lastAnalyzedText)}

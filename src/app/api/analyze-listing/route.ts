@@ -3,9 +3,10 @@ import type { AnalyzeListingRequest, AnalyzeListingResult } from "@/lib/analyzer
 import { getAnalysisCacheKey, getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache";
 import { analyzeListingRequestSchema } from "@/lib/analyze-listing-schema";
 import { getAiProviderConfig, runAnalysisWithFailover } from "@/lib/ai-providers";
-import { analyzeListingLocally } from "@/lib/local-analyzer";
+import { analyzeListingLocally, detectVehicle } from "@/lib/local-analyzer";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { recordScan } from "@/lib/analytics";
+import { getMarketContext, recordListingObservation } from "@/lib/listing-memory";
 import { verdictToStatus } from "@/lib/admin-types";
 
 function extractVehicleTitle(text: string): string | null {
@@ -34,6 +35,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Send valid listing details as JSON." }, { status: 400 });
   }
 
+  // Listing memory + market context never block or break the scan itself.
+  const detected = detectVehicle(body);
+  const vehicleTitle = extractVehicleTitle(body.listingText);
+  const listingMemory = await recordListingObservation(body, detected, vehicleTitle);
+  const marketContext = await getMarketContext(detected);
+  const memoryFields = {
+    ...(listingMemory ? { listingMemory } : {}),
+    ...(marketContext ? { marketContext } : {}),
+  };
+
   const providerConfig = getAiProviderConfig();
   const cacheVariant = providerConfig.enabled
     ? `${providerConfig.provider}:${process.env.GROQ_MODEL ?? ""}`
@@ -43,7 +54,7 @@ export async function POST(request: Request) {
 
   if (cachedResult) {
     await recordScan({
-      vehicleTitle: extractVehicleTitle(body.listingText),
+      vehicleTitle,
       score: cachedResult.result.score,
       verdict: verdictToStatus(cachedResult.result.verdict),
       confidence: cachedResult.result.confidence,
@@ -55,6 +66,7 @@ export async function POST(request: Request) {
       analysisMode: cachedResult.analysisMode,
       cached: true,
       provider: cachedResult.analysisMode === "local" ? "local" : providerConfig.provider,
+      ...memoryFields,
     });
   }
 
@@ -72,7 +84,7 @@ export async function POST(request: Request) {
   if (!providerConfig.enabled) {
     setCachedAnalysis(cacheKey, localResult, "local");
     await recordScan({
-      vehicleTitle: extractVehicleTitle(body.listingText),
+      vehicleTitle,
       score: localResult.score,
       verdict: verdictToStatus(localResult.verdict),
       confidence: localResult.confidence,
@@ -86,6 +98,7 @@ export async function POST(request: Request) {
       cached: false,
       provider: "local",
       notice: "Local analysis is shown because GROQ_API_KEY is not configured. Add it for AI-enhanced scoring.",
+      ...memoryFields,
     });
   }
 
@@ -112,5 +125,6 @@ export async function POST(request: Request) {
     cached: false,
     provider: analysisMode,
     ...(notice ? { notice } : {}),
+    ...memoryFields,
   });
 }

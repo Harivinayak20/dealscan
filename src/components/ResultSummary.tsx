@@ -20,6 +20,7 @@ import {
   Wrench,
 } from "lucide-react";
 import type { AnalysisMode, AnalyzeListingResult } from "@/lib/analyzer-types";
+import type { ListingMemory, MarketContext } from "@/lib/listing-memory";
 import { FlagChips } from "@/components/FlagChips";
 import { MissingInfoChecklist } from "@/components/MissingInfoChecklist";
 import { ScoreRing, scoreTone } from "@/components/ScoreRing";
@@ -55,6 +56,8 @@ type ResultSummaryProps = {
   sourceText: string;
   vehicleTitle: string;
   summary?: string;
+  listingMemory?: ListingMemory | null;
+  marketContext?: MarketContext | null;
   onReset: () => void;
   onAddToCompare?: () => void;
 };
@@ -174,7 +177,7 @@ function ReasonCard({ label, note, score }: { label: string; note: string; score
   );
 }
 
-export function ResultSummary({ result, sourceText, vehicleTitle, summary, onReset, onAddToCompare }: ResultSummaryProps) {
+export function ResultSummary({ result, sourceText, vehicleTitle, summary, listingMemory, marketContext, onReset, onAddToCompare }: ResultSummaryProps) {
   const [isCompared, setIsCompared] = useState(false);
   const tone = scoreTone(result.score);
   const Icon = tone.icon;
@@ -353,6 +356,42 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, onRes
                 <Gauge className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
                 <p className="text-base leading-7 text-[var(--text-body)]">{summary}</p>
               </div>
+            </section>
+          ) : null}
+
+          {listingMemory || marketContext ? (
+            <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-sm">
+              <h3 className="mb-2 text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Market intelligence</h3>
+              <ul className="grid gap-2">
+                {listingMemory?.priceDrop ? (
+                  <li className="flex items-start gap-2 text-sm leading-6 text-[var(--text-body)]">
+                    <BadgeDollarSign className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                    <span>
+                      <strong>Price dropped {formatMoney(listingMemory.priceDrop.from - listingMemory.priceDrop.to)}</strong> since Dealscan
+                      first saw this listing ({formatMoney(listingMemory.priceDrop.from)} &rarr; {formatMoney(listingMemory.priceDrop.to)}).
+                      A falling price is a strong negotiation signal.
+                    </span>
+                  </li>
+                ) : null}
+                {listingMemory && listingMemory.daysSinceFirstScan >= 1 ? (
+                  <li className="flex items-start gap-2 text-sm leading-6 text-[var(--text-body)]">
+                    <Gauge className="mt-0.5 h-4 w-4 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
+                    <span>
+                      First scanned on Dealscan <strong>{listingMemory.daysSinceFirstScan} day{listingMemory.daysSinceFirstScan === 1 ? "" : "s"} ago</strong>
+                      {listingMemory.scanCount > 2 ? ` and checked ${listingMemory.scanCount} times` : ""}. Listings that sit give buyers leverage.
+                    </span>
+                  </li>
+                ) : null}
+                {marketContext ? (
+                  <li className="flex items-start gap-2 text-sm leading-6 text-[var(--text-body)]">
+                    <Search className="mt-0.5 h-4 w-4 shrink-0 text-[var(--graphite)]" aria-hidden="true" />
+                    <span>
+                      Priced <strong>above {marketContext.percentile}%</strong> of {marketContext.sampleSize} similar listings scanned on
+                      Dealscan (median asking {formatMoney(marketContext.medianPrice)}).
+                    </span>
+                  </li>
+                ) : null}
+              </ul>
             </section>
           ) : null}
 

@@ -1,7 +1,7 @@
 import type { AnalyzeListingRequest, AnalyzeListingResult, ManualDetails } from "@/lib/analyzer-types";
 import { estimateRoughPricing } from "@/lib/rough-pricing";
 
-type DetectedVehicle = {
+export type DetectedVehicle = {
   year: number | null;
   make: string | null;
   model: string | null;
@@ -163,7 +163,7 @@ function hasCondition(text: string) {
   return /runs|condition|good|excellent|rough|needs|maintenance|records|accident|new tires|new brakes|engine|transmission|leak|warning|check engine|cold ac|recent/i.test(text);
 }
 
-function detectVehicle(request: AnalyzeListingRequest): DetectedVehicle {
+export function detectVehicle(request: AnalyzeListingRequest): DetectedVehicle {
   const text = requestToText(request);
   const vehicle = parseVehicle(text, request.manualDetails);
   const mileage = parseMileage(text);
