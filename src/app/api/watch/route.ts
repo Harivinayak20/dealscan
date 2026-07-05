@@ -4,6 +4,7 @@ import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { createWatch, FREE_WATCH_LIMIT } from "@/lib/watch-store";
 import { isEmailConfigured } from "@/lib/alerts-email";
 import { parseSafeHttpUrl } from "@/lib/url-safety";
+import { isProRequest, PRO_WATCH_LIMIT } from "@/lib/pro";
 
 const watchRequestSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email address."),
@@ -42,18 +43,24 @@ export async function POST(request: Request) {
     }
   }
 
+  const pro = await isProRequest(request);
   const created = await createWatch({
     email: body.email,
     listingUrl: safeUrl,
     listingKey: body.listingKey ?? null,
     vehicleTitle: body.vehicleTitle ?? null,
     price: body.price ?? null,
+    watchLimit: pro ? PRO_WATCH_LIMIT : FREE_WATCH_LIMIT,
   });
 
   if (!created.ok) {
     if (created.reason === "limit") {
       return NextResponse.json(
-        { error: `Free alerts cover ${FREE_WATCH_LIMIT} listings at a time. Stop watching one first (link in any alert email).` },
+        {
+          error: pro
+            ? `Pro covers ${PRO_WATCH_LIMIT} watched listings at a time. Stop watching one first (link in any alert email).`
+            : `Free alerts cover ${FREE_WATCH_LIMIT} listings at a time. Stop watching one first, or lift the cap with Pro (/pricing).`,
+        },
         { status: 409 },
       );
     }

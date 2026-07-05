@@ -7,6 +7,7 @@ import { analyzeListingLocally, detectVehicle } from "@/lib/local-analyzer";
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { recordScan } from "@/lib/analytics";
 import { getMarketContext, recordListingObservation } from "@/lib/listing-memory";
+import { isProRequest } from "@/lib/pro";
 import { verdictToStatus } from "@/lib/admin-types";
 
 function extractVehicleTitle(text: string): string | null {
@@ -15,7 +16,8 @@ function extractVehicleTitle(text: string): string | null {
 }
 
 export async function POST(request: Request) {
-  const limit = 10;
+  // Scanning is free for everyone; Pro just gets more headroom at peak.
+  const limit = (await isProRequest(request)) ? 30 : 10;
   const rl = checkRateLimit(request, limit);
   if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, limit);
   let body: AnalyzeListingRequest;

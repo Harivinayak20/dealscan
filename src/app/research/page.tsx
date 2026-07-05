@@ -155,7 +155,7 @@ export default async function ResearchPage() {
           <section className="mt-10 max-w-3xl">
             <h2 className="text-2xl font-black tracking-tight">Methodology</h2>
             <p className="mt-3 text-base leading-7 text-[var(--text-body)]">
-              DealScan scores public used-car listings 0-100 from the listing's own text: price vs. estimated fair
+              DealScan scores public used-car listings 0-100 from the listing&apos;s own text: price vs. estimated fair
               range, mileage for age, title language, transparency, and risk phrases. The index aggregates those scans
               — no names, emails, IPs, or exact locations are stored with scan data. Listing memory tracks unique cars
               (by VIN or listing URL) to measure price drops and time on market. Press inquiries:{" "}

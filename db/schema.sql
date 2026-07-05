@@ -66,6 +66,25 @@ CREATE TABLE IF NOT EXISTS watches (
 CREATE INDEX IF NOT EXISTS idx_watches_status ON watches(status);
 CREATE INDEX IF NOT EXISTS idx_watches_email ON watches(email);
 
+-- DealScan Pro membership (Stripe-backed). Row per paying email.
+CREATE TABLE IF NOT EXISTS pro_members (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  stripe_customer_id TEXT,
+  plan TEXT,                          -- weekly | monthly
+  current_period_end INTEGER,         -- unix epoch ms; entitled while in the future
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_pro_members_email ON pro_members(email);
+
+-- Pro waitlist while Stripe isn't configured yet.
+CREATE TABLE IF NOT EXISTS pro_waitlist (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  created_at INTEGER NOT NULL
+);
+
 -- Denormalized completed scans for product analytics.
 CREATE TABLE IF NOT EXISTS scans (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

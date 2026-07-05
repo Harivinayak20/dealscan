@@ -9,6 +9,17 @@ export type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     date: "2026-07-05",
+    title: "Watch alerts, per-year problem pages, research hub, and Pro",
+    items: [
+      "Watch any listing and get an email if the price drops or the listing disappears (probably sold) — opt-in, never sold or shared.",
+      "\"Challenge the price\" button copies a paste-ready summary of the scan for forums or a message to the seller.",
+      "Hundreds of per-model-year problem pages (e.g. 2017 Civic problems) from our curated research.",
+      "New research hub at /research: the DealScan Index publishes live, citable stats from real scans.",
+      "DealScan Pro announced ($4.99/week or $9.99/month): lifts watch caps and rate limits. Scanning, scoring, and VIN checks stay free forever.",
+    ],
+  },
+  {
+    date: "2026-07-05",
     title: "Market intelligence + free VIN reports",
     items: [
       "Scans now remember every listing: re-scan one and DealScan shows how long it has been sitting and whether the price dropped.",

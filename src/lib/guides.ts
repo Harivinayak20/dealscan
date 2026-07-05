@@ -881,6 +881,7 @@ export const guides: Guide[] = [
         heading: "The honest recommendation",
         body: [
           "Use both. Find candidates on Visor (or anywhere else), then paste each listing URL into DealScan before you message the seller. Two buyer-side tools, two phases of the purchase, zero lead forms between you and the answer.",
+          "If you only bookmark one, let the decision be about where you shop: dealer-only shoppers get more day-to-day value from a search engine, while anyone who touches Craigslist or Facebook Marketplace — where there is no inventory feed and the risk is highest — needs the judgment layer more than the search layer.",
         ],
       },
     ],
@@ -921,6 +922,7 @@ export const guides: Guide[] = [
         heading: "What to avoid",
         body: [
           "Paid 'VIN report' sites that charge for data the government publishes free, marketplaces that require your phone number before showing a price (that's a lead form, and you're the product), and any tool promising a definitive value without showing how it got there. A good buyer-side tool shows its work.",
+          "The tell is always the same: if a site's business model is selling your attention or contact info to the selling side, its incentives point away from you. Check who pays before you trust the pixels — the about page and the pricing page usually answer it in under a minute.",
         ],
       },
     ],
@@ -959,6 +961,7 @@ export const guides: Guide[] = [
         heading: "From VIN check to deal check",
         body: [
           "A VIN check tells you what the car is; it can't tell you whether the listing is a good deal. That's the analyzer's job: paste the listing and DealScan scores it, flags risk language, computes a fair-price range, and suggests an opening offer. VIN first, scan second, inspection third — in that order, before any money moves.",
+          "The order matters because each step is cheaper than the next: the VIN check is free and instant, the scan is free and takes thirty seconds, and the inspection costs $100-200 — so you only pay for inspections on cars that already passed the first two filters. Buyers who invert the order end up paying mechanics to reject cars a free scan would have killed at their desk.",
         ],
       },
     ],

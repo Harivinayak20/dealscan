@@ -63,21 +63,22 @@ Steal their *mechanics* (memory, market context, alerts, public shipping, episod
 - **Public `/changelog`**: the ship-in-the-open trust loop.
 - **`/about` buyer-side manifesto**: no leads, no pay-for-score, free means free.
 
-### Wave 2 — Destination mechanics
-- Server-side watchlist with email price-drop / "listing gone (probably sold)" alerts (magic link, Resend, Cloudflare cron). "Probably sold at $X" is a poor-man's answer to Visor Plus's sold data.
-- Extractor hardening + fixture tests for the top 10 listing platforms.
-- Share-loop upgrade: punchier OG score cards, a "challenge the price" format built for forum pasting.
-- Public deal-score API + embed v2 (mirrors visor.vin/api as a surface).
-- KPI wiring in the admin dashboard: return visits, watchlist adds, email signups.
+### Wave 2 — Destination mechanics ✅ (built July 2026, this branch)
+- Server-side watch subscriptions with email price-drop / "listing gone (probably sold)" alerts — Resend-backed, flagged on `RESEND_API_KEY`; cron sweep at `/api/cron/check-watches` (set `CRON_SECRET`, point a Cloudflare cron or any scheduler at it). "Probably sold at $X" is a poor-man's answer to Visor Plus's sold data.
+- Extractor hardening: fixture tests for Cars.com/CarGurus/Carvana/Autotrader/dealer-JSON-LD/Craigslist markup patterns; shared parsers extracted to `listing-parsers.ts`.
+- "Challenge the price" one-click copy format built for forum pasting and seller messages.
+- Admin dashboard growth KPIs: listings tracked, active watches, alerts sent.
+- Still open: public deal-score API + embed v2 (deferred — build when there's B2B pull).
 
-### Wave 3 — Traffic bombardment (see GROWTH_PLAN.md §3)
-- Programmatic tranche: 300–500 "[year] [model] problems / price" pages from existing data engines, shipped 100–200 at a time with indexation gates.
-- Head-to-head landers: "DealScan vs Visor", "Visor alternatives", "best free VIN check" — Visor's 1.39M visits/month create brand-query demand nobody serves yet.
-- `/research` hub + first DealScan Index data study from scan data (press + GEO citation magnet).
-- Remotion content factory: 30-second "I scanned this sketchy listing" verticals generated from anonymized scans.
+### Wave 3 — Traffic bombardment ✅ (built July 2026, this branch; see GROWTH_PLAN.md §3)
+- ~590 per-model-year problem pages (`/cars/[slug]/problems/[year]`) generated from curated years-to-avoid data only — no fabricated facts, honest empty states.
+- Head-to-head landers shipped as guides: "DealScan vs Visor", "Visor alternatives", "best free VIN check".
+- `/research` hub with the live DealScan Index (verdict mix, median asking by model) — publishes automatically past a minimum sample; llms.txt updated for GEO citation.
+- Still open: Remotion content factory verticals (the comps exist; wire scan-props rendering when the posting cadence starts).
 
-### Wave 4 — Monetization
-- **DealScan Pro**: $4.99/week or $9.99/month (Visor's episodic model). Unlimited scans, alerts, deep market context, TCO/financing tools, exports. Stripe Checkout. The free tier stays generous — free is the growth engine.
+### Wave 4 — Monetization ✅ scaffold (built July 2026, this branch)
+- **DealScan Pro**: $4.99/week or $9.99/month at `/pricing`. Stripe Checkout + webhook behind `STRIPE_*` env vars; a founding-member waitlist renders until they're set. Entitlement = signed HttpOnly cookie backed by a `pro_members` D1 row.
+- Gating is deliberately thin: Pro lifts the watch cap (3 → 50) and scan rate limits. Scanning, scoring, and VIN checks stay free — the buyer-side promise is the moat.
 
 ## 8. The human 20% (owner's jobs — cannot be automated)
 

@@ -38,17 +38,19 @@ export async function createWatch(args: {
   listingKey: string | null;
   vehicleTitle: string | null;
   price: number | null;
+  watchLimit?: number;
 }): Promise<CreateWatchResult> {
   const db = await getDB();
   if (!db) return { ok: false, reason: "no_db" };
 
   const email = args.email.trim().toLowerCase();
+  const watchLimit = args.watchLimit ?? FREE_WATCH_LIMIT;
   try {
     const active = await db
       .prepare("SELECT COUNT(*) AS n FROM watches WHERE email = ? AND status = 'active'")
       .bind(email)
       .first<{ n: number }>();
-    if ((active?.n ?? 0) >= FREE_WATCH_LIMIT) return { ok: false, reason: "limit" };
+    if ((active?.n ?? 0) >= watchLimit) return { ok: false, reason: "limit" };
 
     if (args.listingUrl) {
       const existing = await db
