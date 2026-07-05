@@ -511,6 +511,7 @@ export function AnalyzerApp() {
           analysisMode={analysisMode}
           listingMemory={listingMemory}
           marketContext={marketContext}
+          sourceUrl={inputType === "url" ? listingUrl.trim() || undefined : undefined}
           sourceText={lastAnalyzedText}
           vehicleTitle={vehicleTitleFromText(lastAnalyzedText)}
           summary={generateDealSummary(result, lastAnalyzedText)}
@@ -725,7 +726,7 @@ export function AnalyzerApp() {
             ) : null}
 
             <div className="mt-4 text-sm font-medium text-[var(--silver)]">
-              No account needed&nbsp;&nbsp;·&nbsp;&nbsp;Nothing stored on our servers&nbsp;&nbsp;·&nbsp;&nbsp;Free
+              No account needed&nbsp;&nbsp;·&nbsp;&nbsp;Email only if you want price-drop alerts&nbsp;&nbsp;·&nbsp;&nbsp;Free
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-2">

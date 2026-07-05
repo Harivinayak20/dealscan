@@ -32,6 +32,7 @@ import { FinancingPanel } from "@/components/FinancingPanel";
 import { TCOPanel } from "@/components/TCOPanel";
 import { MarketVisualizer } from "@/components/MarketVisualizer";
 import { WatchButton } from "@/components/WatchButton";
+import { ChallengeShareButton } from "@/components/ChallengeShareButton";
 import { ShareByEmail } from "@/components/ShareByEmail";
 import { detectSource } from "@/lib/dealer-detector";
 import {
@@ -58,6 +59,7 @@ type ResultSummaryProps = {
   summary?: string;
   listingMemory?: ListingMemory | null;
   marketContext?: MarketContext | null;
+  sourceUrl?: string;
   onReset: () => void;
   onAddToCompare?: () => void;
 };
@@ -177,7 +179,7 @@ function ReasonCard({ label, note, score }: { label: string; note: string; score
   );
 }
 
-export function ResultSummary({ result, sourceText, vehicleTitle, summary, listingMemory, marketContext, onReset, onAddToCompare }: ResultSummaryProps) {
+export function ResultSummary({ result, sourceText, vehicleTitle, summary, listingMemory, marketContext, sourceUrl, onReset, onAddToCompare }: ResultSummaryProps) {
   const [isCompared, setIsCompared] = useState(false);
   const tone = scoreTone(result.score);
   const Icon = tone.icon;
@@ -593,7 +595,8 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
           </details>
 
           <div className="flex flex-wrap gap-3">
-            <WatchButton result={result} vehicleTitle={vehicleTitle} sourceText={sourceText} price={sellerPriceNum} />
+            <WatchButton result={result} vehicleTitle={vehicleTitle} sourceText={sourceText} price={sellerPriceNum} sourceUrl={sourceUrl} />
+            <ChallengeShareButton result={result} vehicleTitle={vehicleTitle} askingPrice={sellerPriceNum} />
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}

@@ -1,5 +1,6 @@
 import type { AnalyzeListingRequest, AnalyzeListingResult, ManualDetails } from "@/lib/analyzer-types";
 import { estimateRoughPricing } from "@/lib/rough-pricing";
+import { parseMileage, parsePrice, parseVehicleFromText, titleCase } from "./listing-parsers.ts";
 
 export type DetectedVehicle = {
   year: number | null;
@@ -50,96 +51,26 @@ const greenFlagTerms = [
   { label: "Clean Carfax", pattern: /\bclean carfax\b/i, bonus: 5 },
 ];
 
-const commonMakes = [
-  "Acura",
-  "Audi",
-  "BMW",
-  "Buick",
-  "Cadillac",
-  "Chevrolet",
-  "Chevy",
-  "Chrysler",
-  "Dodge",
-  "Ford",
-  "Genesis",
-  "GMC",
-  "Honda",
-  "Hyundai",
-  "Infiniti",
-  "Jeep",
-  "Kia",
-  "Lexus",
-  "Lincoln",
-  "Mazda",
-  "Mercedes-Benz",
-  "Mercedes",
-  "Mini",
-  "Nissan",
-  "Porsche",
-  "Ram",
-  "Subaru",
-  "Tesla",
-  "Toyota",
-  "Volkswagen",
-  "VW",
-  "Volvo",
-];
-
 function clampScore(score: number) {
   return Math.max(0, Math.min(100, Math.round(score)));
-}
-
-function titleCase(value: string) {
-  return value
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((part) => (/^(BMW|GMC|VW)$/i.test(part) ? part.toUpperCase() : `${part.charAt(0).toUpperCase()}${part.slice(1).toLowerCase()}`))
-    .join(" ");
 }
 
 function requestToText(request: AnalyzeListingRequest) {
   return `${request.listingText} ${Object.values(request.manualDetails ?? {}).join(" ")}`.replace(/\s+/g, " ").trim();
 }
 
-function parsePrice(text: string) {
-  const dollarMatch = text.match(/\$\s?([\d,]+)/);
-
-  if (dollarMatch) {
-    return Number(dollarMatch[1].replaceAll(",", ""));
-  }
-
-  const askingMatch = text.match(/\b(?:asking|price|seller price)\D{0,12}(\d{1,3}(?:,\d{3})+|\d{4,6})\b/i);
-
-  return askingMatch ? Number(askingMatch[1].replaceAll(",", "")) : null;
-}
-
-function parseMileage(text: string) {
-  const match = text.match(/\b(\d{1,3}(?:,\d{3})+|\d{4,6}|\d{2,3}k)\s?(?:miles|mi)\b/i);
-
-  if (!match) {
-    return null;
-  }
-
-  const value = match[1].toLowerCase();
-
-  return value.endsWith("k") ? Number(value.replace("k", "")) * 1000 : Number(value.replaceAll(",", ""));
-}
-
 function parseVehicle(text: string, manualDetails?: ManualDetails) {
+  const parsed = parseVehicleFromText(text);
   const manualYear = manualDetails?.year?.match(/\b(19|20)\d{2}\b/)?.[0];
   const manualMake = manualDetails?.make?.trim() || null;
   const manualModel = manualDetails?.model?.trim() || null;
-  const yearMatch = manualYear ?? text.match(/\b(19|20)\d{2}\b/)?.[0] ?? null;
-  const year = yearMatch ? Number(yearMatch) : null;
-  const detected = text.match(/\b(?:19|20)\d{2}\s+([A-Za-z][A-Za-z-]+)\s+([A-Za-z0-9-]+)(?:\s+([A-Za-z0-9-]+(?:\s+[A-Za-z0-9-]+){0,2}))?/);
-  const makeModelFallback = commonMakes
-    .map((makeName) => text.match(new RegExp(`\\b(${makeName})\\s+([A-Za-z0-9-]+)(?:\\s+([A-Za-z0-9-]+))?`, "i")))
-    .find(Boolean);
-  const make = manualMake ? titleCase(manualMake) : detected?.[1] ? titleCase(detected[1]) : makeModelFallback?.[1] ? titleCase(makeModelFallback[1]) : null;
-  const model = manualModel ? titleCase(manualModel) : detected?.[2] ? titleCase(detected[2]) : makeModelFallback?.[2] ? titleCase(makeModelFallback[2]) : null;
-  const trim = detected?.[3]?.replace(/[,.;].*$/, "").trim() || null;
 
-  return { year, make, model, trim };
+  return {
+    year: manualYear ? Number(manualYear) : parsed.year,
+    make: manualMake ? titleCase(manualMake) : parsed.make,
+    model: manualModel ? titleCase(manualModel) : parsed.model,
+    trim: parsed.trim,
+  };
 }
 
 function parseTitleStatus(text: string, manualDetails?: ManualDetails) {

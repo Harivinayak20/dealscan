@@ -1,4 +1,4 @@
-import { CarFront, Eye, MousePointerClick, TriangleAlert, Users } from "lucide-react";
+import { Bell, CarFront, Eye, MousePointerClick, TriangleAlert, Users } from "lucide-react";
 import { MetricsCard } from "@/components/admin/MetricsCard";
 import type { DashboardStats } from "@/lib/analytics";
 
@@ -69,6 +69,13 @@ export function DashboardView({ stats }: { stats: DashboardStats }) {
         <MetricsCard label="Scans today" value={n(totals.today.scan_completed)} icon={CarFront} note={`${n(totals.last7.scan_completed)} / 7d`} />
         <MetricsCard label="Affiliate clicks" value={n(totals.today.affiliate_click)} icon={MousePointerClick} note={`${n(totals.last30.affiliate_click)} / 30d`} />
         <MetricsCard label="Errors today" value={n(totals.today.error)} icon={TriangleAlert} note={`${n(totals.last7.error)} / 7d`} />
+      </div>
+
+      {/* Growth engine: listing memory + watch alerts */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <MetricsCard label="Listings tracked" value={n(stats.growth?.listingsTracked)} icon={CarFront} note="unique cars in listing memory" />
+        <MetricsCard label="Active watches" value={n(stats.growth?.watchesActive)} icon={Bell} note="email alerts armed" />
+        <MetricsCard label="Alerts sent" value={n(stats.growth?.alertsSent30d)} icon={MousePointerClick} note="last 30 days" />
       </div>
 
       {/* Traffic trend */}

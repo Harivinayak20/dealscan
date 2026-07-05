@@ -47,6 +47,25 @@ CREATE TABLE IF NOT EXISTS listing_snapshots (
 );
 CREATE INDEX IF NOT EXISTS idx_snapshots_key_ts ON listing_snapshots(listing_key, ts);
 
+-- Watch subscriptions: opt-in email alerts for a specific listing.
+-- Email is stored ONLY for sending the alerts the user asked for.
+CREATE TABLE IF NOT EXISTS watches (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  token TEXT NOT NULL UNIQUE,        -- unsubscribe/manage token
+  email TEXT NOT NULL,
+  listing_url TEXT,                  -- re-checkable source URL (validated public http/https)
+  listing_key TEXT,                  -- join key into listings when known
+  vehicle_title TEXT,
+  last_price INTEGER,                -- last observed asking price
+  status TEXT NOT NULL DEFAULT 'active', -- active | ended
+  ended_reason TEXT,                 -- unsubscribed | listing_gone | error
+  created_at INTEGER NOT NULL,
+  last_checked INTEGER,
+  last_alert INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_watches_status ON watches(status);
+CREATE INDEX IF NOT EXISTS idx_watches_email ON watches(email);
+
 -- Denormalized completed scans for product analytics.
 CREATE TABLE IF NOT EXISTS scans (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -112,6 +112,7 @@ export type DashboardStats = {
   affiliateByPartner: Array<{ partner: string; count: number }>;
   recentScans: Array<{ ts: number; title: string | null; score: number | null; verdict: string | null }>;
   recentErrors: Array<{ ts: number; path: string | null; message: string | null }>;
+  growth: { listingsTracked: number; watchesActive: number; alertsSent30d: number } | null;
 };
 
 const EMPTY_STATS: DashboardStats = {
@@ -126,7 +127,27 @@ const EMPTY_STATS: DashboardStats = {
   affiliateByPartner: [],
   recentScans: [],
   recentErrors: [],
+  growth: null,
 };
+
+// Wave-2 tables may not exist on an older database; fail to null, never crash.
+async function growthStats(db: D1Database): Promise<DashboardStats["growth"]> {
+  try {
+    const cutoff = Date.now() - 30 * 86400000;
+    const [listings, watches, alerts] = await db.batch([
+      db.prepare("SELECT COUNT(*) AS n FROM listings"),
+      db.prepare("SELECT COUNT(*) AS n FROM watches WHERE status = 'active'"),
+      db.prepare("SELECT COUNT(*) AS n FROM watches WHERE last_alert >= ?").bind(cutoff),
+    ]);
+    return {
+      listingsTracked: (listings.results as Array<{ n: number }>)[0]?.n ?? 0,
+      watchesActive: (watches.results as Array<{ n: number }>)[0]?.n ?? 0,
+      alertsSent30d: (alerts.results as Array<{ n: number }>)[0]?.n ?? 0,
+    };
+  } catch {
+    return null;
+  }
+}
 
 function totalsFromRows(rows: Array<{ type: string; n: number }>): Record<string, number> {
   const out: Record<string, number> = {};
@@ -189,6 +210,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
       affiliateByPartner: (partners.results as Array<{ partner: string; n: number }>).map((r) => ({ partner: r.partner ?? "unknown", count: r.n })),
       recentScans: (recentScans.results as Array<{ ts: number; title: string | null; score: number | null; verdict: string | null }>),
       recentErrors: (recentErrors.results as Array<{ ts: number; path: string | null; message: string | null }>),
+      growth: await growthStats(db),
     };
   } catch {
     return EMPTY_STATS;

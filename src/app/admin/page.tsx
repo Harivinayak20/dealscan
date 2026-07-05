@@ -19,6 +19,7 @@ const EMPTY: DashboardStats = {
   affiliateByPartner: [],
   recentScans: [],
   recentErrors: [],
+  growth: null,
 };
 
 export default async function AdminDashboard() {
