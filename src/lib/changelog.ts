@@ -15,7 +15,6 @@ export const changelog: ChangelogEntry[] = [
       "\"Challenge the price\" button copies a paste-ready summary of the scan for forums or a message to the seller.",
       "Hundreds of per-model-year problem pages (e.g. 2017 Civic problems) from our curated research.",
       "New research hub at /research: the DealScan Index publishes live, citable stats from real scans.",
-      "DealScan Pro announced ($4.99/week or $9.99/month): lifts watch caps and rate limits. Scanning, scoring, and VIN checks stay free forever.",
     ],
   },
   {

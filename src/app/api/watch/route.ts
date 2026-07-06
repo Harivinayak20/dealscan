@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         {
           error: pro
             ? `Pro covers ${PRO_WATCH_LIMIT} watched listings at a time. Stop watching one first (link in any alert email).`
-            : `Free alerts cover ${FREE_WATCH_LIMIT} listings at a time. Stop watching one first, or lift the cap with Pro (/pricing).`,
+            : `Free alerts cover ${FREE_WATCH_LIMIT} listings at a time. Stop watching one first (link in any alert email).`,
         },
         { status: 409 },
       );

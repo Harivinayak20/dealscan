@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArrowLeft, Check, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { ProCheckoutButtons } from "@/components/PricingActions";
@@ -6,6 +7,10 @@ import { isStripeConfigured, PRO_WATCH_LIMIT } from "@/lib/pro";
 import { FREE_WATCH_LIMIT } from "@/lib/watch-store";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
+
+// The page does not exist until Stripe is configured (Pro cleared to launch).
+// Runtime check, not build-time: Stripe secrets are runtime env on Workers.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "DealScan Pricing — The Analyzer Is Free. Pro Lifts the Caps.",
@@ -39,6 +44,7 @@ const PRO_FEATURES = [
 
 export default function PricingPage() {
   const live = isStripeConfigured();
+  if (!live) notFound();
 
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
