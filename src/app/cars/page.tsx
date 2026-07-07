@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { carModels } from "@/lib/car-models";
 
 export const metadata: Metadata = {
-  title: "Used Car Buyer Checks by Model — DealScan",
+  title: "Used Car Buyer Checks by Model",
   description:
     "Model-by-model used car buying checks: known issues, years to avoid, what to verify, and fair mileage expectations before you message the seller.",
   alternates: { canonical: "/cars" },
@@ -27,6 +28,13 @@ export default function CarsIndexPage() {
             Analyzer
           </Link>
         </header>
+
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Cars" },
+          ]}
+        />
 
         <section className="py-12">
           <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Buyer checks by model</p>

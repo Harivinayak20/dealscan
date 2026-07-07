@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, BarChart3, Database, LineChart } from "lucide-react";
 import Link from "next/link";
 import { getIndexStats } from "@/lib/research";
+import { breadcrumbSchema, datasetSchema } from "@/lib/schema-builders";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -36,6 +37,47 @@ function money(value: number): string {
 export default async function ResearchPage() {
   const stats = await getIndexStats();
 
+  // A single quotable claim AI answers can lift verbatim, built from live data.
+  const goodDealShare = stats?.verdictMix.find((v) => v.verdict === "good_deal")?.share ?? null;
+  const leadStat = stats
+    ? `As of ${stats.generatedAt}, DealScan has scored ${stats.totalScans.toLocaleString("en-US")} used-car listings, with an average deal score of ${stats.averageScore ?? "—"}/100${
+        goodDealShare !== null ? ` and ${goodDealShare}% scoring as good deals` : ""
+      }.`
+    : null;
+
+  const jsonLd = stats
+    ? [
+        datasetSchema({
+          name: "The DealScan Index",
+          description:
+            "Aggregate, anonymized statistics from real used-car listing scans on DealScan.dev: deal-verdict distribution, average deal score, most-scanned models, and median asking prices. Free to cite with attribution.",
+          path: "/research",
+          dateModified: stats.generatedAt,
+          variables: [
+            "Deal verdict distribution",
+            "Average deal score",
+            "Median asking price by model",
+            "Used-car listings scanned",
+          ],
+        }),
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: "The DealScan Index: what real used-car listings look like, in numbers",
+          description: leadStat,
+          dateModified: stats.generatedAt,
+          datePublished: stats.generatedAt,
+          author: { "@type": "Organization", name: "DealScan", url: appUrl },
+          publisher: { "@type": "Organization", name: "DealScan" },
+          mainEntityOfPage: `${appUrl}/research`,
+        },
+        breadcrumbSchema([
+          { name: "Home", href: "/" },
+          { name: "Research" },
+        ]),
+      ]
+    : null;
+
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-4xl">
@@ -52,6 +94,13 @@ export default async function ResearchPage() {
             Analyzer
           </Link>
         </header>
+
+        {jsonLd ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        ) : null}
 
         <section className="py-10">
           <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">The DealScan Index</p>
@@ -85,6 +134,12 @@ export default async function ResearchPage() {
             </div>
           ) : (
             <>
+              {leadStat ? (
+                <p className="mt-8 max-w-2xl rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-5 text-lg font-bold leading-8 text-[var(--text-body)]">
+                  {leadStat}
+                </p>
+              ) : null}
+
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
                 <div className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 text-center shadow-sm">
                   <div className="text-3xl font-black">{stats.totalScans.toLocaleString("en-US")}</div>
@@ -158,8 +213,8 @@ export default async function ResearchPage() {
               DealScan scores public used-car listings 0-100 from the listing&apos;s own text: price vs. estimated fair
               range, mileage for age, title language, transparency, and risk phrases. The index aggregates those scans
               — no names, emails, IPs, or exact locations are stored with scan data. Listing memory tracks unique cars
-              (by VIN or listing URL) to measure price drops and time on market. Press inquiries:{" "}
-              <a href="mailto:hello@dealscan.dev" className="font-bold underline">hello@dealscan.dev</a>.
+              (by VIN or listing URL) to measure price drops and time on market.               Press inquiries:{" "}
+              <a href="mailto:hello@dealscan.dev" className="font-bold underline">hello@dealscan.dev</a>. Bloggers and site owners can <Link href="/widget" className="font-bold underline">embed the widget</Link> for free and give their readers instant deal scores backed by this data.
             </p>
           </section>
         </section>

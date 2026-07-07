@@ -25,7 +25,10 @@ const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
-  title: "DealScan — AI-Powered Used Car Listing Analyzer",
+  title: {
+    default: "Used Car Listing Analyzer & Deal Score | DealScan.dev",
+    template: "%s | DealScan.dev",
+  },
   description:
     "Paste any used car listing and get a clear deal score, red flags, market price range, and negotiation guidance before you message the seller.",
   manifest: "/manifest.json",
@@ -52,17 +55,17 @@ export const metadata: Metadata = {
   },
   verification: googleSiteVerification ? { google: googleSiteVerification } : undefined,
   openGraph: {
-    title: "DealScan — Used Car Deal Checker",
+    title: "Used Car Listing Analyzer & Deal Score | DealScan.dev",
     description:
       "Score any used car listing in seconds. Know the car, not the hype.",
     url: appUrl,
-    siteName: "DealScan",
+    siteName: "DealScan.dev",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DealScan — Used Car Deal Checker",
+    title: "Used Car Listing Analyzer & Deal Score | DealScan.dev",
     description:
       "Score any used car listing in seconds. Know the car, not the hype.",
   },

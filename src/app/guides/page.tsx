@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { guides } from "@/lib/guides";
 
 export const metadata: Metadata = {
@@ -26,6 +27,13 @@ export default function GuidesPage() {
             Analyzer
           </Link>
         </header>
+
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Guides" },
+          ]}
+        />
 
         <section className="py-12">
           <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-black text-[var(--graphite)] shadow-sm">

@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, BarChart3, CheckCircle2, ExternalLink, Gauge, SearchCheck } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Free Used Car Deal Checker Widget for Your Site | DealScan",
+  title: "Free Used Car Deal Checker Widget for Your Site",
   description:
     "Embed DealScan's free used car deal checker widget on your site in one line of code. Built for credit unions, dealership blogs, personal-finance sites, and car-buying courses.",
   alternates: {
     canonical: "/widget",
   },
   openGraph: {
-    title: "Free Used Car Deal Checker Widget for Your Site | DealScan",
+    title: "Free Used Car Deal Checker Widget for Your Site",
     description: "Embed DealScan's free used car deal checker widget on your site in one line of code.",
     url: `${appUrl}/widget`,
     type: "website",
@@ -120,6 +120,68 @@ export default function WidgetPage() {
             ))}
           </div>
 
+          <div className="mt-12 rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
+            <h2 className="flex items-center gap-2 text-xl font-black">
+              <BarChart3 className="h-5 w-5 text-[var(--racing-green)]" aria-hidden="true" />
+              Backed by real scan data
+            </h2>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--text-body)]">
+              The widget draws from the same analysis engine that powers the <Link href="/research" className="font-bold underline">DealScan Index</Link> — aggregate statistics from thousands of real used-car scans, refreshed daily. Your visitors get market-backed answers, not guesses.
+            </p>
+            <Link
+              href="/research"
+              className="mt-4 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline"
+            >
+              See the data <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 text-center shadow-sm">
+              <div className="text-2xl font-black text-[var(--racing-green)]">
+                <Gauge className="mx-auto h-7 w-7" aria-hidden="true" />
+              </div>
+              <div className="mt-2 text-sm font-bold">Deal score 0–100</div>
+              <div className="mt-1 text-xs text-[var(--text-muted)]">Know instantly if the price is fair</div>
+            </div>
+            <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 text-center shadow-sm">
+              <div className="text-2xl font-black text-[var(--racing-green)]">
+                <SearchCheck className="mx-auto h-7 w-7" aria-hidden="true" />
+              </div>
+              <div className="mt-2 text-sm font-bold">Red flag detection</div>
+              <div className="mt-1 text-xs text-[var(--text-muted)]">Title issues, mileage, risk language</div>
+            </div>
+            <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 text-center shadow-sm">
+              <div className="text-2xl font-black text-[var(--racing-green)]">
+                <CheckCircle2 className="mx-auto h-7 w-7" aria-hidden="true" />
+              </div>
+              <div className="mt-2 text-sm font-bold">Negotiation guidance</div>
+              <div className="mt-1 text-xs text-[var(--text-muted)]">Suggested offer range and talking points</div>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl border border-[var(--accent-2-line)] bg-[rgba(183,96,58,0.04)] p-6 shadow-sm">
+            <h2 className="text-lg font-black">What the widget gives your audience that KBB and Carfax don&apos;t</h2>
+            <div className="mt-4 grid gap-3 text-sm leading-6">
+              <div className="flex gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                <span><strong>Score any listing</strong> — paste a URL or ad text, no VIN required. Works on Facebook Marketplace, Craigslist, CarGurus, dealer sites.</span>
+              </div>
+              <div className="flex gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                <span><strong>17 red-flag and 12 green-flag patterns</strong> — catches title problems, mileage discrepancies, seller transparency, and positive proof points others miss.</span>
+              </div>
+              <div className="flex gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                <span><strong>Completely free, no paywall</strong> — unlimited scans, no account required, no credit card. Visits &ldquo;sign up to see the price&rdquo; tools stay on your page.</span>
+              </div>
+              <div className="flex gap-2">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--racing-green)]" aria-hidden="true" />
+                <span><strong>Attribution link back to your site</strong> — the iframe credit says &ldquo;Powered by DealScan.dev&rdquo; so your visitors know you gave them the tool.</span>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-12">
             <h2 className="text-2xl font-black tracking-tight">Copy-paste embed code</h2>
             <p className="mt-3 max-w-3xl text-base leading-7 text-[var(--text-body)]">
@@ -130,7 +192,17 @@ export default function WidgetPage() {
             </pre>
           </div>
 
-          <div className="mt-12 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
+          <div className="mt-12 rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
+            <h2 className="text-lg font-black">Why is the widget free?</h2>
+            <div className="mt-3 space-y-3 text-sm leading-6 text-[var(--text-body)]">
+              <p>
+                DealScan makes money from optional affiliate partnerships and a <Link href="/pricing" className="font-semibold underline-offset-2 hover:underline">Pro plan</Link> for high-volume users — not from hiding the tool behind a paywall. The free widget builds awareness and helps more buyers, which improves the data behind the
+                DealScan Index. No upsell modal, no email capture, no credit card required. It stays free.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
             <h2 className="text-xl font-black tracking-tight">Want a custom size, color match, or full deal-check widget?</h2>
             <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--text-muted)]">
               Email us and we&apos;ll help you get it set up, free of charge.

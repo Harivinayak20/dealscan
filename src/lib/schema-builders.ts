@@ -33,3 +33,34 @@ export function breadcrumbSchema(items: BreadcrumbItem[]) {
     }),
   };
 }
+
+/**
+ * Dataset JSON-LD for a statistics/research page (schema.org/Dataset). This is
+ * the correct markup for citable data: it makes the page eligible for Google
+ * Dataset results and signals to AI answers that the numbers are a structured,
+ * free-to-cite source. `variables` lists the headline metrics reported.
+ */
+export function datasetSchema(params: {
+  name: string;
+  description: string;
+  path: string;
+  dateModified: string;
+  variables: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: params.name,
+    description: params.description,
+    url: `${appUrl}${params.path}`,
+    dateModified: params.dateModified,
+    isAccessibleForFree: true,
+    license: `${appUrl}/terms`,
+    creator: {
+      "@type": "Organization",
+      name: "DealScan",
+      url: appUrl,
+    },
+    variableMeasured: params.variables,
+  };
+}

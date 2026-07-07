@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, Wrench } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, SearchCheck, Wrench } from "lucide-react";
 import Link from "next/link";
 import { AdUnit } from "@/components/AdUnit";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: CarPageProps): Promise<Metada
     return {};
   }
 
-  const title = `Used ${car.make} ${car.model}: Common Problems & Value | DealScan`;
+  const title = `Used ${car.make} ${car.model}: Common Problems & Value`;
   const description = truncateMeta(car.quickAnswer);
 
   return {
@@ -215,6 +215,14 @@ export default async function CarModelPage({ params }: CarPageProps) {
               <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
                 General patterns for this model, not a diagnosis of any specific car. Always pair with a history report and inspection.
               </p>
+              <Link
+                href="/guides"
+                className="mt-4 inline-flex items-center gap-1 text-xs font-black text-[var(--racing-green)] underline-offset-4 hover:underline"
+              >
+                <BookOpen className="h-3 w-3" aria-hidden="true" />
+                Buyer guides
+                <ArrowRight className="h-3 w-3" aria-hidden="true" />
+              </Link>
             </aside>
           </div>
 

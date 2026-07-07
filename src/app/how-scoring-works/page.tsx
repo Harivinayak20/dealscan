@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowLeft, Gauge } from "lucide-react";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "How the DealScan Score Works",
@@ -44,7 +45,23 @@ const factors = [
   },
 ];
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
+
 export default function HowScoringWorksPage() {
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How DealScan scores a used car listing",
+    description:
+      "Every scan produces a 0–100 score from eight factors read out of the listing itself.",
+    step: factors.map((factor, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: factor.title,
+      text: factor.text,
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-4xl">
@@ -61,6 +78,18 @@ export default function HowScoringWorksPage() {
             Analyzer
           </Link>
         </header>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        />
+
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "How the score works" },
+          ]}
+        />
 
         <section className="py-12">
           <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(169,130,83,0.35)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--graphite)] shadow-sm">
