@@ -22,6 +22,20 @@ function isBlockedIpv4(hostname: string) {
 function isBlockedIpv6(hostname: string) {
   const normalized = hostname.replace(/^\[/, "").replace(/\]$/, "").toLowerCase();
 
+  // IPv4-mapped IPv6 (e.g. ::ffff:127.0.0.1, which the URL parser normalizes to
+  // ::ffff:7f00:1) can tunnel to loopback/private v4 targets, so decode the
+  // embedded address and reuse the v4 block-list.
+  const mappedHex = normalized.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/);
+  if (mappedHex) {
+    const hi = parseInt(mappedHex[1], 16);
+    const lo = parseInt(mappedHex[2], 16);
+    return isBlockedIpv4(`${hi >> 8}.${hi & 0xff}.${lo >> 8}.${lo & 0xff}`);
+  }
+  const mappedDotted = normalized.match(/^::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/);
+  if (mappedDotted) {
+    return isBlockedIpv4(mappedDotted[1]);
+  }
+
   return normalized === "::1" || normalized.startsWith("fc") || normalized.startsWith("fd") || normalized.startsWith("fe80:");
 }
 

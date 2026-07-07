@@ -14,6 +14,10 @@ test("parseSafeHttpUrl blocks private and local URLs", () => {
     "http://172.16.1.10/listing",
     "http://192.168.1.2/listing",
     "http://[::1]/listing",
+    "http://[::ffff:127.0.0.1]/listing",
+    "http://[::ffff:10.0.0.5]/listing",
+    "http://2130706433/listing",
+    "http://0x7f000001/listing",
   ]) {
     assert.throws(() => parseSafeHttpUrl(url), /blocked|private/i);
   }
