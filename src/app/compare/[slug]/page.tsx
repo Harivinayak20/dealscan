@@ -6,6 +6,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdUnit } from "@/components/AdUnit";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { comparisons, resolveComparison } from "@/lib/comparisons";
+import { breadcrumbSchema } from "@/lib/schema-builders";
+import { truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -24,7 +26,9 @@ export async function generateMetadata({ params }: ComparePageProps): Promise<Me
 
   const { a, b } = resolved;
   const title = `Used ${a.make} ${a.model} vs ${b.make} ${b.model}: Which to Buy?`;
-  const description = `Used ${a.make} ${a.model} vs ${b.make} ${b.model} compared on reliability, known issues, mileage, and what to verify before you buy. Free side-by-side buyer guide.`.slice(0, 158);
+  const description = truncateMeta(
+    `Used ${a.make} ${a.model} vs ${b.make} ${b.model} compared on reliability, known issues, mileage, and what to verify before you buy. Free side-by-side buyer guide.`,
+  );
 
   return {
     title,
@@ -84,6 +88,11 @@ export default async function ComparePage({ params }: ComparePageProps) {
         acceptedAnswer: { "@type": "Answer", text: a },
       })),
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Compare", href: "/compare" },
+      { name: `${aName} vs ${bName}` },
+    ]),
   ];
 
   const cars = [

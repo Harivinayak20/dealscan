@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { stateFees, getStateFee } from "@/lib/state-fees";
 import { dealerFees } from "@/lib/dealer-fees";
+import { breadcrumbSchema } from "@/lib/schema-builders";
+import { truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -26,8 +28,10 @@ export async function generateMetadata({ params }: StatePageProps): Promise<Meta
     return {};
   }
 
-  const title = `${entry.name} Used Car Dealer Fees: Doc Fee, Sales Tax & Title (2026) | Dealscan`;
-  const description = `What dealer fees to expect on a used car in ${entry.name}: doc fee (${entry.docFee.toLowerCase()}), sales tax (${entry.salesTax.toLowerCase()}), title, and registration, plus which charges to push back on.`;
+  const title = `${entry.name} Used Car Dealer Fees: Doc Fee, Sales Tax & Title (2026) | DealScan`;
+  const description = truncateMeta(
+    `What dealer fees to expect on a used car in ${entry.name}: doc fee (${entry.docFee.toLowerCase()}), sales tax (${entry.salesTax.toLowerCase()}), title, and registration, plus which charges to push back on.`,
+  );
 
   return {
     title,
@@ -109,6 +113,12 @@ export default async function StateFeePage({ params }: StatePageProps) {
         },
       })),
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Dealer fees", href: "/fees" },
+      { name: "By state", href: "/fees/states" },
+      { name: entry.name },
+    ]),
   ];
 
   const keyFacts = [

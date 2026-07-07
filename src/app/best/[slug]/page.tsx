@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { bestLists, getBestList } from "@/lib/best-lists";
 import { getCarModel } from "@/lib/car-models";
+import { breadcrumbSchema } from "@/lib/schema-builders";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: BestListPageProps): Promise<M
     return {};
   }
 
-  const title = `${list.metaTitle} (2026) | Dealscan`;
+  const title = `${list.metaTitle} (2026) | DealScan`;
 
   return {
     title,
@@ -85,6 +86,11 @@ export default async function BestListPage({ params }: BestListPageProps) {
       },
       mainEntityOfPage: `${appUrl}/best/${list.slug}`,
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Best lists", href: "/best" },
+      { name: list.title },
+    ]),
   ];
 
   return (

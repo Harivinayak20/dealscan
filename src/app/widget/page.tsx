@@ -6,14 +6,14 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Free Used Car Deal Checker Widget for Your Site | Dealscan",
+  title: "Free Used Car Deal Checker Widget for Your Site | DealScan",
   description:
     "Embed DealScan's free used car deal checker widget on your site in one line of code. Built for credit unions, dealership blogs, personal-finance sites, and car-buying courses.",
   alternates: {
     canonical: "/widget",
   },
   openGraph: {
-    title: "Free Used Car Deal Checker Widget for Your Site | Dealscan",
+    title: "Free Used Car Deal Checker Widget for Your Site | DealScan",
     description: "Embed DealScan's free used car deal checker widget on your site in one line of code.",
     url: `${appUrl}/widget`,
     type: "website",

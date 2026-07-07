@@ -6,14 +6,14 @@ import { dealerFees } from "@/lib/dealer-fees";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Dealer Fees Explained: Doc Fees, Add-Ons & Junk Fees | Dealscan",
+  title: "Dealer Fees Explained: Doc Fees, Add-Ons & Junk Fees | DealScan",
   description:
     "A plain-English glossary of dealer fees and add-ons, from documentation fees to nitrogen tires and VIN etching. Learn which are mandatory, which are negotiable, and what they should cost.",
   alternates: {
     canonical: "/fees",
   },
   openGraph: {
-    title: "Dealer Fees Explained: Doc Fees, Add-Ons & Junk Fees | Dealscan",
+    title: "Dealer Fees Explained: Doc Fees, Add-Ons & Junk Fees | DealScan",
     description:
       "A plain-English glossary of dealer fees and add-ons. Learn which are mandatory, which are negotiable, and what they should cost.",
     url: `${appUrl}/fees`,

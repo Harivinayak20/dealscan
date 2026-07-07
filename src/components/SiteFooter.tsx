@@ -73,6 +73,7 @@ export function SiteFooter() {
               <li><a href="/disclaimer" className="transition hover:text-[var(--champagne)]">Disclaimer</a></li>
               <li><a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a></li>
               <li><a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a></li>
+              <li><a href="/accessibility" className="transition hover:text-[var(--champagne)]">Accessibility</a></li>
               <li><a href="mailto:hello@dealscan.dev" className="transition hover:text-[var(--champagne)]">hello@dealscan.dev</a></li>
             </ul>
           </div>
@@ -89,6 +90,7 @@ export function SiteFooter() {
               <a href="/privacy" className="transition hover:text-[var(--champagne)]">Privacy</a>
               <a href="/terms" className="transition hover:text-[var(--champagne)]">Terms</a>
               <a href="/cookies" className="transition hover:text-[var(--champagne)]">Cookies</a>
+              <a href="/accessibility" className="transition hover:text-[var(--champagne)]">Accessibility</a>
             </div>
           </div>
         </div>

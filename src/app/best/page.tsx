@@ -7,14 +7,14 @@ import { bestLists } from "@/lib/best-lists";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Best Used Cars by Budget & Type (2026) | Dealscan",
+  title: "Best Used Cars by Budget & Type (2026) | DealScan",
   description:
     "The best used cars by budget and type — under $10k to $30k, SUVs, trucks, and the most reliable picks, each with the year-specific checks that matter.",
   alternates: {
     canonical: "/best",
   },
   openGraph: {
-    title: "Best Used Cars by Budget & Type | Dealscan",
+    title: "Best Used Cars by Budget & Type | DealScan",
     description: "The best used cars by budget and type, with the buyer checks that matter.",
     url: `${appUrl}/best`,
     type: "website",

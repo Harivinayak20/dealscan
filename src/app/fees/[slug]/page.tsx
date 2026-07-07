@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { dealerFees, getDealerFee } from "@/lib/dealer-fees";
+import { breadcrumbSchema } from "@/lib/schema-builders";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -78,6 +79,11 @@ export default async function FeePage({ params }: FeePageProps) {
         },
       })),
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Dealer fees", href: "/fees" },
+      { name: fee.name },
+    ]),
   ];
 
   const keyFacts = [

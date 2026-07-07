@@ -524,9 +524,8 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
-      <div className="border-b border-[var(--border-subtle)] bg-[var(--paper)]">
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-4 py-2 sm:px-7">
-          <span className="mono-label text-xs text-[var(--muted)]">Independent used-car deal checks</span>
+      <div className="bg-[var(--paper)]">
+        <div className="mx-auto flex max-w-[1180px] items-center justify-end gap-4 px-4 py-2 sm:px-7">
           <div className="hidden items-center gap-5 text-[13px] font-semibold md:flex">
             <a href={partnerLinks.loan} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Get financing →</a>
             <a href={partnerLinks.insurance} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Insurance quotes →</a>
@@ -736,7 +735,7 @@ export function AnalyzerApp() {
                   key={example.id}
                   type="button"
                   onClick={() => loadExampleListing(example.text)}
-                  className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-[13px] font-semibold text-[var(--text-muted)] transition hover:border-[rgba(180,80,31,0.35)] hover:text-[var(--racing-green)]"
+                  className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-[13px] font-semibold text-[var(--text-muted)] shadow-[0_2px_6px_-2px_rgba(28,26,23,0.25)] transition hover:border-[rgba(180,80,31,0.45)] hover:bg-[var(--ivory)] hover:text-[var(--racing-green)] hover:shadow-[0_4px_10px_-3px_rgba(180,80,31,0.35)]"
                 >
                   {example.label}
                 </button>
@@ -793,20 +792,20 @@ export function AnalyzerApp() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[var(--canvas)] px-4 py-8 text-[var(--graphite)] sm:px-7 sm:py-14">
+      <section id="how-it-works" className="bg-[var(--canvas)] px-4 py-6 text-[var(--graphite)] sm:px-7 sm:py-14">
         <div className="mx-auto max-w-[1200px]">
           <p className="eyebrow">How it works</p>
-          <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">Three steps, about ten seconds.</h2>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <h2 className="mt-2 text-xl font-extrabold sm:text-4xl">Three steps, about ten seconds.</h2>
+          <div className="mt-5 grid gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-3">
             {[
               { n: "01", title: "Paste the link", note: "Drop in any public ad. DealScan reads the car details for you, no retyping." },
               { n: "02", title: "We check the market", note: "Price, title, and mileage are scored against real comparable sales near you." },
               { n: "03", title: "Get your verdict", note: "A clear deal score, the red flags, and a fair offer you can actually make." },
             ].map((step) => (
-              <div key={step.n} className="card-hover">
+              <div key={step.n} className="card-hover !p-4 sm:!p-6">
                 <span className="mono-label text-sm font-semibold text-[var(--racing-green)]">{step.n}</span>
-                <h3 className="mt-4 font-display text-[22px] font-bold">{step.title}</h3>
-                <p className="mt-2 text-base leading-7 text-[var(--text-muted)]">{step.note}</p>
+                <h3 className="mt-2 font-display text-lg font-bold sm:mt-4 sm:text-[22px]">{step.title}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-[var(--text-muted)] sm:mt-2 sm:text-base sm:leading-7">{step.note}</p>
               </div>
             ))}
           </div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type LogoProps = {
@@ -15,9 +16,13 @@ export function Logo({ className }: LogoProps) {
       aria-label="DealScan home"
       className={`logo-3d relative inline-flex items-center gap-2 py-[0.2em] text-[1.5em] font-black leading-none tracking-tight ${className ?? ""}`}
     >
-      <span
+      <Image
+        src="/dealscan-icon.svg"
+        alt=""
         aria-hidden="true"
-        className="inline-block h-[0.55em] w-[0.55em] rotate-45 rounded-[2px] bg-[var(--racing-green)]"
+        width={22}
+        height={22}
+        className="h-[0.85em] w-[0.85em] shrink-0 rounded-[0.2em]"
       />
       <span className="font-display">DealScan</span>
     </Link>

@@ -9,21 +9,10 @@ import { carModels, getCarModel } from "@/lib/car-models";
 import { comparisonsForModel } from "@/lib/comparisons";
 import { listsForModel } from "@/lib/best-lists";
 import { modelYears } from "@/lib/pricing";
+import { breadcrumbSchema } from "@/lib/schema-builders";
+import { truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
-
-// Build a 150-160 char meta description from complete sentences, never cut mid-word.
-function metaDescription(text: string) {
-  if (text.length <= 160) return text;
-  const sentences = text.match(/[^.!?]+[.!?]+/g) ?? [text];
-  let out = "";
-  for (const sentence of sentences) {
-    if ((out + sentence).length > 160) break;
-    out += sentence;
-  }
-  out = out.trim();
-  return out.length >= 120 ? out : `${text.slice(0, 157).trimEnd()}…`;
-}
 
 type CarPageProps = {
   params: Promise<{
@@ -43,8 +32,8 @@ export async function generateMetadata({ params }: CarPageProps): Promise<Metada
     return {};
   }
 
-  const title = `Is a used ${car.make} ${car.model} a good deal? Known issues & buyer checks`;
-  const description = metaDescription(car.quickAnswer);
+  const title = `Used ${car.make} ${car.model}: Common Problems & Value | DealScan`;
+  const description = truncateMeta(car.quickAnswer);
 
   return {
     title,
@@ -98,6 +87,11 @@ export default async function CarModelPage({ params }: CarPageProps) {
         acceptedAnswer: { "@type": "Answer", text: a },
       })),
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Cars", href: "/cars" },
+      { name: `${car.make} ${car.model}` },
+    ]),
   ];
 
   return (

@@ -6,6 +6,7 @@ import { AdUnit } from "@/components/AdUnit";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
+import { breadcrumbSchema } from "@/lib/schema-builders";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -102,6 +103,14 @@ export default async function GuidePage({ params }: GuidePageProps) {
       })),
     });
   }
+
+  jsonLd.push(
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Guides", href: "/guides" },
+      { name: guide.title },
+    ]),
+  );
 
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">

@@ -7,14 +7,14 @@ import { stateFees } from "@/lib/state-fees";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Dealer Fees by State: Doc Fee Caps & Sales Tax (2026) | Dealscan",
+  title: "Used Car Dealer Fees by State: Doc Fee Caps & Sales Tax (2026) | DealScan",
   description:
     "Doc fee caps, sales tax rates, and title fees for used car purchases in all 50 states. See what dealers can legally charge in your state and what to push back on.",
   alternates: {
     canonical: "/fees/states",
   },
   openGraph: {
-    title: "Used Car Dealer Fees by State | Dealscan",
+    title: "Used Car Dealer Fees by State | DealScan",
     description: "Doc fee caps, sales tax, and title fees for all 50 states.",
     url: `${appUrl}/fees/states`,
     type: "website",
