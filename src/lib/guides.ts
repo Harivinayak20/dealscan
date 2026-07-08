@@ -928,6 +928,49 @@ export const guides: Guide[] = [
     ],
   },
   {
+    slug: "what-does-as-is-mean",
+    title: "What does \"as-is\" mean on a used car listing?",
+    description:
+      "What as-is means for your legal rights after the sale, how it changes your risk as a buyer, and when an as-is listing is still worth considering.",
+    quickAnswer:
+      '"As-is" on a used car means the seller offers no warranty and will not pay for repairs after the sale. It is the default for most private-party sales and common on cheaper dealer inventory. An as-is listing is not automatically a bad deal, but you must verify the title, mechanical condition, and history before you pay, because after the handshake you own the risk. A pre-purchase inspection is the single most important step on any as-is car.',
+    readTime: "5 min read",
+    updatedAt: "2026-07-07",
+    quickChecks: [
+      "As-is means the seller has no obligation to fix anything after the sale",
+      "Private-party sales are almost always as-is; that is normal, not a red flag",
+      "Dealers who sell as-is may still have state-level legal obligations",
+      "A pre-purchase inspection is non-negotiable on any as-is car",
+      "The price of an as-is car should reflect the missing warranty",
+    ],
+    sections: [
+      {
+        heading: "What as-is means legally",
+        body: [
+          '"As-is" is a legal disclosure that the vehicle is sold without any warranty, express or implied. Once you pay and take the title, the seller has no obligation to cover repairs, refund your money, or even disclose problems they knew about — unless your state specifically requires disclosure of known defects.',
+          "In practice this means every risk transfers to you the moment the deal closes. A transmission failure on the drive home, a check-engine light that was cleared before the test drive, rust hidden under fresh undercoating — if the sale was as-is, those costs are yours. That does not mean every as-is car is broken; it means your verification has to happen before the handshake, not after.",
+        ],
+      },
+      {
+        heading: "When as-is is normal and when it is a warning",
+        body: [
+          "Private-party sales are almost always as-is by default. A person selling their own car is not a dealership; they have no warranty program and no legal obligation to offer one. That is normal, and most private-party guides including DealScan assume an as-is sale. The protection is not a warranty — it is your own diligence: VIN check, history report, pre-purchase inspection, and a careful look at the title.",
+          "At a dealership, as-is is more nuanced. Franchised dealers rarely sell as-is because manufacturer CPO programs and state laws push them toward limited warranties. Independent used-car lots are where as-is sales are most common. Many display a buyers guide sticker on the windshield — a window sticker that says as-is — and ask you to sign an as-is acknowledgment. That acknowledgment is real and enforceable in most states, but not all: California, New York, and a few other states impose an implied warranty of merchantability on dealer sales regardless of the as-is label.",
+          "A dealer pushing an as-is sale on a car priced close to retail is a bad deal. The price should reflect the missing warranty. If a comparable car at another dealer includes a 30-day warranty for the same price, the as-is car needs to be cheaper. Run both listings through DealScan to see which one actually offers better value.",
+        ],
+      },
+      {
+        heading: "How to make an as-is car a safe buy",
+        body: [
+          "The same verification routine applies whether you are buying from a driveway or a dealer lot. Start with the VIN and a free history check for recalls and specs. Then paste the listing into DealScan: the analyzer flags missing information, pricing deviations, and seller-language patterns that signal risk. A listing that scores poorly because it hides the basics before you even inspect the car is not a deal worth chasing.",
+          "Next, pay for a pre-purchase inspection at an independent shop. On an as-is car, the inspection is not optional. You need to know what is broken, what is about to break, and whether the seller was honest about the car's condition. A $150 inspection that finds a $3,000 repair need is the best money you will spend on a used car. If the seller refuses an inspection, that is your answer — and it had nothing to do with the as-is label.",
+          "Finally, use the inspection report to negotiate. An as-is car with a clean inspection report and fair pricing is often a better deal than a warranted car with a premium baked in. If the inspection finds issues, subtract repair estimates from your offer. The seller chose as-is, which means they accept that the price reflects the car as it actually sits. Write your offer based on what you found, and be ready to walk away if the gap is too wide.",
+          "Run every as-is listing you are considering through DealScan first — it takes seconds, costs nothing, and tells you what questions to ask before you ever schedule a visit.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "best-free-vin-check",
     title: "Best free VIN check in 2026: what's actually free vs. a paywall funnel",
     description:
