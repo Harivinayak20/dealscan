@@ -70,6 +70,12 @@ export default function PriceCheckerPage() {
 
           <div className="mt-10 max-w-3xl">
             <EmbedSnippet />
+            <p className="mt-2 text-xs text-[var(--text-muted)]">
+              <Link href="/widget" className="font-semibold text-[var(--racing-green)] underline-offset-2 hover:underline">
+                Embed this tool on your site
+              </Link>{" "}
+              — live preview, custom sizes, and more.
+            </p>
           </div>
 
           <p className="mt-8 max-w-3xl text-xs leading-5 text-[var(--text-muted)]">

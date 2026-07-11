@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, BarChart3, CheckCircle2, ExternalLink, Gauge, SearchCheck } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { WidgetEmbedBlock } from "@/components/WidgetEmbedBlock";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -187,9 +188,7 @@ export default function WidgetPage() {
             <p className="mt-3 max-w-3xl text-base leading-7 text-[var(--text-body)]">
               Paste this wherever your CMS accepts raw HTML. It renders the widget at a max width of 640px and links back to DealScan.dev underneath.
             </p>
-            <pre className="mt-5 overflow-x-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--charcoal)] p-5 text-sm leading-6 text-[#e8e2d4]">
-              <code>{embedSnippet}</code>
-            </pre>
+            <WidgetEmbedBlock snippet={embedSnippet} previewSrc={`${appUrl}/embed/price-checker`} />
           </div>
 
           <div className="mt-12 rounded-2xl border border-[var(--accent-2-line)] bg-[var(--paper)] p-6 shadow-sm">
