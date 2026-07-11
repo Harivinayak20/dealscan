@@ -84,13 +84,22 @@ export default function FeesPage() {
           <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--text-body)]">
             Doc fee caps, sales tax, and title costs vary enormously by state — the same paperwork can cost $85 in California and $900 in Virginia. Look up the rules where you are buying.
           </p>
-          <Link
-            href="/fees/states"
-            className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]"
-          >
-            Browse all 50 states
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link
+              href="/fees/states"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--graphite)] px-5 text-sm font-black text-[var(--ivory)] transition hover:-translate-y-1 hover:bg-[var(--racing-green)]"
+            >
+              Browse all 50 states
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link
+              href="/research/dealer-fees-by-state"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-5 text-sm font-black text-[var(--graphite)] shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
+            >
+              Read the 2026 doc-fee study
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
         </section>
       </div>
     </main>
