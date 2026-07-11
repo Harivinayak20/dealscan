@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/Logo";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { partnerLinks } from "@/lib/integration-links";
 
 // Site-wide marketing footer shared by every public page. Hidden on the
@@ -36,6 +37,7 @@ export function SiteFooter() {
             <p className="mt-4 max-w-xs text-sm leading-7 text-[var(--silver)]">
               Data-backed used car deal checker. Know the car, not the hype.
             </p>
+            <NewsletterSignup source="footer" className="mt-5 max-w-xs" />
           </div>
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-[#f3eee3]">Product</h3>

@@ -85,6 +85,17 @@ CREATE TABLE IF NOT EXISTS pro_waitlist (
   created_at INTEGER NOT NULL
 );
 
+-- Newsletter/email-alert signups (footer + guide-page capture form).
+-- Sending stays off until the list is large enough and the owner approves.
+CREATE TABLE IF NOT EXISTS subscribers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  created_at INTEGER NOT NULL,
+  source TEXT,                   -- footer | guide
+  unsubscribed_at INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_subscribers_created ON subscribers(created_at);
+
 -- Denormalized completed scans for product analytics.
 CREATE TABLE IF NOT EXISTS scans (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

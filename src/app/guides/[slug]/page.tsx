@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { AdUnit } from "@/components/AdUnit";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
 import { breadcrumbSchema } from "@/lib/schema-builders";
@@ -228,6 +229,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
                 </Link>
               ))}
             </div>
+          </section>
+
+          <section className="mt-12 rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
+            <NewsletterSignup source="guide" />
           </section>
         </article>
       </div>
