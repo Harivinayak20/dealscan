@@ -499,6 +499,144 @@ export const yearsToAvoid: YearsToAvoidEntry[] = [
     verdict: "The RX has no bad years — only neglected owners. The service folder is the product; buy the thickest one.",
     updatedAt: UPDATED,
   },
+  {
+    slug: "used-jeep-cherokee",
+    avoid: [
+      { years: "2014–2016", reason: "The worst of the ZF 9-speed's shifting problems and the 2.4L's oil consumption landed here. Without transmission updates and oil records, pass." },
+    ],
+    best: [
+      { years: "2019–2023 (V6)", reason: "Software matured, the 3.2L V6 avoids the oil-consumption pattern, and depreciation makes these cheap for what they are." },
+    ],
+    verdict: "The Cherokee's bad reputation was earned early and priced in everywhere. That makes a documented late V6 car a quiet bargain, and an undocumented 2014 exactly as risky as it looks.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-ford-focus",
+    avoid: [
+      { years: "2012–2016 (automatic)", reason: "The PowerShift dual-clutch: shudder, clutch failures, TCM faults, class action. Only consider one with fresh documented clutch and module work." },
+    ],
+    best: [
+      { years: "2012–2018 (manual)", reason: "The stick avoids the PowerShift entirely; the same car becomes cheap, honest transport." },
+      { years: "2008–2011", reason: "Conventional automatic, simple mechanicals; rust is the only real enemy." },
+    ],
+    verdict: "One transmission decision defines this car. Manuals and pre-2012 autos are safe money; a 2012–2016 automatic without a paper trail is the classic used-car trap.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-nissan-sentra",
+    avoid: [
+      { years: "2013–2017", reason: "The class's worst CVT record: shudder, overheating, failure. Nissan extended the warranty because it had to." },
+    ],
+    best: [
+      { years: "2020+", reason: "New platform, better CVT, standard safety tech, and a genuinely competitive car. Night and day versus the old one." },
+    ],
+    verdict: "The Sentra is a transmission bet. Skip the 2013–2017 cars unless the CVT was replaced, and stretch to 2020+ where the bet mostly disappears.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-toyota-tundra",
+    avoid: [
+      { years: "2007–2013 (unchecked)", reason: "Not bad trucks, but the air injection pump and salt-state frame rust need inspecting before money moves." },
+      { years: "2022–2023 (recall open)", reason: "The twin-turbo V6 machining-debris recall replaced engines. Only buy with completion paperwork." },
+    ],
+    best: [
+      { years: "2014–2021", reason: "The 5.7 V8's mature years: air pump issues largely behind it, frames better protected, and the drivetrain is one of the most durable ever put in a truck." },
+    ],
+    verdict: "There is no genuinely bad Tundra, just two homework items: old-truck inspection up front, recall paperwork at the back. The 2014–2021 V8 is the safe center of the range.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-honda-hr-v",
+    avoid: [
+      { years: "2016–2018 (no CVT records)", reason: "The only pattern that costs money is a neglected CVT plus the knobless touchscreen era's gremlins. Records fix the first; patience fixes the second." },
+    ],
+    best: [
+      { years: "2019–2022", reason: "Volume knob returned, CVT proven, prices reasonable." },
+      { years: "2023+", reason: "The redesign fixes power and refinement complaints while keeping Honda reliability." },
+    ],
+    verdict: "The HR-V has no dangerous years, only annoying ones. Buy on CVT service evidence and let the refinement complaints discount the price for you.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-chevrolet-traverse",
+    avoid: [
+      { years: "2009–2013", reason: "Timing chain stretch and the 3-5-reverse wave plate in one vehicle: two four-figure failures stacked on the same purchase." },
+    ],
+    best: [
+      { years: "2021+", reason: "Second generation with its early software sorted; the cheapest dependable route to real eight-seat space." },
+    ],
+    verdict: "Treat first-generation Traverses as guilty until proven documented. The 2018+ trucks, and especially 2021+, turn the Traverse into the value play it always promised to be.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-ford-edge",
+    avoid: [
+      { years: "2015–2018 (2.0 EcoBoost)", reason: "Coolant intrusion can end in an engine replacement. No coolant-loss documentation, no deal." },
+      { years: "2007–2010 (AWD, original PTU)", reason: "The power transfer unit is a known consumable nobody serviced; by now an original one is overdue." },
+    ],
+    best: [
+      { years: "2019+", reason: "Revised engines, the 8-speed, and the PTU story improved; the record cleans up noticeably." },
+    ],
+    verdict: "The Edge is a fine crossover wearing two known traps. FWD sidesteps one, 2019+ largely sidesteps the other, and a pre-purchase inspection covers whatever's left.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-hyundai-santa-fe",
+    avoid: [
+      { years: "2010–2019 (undocumented Theta II)", reason: "Rod-bearing failure and fire recalls are the defining risk. Without campaign paperwork you are buying a lottery ticket." },
+    ],
+    best: [
+      { years: "2021+", reason: "New generation, new engines, excellent safety scores, and almost none of the old drama." },
+      { years: "2016–2019 (campaign engine)", reason: "A documented replacement engine plus closed recalls makes these quietly underpriced." },
+    ],
+    verdict: "Santa Fe buying is paperwork buying. The same car is either a proven value with a fresh campaign engine or an uninsurable risk without one; the VIN report decides which.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-kia-sportage",
+    avoid: [
+      { years: "2011–2016 (undocumented)", reason: "Theta II engine seizure and fire-recall years. Campaign completion and engine paperwork or walk." },
+    ],
+    best: [
+      { years: "2017–2022", reason: "Steadier record, cheap to buy, and the knock-sensor software adds a safety net." },
+      { years: "2023+", reason: "New generation with hybrid economy and warranty left on the clock; one of the best used values in the class." },
+    ],
+    verdict: "Same Theta II script as the Santa Fe: the paperwork is the product on early cars. Later Sportages are boring in the best way.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-chrysler-pacifica",
+    avoid: [
+      { years: "2017–2018", reason: "Transmission complaints, electrical gremlins, a stalling recall, and the Hybrid's battery fire recall all concentrated here. Every recall must be closed." },
+    ],
+    best: [
+      { years: "2021+", reason: "The refresh year: cleaner record, available AWD, and the best-driving minivan of the era at a used discount." },
+    ],
+    verdict: "The Pacifica rewards buying late. A 2021+ van with closed recalls is a family bargain; a 2017 without paperwork is how minivan horror stories start.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-dodge-charger",
+    avoid: [
+      { years: "2011–2014 (unverified TIPM)", reason: "The power module's fuel-relay failures cause no-starts and stranded owners. Ask for the fix history; aftermarket solutions exist and work." },
+    ],
+    best: [
+      { years: "2015–2019", reason: "The ZF 8-speed arrived, electrics improved, and clean examples predate the worst of the theft-era abuse." },
+    ],
+    verdict: "Chargers fail by biography, not by design: the mechanicals are stout, so the real screening is title history, tune evidence, and how the last owner drove it.",
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-tesla-model-y",
+    avoid: [
+      { years: "2020–2021 (sight unseen)", reason: "Early build quality: panel gaps, paint, rattles. Nothing dangerous, but never buy one without an in-person inspection." },
+    ],
+    best: [
+      { years: "2023+", reason: "Build quality matured, the heat pump issues were addressed, and used prices dropped hard off the 2022 peak." },
+    ],
+    verdict: "The battery and motors are the trustworthy part; the checklist is bodywork, heat pump history, and title status. A range test tells you more than the odometer ever will.",
+    updatedAt: "2026-07-11",
+  },
 ];
 
 export function getYearsToAvoid(slug: string) {

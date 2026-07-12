@@ -1497,6 +1497,450 @@ export const carModels: CarModel[] = [
     ],
     updatedAt: "2026-06-12",
   },
+  {
+    slug: "used-jeep-cherokee",
+    make: "Jeep",
+    model: "Cherokee",
+    years: "2014–2023",
+    quickAnswer:
+      "A used Jeep Cherokee (the KL, 2014–2023) is a buy-the-right-year proposition: 2014–2016 cars fought the new ZF 9-speed transmission and the 2.4L Tigershark's oil consumption, while 2019–2023 cars with the 3.2L V6 are far more settled. Cherokees depreciate faster than the segment, so a cheap listing isn't automatically a red flag here, but an undocumented early car is.",
+    mileageNote:
+      "V6 cars with records go 180,000+ miles. The 2.4L needs proof it wasn't run low on oil: with that proof, 150,000 miles is fine; without it, even 80,000 is a gamble.",
+    knownIssues: [
+      "2014–2016: ZF 9-speed transmission rough shifting, hesitation, and hunting; multiple software reflashes were issued and some units were replaced. Ask for transmission update and service history",
+      "2014–2019 2.4L Tigershark: oil consumption, subject of a class action; check the dipstick on the spot and ask directly about top-offs between changes",
+      "4x4 models: power transfer unit (PTU) wear; listen for driveline whine and check for gear-oil leaks underneath",
+      "Electrical: UConnect freezes and battery-drain complaints; confirm the 2015 UConnect security recall was completed",
+    ],
+    verify: [
+      "Transmission software updates and any replacement paperwork (2014–2016)",
+      "Oil level on the dipstick right now (2.4L cars)",
+      "PTU leak inspection on 4x4 versions",
+      "All recalls closed by VIN, including the UConnect security recall",
+    ],
+    faqs: [
+      {
+        q: "Which used Jeep Cherokee years should I avoid?",
+        a: "2014–2016 carry the worst of the 9-speed transmission and 2.4L oil-consumption issues. 2019–2023, especially with the 3.2L V6, are the safest picks.",
+      },
+      {
+        q: "Is the V6 or the 2.4L the better used Cherokee engine?",
+        a: "The 3.2L V6. It avoids the oil-consumption pattern entirely and pairs better with the 9-speed. The 2.4L is acceptable only with documented oil habits.",
+      },
+      {
+        q: "Why are used Cherokees so cheap?",
+        a: "Fast depreciation and the early transmission reputation. That makes a documented, updated V6 car a legitimate value; it does not make an undocumented 2014 a bargain.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-ford-focus",
+    make: "Ford",
+    model: "Focus",
+    years: "2008–2018",
+    quickAnswer:
+      "A used Ford Focus splits cleanly in two: manuals and pre-2012 automatics are cheap, honest transportation, while 2012–2016 automatics carry the infamous PowerShift (DPS6) dual-clutch that shudders, slips, and fails, and was the subject of a class action. The transmission question is the whole purchase decision on this car.",
+    mileageNote:
+      "The engines routinely pass 150,000–200,000 miles. On PowerShift cars the odometer matters less than the clutch and module replacement history: many needed multiple clutch jobs before 100,000 miles.",
+    knownIssues: [
+      "2012–2016 PowerShift (DPS6) automatic: shudder, slipping, delayed engagement, clutch and TCM failures; Ford extended coverage on clutches and control modules and settled a class action",
+      "2017–2018 automatics are improved but use the same design; verify the latest clutch and TCM revisions were installed",
+      "TCM failure can put the car in limp mode without warning; a TCM recall applies to many 2012–2015 cars",
+      "Pre-2012 cars use a conventional automatic with few issues; rust on northern cars is the bigger concern",
+    ],
+    verify: [
+      "Clutch and TCM replacement invoices on any 2012–2018 automatic",
+      "Cold test drive with low-speed creep in traffic to feel for shudder",
+      "TCM recall completion by VIN",
+      "Rocker panels and rear wheel arches for rust on older cars",
+    ],
+    faqs: [
+      {
+        q: "Which used Focus years should I avoid?",
+        a: "Avoid 2012–2016 automatics unless the clutch and TCM history is fully documented and recent. Manual-transmission cars from any year are a different, much safer purchase.",
+      },
+      {
+        q: "Is a manual Focus reliable?",
+        a: "Yes. The stick-shift cars avoid the PowerShift entirely, and the ST is one of the best cheap hot hatches; check for abuse rather than design faults.",
+      },
+      {
+        q: "Should the PowerShift scare me off a cheap Focus?",
+        a: "It should shape your offer, not necessarily kill the deal. A car with a fresh documented clutch and updated TCM at a low price can be rational; an undocumented one is not.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-nissan-sentra",
+    make: "Nissan",
+    model: "Sentra",
+    years: "2013–2024",
+    quickAnswer:
+      "A used Nissan Sentra is a CVT story: 2013–2017 cars have the worst transmission failure record in the class (Nissan extended warranties because of it), 2018–2019 improved somewhat, and the redesigned 2020+ car is genuinely competitive and far more dependable. Buy the newest Sentra your budget allows, and buy nothing without CVT evidence.",
+    mileageNote:
+      "The engines are fine to 200,000 miles; the early CVTs often are not. On 2013–2019 cars, treat 90,000+ miles without CVT fluid records as a transmission bill waiting to happen.",
+    knownIssues: [
+      "2013–2017 CVT: shudder, overheating in summer driving, whine, and outright failure; Nissan extended CVT warranty coverage on these years for a reason",
+      "2018–2019: same basic transmission with fewer complaints; still verify fluid service",
+      "2020+: new platform, dramatically better record; only minor electronics and brake-wear complaints so far",
+      "Cheap interiors on 2013–2019 wear fast; heavy seat and trim wear at low miles suggests hard fleet or rideshare use",
+    ],
+    verify: [
+      "CVT fluid service records (ideally every 30,000–40,000 miles)",
+      "Uphill test drive: watch for RPM flare and shudder under load",
+      "Any CVT warranty claim or replacement paperwork",
+      "Recall status by VIN",
+    ],
+    faqs: [
+      {
+        q: "Which used Sentra years should I avoid?",
+        a: "2013–2017 unless the CVT was already replaced or serviced on schedule and is priced accordingly. 2020 and newer is the clear pick.",
+      },
+      {
+        q: "How long does a Sentra CVT last?",
+        a: "Serviced on schedule, many pass 150,000 miles; neglected early units commonly fail between 60,000 and 100,000. Fluid history is the difference.",
+      },
+      {
+        q: "Is the 2020+ Sentra actually better?",
+        a: "Yes, meaningfully: new platform, better CVT behavior, standard safety tech, and a much stronger reliability record. It changed the buying advice on this model.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-toyota-tundra",
+    make: "Toyota",
+    model: "Tundra",
+    years: "2007–2024",
+    quickAnswer:
+      "A used Toyota Tundra with the 5.7L V8 (2007–2021) is one of the most durable trucks ever sold, with two known checkbook items: secondary air injection pump failures on 2007–2013 trucks and cam tower oil seepage. The 2022+ twin-turbo V6 generation is different: verify the engine recall for machining debris was resolved, because affected trucks got full engine replacements.",
+    mileageNote:
+      "300,000-mile 5.7 Tundras are common enough to be boring. A 150,000-mile truck with maintenance records and a rust-free frame is a safer buy than most 60,000-mile trucks from other brands.",
+    knownIssues: [
+      "2007–2013: secondary air injection pump failures; a repair that can run into the thousands, so check for codes and whether a documented fix or bypass exists",
+      "5.7L V8: cam tower oil seepage on many trucks; usually slow and cosmetic, but use it to negotiate",
+      "Frame corrosion on 2007–2011 trucks from salt states; inspect the frame, not just the body",
+      "2022–2023 3.4L twin-turbo: engine recall for machining debris with engine replacements on affected VINs; confirm completion paperwork",
+    ],
+    verify: [
+      "Air injection system codes and repair history (2007–2013)",
+      "Frame condition underneath on any northern truck",
+      "Recall completion by VIN on 2022–2023",
+      "Signs of heavy towing: hitch wear, transmission service history",
+    ],
+    faqs: [
+      {
+        q: "Which used Tundra years should I avoid?",
+        a: "None are avoid-outright, but 2007–2013 need the air pump and frame checked, and 2022–2023 need the engine recall documented. 2014–2021 is the sweet spot.",
+      },
+      {
+        q: "Is a high-mileage Tundra safe to buy?",
+        a: "With records, yes; the 5.7 is proven far past 250,000 miles. Rust and neglect kill these trucks, not mileage.",
+      },
+      {
+        q: "Why do used Tundras cost so much?",
+        a: "Resale is exceptional because demand and durability are real. That premium also attracts overpriced listings, so compare several trucks before offering.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-honda-hr-v",
+    make: "Honda",
+    model: "HR-V",
+    years: "2016–2024",
+    quickAnswer:
+      "A used Honda HR-V is mechanically one of the safest small SUVs: the complaints are about refinement (noise, slow acceleration, early infotainment), not durability. Check CVT fluid service on 2016–2018 cars and you've covered the main risk; the redesigned 2023+ model fixes most of the daily annoyances.",
+    mileageNote:
+      "The 1.8L engine is a 200,000-mile unit with basic care. Average is 10,000–12,000 miles a year; a higher-mileage highway car with records beats a low-mileage car without them.",
+    knownIssues: [
+      "2016–2018: CVT whine and judder complaints, usually tied to skipped fluid changes; the transmission itself holds up when serviced",
+      "2016–2018 touchscreen with no volume knob: freezes and slow response were common gripes; test it fully",
+      "Thin paint and easy chipping, a Honda-wide complaint; check the hood and roof edges",
+      "2023+: new generation on the Civic platform with a stronger powertrain feel; a few 12V battery drain complaints early on",
+    ],
+    verify: [
+      "CVT fluid changes roughly every 25,000–30,000 miles",
+      "Tire wear pattern for alignment issues",
+      "Infotainment, backup camera, and all USB ports working",
+      "Recall status by VIN",
+    ],
+    faqs: [
+      {
+        q: "Which used HR-V years should I avoid?",
+        a: "No hard avoids. Prefer 2019+ for the improved infotainment, or 2023+ for the redesign; buy 2016–2018 only with CVT service evidence.",
+      },
+      {
+        q: "Is the HR-V underpowered?",
+        a: "The 2016–2022 1.8L is slow, and that's the honest trade for its reliability and economy. The 2023+ 2.0L feels notably better. Drive both expectations-first.",
+      },
+      {
+        q: "HR-V or CR-V used?",
+        a: "Same reliability DNA. The HR-V costs less and is easier to park; the CR-V is quicker, quieter, and roomier. At equal price, the CR-V is usually the better car.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-chevrolet-traverse",
+    make: "Chevrolet",
+    model: "Traverse",
+    years: "2009–2024",
+    quickAnswer:
+      "A used Chevrolet Traverse is two different vehicles: the 2009–2017 first generation has two well-known failure points (3.6L timing chain stretch and the 6-speed's wave-plate failure that takes out reverse), while the 2018+ generation is substantially more dependable. This is a big, cheap three-row; the discipline is refusing early cars without engine and transmission evidence.",
+    mileageNote:
+      "Family haulers live hard lives: expect kid wear and towing history. A 120,000-mile 2018+ car with fluid records is a better risk than an 80,000-mile 2011 without them.",
+    knownIssues: [
+      "2009–2012 3.6L V6: timing chain stretch; listen for cold-start rattle and check for codes P0008/P0017",
+      "2009–2013 6-speed automatic: 3-5-reverse wave plate failure, often appearing first as delayed or lost reverse",
+      "2018–2020: start/stop system complaints, low-speed shudder reports, and infotainment glitches; mostly software-addressable",
+      "All years: verify transmission fluid was actually serviced; many never were",
+    ],
+    verify: [
+      "Cold start listen for chain rattle (first generation)",
+      "Reverse engagement from cold and warm",
+      "Transmission fluid service history",
+      "Check engine light history and stored codes",
+    ],
+    faqs: [
+      {
+        q: "Which used Traverse years should I avoid?",
+        a: "Be strictest with 2009–2013: timing chain plus wave-plate risk in one package. 2021+ is the cleanest record.",
+      },
+      {
+        q: "Is the Traverse expensive to fix?",
+        a: "The two first-generation failures are four-figure repairs, which is why documentation matters more than price on early cars. The 2018+ generation has ordinary running costs.",
+      },
+      {
+        q: "Is a used Traverse good value for a three-row?",
+        a: "Yes: it's one of the cheapest ways into real eight-seat space. Put the savings versus a Highlander into a pre-purchase inspection and you come out ahead.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-ford-edge",
+    make: "Ford",
+    model: "Edge",
+    years: "2007–2024",
+    quickAnswer:
+      "A used Ford Edge has two headline risks that decide the purchase: coolant intrusion on 2015–2018 2.0L EcoBoost engines (which can end in an engine replacement) and power transfer unit failures on AWD cars of every generation. A front-wheel-drive V6 or a 2019+ car sidesteps most of the danger, and Edges are cheap enough that being picky costs nothing.",
+    mileageNote:
+      "V6 engines go 200,000 miles; the risk items fail by mechanism, not mileage. An AWD car at 90,000 miles with an original PTU is due, whatever the odometer suggests.",
+    knownIssues: [
+      "2015–2018 2.0L EcoBoost: coolant intrusion into cylinders, showing as coolant loss, white exhaust, or misfires; Ford extended coverage on some builds and many needed long-block replacements",
+      "AWD power transfer unit (all generations): small sealed unit that runs hot; whine, leaks, or shudder mean it's failing",
+      "2007–2014 3.5L V6: internal water pump that can contaminate the oil when it fails; an engine-out job, so check for coolant-in-oil at inspection",
+      "2011–2014: MyFord Touch glitches and the door-ajar sensor fault",
+    ],
+    verify: [
+      "Coolant level and any top-off history on 2.0T cars, plus exhaust color at startup",
+      "PTU fluid condition and leaks on AWD",
+      "Oil cap and dipstick for any milkiness (V6 water pump)",
+      "Recall and extended-coverage history by VIN",
+    ],
+    faqs: [
+      {
+        q: "Which used Edge years should I avoid?",
+        a: "2015–2018 with the 2.0L EcoBoost unless coolant-intrusion work or coverage is documented. 2019+ revised engines and the 8-speed have a much cleaner record.",
+      },
+      {
+        q: "Is AWD worth it on a used Edge?",
+        a: "Only with PTU service evidence. FWD versions dodge the Edge's most common four-figure failure and cost less to buy and run.",
+      },
+      {
+        q: "Which Edge engine is the safest bet?",
+        a: "The 3.5L V6 in FWD form for older cars (with the water pump checked), or a 2019+ 2.0T. The 2.7T Sport is quick; verify it wasn't driven like it.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-hyundai-santa-fe",
+    make: "Hyundai",
+    model: "Santa Fe",
+    years: "2007–2024",
+    quickAnswer:
+      "A used Hyundai Santa Fe hinges on one word: Theta. The 2.4L and 2.0T Theta II engines in roughly 2010–2019 cars have a documented rod-bearing failure and fire-recall history, and Hyundai replaced enormous numbers of engines under extended campaigns. A Santa Fe with recall completion and engine paperwork is a strong value; one without is a lottery ticket. The 2021+ generation is excellent and largely drama-free.",
+    mileageNote:
+      "A replaced engine resets the clock: a 130,000-mile car with a 40,000-mile campaign engine is often the best buy on the lot. Original-engine cars need the knock-sensor update and quiet idle verified.",
+    knownIssues: [
+      "2010–2019 Theta II 2.4L/2.0T: rod-bearing wear leading to knock, stalling, or seizure; multiple recalls and the knock-sensor detection software (KSDS) campaign apply",
+      "Engine fire recalls on several years; completion is non-negotiable before purchase",
+      "2013–2016: steering coupler wear causing a clunk at low speed",
+      "2021+ 2.5L cars: few patterns so far; dual-clutch versions want smooth low-speed behavior confirmed",
+    ],
+    verify: [
+      "Recall and campaign completion by VIN, including KSDS software",
+      "Engine replacement paperwork if the campaign engine was installed",
+      "Cold idle listen for knock; oil level and consumption history",
+      "Steering clunk over low-speed bumps (2013–2016)",
+    ],
+    faqs: [
+      {
+        q: "Which used Santa Fe years should I avoid?",
+        a: "Undocumented 2010–2019 Theta II cars. The same years with a campaign engine and closed recalls are fine, and often underpriced for what you get.",
+      },
+      {
+        q: "Does the engine warranty extension transfer to me?",
+        a: "The recall campaigns attach to the car, not the owner, so completed work and eligibility follow the VIN. Confirm status with a dealer before buying.",
+      },
+      {
+        q: "Is the 2021+ Santa Fe reliable?",
+        a: "Yes, it's a different story: new engines, strong safety scores, and few complaints. It's the version to stretch for if the budget allows.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-kia-sportage",
+    make: "Kia",
+    model: "Sportage",
+    years: "2011–2024",
+    quickAnswer:
+      "A used Kia Sportage follows the same Theta II script as its Hyundai cousins: 2011–2016 2.4L and 2.0T engines carry seizure and fire-recall history with many engines replaced under campaigns, so paperwork decides the deal. 2017–2022 cars are much steadier, and the 2023+ generation is a genuinely strong value with a hybrid option.",
+    mileageNote:
+      "Post-recall oil consumption still shows up on 2.4L cars: check the dipstick and ask about top-offs. A documented campaign engine with modest miles beats an original engine every time.",
+    knownIssues: [
+      "2011–2016 Theta II: rod-bearing failure and engine fire recalls; verify campaign completion and any engine replacement by VIN",
+      "2.4L GDI: oil consumption even on cars with recall work; monitor between services",
+      "2017–2022: minor electrical complaints (door locks, infotainment); engine issues far rarer but the knock-sensor software still applies",
+      "2023+: early-build software glitches only; hybrid powertrain has a clean record so far",
+    ],
+    verify: [
+      "VIN recall and campaign status, including knock-sensor software",
+      "Engine replacement documentation where applicable",
+      "Current oil level and any cold-start rattle",
+      "All electronics: locks, screen, camera",
+    ],
+    faqs: [
+      {
+        q: "Which used Sportage years should I avoid?",
+        a: "Undocumented 2011–2016 cars. With a replaced engine and closed recalls, those same years become defensible budget buys.",
+      },
+      {
+        q: "Is a Sportage with a replaced engine a red flag?",
+        a: "Usually the opposite: the campaign engine is newer than the car and the known defect is gone. Just confirm the work was done by a dealer under the recall.",
+      },
+      {
+        q: "Is the 2023+ Sportage worth it over the older shape?",
+        a: "If the budget reaches, yes: more space, hybrid economy, and a long remaining factory warranty make it one of the segment's best used values.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-chrysler-pacifica",
+    make: "Chrysler",
+    model: "Pacifica",
+    years: "2017–2024",
+    quickAnswer:
+      "A used Chrysler Pacifica is the best-driving minivan of its era with the roughest first years: 2017–2018 cars accumulated transmission complaints, electrical gremlins, a stalling recall, and (on the plug-in Hybrid) a battery fire recall. From 2021 the record improves markedly. Buy late, buy documented, and the Pacifica is a family-hauling bargain.",
+    mileageNote:
+      "Minivans rack up short-trip family miles: judge sliding-door mechanisms, interior condition, and service continuity over the odometer. 150,000 miles with records is fine on post-2019 vans.",
+    knownIssues: [
+      "2017–2018: 9-speed rough shifting and hesitation addressed through multiple software updates; verify they were applied",
+      "2017–2018 Hybrid: battery fire recall that included a park-outside notice; completion paperwork is mandatory",
+      "Electrical: UConnect freezes, sliding-door sensor faults, and auxiliary battery drain issues",
+      "2021+: much cleaner record; on AWD vans confirm driveline service and no shudder",
+    ],
+    verify: [
+      "All recalls closed by VIN, especially stalling and Hybrid battery campaigns",
+      "Transmission software currency and shift quality on a long test drive",
+      "Both sliding doors and the tailgate cycling smoothly repeatedly",
+      "UConnect, cameras, and rear-seat systems all functioning",
+    ],
+    faqs: [
+      {
+        q: "Which used Pacifica years should I avoid?",
+        a: "2017–2018 unless every recall is closed and the transmission updates are documented. 2021+ is the version to target.",
+      },
+      {
+        q: "Is the Pacifica Hybrid worth buying used?",
+        a: "With the battery recall completed, yes: 30+ electric miles covers most school runs and the fuel savings are real. Without that paperwork, walk away.",
+      },
+      {
+        q: "Pacifica vs Odyssey or Sienna used?",
+        a: "The Pacifica drives best and costs least used; the Toyota and Honda hold reliability edges. A documented 2021+ Pacifica narrows that gap at a meaningfully lower price.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-dodge-charger",
+    make: "Dodge",
+    model: "Charger",
+    years: "2011–2023",
+    quickAnswer:
+      "A used Dodge Charger is mechanically simpler and sturdier than its image suggests: the Pentastar V6 and 5.7L Hemi are proven engines and the 2015+ 8-speed is excellent. The real risks are 2011–2014 TIPM electrical failures, the Hemi lifter tick, and how the car was driven; performance trims attract abuse, theft, and rebuilt titles, so history checks matter more here than on any family sedan.",
+    mileageNote:
+      "V6 cars go 200,000+ miles routinely. On V8s, listen warm for lifter tick and weigh consumables: tires, brakes, and suspension on a hard-driven car can total more than the price gap to a cleaner example.",
+    knownIssues: [
+      "2011–2014: TIPM (integrated power module) failures causing fuel-pump relay and no-start problems; documented fixes exist, so ask",
+      "5.7L Hemi: lifter and camshaft wear (the Hemi tick); audible ticking warm is a four-figure job waiting",
+      "2011–2014 5-speed is dated but tough; the 2015+ ZF 8-speed is the better gearbox in every way",
+      "Title and history: theft targeting of Hemi-era cars means flood, salvage, and theft-recovery titles appear disproportionately; verify before anything else",
+    ],
+    verify: [
+      "Warm-engine listen for lifter tick (V8)",
+      "TIPM behavior: consistent starts, fuel pump prime (2011–2014)",
+      "Title status and accident/theft history report",
+      "Tires, brakes, and any tune or launch-control abuse evidence",
+    ],
+    faqs: [
+      {
+        q: "Which used Charger years should I avoid?",
+        a: "2011–2014 need the TIPM history checked; otherwise avoid conditions, not years: abused, modified, or rebuilt-title cars are the real hazard.",
+      },
+      {
+        q: "Is the V6 Charger reliable?",
+        a: "Very: the Pentastar is one of the most durable V6s of the era. Watch for oil-cooler housing leaks and little else.",
+      },
+      {
+        q: "What should I know about insuring a used Charger?",
+        a: "Rates run high, especially on V8 trims in theft-prone areas. Get an insurance quote for the exact VIN before you commit; it changes the real monthly cost.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
+  {
+    slug: "used-tesla-model-y",
+    make: "Tesla",
+    model: "Model Y",
+    years: "2020–2024",
+    quickAnswer:
+      "A used Tesla Model Y is a case where the drivetrain is the safe part: batteries and motors have strong records, while early build quality (2020–2021 panel gaps, paint) and cold-climate heat pump failures are the real checklist. Battery health and the in-app service history tell you more than the odometer, and 2023+ cars are the best built.",
+    mileageNote:
+      "Expect roughly 10% range degradation by 100,000–150,000 miles on a healthy pack; a fast-degrading battery shows up in the range test, not the mileage. High-mileage highway cars can be excellent buys.",
+    knownIssues: [
+      "2020–2021: panel alignment, paint defects, and trim rattles; inspect in person and in daylight",
+      "2021–2022: heat pump and related valve failures in cold climates, addressed through service campaigns; check the service history for heat pump work",
+      "Early builds: front suspension noise complaints; listen over broken pavement",
+      "Used-market hazard: flood, salvage, and auction cars are common; verify title and that the car still carries Supercharging access",
+    ],
+    verify: [
+      "Battery health: charge high and compare indicated range against original rating",
+      "Service history in the Tesla app, especially heat pump items",
+      "Panel gaps, paint, and glass roof seals",
+      "Title status and accident history (aluminum repairs are expensive)",
+    ],
+    faqs: [
+      {
+        q: "Which used Model Y years should I avoid?",
+        a: "None outright, but 2020–2021 cars demand a careful build-quality inspection and 2021–2022 cold-climate cars need heat pump history. 2023+ is the cleanest.",
+      },
+      {
+        q: "How much battery degradation is normal?",
+        a: "Around 5% in the first years, roughly 10% by 100,000+ miles. Test it directly: a full-charge range reading beats any seller claim.",
+      },
+      {
+        q: "What does out-of-warranty Tesla ownership cost?",
+        a: "Routine costs are low (no oil, cheap brakes), but out-of-warranty repairs like screens or suspension run dealer-priced. Budget for the battery/drive warranty end at 8 years.",
+      },
+    ],
+    updatedAt: "2026-07-11",
+  },
 ];
 
 export function getCarModel(slug: string) {

@@ -63,6 +63,18 @@ const MODELS: Record<string, { msrp: number; segment: Segment }> = {
   "used-hyundai-tucson": { msrp: 29000, segment: "suv" },
   "used-volkswagen-jetta": { msrp: 24000, segment: "economy" },
   "used-lexus-rx-350": { msrp: 50000, segment: "luxury" },
+  "used-jeep-cherokee": { msrp: 32000, segment: "suv" },
+  "used-ford-focus": { msrp: 20000, segment: "economy" },
+  "used-nissan-sentra": { msrp: 22000, segment: "economy" },
+  "used-toyota-tundra": { msrp: 48000, segment: "truck" },
+  "used-honda-hr-v": { msrp: 25000, segment: "suv" },
+  "used-chevrolet-traverse": { msrp: 38000, segment: "suv" },
+  "used-ford-edge": { msrp: 38000, segment: "suv" },
+  "used-hyundai-santa-fe": { msrp: 35000, segment: "suv" },
+  "used-kia-sportage": { msrp: 28000, segment: "suv" },
+  "used-chrysler-pacifica": { msrp: 42000, segment: "suv" },
+  "used-dodge-charger": { msrp: 36000, segment: "sports" },
+  "used-tesla-model-y": { msrp: 47000, segment: "ev" },
 };
 
 export type Condition = "excellent" | "good" | "fair" | "rough";
