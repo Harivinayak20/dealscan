@@ -71,27 +71,27 @@ export function SiteNav() {
 
       <header className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[rgba(244,240,232,0.88)] backdrop-blur-md lg:hidden">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          <Link href="/" className="flex shrink-0 items-center gap-2 text-[15px] font-semibold tracking-tight text-[var(--graphite)]">
-            <img src="/dealscan-logo.png" alt="" width="26" height="26" className="h-[26px] w-[26px] rounded-full" />
-            DealScan
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="hidden items-center rounded-full bg-[var(--racing-green)] px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:inline-flex"
-            >
-              Check a listing
-            </Link>
+          <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className="grid h-9 w-9 place-items-center rounded-md text-[var(--graphite)] transition-colors hover:bg-[rgba(11,13,16,0.05)]"
+              className="-ml-1.5 grid h-9 w-9 place-items-center rounded-md text-[var(--graphite)] transition-colors hover:bg-[rgba(11,13,16,0.05)]"
             >
               {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </button>
+            <Link href="/" className="flex shrink-0 items-center gap-2 text-[15px] font-semibold tracking-tight text-[var(--graphite)]">
+              <img src="/dealscan-logo.png" alt="" width="26" height="26" className="h-[26px] w-[26px] rounded-full" />
+              DealScan
+            </Link>
           </div>
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-full bg-[var(--racing-green)] px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Check a listing
+          </Link>
         </div>
 
         {open ? (
