@@ -868,25 +868,7 @@ details[open]::details-content {
   block-size: auto;
 }
 
-@keyframes menu-drop {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.menu-drop {
-  animation: menu-drop 0.18s ease both;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .menu-drop {
-    animation: none;
-  }
   details::details-content {
     transition: none;
   }

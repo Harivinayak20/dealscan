@@ -94,8 +94,34 @@ export function SiteNav() {
           </Link>
         </div>
 
-        {open ? (
-          <nav className="menu-drop border-t border-[var(--border-subtle)] bg-[var(--paper)] px-4 py-4" aria-label="Site navigation">
+      </header>
+
+      <div className={`fixed inset-0 z-50 lg:hidden ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
+        <div
+          onClick={() => setOpen(false)}
+          className={`absolute inset-0 bg-black/25 transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
+        />
+        <aside
+          className={`absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-[var(--paper)] px-3 py-4 shadow-xl transition-transform duration-300 ease-out ${
+            open ? "translate-x-0" : "-translate-x-full"
+          }`}
+          aria-label="Site navigation"
+        >
+          <div className="flex items-center justify-between px-3">
+            <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-[var(--graphite)]">
+              <img src="/dealscan-logo.png" alt="" width="26" height="26" className="h-[26px] w-[26px] rounded-full" />
+              DealScan
+            </Link>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              className="-mr-1.5 grid h-9 w-9 place-items-center rounded-md text-[var(--graphite)] transition-colors hover:bg-[rgba(11,13,16,0.05)]"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+          <nav className="mt-4 flex-1 overflow-y-auto">
             <ul className="grid gap-0.5">
               {[{ href: "/", label: "Analyzer" }, ...NAV_ITEMS].map((item) => (
                 <li key={item.href}>
@@ -110,8 +136,15 @@ export function SiteNav() {
               ))}
             </ul>
           </nav>
-        ) : null}
-      </header>
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="mt-3 inline-flex items-center justify-center rounded-full bg-[var(--racing-green)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Check a listing
+          </Link>
+        </aside>
+      </div>
     </>
   );
 }
