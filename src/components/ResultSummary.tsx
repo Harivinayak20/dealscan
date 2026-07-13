@@ -211,8 +211,8 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
 
   return (
     <section id="analysis-result" className="min-h-screen bg-[rgba(244,240,232,0.94)] text-[var(--graphite)]">
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-[rgba(11,13,16,0.90)] text-[var(--ivory)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <header className="sticky top-0 z-20 border-b border-[var(--border-subtle)] bg-[rgba(244,240,232,0.88)] text-[var(--graphite)] backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <button
             type="button"
             onClick={() => {
@@ -220,21 +220,25 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             aria-label="DealScan.dev home"
-            className="logo-3d relative inline-flex items-center gap-2 py-[0.2em] text-[2.25rem] font-black leading-none tracking-tight"
+            className="inline-flex items-center gap-2 text-[15px] font-semibold tracking-tight text-[var(--graphite)]"
           >
             <span
               aria-hidden="true"
-              className="inline-block h-[0.55em] w-[0.55em] rotate-45 rounded-[2px] bg-[var(--racing-green)]"
+              className="inline-block h-2.5 w-2.5 rotate-45 rounded-[2px] bg-[var(--racing-green)]"
             />
-            <span className="font-display">DealScan</span>
+            DealScan
           </button>
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="hidden text-sm font-bold text-[var(--silver)] transition hover:text-[var(--champagne)] sm:block">
-              Dashboard
+          <div className="flex items-center gap-1">
+            <Link href="/dashboard" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
+              My scans
             </Link>
-            <a href="#report" className="hidden text-sm font-bold text-[var(--silver)] transition hover:text-[var(--champagne)] lg:block">
-              Report
-            </a>
+            <button
+              type="button"
+              onClick={onReset}
+              className="ml-1 inline-flex items-center rounded-full bg-[var(--racing-green)] px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              New scan
+            </button>
           </div>
         </div>
       </header>

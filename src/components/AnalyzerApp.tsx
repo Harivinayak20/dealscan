@@ -521,62 +521,65 @@ export function AnalyzerApp() {
           </div>
         </div>
       </div>
-      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--overlay)] text-[var(--graphite)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-3 gap-y-3 px-5 py-3 sm:flex-nowrap sm:px-7 sm:py-4">
-          <span className="order-1 text-left text-lg">
+      <header className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[rgba(244,240,232,0.88)] text-[var(--graphite)] backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-[1200px] items-center justify-between gap-4 px-5 sm:px-7">
+          <span className="shrink-0 text-lg">
             <Logo />
           </span>
 
-          <nav
-            className="order-3 flex w-full items-center justify-center gap-1 rounded-full border border-[var(--line)] bg-[var(--paper)] p-1.5 text-sm font-semibold shadow-[0_8px_24px_-14px_rgba(60,40,28,0.28)] sm:order-2 sm:w-auto sm:gap-0.5 sm:p-1"
-            aria-label="Primary"
-          >
+          <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
             <a
               href="#how-it-works"
               onClick={(e) => { e.preventDefault(); document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" }); }}
-              className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline"
+              className="hidden rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)] lg:inline"
             >
               How it works
             </a>
-            <Link href="/how-scoring-works" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline">
-              Scoring
-            </Link>
-            <Link href="/guides" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
+            <Link href="/guides" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               Guides
             </Link>
-            <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
+            <Link href="/cars" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               Car checks
             </Link>
-            <Link href="/compare" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
+            <Link href="/compare" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               Compare
             </Link>
-            <Link href="/fees" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
+            <Link href="/fees" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               Fees
             </Link>
-            <Link href="/vin" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
+            <Link href="/vin" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               VIN
             </Link>
-            <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
+            <Link href="/price-checker" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)]">
               Price checker
             </Link>
             {savedResults.length > 0 ? (
               <button
                 type="button"
                 onClick={() => setViewMode("compare")}
-                className="relative flex items-center gap-1.5 rounded-full bg-[var(--racing-green)] px-3 py-1.5 text-sm font-bold text-white transition hover:opacity-90"
+                className="relative ml-1 flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-semibold text-[var(--racing-green)] transition-colors hover:bg-[rgba(11,13,16,0.05)]"
               >
                 <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                 Compare
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-xs font-bold text-[var(--racing-green)]">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--racing-green)] text-xs font-bold text-white">
                   {savedResults.length}
                 </span>
               </button>
             ) : null}
           </nav>
 
-          <div className="order-2 flex items-center sm:order-3">
-            <a href="#analyzer" className="btn-pill !min-h-11 !px-4 !text-xs sm:!min-h-12 sm:!px-7 sm:!text-sm">
-              Check a Listing
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Link href="/guides" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)] md:hidden">
+              Guides
+            </Link>
+            <Link href="/price-checker" className="rounded-md px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--graphite)] md:hidden">
+              Price check
+            </Link>
+            <a
+              href="#analyzer"
+              className="inline-flex items-center rounded-full bg-[var(--racing-green)] px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Check a listing
             </a>
           </div>
         </div>
