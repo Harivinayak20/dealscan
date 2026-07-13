@@ -810,7 +810,7 @@ main article {
 /* Logo wordmark: plain and crisp, with a subtle lift on hover */
 .logo-3d {
   position: relative;
-  color: var(--foreground);
+  color: inherit;
   transition: transform 0.2s var(--ease-standard);
 }
 
