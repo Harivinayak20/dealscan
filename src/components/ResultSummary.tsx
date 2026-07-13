@@ -1,19 +1,14 @@
-import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BadgeDollarSign,
-  CarFront,
   CheckCircle2,
   ChevronRight,
-  CircleAlert,
   Download,
   ExternalLink,
   Gauge,
-  Info,
   RotateCcw,
   Search,
-  ShieldCheck,
   ShoppingCart,
   ThumbsUp,
   UserRound,
@@ -95,7 +90,7 @@ function extractPrice(text: string) {
 }
 
 function extractMileage(text: string) {
-  return text.match(/\b\d{1,3}(?:,\d{3})*\s?(?:miles|mi)\b/i)?.[0] ?? "Mileage missing";
+  return text.match(/\b\d{1,3}(?:,\d{3})*\s?(?:miles|mi)\b/i)?.[0] ?? "Mileage not listed";
 }
 
 function titleStatus(text: string) {
@@ -116,50 +111,6 @@ function ownerStatus(text: string) {
   }
 
   return "Owner unknown";
-}
-
-function MiniMetric({
-  label,
-  value,
-  note,
-  icon: Icon,
-}: {
-  label: string;
-  value: string;
-  note: string;
-  icon: ComponentType<{ className?: string }>;
-}) {
-  return (
-    <article className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 shadow-[0_18px_46px_-36px_rgba(11,13,16,0.50)]">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2 text-sm font-black text-[var(--text-body)]">
-            {label}
-            <Info className="h-4 w-4 text-slate-400" aria-hidden="true" />
-          </div>
-          <div className="mt-2 text-2xl font-black text-[var(--graphite)]">{value}</div>
-          <p className="mt-1 text-sm leading-6 text-[var(--text-body)]">{note}</p>
-        </div>
-        <Icon className="h-7 w-7 text-[var(--racing-green)]" aria-hidden="true" />
-      </div>
-    </article>
-  );
-}
-
-function ConditionPill({ label, value, risky = false }: { label: string; value: string; risky?: boolean }) {
-  return (
-    <div className="flex min-w-36 items-center gap-3 border-r border-[var(--border-subtle)] px-4 py-3 last:border-r-0">
-      {risky ? (
-        <CircleAlert className="h-6 w-6 text-[var(--warning)]" aria-hidden="true" />
-      ) : (
-        <CheckCircle2 className="h-6 w-6 text-[var(--success)]" aria-hidden="true" />
-      )}
-      <div>
-        <div className="text-sm font-black text-[var(--graphite)]">{label}</div>
-        <div className={`text-sm font-bold ${risky ? "text-[#7a5615]" : "text-[var(--racing-green)]"}`}>{value}</div>
-      </div>
-    </div>
-  );
 }
 
 function ReasonCard({ label, note, score }: { label: string; note: string; score: number }) {
@@ -221,6 +172,18 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
   const reportHref = `data:application/json;charset=utf-8,${encodeURIComponent(
     JSON.stringify({ vehicleTitle, sourceText, result }, null, 2),
   )}`;
+  const fairLow = result.estimatedFairValueRange.low;
+  const fairHigh = result.estimatedFairValueRange.high;
+  const priceVsFair = (() => {
+    if (!sellerPriceNum || fairLow === null || fairHigh === null) return null;
+    if (sellerPriceNum > fairHigh) return { text: `${formatMoney(sellerPriceNum - fairHigh)} above fair range`, good: false };
+    if (sellerPriceNum < fairLow) return { text: `${formatMoney(fairLow - sellerPriceNum)} below fair range`, good: true };
+    return { text: "Within fair range", good: true };
+  })();
+  const potentialSavings =
+    sellerPriceNum && result.suggestedOfferRange.low !== null && sellerPriceNum > result.suggestedOfferRange.low
+      ? sellerPriceNum - result.suggestedOfferRange.low
+      : null;
 
   useEffect(() => {
     let isMounted = true;
@@ -279,87 +242,98 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
       <div className="mx-auto max-w-4xl px-4 py-5 sm:px-6">
 
         <div className="grid gap-4" id="report">
-          <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)] transition hover:shadow-[0_28px_70px_-46px_rgba(11,13,16,0.70)]">
-            <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)_auto] md:items-center">
-              <div className="relative min-h-28 overflow-hidden rounded-xl bg-[var(--graphite)]">
-                {vehicleImage && !vehicleImageFailed ? (
-                  <>
-                    <img
-                      src={vehicleImage.url}
-                      alt={vehicleImage.alt}
-                      loading="lazy"
-                      onError={() => setFailedVehicleImageUrl(vehicleImage.url)}
-                      className="h-full min-h-28 w-full object-cover"
-                    />
+          <section className="animate-fade-in-up overflow-hidden rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/92 shadow-[0_22px_60px_-42px_rgba(11,13,16,0.60)]">
+            <div className="grid gap-6 p-5 sm:p-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-center">
+              <div className="grid justify-items-center gap-3 text-center md:border-r md:border-[var(--border-subtle)] md:pr-6">
+                <ScoreRing score={result.score} />
+                <div className={`inline-flex items-center gap-2 rounded-lg border px-4 py-1.5 text-base font-black ${tone.soft}`}>
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  {result.verdict}
+                </div>
+                <p className="text-xs font-bold text-[var(--text-muted)]">Confidence: {result.confidence}</p>
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  {sourceText && (() => {
+                    const urlMatch = sourceText.match(/https?:\/\/[^\s]+/);
+                    if (urlMatch) {
+                      const src = detectSource(urlMatch[0]);
+                      return <span className="inline-flex items-center gap-1 rounded-md border border-[var(--border-subtle)] bg-neutral-50 px-2 py-0.5 text-xs font-bold text-[var(--text-muted)]">{src.icon} {src.name}</span>;
+                    }
+                    return null;
+                  })()}
+                  <a href="#listing-source" className="inline-flex items-center gap-1 text-xs font-bold text-[var(--text-muted)] underline-offset-2 transition hover:text-[var(--racing-green)] hover:underline">
+                    View listing text
+                    <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  </a>
+                </div>
+                <div className="mt-2 flex items-start gap-4">
+                  <h1 className="min-w-0 flex-1 text-2xl font-black leading-tight text-[var(--graphite)] sm:text-3xl">{vehicleTitle}</h1>
+                  {vehicleImage && !vehicleImageFailed ? (
                     <a
                       href={vehicleImage.sourceUrl}
-                      className="absolute bottom-2 left-2 right-2 truncate rounded-md bg-black/60 px-2 py-1 text-[10px] font-bold text-white/90 backdrop-blur-sm"
                       title={vehicleImage.credit}
+                      className="hidden shrink-0 overflow-hidden rounded-xl border border-[var(--border-subtle)] sm:block"
                     >
-                      {vehicleImage.credit}
+                      <img
+                        src={vehicleImage.url}
+                        alt={vehicleImage.alt}
+                        loading="lazy"
+                        onError={() => setFailedVehicleImageUrl(vehicleImage.url)}
+                        className="h-16 w-24 object-cover"
+                      />
                     </a>
-                  </>
-                ) : (
-                  <div className="grid min-h-28 place-items-center bg-[linear-gradient(135deg,var(--graphite),var(--racing-green))] px-4 text-center text-[var(--ivory)]">
-                    <div>
-                      <CarFront className="mx-auto h-9 w-9 text-[var(--champagne)]" aria-hidden="true" />
-                      <p className="mt-2 text-xs font-black uppercase tracking-wide">
-                        {searchedVehicleImage?.query === vehicleImageQuery ? "Vehicle image unavailable" : "Finding vehicle image"}
-                      </p>
-                      <p className="mt-1 text-xs text-white/70">{vehicleImageQuery || "Add make and model"}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div>
-                <h1 className="text-3xl font-black text-[var(--graphite)]">{vehicleTitle}</h1>
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    {sourceText && (() => {
-                      const urlMatch = sourceText.match(/https?:\/\/[^\s]+/);
-                      if (urlMatch) {
-                        const src = detectSource(urlMatch[0]);
-                        return <span className="inline-flex items-center gap-1 rounded-md border border-[var(--border-subtle)] bg-neutral-50 px-2 py-0.5 text-xs font-bold text-[var(--text-muted)]">{src.icon} {src.name}</span>;
-                      }
-                      return null;
-                    })()}
-                  </div>
-                <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold text-[var(--text-body)]">
-                  <span className="flex items-center gap-2">
-                    <Gauge className="h-5 w-5" aria-hidden="true" />
+                  ) : null}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-[rgba(244,240,232,0.85)] px-3 py-1.5 text-sm font-bold text-[var(--text-body)]">
+                    <Gauge className="h-4 w-4" aria-hidden="true" />
                     {mileage}
                   </span>
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-[var(--success)]" aria-hidden="true" />
+                  <span className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-bold ${title === "Clean Title" ? "bg-[rgba(124,169,130,0.14)] text-[var(--racing-green)]" : "bg-[rgba(245,158,11,0.12)] text-[#7a5615]"}`}>
+                    <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                     {title}
                   </span>
-                  <span className="flex items-center gap-2">
-                    <UserRound className="h-5 w-5" aria-hidden="true" />
+                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-[rgba(244,240,232,0.85)] px-3 py-1.5 text-sm font-bold text-[var(--text-body)]">
+                    <UserRound className="h-4 w-4" aria-hidden="true" />
                     {owner}
                   </span>
                 </div>
-              </div>
-              <div className="grid gap-2 md:justify-items-end">
-                <div className="text-sm font-bold text-[var(--text-body)]">Seller Price</div>
-                <div className="text-3xl font-black text-[var(--graphite)]">{sellerPrice}</div>
-                <a
-                  href="#listing-source"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[rgba(169,130,83,0.55)] px-5 text-base font-black text-[var(--graphite)] transition hover:-translate-y-0.5 hover:bg-[rgba(169,130,83,0.14)] hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--champagne)]"
-                >
-                  View Listing
-                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                </a>
+                {(summary || result.summary) ? (
+                  <p className="mt-3 text-base leading-7 text-[var(--text-body)]">{summary || result.summary}</p>
+                ) : null}
+                <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="text-sm font-bold text-[var(--text-muted)]">Asking</span>
+                  <span className="text-3xl font-black text-[var(--graphite)]">{sellerPrice}</span>
+                  {priceVsFair ? (
+                    <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-sm font-black ${priceVsFair.good ? "bg-[rgba(124,169,130,0.14)] text-[var(--racing-green)]" : "bg-[rgba(245,158,11,0.14)] text-[#7a5615]"}`}>
+                      {priceVsFair.text}
+                    </span>
+                  ) : null}
+                </div>
               </div>
             </div>
-          </section>
-
-          {summary ? (
-            <section className="animate-fade-in-up rounded-2xl border border-[rgba(169,130,83,0.25)] bg-[rgba(169,130,83,0.08)] px-4 py-3">
-              <div className="flex items-start gap-3">
-                <Gauge className="mt-0.5 h-5 w-5 shrink-0 text-[var(--champagne)]" aria-hidden="true" />
-                <p className="text-base leading-7 text-[var(--text-body)]">{summary}</p>
+            <div className="grid divide-y divide-[var(--border-subtle)] border-t border-[var(--border-subtle)] bg-[rgba(244,240,232,0.45)] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              <div className="px-5 py-4">
+                <div className="text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Fair value range</div>
+                <div className="mt-1 text-xl font-black text-[var(--graphite)]">{formatRange(result.estimatedFairValueRange.low, result.estimatedFairValueRange.high)}</div>
+                <p className="mt-1 text-xs leading-5 text-[var(--text-body)]">{result.estimatedFairValueRange.note}</p>
               </div>
-            </section>
-          ) : null}
+              <div className="px-5 py-4">
+                <div className="text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Suggested offer</div>
+                <div className="mt-1 text-xl font-black text-[var(--graphite)]">{formatRange(result.suggestedOfferRange.low, result.suggestedOfferRange.high)}</div>
+                <p className="mt-1 text-xs leading-5 text-[var(--text-body)]">{result.suggestedOfferRange.note}</p>
+              </div>
+              <div className="px-5 py-4">
+                <div className="text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Potential savings</div>
+                <div className="mt-1 text-xl font-black text-[var(--racing-green)]">{potentialSavings !== null ? formatMoney(potentialSavings) : "Unknown"}</div>
+                <p className="mt-1 text-xs leading-5 text-[var(--text-body)]">If you negotiate from asking to the low offer</p>
+              </div>
+            </div>
+            <p className="border-t border-[var(--border-subtle)] px-5 py-2.5 text-xs leading-5 text-[var(--text-muted)]">
+              Estimates only, based on the listing text. Always verify the VIN and title and get a mechanic inspection before buying.
+            </p>
+          </section>
 
           {listingMemory || marketContext ? (
             <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-sm">
@@ -396,62 +370,6 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
               </ul>
             </section>
           ) : null}
-
-          <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 shadow-sm">
-            <div className="grid gap-6 lg:grid-cols-[160px_minmax(0,1fr)]">
-              <div className="grid justify-items-center gap-3 text-center">
-                <ScoreRing score={result.score} />
-                <div className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-lg font-black ${tone.soft}`}>
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                  {result.verdict}
-                </div>
-                <p className="text-xs font-bold text-[var(--text-muted)]">{tone.label} confidence: {result.confidence}</p>
-                <p className="mt-1 text-[10px] leading-4 text-neutral-400">Informational only &mdash; verify VIN, title, and inspection yourself.</p>
-                <div className="mt-3 rounded-xl border border-[rgba(245,158,11,0.25)] bg-[rgba(245,158,11,0.08)] p-3">
-                  <p className="text-xs font-bold leading-5 text-[var(--text-body)]">
-                    <span className="text-[var(--warning)]">⚠️</span> This is not a substitute for a mechanic inspection or vehicle history report. Always have a trusted mechanic inspect the car in person and verify the title before buying.
-                  </p>
-                </div>
-              </div>
-              <div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <MiniMetric
-                    label="Fair Price Range"
-                    value={formatRange(result.estimatedFairValueRange.low, result.estimatedFairValueRange.high)}
-                    note={result.estimatedFairValueRange.note}
-                    icon={ShieldCheck}
-                  />
-                  <MiniMetric label="Seller Price" value={sellerPrice} note="Listing asking price" icon={BadgeDollarSign} />
-                  <MiniMetric
-                    label="Negotiate Target"
-                    value={formatMoney(result.suggestedOfferRange.high)}
-                    note={result.suggestedOfferRange.note}
-                    icon={Search}
-                  />
-                  <MiniMetric
-                    label="Potential Savings"
-                    value={formatMoney(result.suggestedOfferRange.low)}
-                    note="Use inspection findings to negotiate"
-                    icon={Download}
-                  />
-                </div>
-                <div className="mt-4 rounded-lg border border-[rgba(124,169,130,0.30)] bg-[rgba(124,169,130,0.10)] p-3">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[rgba(124,169,130,0.18)] text-[var(--racing-green)]">
-                      <ShoppingCart className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-[var(--text-body)]">Our Verdict</div>
-                      <div className="text-2xl font-black text-[var(--racing-green)]">
-                        {result.score >= 80 ? "Buy" : result.score >= 60 ? "Negotiate" : "Wait"}
-                      </div>
-                    </div>
-                    <p className="ml-auto text-sm leading-6 text-[var(--text-body)]">{result.summary}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
 
           <div className="grid gap-4">
             <FinancingPanel price={sellerPriceNum} />
@@ -542,17 +460,6 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
                     <p className="text-sm font-bold text-[var(--text-body)]">Decoding VIN...</p>
                   </section>
                 ) : null}
-
-                <section aria-label="Condition summary">
-                  <div className="flex flex-wrap gap-3">
-                    <ConditionPill label="Title" value={title} risky={title !== "Clean Title"} />
-                    <ConditionPill label="Accident History" value="Ask seller" risky />
-                    <ConditionPill label="Tires" value="Verify" risky={!/new tires/i.test(sourceText)} />
-                    <ConditionPill label="Brakes" value="Verify" risky />
-                    <ConditionPill label="Interior" value="Review photos" risky />
-                    <ConditionPill label="Mechanical" value={result.redFlags.length ? "Check" : "Good"} risky={result.redFlags.length > 0} />
-                  </div>
-                </section>
 
                 <section id="saved-cars">
                   <h3 className="text-base font-black text-[var(--graphite)]">Why this score?</h3>
