@@ -108,8 +108,12 @@ export function ScrollFX() {
       const narrow = width < 1024;
       carScale = narrow ? 0.45 : 1;
 
-      const leftX = narrow ? 14 : Math.max(18, (width - 1200) / 2 - 28);
-      const rightX = width - leftX;
+      const gutter = narrow ? 14 : Math.max(18, (width - 1200) / 2 - 28);
+      // A fixed left side menu (inner pages, desktop) owns the left gutter:
+      // push the car's left rail inward so it never drives under the menu.
+      const sideNavPad = !narrow && document.querySelector(".site-side-nav") ? 232 : 0;
+      const leftX = gutter + sideNavPad;
+      const rightX = width - gutter;
       const sway = narrow ? 130 : 280;
       const minGap = narrow ? 360 : 600;
 
@@ -123,7 +127,7 @@ export function ScrollFX() {
         .map((s) => s.getBoundingClientRect().top + scrollY)
         .filter((y) => y > 300 && y < height - 320)
         .filter((y, i, arr) => i === 0 || y - arr[i - 1] > minGap);
-      let side: 0 | 1 = 0;
+      let side = 1 as 0 | 1;
       let x = side === 0 ? leftX : rightX;
       let d = `M ${x} 150`;
       for (const y of crossings) {
