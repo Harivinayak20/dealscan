@@ -65,6 +65,15 @@ export default function PrivacyPage() {
           </div>
 
           <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
+            <h2 className="mb-3 text-lg font-black">Email signups</h2>
+            <p className="text-sm leading-6">
+              If you sign up for fee alerts and deal tips, we store your email address, the signup date, and where on the site you
+              signed up. We use it only to send that content, we never sell or share it, and every email we send includes an
+              unsubscribe link. To be removed at any time, unsubscribe or write to hello@dealscan.dev.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
             <h2 className="mb-3 text-lg font-black">Third-party services</h2>
             <p className="text-sm leading-6">
               DealScan uses Groq for AI-powered analysis when configured. Listing text may be sent to Groq to generate a score and explanation,
