@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, SearchX } from "lucide-react";
+import { SearchX } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -12,28 +12,6 @@ export default function NotFound() {
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-3xl">
-        <header className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-3 text-2xl font-black tracking-tight transition hover:-translate-y-0.5"
-          >
-            <img
-              src="/dealscan-logo.png"
-              alt="DealScan"
-              width="44"
-              height="44"
-              className="h-11 w-11 rounded-full"
-            />
-            DealScan.dev
-          </Link>
-          <Link
-            href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl"
-          >
-            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            Analyzer
-          </Link>
-        </header>
 
         <section className="py-20 text-center">
           <div className="mx-auto grid h-20 w-20 place-items-center rounded-2xl bg-[rgba(169,130,83,0.14)]">

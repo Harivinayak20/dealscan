@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, Gauge } from "lucide-react";
+import { Gauge } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
@@ -65,19 +65,6 @@ export default function HowScoringWorksPage() {
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-4xl">
-        <header className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 text-2xl font-black tracking-tight">
-            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-11 w-11 rounded-full" />
-            DealScan.dev
-          </Link>
-          <Link
-            href="/"
-            className="flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-base font-bold shadow-sm transition hover:border-[var(--champagne)] hover:shadow-xl"
-          >
-            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            Analyzer
-          </Link>
-        </header>
 
         <script
           type="application/ld+json"

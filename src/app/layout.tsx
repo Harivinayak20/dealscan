@@ -5,6 +5,7 @@ import { AdSenseScript } from "@/components/AdSenseScript";
 import { Analytics } from "@/components/Analytics";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteNav } from "@/components/SiteNav";
 import { ADSENSE_CLIENT_ID, ADSENSE_ENABLED } from "@/lib/adsense";
 import "./globals.css";
 
@@ -143,6 +144,7 @@ export default function RootLayout({
       <body>
         <Analytics />
         <SiteChrome />
+        <SiteNav />
         {children}
         <SiteFooter />
       </body>
