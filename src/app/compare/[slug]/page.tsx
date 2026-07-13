@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-react";
+import { ArrowRight, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdUnit } from "@/components/AdUnit";
@@ -103,21 +103,6 @@ export default async function ComparePage({ params }: ComparePageProps) {
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-4 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between gap-3">
-          <Link href="/" className="flex min-w-0 items-center gap-2 text-xl font-black tracking-tight transition hover:-translate-y-0.5 sm:gap-3 sm:text-2xl">
-            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-9 w-9 shrink-0 rounded-full sm:h-11 sm:w-11" />
-            <span className="truncate">DealScan.dev</span>
-          </Link>
-          <Link
-            href="/compare"
-            className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-sm font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl sm:text-base"
-          >
-            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            <span className="hidden sm:inline">All comparisons</span>
-            <span className="sm:hidden">Back</span>
-          </Link>
-        </header>
-
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
         <Breadcrumbs

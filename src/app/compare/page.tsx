@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { comparisons } from "@/lib/comparisons";
 import { getCarModel } from "@/lib/car-models";
@@ -20,20 +20,6 @@ export default function CompareIndexPage() {
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-4 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between gap-3">
-          <Link href="/" className="flex min-w-0 items-center gap-2 text-xl font-black tracking-tight transition hover:-translate-y-0.5 sm:gap-3 sm:text-2xl">
-            <img src="/dealscan-logo.png" alt="DealScan" width="44" height="44" className="h-9 w-9 shrink-0 rounded-full sm:h-11 sm:w-11" />
-            <span className="truncate">DealScan.dev</span>
-          </Link>
-          <Link
-            href="/"
-            className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 text-sm font-black shadow-sm transition hover:-translate-y-1 hover:border-[var(--champagne)] hover:shadow-xl sm:text-base"
-          >
-            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
-            Analyzer
-          </Link>
-        </header>
-
         <section className="py-10 sm:py-12">
           <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Head-to-head</p>
           <h1 className="mt-2 max-w-3xl text-2xl font-black leading-[1.15] tracking-tight sm:text-3xl sm:leading-tight lg:text-4xl">

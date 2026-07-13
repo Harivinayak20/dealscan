@@ -512,7 +512,7 @@ export function AnalyzerApp() {
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[var(--canvas)] text-[var(--graphite)]">
-      <div className="bg-[var(--paper)]">
+      <div className="hidden bg-[var(--paper)] md:block">
         <div className="mx-auto flex max-w-[1180px] items-center justify-end gap-4 px-4 py-2 sm:px-7">
           <div className="hidden items-center gap-5 text-[13px] font-semibold md:flex">
             <a href={partnerLinks.loan} target="_blank" rel="sponsored noopener noreferrer" className="text-[var(--text-muted)] transition hover:text-[var(--racing-green)]">Get financing →</a>
@@ -547,11 +547,14 @@ export function AnalyzerApp() {
             <Link href="/cars" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Car checks
             </Link>
-            <Link href="/compare" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline">
+            <Link href="/compare" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
               Compare
             </Link>
-            <Link href="/fees" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] lg:inline">
+            <Link href="/fees" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
               Fees
+            </Link>
+            <Link href="/vin" className="hidden rounded-full px-3.5 py-1.5 text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] md:inline">
+              VIN
             </Link>
             <Link href="/price-checker" className="flex-1 rounded-full px-3.5 py-2.5 text-center text-[var(--graphite)] transition hover:bg-[var(--accent-2-soft)] hover:text-[var(--racing-green)] sm:flex-none sm:py-1.5">
               Price checker

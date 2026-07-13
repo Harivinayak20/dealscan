@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { Check, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { ProCheckoutButtons } from "@/components/PricingActions";
@@ -44,7 +43,6 @@ const PRO_FEATURES = [
 
 export default function PricingPage() {
   const live = isStripeConfigured();
-  if (!live) notFound();
 
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
