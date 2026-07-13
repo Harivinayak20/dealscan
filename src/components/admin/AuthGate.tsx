@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { adminStore } from "@/lib/admin-store";
 import { CarFront, ShieldAlert } from "lucide-react";
 
 type AuthGateProps = {
@@ -56,7 +55,6 @@ export function AuthGate({ children }: AuthGateProps) {
         return;
       }
 
-      adminStore.addAuditEntry({ action: "Login", adminEmail: "admin@dealscan.dev", details: "Admin user logged in." });
       setAuthenticated(true);
     } catch {
       setError("Admin login failed. Try again.");

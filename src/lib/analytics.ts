@@ -216,3 +216,52 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     return EMPTY_STATS;
   }
 }
+
+// Admin: full recent scan list from the D1 scans table.
+export type ScanRow = {
+  id: number;
+  ts: number;
+  vehicle_title: string | null;
+  score: number | null;
+  verdict: string | null;
+  confidence: string | null;
+  input_type: string | null;
+  source: string | null;
+};
+
+export async function listScans(limit = 500): Promise<ScanRow[]> {
+  const db = await getDB();
+  if (!db) return [];
+  try {
+    const r = await db
+      .prepare("SELECT id, ts, vehicle_title, score, verdict, confidence, input_type, source FROM scans ORDER BY ts DESC LIMIT ?")
+      .bind(limit)
+      .all();
+    return r.results as ScanRow[];
+  } catch {
+    return [];
+  }
+}
+
+// Admin: newsletter subscriber list.
+export type SubscriberRow = {
+  id: number;
+  email: string;
+  created_at: number;
+  source: string | null;
+  unsubscribed_at: number | null;
+};
+
+export async function listSubscribers(limit = 1000): Promise<SubscriberRow[]> {
+  const db = await getDB();
+  if (!db) return [];
+  try {
+    const r = await db
+      .prepare("SELECT id, email, created_at, source, unsubscribed_at FROM subscribers ORDER BY created_at DESC LIMIT ?")
+      .bind(limit)
+      .all();
+    return r.results as SubscriberRow[];
+  } catch {
+    return [];
+  }
+}

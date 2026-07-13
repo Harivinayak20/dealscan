@@ -1,22 +1,31 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { StatusBadge } from "@/components/admin/StatusBadge";
 import { SearchFilter } from "@/components/admin/SearchFilter";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { CsvExportButton } from "@/components/admin/CsvExportButton";
-import { adminStore } from "@/lib/admin-store";
-import type { StoredScan } from "@/lib/admin-types";
-import { ArrowUpDown, ChevronRight, Trash2 } from "lucide-react";
+import type { ScanRow } from "@/lib/analytics";
+import { ArrowUpDown } from "lucide-react";
 
-type SortField = "createdAt" | "score" | "vehicleTitle";
+type SortField = "ts" | "score" | "vehicle_title";
 type SortDir = "asc" | "desc";
 
-export function ScansTable() {
-  const [scans, setScans] = useState<StoredScan[]>(() => adminStore.getScans());
+const VERDICT_LABEL: Record<string, { label: string; className: string }> = {
+  good_deal: { label: "Good deal", className: "bg-[rgba(124,169,130,0.14)] text-[var(--racing-green)]" },
+  fair_deal: { label: "Fair deal", className: "bg-[rgba(169,130,83,0.14)] text-[#7a5615]" },
+  risky_deal: { label: "Caution", className: "bg-[rgba(245,158,11,0.14)] text-[#7a5615]" },
+  avoid: { label: "Avoid", className: "bg-red-50 text-[var(--danger)]" },
+};
+
+function verdictBadge(verdict: string | null) {
+  const meta = verdict ? VERDICT_LABEL[verdict] : null;
+  if (!meta) return <span className="text-[var(--text-muted)]">{verdict ?? "?"}</span>;
+  return <span className={`inline-flex rounded-md px-2 py-0.5 text-xs font-black ${meta.className}`}>{meta.label}</span>;
+}
+
+export function ScansTable({ scans }: { scans: ScanRow[] }) {
   const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState<SortField>("createdAt");
+  const [sortField, setSortField] = useState<SortField>("ts");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
   const filtered = scans
@@ -24,16 +33,17 @@ export function ScansTable() {
       if (!search.trim()) return true;
       const q = search.toLowerCase();
       return (
-        s.vehicleTitle.toLowerCase().includes(q) ||
-        s.verdict.toLowerCase().includes(q) ||
-        s.listingTextSnippet.toLowerCase().includes(q)
+        (s.vehicle_title ?? "").toLowerCase().includes(q) ||
+        (s.verdict ?? "").toLowerCase().includes(q) ||
+        (s.input_type ?? "").toLowerCase().includes(q) ||
+        (s.source ?? "").toLowerCase().includes(q)
       );
     })
     .sort((a, b) => {
       const dir = sortDir === "asc" ? 1 : -1;
-      if (sortField === "score") return (a.score - b.score) * dir;
-      if (sortField === "vehicleTitle") return a.vehicleTitle.localeCompare(b.vehicleTitle) * dir;
-      return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * dir;
+      if (sortField === "score") return ((a.score ?? -1) - (b.score ?? -1)) * dir;
+      if (sortField === "vehicle_title") return (a.vehicle_title ?? "").localeCompare(b.vehicle_title ?? "") * dir;
+      return (a.ts - b.ts) * dir;
     });
 
   function toggleSort(field: SortField) {
@@ -43,11 +53,6 @@ export function ScansTable() {
       setSortField(field);
       setSortDir("desc");
     }
-  }
-
-  function handleDelete(id: string) {
-    adminStore.deleteScan(id);
-    setScans(adminStore.getScans());
   }
 
   if (scans.length === 0) {
@@ -62,19 +67,28 @@ export function ScansTable() {
   return (
     <div className="grid gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <SearchFilter value={search} onChange={setSearch} placeholder="Search by vehicle, verdict, or text..." />
+        <SearchFilter value={search} onChange={setSearch} placeholder="Search by vehicle, verdict, input, source..." />
         <CsvExportButton
-          data={filtered}
+          data={filtered.map((s) => ({
+            id: s.id,
+            ts: s.ts,
+            vehicle_title: s.vehicle_title ?? undefined,
+            score: s.score ?? undefined,
+            verdict: s.verdict ?? undefined,
+            confidence: s.confidence ?? undefined,
+            input_type: s.input_type ?? undefined,
+            source: s.source ?? undefined,
+          }))}
           filename="dealscan-scans"
-          headers={["Vehicle", "Score", "Verdict", "Status", "Confidence", "Date", "Snippet"]}
+          headers={["Vehicle", "Score", "Verdict", "Confidence", "Input", "Source", "Date"]}
           mapper={(row) => [
-            String(row.vehicleTitle ?? ""),
+            String(row.vehicle_title ?? ""),
             String(row.score ?? ""),
             String(row.verdict ?? ""),
-            String(row.status ?? ""),
             String(row.confidence ?? ""),
-            String(row.createdAt ?? ""),
-            String(row.listingTextSnippet ?? ""),
+            String(row.input_type ?? ""),
+            String(row.source ?? ""),
+            row.ts ? new Date(Number(row.ts)).toISOString() : "",
           ]}
         />
       </div>
@@ -84,7 +98,7 @@ export function ScansTable() {
           <thead>
             <tr className="border-b border-neutral-100 bg-neutral-50 text-xs font-black uppercase tracking-[0.08em] text-[var(--text-body)]">
               <th className="px-4 py-3">
-                <button onClick={() => toggleSort("vehicleTitle")} className="flex items-center gap-1 hover:text-[var(--graphite)]">
+                <button onClick={() => toggleSort("vehicle_title")} className="flex items-center gap-1 hover:text-[var(--graphite)]">
                   Vehicle <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
                 </button>
               </th>
@@ -93,62 +107,46 @@ export function ScansTable() {
                   Score <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
                 </button>
               </th>
-              <th className="hidden px-4 py-3 md:table-cell">Verdict</th>
-              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Verdict</th>
               <th className="hidden px-4 py-3 sm:table-cell">Confidence</th>
+              <th className="hidden px-4 py-3 md:table-cell">Input</th>
+              <th className="hidden px-4 py-3 md:table-cell">Source</th>
               <th className="hidden px-4 py-3 lg:table-cell">
-                <button onClick={() => toggleSort("createdAt")} className="flex items-center gap-1 hover:text-[var(--graphite)]">
+                <button onClick={() => toggleSort("ts")} className="flex items-center gap-1 hover:text-[var(--graphite)]">
                   Date <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
                 </button>
               </th>
-              <th className="px-4 py-3" />
             </tr>
           </thead>
           <tbody>
             {filtered.map((scan) => (
               <tr key={scan.id} className="border-b border-neutral-100 transition hover:bg-neutral-50">
-                <td className="px-4 py-3 font-bold text-[var(--graphite)]">{scan.vehicleTitle}</td>
+                <td className="px-4 py-3 font-bold text-[var(--graphite)]">{scan.vehicle_title ?? "Untitled scan"}</td>
                 <td className="px-4 py-3">
                   <span
                     className={`font-black ${
-                      scan.score >= 80
+                      (scan.score ?? 0) >= 80
                         ? "text-[var(--success)]"
-                        : scan.score >= 60
+                        : (scan.score ?? 0) >= 60
                           ? "text-[var(--warning)]"
                           : "text-[var(--danger)]"
                     }`}
                   >
-                    {scan.score}
+                    {scan.score ?? "?"}
                   </span>
                 </td>
-                <td className="hidden px-4 py-3 text-[var(--text-body)] md:table-cell">{scan.verdict}</td>
-                <td className="px-4 py-3"><StatusBadge status={scan.status} /></td>
+                <td className="px-4 py-3">{verdictBadge(scan.verdict)}</td>
                 <td className="hidden px-4 py-3 sm:table-cell">
                   <span className={`font-bold ${
                     scan.confidence === "High" ? "text-[var(--success)]" : scan.confidence === "Medium" ? "text-[var(--warning)]" : "text-[var(--danger)]"
                   }`}>
-                    {scan.confidence}
+                    {scan.confidence ?? "?"}
                   </span>
                 </td>
+                <td className="hidden px-4 py-3 text-[var(--text-body)] md:table-cell">{scan.input_type ?? ""}</td>
+                <td className="hidden px-4 py-3 text-[var(--text-body)] md:table-cell">{scan.source ?? ""}</td>
                 <td className="hidden px-4 py-3 text-[var(--text-body)] lg:table-cell">
-                  {new Date(scan.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/admin/scans/${scan.id}`}
-                      className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[var(--champagne)] transition hover:bg-[rgba(169,130,83,0.10)]"
-                    >
-                      View <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(scan.id)}
-                      className="rounded-lg p-1 text-neutral-400 transition hover:bg-red-50 hover:text-[var(--danger)]"
-                      aria-label={`Delete ${scan.vehicleTitle}`}
-                    >
-                      <Trash2 className="h-4 w-4" aria-hidden="true" />
-                    </button>
-                  </div>
+                  {new Date(scan.ts).toLocaleString()}
                 </td>
               </tr>
             ))}

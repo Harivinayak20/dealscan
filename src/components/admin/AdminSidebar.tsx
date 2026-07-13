@@ -4,20 +4,17 @@ import {
   BarChart3,
   CarFront,
   FileText,
-  History,
   LogOut,
-  Settings,
+  Mail,
   X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { adminStore } from "@/lib/admin-store";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: BarChart3 },
   { href: "/admin/scans", label: "Deal Scans", icon: CarFront },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
-  { href: "/admin/audit", label: "Audit Log", icon: History },
+  { href: "/admin/subscribers", label: "Subscribers", icon: Mail },
 ];
 
 type AdminSidebarProps = {
@@ -30,7 +27,6 @@ export function AdminSidebar({ onClose, isMobile }: AdminSidebarProps) {
   const router = useRouter();
 
   async function handleLogout() {
-    adminStore.logout();
     try {
       await fetch("/api/admin/logout", { method: "POST" });
     } catch {

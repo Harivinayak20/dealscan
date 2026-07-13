@@ -24,7 +24,6 @@ import type { ComparisonResult, ListingDraft } from "@/lib/compare-listings";
 import { computeComparison, draftToRequestText, draftVehicleTitle } from "@/lib/compare-listings";
 import { partnerLinks } from "@/lib/integration-links";
 import { getListingTextError, LISTING_TEXT_MAX_LENGTH } from "@/lib/listing-validation";
-import { adminStore } from "@/lib/admin-store";
 import { Logo } from "@/components/Logo";
 import { HeroDemoCard } from "@/components/HeroDemoCard";
 import { faqs } from "@/lib/faqs";
@@ -286,17 +285,6 @@ export function AnalyzerApp() {
         setTimeout(() => setNotice(""), 8000);
       }
       setLastAnalyzedText(body.listingText);
-      try {
-        const title = vehicleTitleFromText(body.listingText);
-        adminStore.addScan({
-          vehicleTitle: title,
-          score: data.result.score,
-          verdict: data.result.verdict,
-          confidence: data.result.confidence,
-          sourceUrl: body.sourceUrl,
-          listingTextSnippet: body.listingText.slice(0, 500),
-        });
-      } catch { /* admin store unavailable */ }
       window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     } catch (caughtError) {
       setError(
