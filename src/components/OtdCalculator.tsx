@@ -12,9 +12,11 @@ import {
 const STATES = otdStateDefaults;
 const DEFAULT_STATE = "CA";
 
-export function OtdCalculator() {
+export function OtdCalculator({ initialState }: { initialState?: string } = {}) {
   const [price, setPrice] = useState("25000");
-  const [stateAbbr, setStateAbbr] = useState(DEFAULT_STATE);
+  const [stateAbbr, setStateAbbr] = useState(
+    initialState && getOtdStateDefault(initialState) ? initialState : DEFAULT_STATE,
+  );
   const [tradeIn, setTradeIn] = useState("");
   const [docFeeOverride, setDocFeeOverride] = useState("");
   const [localTaxRate, setLocalTaxRate] = useState("");

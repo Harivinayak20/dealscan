@@ -8,6 +8,7 @@ import { comparisons } from "@/lib/comparisons";
 import { stateFees } from "@/lib/state-fees";
 import { bestLists } from "@/lib/best-lists";
 import { allProblemPages } from "@/lib/problem-pages";
+import { otdStatePages } from "@/lib/otd-states";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -75,6 +76,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(c.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...otdStatePages.map((s) => ({
+      url: `${appUrl}/otd-calculator/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...carModels.map((car) => ({
+      url: `${appUrl}/cars/${car.slug}/mileage`,
+      lastModified: new Date(car.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }
