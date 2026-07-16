@@ -52,9 +52,13 @@ export function SiteFooter() {
               <li><Link href="/compare" className="transition hover:text-[var(--champagne)]">Used car comparisons</Link></li>
               <li><Link href="/fees" className="transition hover:text-[var(--champagne)]">Dealer fees explained</Link></li>
               <li><Link href="/price-checker" className="transition hover:text-[var(--champagne)]">Used car price checker</Link></li>
+              <li><Link href="/deal-checker" className="transition hover:text-[var(--champagne)]">Used car deal checker</Link></li>
+              <li><Link href="/good-deal" className="transition hover:text-[var(--champagne)]">Is this a good deal?</Link></li>
+              <li><Link href="/scam-checker" className="transition hover:text-[var(--champagne)]">Car scam checker</Link></li>
               <li><Link href="/otd-calculator" className="transition hover:text-[var(--champagne)]">Out-the-door price calculator</Link></li>
               <li><Link href="/depreciation" className="transition hover:text-[var(--champagne)]">Car depreciation calculator</Link></li>
               <li><Link href="/vin" className="transition hover:text-[var(--champagne)]">VIN lookup</Link></li>
+              <li><Link href="/inspection-checklist" className="transition hover:text-[var(--champagne)]">Inspection checklist</Link></li>
               <li><Link href="/widget" className="transition hover:text-[var(--champagne)]">Embed DealScan</Link></li>
             </ul>
           </div>
