@@ -7,7 +7,9 @@ type ProviderConfig = {
 };
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile";
+// llama-3.3-70b-versatile was deprecated by Groq on 2026-06-17;
+// gpt-oss-120b is the recommended replacement.
+const GROQ_DEFAULT_MODEL = "openai/gpt-oss-120b";
 const GROQ_TIMEOUT_MS = 10_000;
 
 const systemPrompt =

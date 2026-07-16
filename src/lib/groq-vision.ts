@@ -1,5 +1,8 @@
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_VISION_MODEL = "llama-3.2-11b-vision-preview";
+// Groq deprecated llama-3.2-11b-vision-preview and (2026-06-17)
+// meta-llama/llama-4-scout-17b-16e-instruct. qwen/qwen3.6-27b is Groq's
+// recommended multimodal replacement: https://console.groq.com/docs/deprecations
+const GROQ_VISION_MODEL = "qwen/qwen3.6-27b";
 const OCR_TIMEOUT_MS = 10_000;
 const MAX_DATA_URL_LENGTH = 27_000_000;
 
@@ -9,6 +12,7 @@ function groqApiKey() {
 
 function extractJson(text: string) {
   const cleaned = text
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
     .trim()
     .replace(/^```json\s*/i, "")
     .replace(/^```\s*/i, "")
@@ -89,6 +93,11 @@ export async function extractScreenshotTextWithGroq(imageDataUrl: string) {
       const err = (await response.json()) as { error?: { message?: string } };
       detail = err.error?.message ? `: ${err.error.message}` : "";
     } catch { /* ignore */ }
+    if (/decommissioned|does not exist|model_not_found/i.test(detail)) {
+      throw new Error(
+        `The OCR model is unavailable${detail}. Set GROQ_VISION_MODEL to a supported vision model (see https://console.groq.com/docs/models).`,
+      );
+    }
     throw new Error(`Screenshot OCR failed${detail}`);
   }
 

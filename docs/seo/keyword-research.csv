@@ -1,0 +1,19 @@
+Keyword,Est. global monthly searches,Volume confidence,Ranking difficulty,Difficulty rationale,Closeness to product,Intent,Maps to tool,Priority (1=highest)
+vin decoder,1M+,Medium (widely cited as one of the largest auto-tool terms; NHTSA/Carfax dominate),Very High,"Government (NHTSA), Carfax, AutoZone, Edmunds hold page 1",Adjacent (existing /vin tool),Tool/transactional,Existing: /vin,3
+vin lookup free / free vin check,300K-800K,Medium,High,"Same giants, but long-tail variants (\"free vin check no credit card\", \"vin check before buying\") are winnable",Adjacent,Tool/transactional,Existing: /vin,2
+vehicle history report free,100K-300K,Medium,High,Carfax/AutoCheck own it; affiliate angle fits existing NEXT_PUBLIC_HISTORY_REPORT_URL,Adjacent,Transactional,Existing: /vin + affiliate,4
+car payment calculator / auto loan calculator,500K-1M,Medium,Very High,"Banks, KBB, NerdWallet, calculator.net — huge DR competitors",Broad,Tool,NEW: loan/payment calculator,6
+used car value / what is my car worth,500K-1M,Medium,Very High,KBB/Edmunds/CarGurus own valuation head terms,Adjacent,Tool,Existing: /price-checker,5
+used car price checker,5K-20K,Low-Medium,Medium,Fewer exact-match tools; head valuation sites rank loosely,Exact,Tool,Existing: /price-checker,1
+is this a good deal on a used car,2K-10K,Low,Low-Medium,"Question query; forums (Reddit) rank — a scoring tool is a better answer",Exact,Informational→tool,Core analyzer,1
+used car deal checker / car deal rating,1K-5K,Low,Low,"Almost no exact-match competition; this IS the product",Exact,Tool,Core analyzer,1
+car depreciation calculator,30K-80K,Medium,Medium,"CarEdge, Omni Calculator rank; beatable with a better interactive tool",Adjacent,Tool,NEW: depreciation calculator,2
+out the door price calculator,10K-30K,Low-Medium,Low-Medium,"CarEdge is main competitor; pairs perfectly with existing /fees data",Exact-adjacent,Tool,NEW: OTD calculator (reuse /fees),1
+dealer fees by state,5K-15K,Low,Low,Existing /research/dealer-fees-by-state page already targets this; expand per-state pages,Exact-adjacent,Informational,Existing: /fees,2
+used car inspection checklist,10K-40K,Low-Medium,Low-Medium,Listicle content ranks; interactive checklist tool would stand out,Adjacent,Informational→tool,NEW: interactive checklist,2
+how to negotiate used car price,20K-60K,Medium,Medium,Content-heavy SERP (NerdWallet/Reddit); tool angle (offer generator) is unique,Adjacent,Informational,NEW: fair-offer/negotiation generator,2
+car mileage life expectancy / how many miles is too many,10K-40K,Low-Medium,Low-Medium,Content SERP; per-model programmatic pages possible via /cars database,Adjacent,Informational,NEW: mileage checker (reuse /cars),3
+car scam checker / craigslist car scam,2K-10K,Low,Low,"Barely any tools exist; analyzer's red-flag output is a perfect fit",Exact,Tool,Core analyzer (reframe landing copy),1
+lease vs buy calculator,10K-30K,Low-Medium,Medium,Finance sites rank; weaker product fit (leasing ≠ used cars),Broad,Tool,Skip / later,7
+car insurance cost estimator,50K-150K,Medium,Very High,Insurance giants + affiliate whales; poor fit,Broad,Tool,Skip,8
+compare car listings side by side,<1K,Low,Low,No real competition; tiny demand — support existing /compare but don't build for SEO,Exact,Tool,Existing: /compare,4
