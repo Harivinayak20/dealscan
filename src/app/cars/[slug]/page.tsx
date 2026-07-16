@@ -163,6 +163,13 @@ export default async function CarModelPage({ params }: CarPageProps) {
               <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">
                 <h2 className="text-2xl font-black leading-tight">How much mileage is okay?</h2>
                 <p className="mt-4 text-base leading-8 text-[var(--text-body)]">{car.mileageNote}</p>
+                <Link
+                  href={`/cars/${car.slug}/mileage`}
+                  className="mt-4 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline"
+                >
+                  How many miles does a {car.make} {car.model} last?
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </section>
 
               <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6 shadow-sm">

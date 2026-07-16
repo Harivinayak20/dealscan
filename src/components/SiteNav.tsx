@@ -11,7 +11,11 @@ import { Menu, X } from "lucide-react";
 // own hero header; embeds/admin stay chrome-free.
 const NAV_ITEMS = [
   { href: "/price-checker", label: "Price checker" },
+  { href: "/deal-checker", label: "Deal checker" },
+  { href: "/otd-calculator", label: "OTD calculator" },
+  { href: "/depreciation", label: "Depreciation" },
   { href: "/vin", label: "VIN check" },
+  { href: "/inspection-checklist", label: "Inspection checklist" },
   { href: "/compare", label: "Compare" },
   { href: "/cars", label: "Cars" },
   { href: "/guides", label: "Guides" },
