@@ -5,6 +5,12 @@ export function middleware(request: NextRequest) {
   const isWorkersDev = host.endsWith(".workers.dev");
   const { pathname } = request.nextUrl;
 
+  // Markdown for agents: only when the client explicitly asks for markdown, so
+  // browsers (which send text/html) always get the real page.
+  if (pathname === "/" && request.headers.get("accept")?.includes("text/markdown")) {
+    return NextResponse.rewrite(new URL("/api/homepage-markdown", request.url));
+  }
+
   // Admin auth
   if (pathname.startsWith("/admin") || pathname === "/deployment-dashboard") {
     if (pathname === "/admin") {
@@ -37,6 +43,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/admin/:path*",
     "/deployment-dashboard",
     "/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico)).*)",

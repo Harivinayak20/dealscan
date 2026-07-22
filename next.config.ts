@@ -35,12 +35,26 @@ const embedHeaders = [
   { key: "Content-Security-Policy", value: csp("*") },
 ];
 
+// Points agents at the machine-readable entry points from the homepage response
+// itself, so discovery does not depend on guessing well-known paths (RFC 8288).
+const agentDiscoveryHeaders = [
+  {
+    key: "Link",
+    value: [
+      '</.well-known/api-catalog>; rel="api-catalog"',
+      '</api/openapi.json>; rel="service-desc"; type="application/json"',
+      '</llms.txt>; rel="service-doc"; type="text/plain"',
+    ].join(", "),
+  },
+];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [
       { source: "/embed/:path*", headers: embedHeaders },
       { source: "/((?!embed/).*)", headers: strictHeaders },
+      { source: "/", headers: agentDiscoveryHeaders },
     ];
   },
 };

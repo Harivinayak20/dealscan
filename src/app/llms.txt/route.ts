@@ -24,6 +24,7 @@ export function GET() {
 DealScan has a free, no-auth JSON API so an agent can score a listing directly instead of only linking to the site.
 - [Analyze endpoint](${appUrl}/api/v1/analyze): POST JSON \`{ "url": "<listing-url>" }\` or \`{ "text": "<listing text>" }\` and get back a 0-100 score, verdict, red flags, good signs, fair-value range, and a suggested offer. GET \`${appUrl}/api/v1/analyze?url=<listing-url>\` also works.
 - [OpenAPI spec](${appUrl}/api/openapi.json): machine-readable OpenAPI 3.1 description of the API.
+- [Agent skills](${appUrl}/.well-known/agent-skills/index.json): step-by-step skills for calling the API, plus [API catalog](${appUrl}/.well-known/api-catalog) and [MCP server card](${appUrl}/.well-known/mcp/server-card.json) for discovery.
 - [MCP server](${appUrl}/api/mcp): Model Context Protocol (Streamable HTTP) endpoint exposing two tools — \`analyze_listing\` (score a listing by URL or text) and \`check_price\` (fair-price estimate by model, year, and mileage). Add it as a native tool in Claude, ChatGPT, or an IDE agent.
 
 ## Citing DealScan
