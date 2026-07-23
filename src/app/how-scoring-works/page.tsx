@@ -45,8 +45,6 @@ const factors = [
   },
 ];
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
-
 export default function HowScoringWorksPage() {
   const howToJsonLd = {
     "@context": "https://schema.org",

@@ -99,7 +99,7 @@ export default async function ProblemYearPage({ params }: ProblemPageProps) {
         <article className="py-8">
           <p className="text-sm font-semibold uppercase tracking-wide text-[var(--racing-green)]">Known issues by model year</p>
           <h1 className="mt-2 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-            {name} problems: what's documented, what to check
+            {name} problems: what&apos;s documented, what to check
           </h1>
 
           <p className="mt-5 max-w-3xl rounded-2xl border border-[rgba(169,130,83,0.25)] bg-[rgba(169,130,83,0.08)] px-5 py-4 text-lg leading-8 text-[var(--text-body)]">
@@ -192,8 +192,8 @@ export default async function ProblemYearPage({ params }: ProblemPageProps) {
           </nav>
 
           <p className="mt-8 max-w-3xl text-xs leading-5 text-[var(--text-muted)]">
-            Sourced from DealScan's curated model research (updated {data.updatedAt}). Issue ranges summarize widely
-            reported patterns, not a guarantee about any individual vehicle — always pair with a history report and a
+            Sourced from DealScan&apos;s curated model research (updated {data.updatedAt}). Issue ranges summarize widely
+            reported patterns, not a guarantee about any individual vehicle &mdash; always pair with a history report and a
             pre-purchase inspection.
           </p>
         </article>

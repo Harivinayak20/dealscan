@@ -12,31 +12,58 @@ function money(n: number) {
   return `$${n.toLocaleString()}`;
 }
 
+function getInitialSlug(): string {
+  if (typeof window === "undefined") return MODELS[0]?.slug ?? "";
+  const p = new URLSearchParams(window.location.search);
+  const car = p.get("car");
+  if (car && MODELS.some((m) => m.slug === car)) return car;
+  return MODELS[0]?.slug ?? "";
+}
+
+function getInitialYear(): string {
+  if (typeof window === "undefined") return "2018";
+  const p = new URLSearchParams(window.location.search);
+  const y = p.get("year");
+  return y ?? "2018";
+}
+
+function getInitialMiles(): string {
+  if (typeof window === "undefined") return "60000";
+  const p = new URLSearchParams(window.location.search);
+  const mi = p.get("miles");
+  return mi ?? "60000";
+}
+
+function getInitialCondition(): Condition {
+  if (typeof window === "undefined") return "good";
+  const p = new URLSearchParams(window.location.search);
+  const c = p.get("condition");
+  if (c === "excellent" || c === "good" || c === "fair" || c === "rough") return c;
+  return "good";
+}
+
+function getInitialTitle(): "clean" | "branded" {
+  if (typeof window === "undefined") return "clean";
+  const p = new URLSearchParams(window.location.search);
+  const t = p.get("title");
+  if (t === "branded" || t === "clean") return t;
+  return "clean";
+}
+
+function getInitialAsking(): string {
+  if (typeof window === "undefined") return "";
+  const p = new URLSearchParams(window.location.search);
+  return p.get("asking") ?? "";
+}
+
 export function PriceChecker({ embed = false }: { embed?: boolean }) {
   const linkProps = embed ? { target: "_blank" as const, rel: "noopener" } : {};
-  const [slug, setSlug] = useState(MODELS[0]?.slug ?? "");
-  const [year, setYear] = useState("2018");
-  const [miles, setMiles] = useState("60000");
-  const [condition, setCondition] = useState<Condition>("good");
-  const [title, setTitle] = useState<"clean" | "branded">("clean");
-  const [asking, setAsking] = useState("");
-
-  // Read deep-link params on mount so model pages can link a pre-filled car.
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
-    const car = p.get("car");
-    if (car && MODELS.some((m) => m.slug === car)) setSlug(car);
-    const y = p.get("year");
-    if (y) setYear(y);
-    const mi = p.get("miles");
-    if (mi) setMiles(mi);
-    const c = p.get("condition");
-    if (c === "excellent" || c === "good" || c === "fair" || c === "rough") setCondition(c);
-    const t = p.get("title");
-    if (t === "branded" || t === "clean") setTitle(t);
-    const a = p.get("asking");
-    if (a) setAsking(a);
-  }, []);
+  const [slug, setSlug] = useState(getInitialSlug);
+  const [year, setYear] = useState(getInitialYear);
+  const [miles, setMiles] = useState(getInitialMiles);
+  const [condition, setCondition] = useState<Condition>(getInitialCondition);
+  const [title, setTitle] = useState<"clean" | "branded">(getInitialTitle);
+  const [asking, setAsking] = useState(getInitialAsking);
 
   // Keep the URL in sync so any result can be copied and shared.
   useEffect(() => {
