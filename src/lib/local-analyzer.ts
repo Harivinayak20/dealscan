@@ -51,6 +51,11 @@ const greenFlagTerms = [
   { label: "Clean Carfax", pattern: /\bclean carfax\b/i, bonus: 5 },
 ];
 
+/** Stops a listing full of good keywords from stacking its way to a perfect score. */
+const GREEN_FLAG_BONUS_CAP = 20;
+/** Unverified keyword matching should never read as a certainty. */
+const HEURISTIC_MAX_SCORE = 92;
+
 function clampScore(score: number) {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
@@ -159,39 +164,34 @@ export function analyzeListingLocally(request: AnalyzeListingRequest): AnalyzeLi
   const redFlags = redFlagTerms.filter((term) => term.pattern.test(text));
   const greenFlags = greenFlagTerms.filter((term) => term.pattern.test(text));
   const mileageScore = scoreMileage(detected.mileagePerYear);
+  // Absent details lower confidence, not the score. A terse listing is not a bad deal,
+  // so only facts the listing actually states move the number.
   let score = 70;
+  const greenBonus = greenFlags.reduce((total, flag) => total + flag.bonus, 0);
 
-  if (detected.price === null) score -= 15;
-  if (detected.mileage === null) score -= 15;
-  if (detected.year === null) score -= 10;
-  if (!detected.make) score -= 10;
-  if (!detected.model) score -= 10;
-
-  for (const flag of greenFlags) {
-    score += flag.bonus;
-  }
+  score += Math.min(greenBonus, GREEN_FLAG_BONUS_CAP);
 
   for (const flag of redFlags) {
     score -= flag.penalty;
   }
 
   score += mileageScore.adjustment;
-  score = clampScore(score);
+  // Keyword matching alone cannot verify a car, so the heuristic never claims certainty.
+  score = Math.min(HEURISTIC_MAX_SCORE, clampScore(score));
 
-  const missingInfo = [
-    formatMissing("Missing year", detected.year !== null),
-    formatMissing("Missing make", Boolean(detected.make)),
-    formatMissing("Missing model", Boolean(detected.model)),
-    formatMissing("Missing price", detected.price !== null),
-    formatMissing("Missing mileage", detected.mileage !== null),
-    formatMissing("Missing title status", Boolean(detected.titleStatus)),
-    formatMissing("Missing location", Boolean(detected.location)),
-    formatMissing("Missing condition", detected.conditionPresent),
-    "VIN",
-    "Title photo",
-    "Maintenance receipts",
-    "Recent inspection",
+  // Gaps the listing left blank. These drive confidence and what to ask the seller.
+  const detectedGaps = [
+    formatMissing("Year not stated", detected.year !== null),
+    formatMissing("Make not stated", Boolean(detected.make)),
+    formatMissing("Model not stated", Boolean(detected.model)),
+    formatMissing("Price not stated", detected.price !== null),
+    formatMissing("Mileage not stated", detected.mileage !== null),
+    formatMissing("Title status not stated", Boolean(detected.titleStatus)),
+    formatMissing("Location not stated", Boolean(detected.location)),
+    formatMissing("Condition not described", detected.conditionPresent),
   ].filter((item): item is string => Boolean(item));
+  // Proof worth requesting on any used car, not defects in this listing.
+  const missingInfo = [...detectedGaps, "VIN", "Title photo", "Maintenance receipts", "Recent inspection"];
   const redFlagLabels = redFlags.map((flag) => flag.label);
   const greenFlagLabels = greenFlags.map((flag) => flag.label);
   const pricing = estimateRoughPricing({
@@ -202,14 +202,21 @@ export function analyzeListingLocally(request: AnalyzeListingRequest): AnalyzeLi
   });
   const confidence = confidenceForDetection(detected);
   const vehicleName = [detected.year, detected.make, detected.model, detected.trim].filter(Boolean).join(" ");
-  const titleRiskScore = detected.titleStatus === "Clean title" ? 88 : detected.titleStatus ? 50 : 35;
+  const titleRiskScore =
+    detected.titleStatus === "Clean title"
+      ? 88
+      : detected.titleStatus === null
+        ? 62 // not stated is unknown, not a defect
+        : /no title|salvage|rebuilt|flood/i.test(detected.titleStatus)
+          ? 30
+          : 55;
   const mechanicalRiskScore = redFlags.some((flag) => /engine|transmission|mechanic|needs|rough|tow|parts/i.test(flag.label))
     ? 35
     : detected.conditionPresent
       ? 70
-      : 45;
-  const sellerTransparencyScore = confidence === "High" ? 82 : confidence === "Medium" ? 64 : 38;
-  const missingInfoScore = Math.max(25, 100 - missingInfo.length * 8);
+      : 62;
+  const sellerTransparencyScore = confidence === "High" ? 88 : confidence === "Medium" ? 74 : 58;
+  const missingInfoScore = Math.max(45, 100 - detectedGaps.length * 7);
   const priceNote =
     detected.price === null
       ? "No seller price was provided."
@@ -226,19 +233,19 @@ export function analyzeListingLocally(request: AnalyzeListingRequest): AnalyzeLi
         : score >= 70
           ? `${vehicleName || "This listing"} looks workable, but the score depends on seller proof and an inspection.`
           : score >= 55
-            ? "Proceed carefully. The listing is missing proof or has enough uncertainty to justify a lower offer."
+            ? "Proceed carefully. There is enough uncertainty here to justify asking for proof and offering below asking."
             : score >= 40
               ? "Red flags are present. Do not move forward without title proof, VIN history, and a mechanic inspection."
               : "Avoid this listing unless a trusted inspection and title check resolve the major risks.",
     ...pricing,
     categories: [
-      { label: "Price vs estimated market value", score: detected.price ? 68 : 30, note: priceNote },
+      { label: "Price vs estimated market value", score: detected.price ? 68 : 55, note: priceNote },
       { label: "Mileage for age", score: mileageScore.score, note: mileageScore.note },
-      { label: "Title and ownership risk", score: titleRiskScore, note: detected.titleStatus ? `Title status detected: ${detected.titleStatus}.` : "Title status is missing." },
-      { label: "Mechanical risk", score: mechanicalRiskScore, note: redFlags.length ? "Risk terms in the listing need verification." : "No major mechanical risk terms were detected." },
-      { label: "Seller transparency", score: sellerTransparencyScore, note: confidence === "High" ? "The core listing details are present." : "Important seller proof is missing." },
-      { label: "Missing information", score: missingInfoScore, note: "Missing proof lowers confidence and negotiation leverage." },
-      { label: "Positive signals", score: greenFlagLabels.length ? Math.min(95, 55 + greenFlagLabels.length * 8) : 45, note: greenFlagLabels.length ? "Positive terms were found in the listing." : "Few positive proof points were provided." },
+      { label: "Title and ownership risk", score: titleRiskScore, note: detected.titleStatus ? `Title status detected: ${detected.titleStatus}.` : "Title status is not stated. Ask the seller to confirm it." },
+      { label: "Mechanical risk", score: mechanicalRiskScore, note: redFlags.length ? "Risk terms in the listing need verification." : "No mechanical risk terms were found in the listing." },
+      { label: "Seller transparency", score: sellerTransparencyScore, note: confidence === "High" ? "The core listing details are present." : "The listing is brief. Ask the seller for the details below." },
+      { label: "Information completeness", score: missingInfoScore, note: detectedGaps.length ? "Some details are not stated yet, which lowers confidence rather than the score." : "The listing states the core details." },
+      { label: "Positive signals", score: greenFlagLabels.length ? Math.min(95, 55 + greenFlagLabels.length * 8) : 60, note: greenFlagLabels.length ? "Positive terms were found in the listing." : "No positive proof points were stated either way." },
       { label: "Negotiation opportunity", score: detected.price ? (redFlags.length ? 82 : 64) : 45, note: redFlags.length ? "Use unresolved risks as negotiation points." : "Use inspection findings and missing proof to negotiate." },
     ],
     redFlags: redFlagLabels,

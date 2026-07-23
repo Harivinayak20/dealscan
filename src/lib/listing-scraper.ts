@@ -130,6 +130,65 @@ export function extractListingTextFromHtml(html: string) {
   };
 }
 
+/**
+ * Sites increasingly answer bots with HTTP 200 and a block page, so status
+ * codes alone cannot be trusted. Autotrader serves "page unavailable" as a 200.
+ */
+const BLOCK_PAGE_SIGNATURES = [
+  /page unavailable/i,
+  /site is currently unavailable/i,
+  /temporarily unavailable/i,
+  /access denied/i,
+  /request blocked/i,
+  /pardon our interruption/i,
+  /attention required/i,
+  /are you a (human|robot)/i,
+  /verify (you are|you're) (a )?human/i,
+  /unusual traffic/i,
+  /enable javascript/i,
+  /captcha/i,
+  /incident number/i,
+  /reference ?id/i,
+  /forbidden/i,
+];
+
+/** Thrown when a page loaded but is not a readable car listing. Not worth retrying. */
+export class UnreadableListingError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UnreadableListingError";
+  }
+}
+
+function looksLikeBlockPage(title: string, text: string) {
+  const sample = `${title}\n${text.slice(0, 1200)}`;
+  return BLOCK_PAGE_SIGNATURES.some((pattern) => pattern.test(sample));
+}
+
+/**
+ * A real listing names a model year plus a price or mileage. Without those the
+ * analyzer would be scoring navigation chrome or an error page as if it were a car.
+ */
+export function looksLikeCarListing(text: string) {
+  const hasYear = /\b(19[89]\d|20[0-5]\d)\b/.test(text);
+  const hasPrice = /\$\s?\d[\d,]{2,}/.test(text);
+  const hasMileage = /\b\d{1,3}(?:,\d{3})*\s?(?:miles|mi)\b/i.test(text);
+
+  return hasYear && (hasPrice || hasMileage);
+}
+
+const SEARCH_PAGE_TITLE = /(cars?|vehicles?|suvs?|trucks?)\s+for\s+sale|search results|browse|inventory|listings?\s+near/i;
+
+/**
+ * A browse or search page carries many cars at many prices. Scoring one averages
+ * a whole page of inventory into a single meaningless verdict.
+ */
+export function looksLikeSearchResultsPage(title: string, text: string) {
+  const distinctPrices = new Set(text.match(/\$\s?\d[\d,]{2,}/g) ?? []);
+
+  return SEARCH_PAGE_TITLE.test(title) && distinctPrices.size >= 6;
+}
+
 async function readLimitedText(response: Response) {
   const reader = response.body?.getReader();
 
@@ -236,6 +295,24 @@ export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetc
         throw new Error("Could not extract enough listing text from that page.");
       }
 
+      if (looksLikeBlockPage(extracted.title, extracted.text)) {
+        throw new UnreadableListingError(
+          "This site served a bot-protection page instead of the listing. Copy the listing text and paste it here, or upload a screenshot.",
+        );
+      }
+
+      if (looksLikeSearchResultsPage(extracted.title, extracted.text)) {
+        throw new UnreadableListingError(
+          "That link is a search or browse page with many cars on it. Open one specific car and paste that link instead.",
+        );
+      }
+
+      if (!looksLikeCarListing(extracted.text)) {
+        throw new UnreadableListingError(
+          "That page loaded, but no vehicle details (year, price, or mileage) could be read from it. Copy the listing text and paste it here, or upload a screenshot.",
+        );
+      }
+
       const result: ScrapedListing = {
         url: finalUrl.toString(),
         title: extracted.title,
@@ -248,6 +325,11 @@ export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetc
 
       return result;
     } catch (err) {
+      // A block page or a non-listing page returns the same thing every time.
+      if (err instanceof UnreadableListingError) {
+        throw err;
+      }
+
       lastError = err as Error;
       // If this is not the last attempt, wait before retrying
       if (attempt < maxAttempts - 1) {

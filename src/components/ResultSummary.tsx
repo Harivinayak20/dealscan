@@ -26,6 +26,7 @@ import { generateNegotiationScripts } from "@/lib/generate-scripts";
 import { FinancingPanel } from "@/components/FinancingPanel";
 import { TCOPanel } from "@/components/TCOPanel";
 import { MarketVisualizer } from "@/components/MarketVisualizer";
+import { BetterDealsPanel } from "@/components/BetterDealsPanel";
 import { WatchButton } from "@/components/WatchButton";
 import { ChallengeShareButton } from "@/components/ChallengeShareButton";
 import { ShareByEmail } from "@/components/ShareByEmail";
@@ -150,10 +151,11 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
   const primaryCategories = result.categories.slice(0, 4);
   const detectedVin = extractVin(sourceText);
   const [vinResult, setVinResult] = useState<VinDecodeResult | null>(null);
-  const [vinLoading, setVinLoading] = useState(false);
-  const makeFromVin = vinResult?.make ?? null;
-  const modelFromVin = vinResult?.model ?? null;
-  const yearFromVin = vinResult?.year ?? null;
+  const vinDecoded = vinResult && vinResult.vin === detectedVin ? vinResult : null;
+  const vinLoading = Boolean(detectedVin) && !vinDecoded;
+  const makeFromVin = vinDecoded?.make ?? null;
+  const modelFromVin = vinDecoded?.model ?? null;
+  const yearFromVin = vinDecoded?.year ?? null;
   const titleWords = vehicleTitle.split(/\s+/);
   const detectedYear = yearFromVin || (titleWords[0]?.match(/^(19|20)\d{2}$/) ? titleWords[0] : null);
   const detectedMake = makeFromVin || (titleWords.length > 1 ? titleWords[1] : null);
@@ -184,6 +186,34 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
     sellerPriceNum && result.suggestedOfferRange.low !== null && sellerPriceNum > result.suggestedOfferRange.low
       ? sellerPriceNum - result.suggestedOfferRange.low
       : null;
+
+  useEffect(() => {
+    if (!detectedVin) return;
+
+    let isMounted = true;
+
+    fetch("/api/decode-vin", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ vin: detectedVin }),
+    })
+      .then((res) => res.json() as Promise<{ result: VinDecodeResult }>)
+      .then((data) => {
+        if (isMounted) setVinResult(data.result);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setVinResult({
+          vin: detectedVin, make: null, model: null, year: null, trim: null,
+          engine: null, driveType: null, fuelType: null, bodyClass: null, plantCity: null, plantState: null,
+          error: "VIN decode failed.",
+        });
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [detectedVin]);
 
   useEffect(() => {
     let isMounted = true;
@@ -375,116 +405,80 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
             </section>
           ) : null}
 
+          {detectedVin ? (
+            <section className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-4 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-xs font-black uppercase tracking-wide text-[var(--text-muted)]">Vehicle details from VIN</h2>
+                <span className="font-mono text-xs font-bold text-[var(--text-body)]">{detectedVin}</span>
+              </div>
+              {vinLoading ? (
+                <p className="mt-2 text-sm font-bold text-[var(--text-muted)]">Decoding VIN...</p>
+              ) : vinDecoded?.error ? (
+                <p className="mt-2 text-sm text-[var(--text-muted)]">{vinDecoded.error}</p>
+              ) : vinDecoded ? (
+                <div className="mt-3 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
+                  {[
+                    { label: "Make", value: vinDecoded.make },
+                    { label: "Model", value: vinDecoded.model },
+                    { label: "Year", value: vinDecoded.year },
+                    { label: "Trim", value: vinDecoded.trim },
+                    { label: "Engine", value: vinDecoded.engine },
+                    { label: "Drive", value: vinDecoded.driveType },
+                    { label: "Fuel", value: vinDecoded.fuelType },
+                    { label: "Body", value: vinDecoded.bodyClass },
+                  ].filter((row) => row.value).map((row) => (
+                    <div key={row.label} className="rounded-lg bg-[rgba(244,240,232,0.72)] p-2">
+                      <div className="text-xs font-bold text-[var(--text-muted)]">{row.label}</div>
+                      <div className="font-bold text-[var(--graphite)]">{row.value}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+
+          <section id="saved-cars" className="animate-fade-in-up rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/88 p-5 shadow-sm">
+            <h2 className="text-lg font-black text-[var(--graphite)]">Why this score?</h2>
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              {primaryCategories.map((category) => (
+                <ReasonCard key={category.label} label={category.label} note={category.note} score={category.score} />
+              ))}
+            </div>
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              <FlagChips title="Red flags" flags={result.redFlags} tone="red" />
+              <FlagChips title="Green flags" flags={result.greenFlags} tone="green" />
+            </div>
+          </section>
+
+          <BetterDealsPanel
+            make={detectedMake}
+            model={detectedModel}
+            year={detectedYear}
+            price={sellerPriceNum}
+            mileage={mileageNum}
+            sourceText={sourceText}
+          />
+
           <div className="grid gap-4">
             <FinancingPanel price={sellerPriceNum} />
             <TCOPanel make={detectedMake} year={detectedYear} price={sellerPriceNum} mileage={mileageNum} score={result.score} monthlyPayment={monthlyPayment} />
             <MarketVisualizer price={sellerPriceNum} score={result.score} make={detectedMake} model={detectedModel} year={detectedYear} />
           </div>
 
+          <NegotiationScriptsSection result={result} sourceText={sourceText} />
+
           <details className="group rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 shadow-sm">
             <summary className="flex cursor-pointer items-center gap-2 px-5 py-4 text-lg font-black text-[var(--graphite)] transition hover:text-[var(--racing-green)]">
               <Search className="h-5 w-5 text-[var(--champagne)]" aria-hidden="true" />
-              Deep Analysis
+              Listing details
               <ChevronRight className="ml-auto h-5 w-5 transition group-open:rotate-90" aria-hidden="true" />
             </summary>
             <div className="border-t border-[rgba(11,13,16,0.10)] px-5 py-4">
               <div className="grid gap-4">
-                {detectedVin && !vinResult && !vinLoading ? (
-                  <section className="rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[rgba(52,119,186,0.08)] p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <p className="text-xs font-black uppercase text-[var(--text-body)]">VIN detected</p>
-                        <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{detectedVin}</p>
-                      </div>
-                      <button
-                        onClick={async () => {
-                          setVinLoading(true);
-                          try {
-                            const res = await fetch("/api/decode-vin", {
-                              method: "POST",
-                              headers: { "content-type": "application/json" },
-                              body: JSON.stringify({ vin: detectedVin }),
-                            });
-                            const data = (await res.json()) as { result: VinDecodeResult };
-                            setVinResult(data.result);
-                          } catch {
-                            setVinResult({
-                              vin: detectedVin, make: null, model: null, year: null, trim: null,
-                              engine: null, driveType: null, fuelType: null, bodyClass: null, plantCity: null, plantState: null,
-                              error: "VIN decode failed.",
-                            });
-                          } finally {
-                            setVinLoading(false);
-                          }
-                        }}
-                        className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[var(--graphite)] px-4 text-sm font-black text-white transition hover:bg-[var(--charcoal)]"
-                      >
-                        Decode VIN
-                      </button>
-                    </div>
-                  </section>
-                ) : null}
-
-                {vinResult ? (
-                  <section className="rounded-2xl border border-[rgba(52,119,186,0.25)] bg-[var(--paper)] p-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-xs font-black uppercase text-[var(--text-body)]">VIN Decode</p>
-                        <p className="mt-1 font-mono text-sm font-bold text-[var(--graphite)]">{vinResult.vin}</p>
-                      </div>
-                      <button onClick={() => setVinResult(null)} className="btn-ghost !min-h-0 !px-2 !py-1 !text-xs !font-bold !text-[var(--text-muted)] hover:!text-[var(--danger)]">Dismiss</button>
-                    </div>
-                    {vinResult.error ? (
-                      <p className="mt-3 text-sm text-[var(--danger)]">{vinResult.error}</p>
-                    ) : (
-                      <div className="mt-3 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
-                        {[
-                          { label: "Make", value: vinResult.make },
-                          { label: "Model", value: vinResult.model },
-                          { label: "Year", value: vinResult.year },
-                          { label: "Trim", value: vinResult.trim },
-                          { label: "Engine", value: vinResult.engine },
-                          { label: "Drive", value: vinResult.driveType },
-                          { label: "Fuel", value: vinResult.fuelType },
-                          { label: "Body", value: vinResult.bodyClass },
-                          { label: "Plant", value: vinResult.plantCity && vinResult.plantState ? `${vinResult.plantCity}, ${vinResult.plantState}` : null },
-                        ].filter((r) => r.value).map((r) => (
-                          <div key={r.label} className="rounded-lg bg-neutral-50 p-2">
-                            <div className="text-xs font-bold text-[var(--text-body)]">{r.label}</div>
-                            <div className="font-bold text-[var(--graphite)]">{r.value}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </section>
-                ) : null}
-
-                {vinLoading ? (
-                  <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4">
-                    <p className="text-sm font-bold text-[var(--text-body)]">Decoding VIN...</p>
-                  </section>
-                ) : null}
-
-                <section id="saved-cars">
-                  <h3 className="text-base font-black text-[var(--graphite)]">Why this score?</h3>
-                  <div className="mt-3 grid gap-3 md:grid-cols-2">
-                    {primaryCategories.map((category) => (
-                      <ReasonCard key={category.label} label={category.label} note={category.note} score={category.score} />
-                    ))}
-                  </div>
-                </section>
-
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <FlagChips title="Red flags" flags={result.redFlags} tone="red" />
-                  <FlagChips title="Green flags" flags={result.greenFlags} tone="green" />
-                </div>
-
                 <MissingInfoChecklist items={result.missingInfo} />
                 <div id="seller-questions">
                   <SellerQuestionsCard questions={result.sellerQuestions} />
                 </div>
-
-                <NegotiationScriptsSection result={result} sourceText={sourceText} />
 
                 <section className="rounded-2xl border border-[rgba(11,13,16,0.10)] bg-white/82 p-4 text-base leading-7 text-[var(--text-body)]">
                   <h3 className="text-base font-black text-[var(--graphite)]">Trust notes</h3>

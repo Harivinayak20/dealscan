@@ -12,8 +12,22 @@ const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const GROQ_DEFAULT_MODEL = "openai/gpt-oss-120b";
 const GROQ_TIMEOUT_MS = 10_000;
 
-const systemPrompt =
-  "You are a skeptical but fair used car expert. Analyze only information provided by the user. Do not claim certainty. If fair market value is estimated, clearly label it as an estimate. Penalize vague listings, missing title info, missing VIN, missing mileage, suspicious wording, and unclear seller claims. Reward clean title, one owner, service records, detailed maintenance, reasonable mileage, and transparent seller language. Return only valid JSON.";
+const systemPrompt = [
+  "You are a skeptical but fair used car expert. Analyze only information provided by the user.",
+  "Do not claim certainty. If fair market value is estimated, clearly label it as an estimate.",
+  "",
+  "SCORING RULE: the score reflects the quality of the deal based on what the listing actually states.",
+  "Absent information is not evidence of a problem. A short or sparse listing is not a bad deal.",
+  "When details are missing, lower `confidence` and name the gaps in `missingInfo`.",
+  "Never place a missing detail in `redFlags`, and never invent a defect that the listing does not state.",
+  "",
+  "`redFlags` is only for negative facts the listing itself states: salvage or rebuilt title, flood or",
+  "accident damage, known mechanical problems, as-is sale with disclosed issues, or seller language that",
+  "is evasive in their own words. If the listing states nothing negative, `redFlags` must be empty.",
+  "",
+  "Reward clean title, one owner, service records, documented maintenance, reasonable mileage for the",
+  "vehicle age, and transparent seller language. Return only valid JSON.",
+].join("\n");
 
 function extractJson(text: string): AnalyzeListingResult {
   const cleaned = text
