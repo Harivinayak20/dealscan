@@ -11,7 +11,7 @@ import type {
   ManualDetails,
 } from "./analyzer-types.ts";
 import { LISTING_TEXT_MAX_LENGTH, LISTING_TEXT_MIN_LENGTH } from "./listing-validation.ts";
-import { scrapeListingUrl } from "./listing-scraper.ts";
+import { scrapeListingUrl, BlockedListingError } from "./listing-scraper.ts";
 
 export const PUBLIC_API_VERSION = "1.0.0";
 
@@ -133,14 +133,13 @@ export async function resolvePublicListing(
     try {
       scraped = await scrapeListingUrl(input.url, fetcher);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Could not read that listing URL.";
-      const httpMatch = message.match(/^Listing page returned HTTP (\d+)\.?$/);
-      if (httpMatch && [403, 429, 503].includes(Number(httpMatch[1]))) {
+      if (error instanceof BlockedListingError) {
         throw new PublicApiError(
           422,
           "That site blocked the automated read. Send the ad text via `text` instead.",
         );
       }
+      const message = error instanceof Error ? error.message : "Could not read that listing URL.";
       throw new PublicApiError(422, message);
     }
 

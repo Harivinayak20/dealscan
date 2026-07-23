@@ -1,12 +1,32 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { looksLikeCarListing, looksLikeSearchResultsPage } from "../listing-scraper.ts";
+import { looksLikeCarListing, looksLikeSearchResultsPage, looksSoldOrRemoved } from "../listing-scraper.ts";
 
 const REAL_LISTING = "2017 Acura TLX 3.5L V6, $17,450, 69,000 miles. Dallas, TX 75201.";
 
 test("looksLikeCarListing accepts a real listing", () => {
   assert.equal(looksLikeCarListing(REAL_LISTING), true);
   assert.equal(looksLikeCarListing("2019 Honda Civic EX 62,000 miles clean title"), true);
+});
+
+test("looksLikeCarListing accepts a year glued to the model (Firecrawl markdown)", () => {
+  // Firecrawl renders Carvana titles as "2025ToyotaCamry" with no space after the year.
+  assert.equal(looksLikeCarListing("# 2025ToyotaCamry LE Sedan 4D 13,434 miles"), true);
+});
+
+test("looksLikeCarListing accepts classic cars (pre-1980)", () => {
+  // Hemmings, eBay Motors, and Bring a Trailer sell collector cars.
+  assert.equal(looksLikeCarListing("1967 Ford Mustang Fastback, $48,500, 62,000 miles"), true);
+  assert.equal(looksLikeCarListing("1939 BMW 327 Cabriolet current bid $85,000"), true);
+});
+
+test("looksLikeCarListing still rejects a year buried inside a longer number", () => {
+  assert.equal(looksLikeCarListing("Stock number 20255 reference 84000 unit"), false);
+});
+
+test("looksSoldOrRemoved flags a sold or pulled listing", () => {
+  assert.equal(looksSoldOrRemoved("Sold. This vehicle is no longer available. 2025 Toyota Camry"), true);
+  assert.equal(looksSoldOrRemoved("2017 Acura TLX, $17,450, 69,000 miles, clean title"), false);
 });
 
 test("looksLikeCarListing rejects a bot-block page", () => {

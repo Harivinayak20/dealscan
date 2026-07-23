@@ -1,9 +1,13 @@
 import { LISTING_TEXT_MAX_LENGTH } from "./listing-validation.ts";
 import { parseSafeHttpUrl } from "./url-safety.ts";
 import { ExtractionCache } from "./extraction-cache.ts";
+import { hasFirecrawl, scrapeViaFirecrawl } from "./firecrawl.ts";
 
 const MAX_HTML_BYTES = 1_500_000;
 const MAX_REDIRECTS = 4;
+const BLOCKED_HTTP_STATUSES = [403, 429, 503];
+const BLOCKED_MESSAGE =
+  "This site blocked the page read. Paste the listing text or upload a screenshot instead.";
 
 type FetchLike = typeof fetch;
 
@@ -11,7 +15,7 @@ export type ScrapedListing = {
   url: string;
   title: string;
   text: string;
-  engine: "safe-fetch";
+  engine: "safe-fetch" | "firecrawl";
 };
 
 function decodeHtml(value: string) {
@@ -160,6 +164,43 @@ export class UnreadableListingError extends Error {
   }
 }
 
+/** Thrown when the site blocked us (hard status, block page, or a JS-only shell). Firecrawl may still read it. */
+export class BlockedListingError extends Error {
+  constructor(message: string = BLOCKED_MESSAGE) {
+    super(message);
+    this.name = "BlockedListingError";
+  }
+}
+
+/**
+ * Guards shared by the direct fetch and the Firecrawl fallback. A block-like page is
+ * a BlockedListingError (worth a rendered retry); a search page or a page with no
+ * vehicle is an UnreadableListingError (a retry would return the same thing).
+ */
+function assertReadableListing(title: string, text: string): void {
+  if (text.length < 80 || looksLikeBlockPage(title, text)) {
+    throw new BlockedListingError();
+  }
+
+  if (looksSoldOrRemoved(text)) {
+    throw new UnreadableListingError(
+      "This listing has sold or been removed, so there's nothing to score. Try one that's still active.",
+    );
+  }
+
+  if (looksLikeSearchResultsPage(title, text)) {
+    throw new UnreadableListingError(
+      "That link is a search or browse page with many cars on it. Open one specific car and paste that link instead.",
+    );
+  }
+
+  if (!looksLikeCarListing(text)) {
+    throw new UnreadableListingError(
+      "That page loaded, but no vehicle details (year, price, or mileage) could be read from it. Copy the listing text and paste it here, or upload a screenshot.",
+    );
+  }
+}
+
 function looksLikeBlockPage(title: string, text: string) {
   const sample = `${title}\n${text.slice(0, 1200)}`;
   return BLOCK_PAGE_SIGNATURES.some((pattern) => pattern.test(sample));
@@ -170,11 +211,28 @@ function looksLikeBlockPage(title: string, text: string) {
  * analyzer would be scoring navigation chrome or an error page as if it were a car.
  */
 export function looksLikeCarListing(text: string) {
-  const hasYear = /\b(19[89]\d|20[0-5]\d)\b/.test(text);
+  // Covers classic cars too (1900s-2059), since Hemmings/eBay/BaT sell pre-1980 vehicles.
+  // Allow a trailing letter (rendered markdown often glues the year to the model,
+  // e.g. "2025ToyotaCamry"), but never a trailing digit (avoids matching inside VINs/prices).
+  const hasYear = /\b(19\d\d|20[0-5]\d)(?!\d)/.test(text);
   const hasPrice = /\$\s?\d[\d,]{2,}/.test(text);
   const hasMileage = /\b\d{1,3}(?:,\d{3})*\s?(?:miles|mi)\b/i.test(text);
 
   return hasYear && (hasPrice || hasMileage);
+}
+
+const SOLD_SIGNATURES = [
+  /no longer available/i,
+  /this vehicle (has been |is )?sold/i,
+  /this (listing|auction) (has )?(ended|been removed|sold)/i,
+  /vehicle is sold/i,
+  /sale (has )?ended/i,
+];
+
+/** A sold or pulled listing still renders, but there is nothing left to score. */
+export function looksSoldOrRemoved(text: string) {
+  const top = text.slice(0, 700);
+  return SOLD_SIGNATURES.some((pattern) => pattern.test(top));
 }
 
 const SEARCH_PAGE_TITLE = /(cars?|vehicles?|suvs?|trucks?)\s+for\s+sale|search results|browse|inventory|listings?\s+near/i;
@@ -261,6 +319,28 @@ export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetc
 
   const safeUrl = parseSafeHttpUrl(rawUrl);
 
+  // Firecrawl renders every link (JS, anti-bot, clean markdown), so it is the primary
+  // reader whenever it is configured. Direct fetch is the fallback for when Firecrawl
+  // errors as a service, and the only path when no key is set.
+  if (hasFirecrawl()) {
+    try {
+      const page = await scrapeViaFirecrawl(rawUrl);
+      assertReadableListing(page.title, page.text);
+
+      return finalizeListing(rawUrl, page.finalUrl, page.title, page.text, "firecrawl");
+    } catch (err) {
+      // A search or non-listing page reads the same no matter who fetches it.
+      if (err instanceof UnreadableListingError) {
+        throw err;
+      }
+      // Firecrawl itself failed (quota, timeout, outage). Try a plain fetch before giving up.
+    }
+  }
+
+  return scrapeViaDirectFetch(rawUrl, safeUrl, fetcher);
+}
+
+async function scrapeViaDirectFetch(rawUrl: string, safeUrl: URL, fetcher: FetchLike): Promise<ScrapedListing> {
   // User agent rotation to appear more like a regular browser
   const userAgents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
@@ -278,6 +358,10 @@ export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetc
     try {
       const { response, finalUrl } = await fetchWithSafeRedirects(safeUrl, fetcher, userAgent);
 
+      if (BLOCKED_HTTP_STATUSES.includes(response.status)) {
+        throw new BlockedListingError();
+      }
+
       if (!response.ok) {
         throw new Error(`Listing page returned HTTP ${response.status}.`);
       }
@@ -290,55 +374,44 @@ export async function scrapeListingUrl(rawUrl: string, fetcher: FetchLike = fetc
 
       const html = await readLimitedText(response);
       const extracted = extractListingTextFromHtml(html);
+      assertReadableListing(extracted.title, extracted.text);
 
-      if (extracted.text.length < 80) {
-        throw new Error("Could not extract enough listing text from that page.");
-      }
-
-      if (looksLikeBlockPage(extracted.title, extracted.text)) {
-        throw new UnreadableListingError(
-          "This site served a bot-protection page instead of the listing. Copy the listing text and paste it here, or upload a screenshot.",
-        );
-      }
-
-      if (looksLikeSearchResultsPage(extracted.title, extracted.text)) {
-        throw new UnreadableListingError(
-          "That link is a search or browse page with many cars on it. Open one specific car and paste that link instead.",
-        );
-      }
-
-      if (!looksLikeCarListing(extracted.text)) {
-        throw new UnreadableListingError(
-          "That page loaded, but no vehicle details (year, price, or mileage) could be read from it. Copy the listing text and paste it here, or upload a screenshot.",
-        );
-      }
-
-      const result: ScrapedListing = {
-        url: finalUrl.toString(),
-        title: extracted.title,
-        text: extracted.text,
-        engine: "safe-fetch",
-      };
-
-      // Cache successful extraction
-      ExtractionCache.set(rawUrl, { title: extracted.title, text: extracted.text });
-
-      return result;
+      return finalizeListing(rawUrl, finalUrl.toString(), extracted.title, extracted.text, "safe-fetch");
     } catch (err) {
-      // A block page or a non-listing page returns the same thing every time.
+      // A search or non-listing page returns the same thing every time; a hard block
+      // will not clear on retry either.
       if (err instanceof UnreadableListingError) {
         throw err;
       }
 
       lastError = err as Error;
-      // If this is not the last attempt, wait before retrying
+
+      if (err instanceof BlockedListingError) {
+        break;
+      }
+
       if (attempt < maxAttempts - 1) {
         // Exponential backoff: 100ms, 200ms, 400ms
-        await new Promise(resolve => setTimeout(resolve, 100 * Math.pow(2, attempt)));
+        await new Promise((resolve) => setTimeout(resolve, 100 * Math.pow(2, attempt)));
       }
     }
   }
 
-  // If we get here, all attempts failed
+  if (lastError instanceof BlockedListingError) {
+    throw lastError;
+  }
+
   throw lastError ?? new Error("Unknown error during extraction");
+}
+
+function finalizeListing(
+  rawUrl: string,
+  finalUrl: string,
+  title: string,
+  text: string,
+  engine: ScrapedListing["engine"],
+): ScrapedListing {
+  ExtractionCache.set(rawUrl, { title, text });
+
+  return { url: finalUrl, title, text, engine };
 }
