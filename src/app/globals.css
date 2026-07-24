@@ -207,6 +207,21 @@ html {
   }
 }
 
+/* Cross-fade between pages instead of a hard repaint. Browsers without support
+   ignore this and keep the current behaviour. */
+@view-transition {
+  navigation: auto;
+}
+
+/* The global reduced-motion reset targets *, which never matches view
+   transition pseudo-elements, so they have to be silenced explicitly. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 body {
   min-height: 100dvh;
   display: flex;
@@ -228,6 +243,15 @@ h1,
 h2,
 h3 {
   overflow-wrap: break-word;
+  /* Even out the line lengths instead of breaking wherever the viewport lands.
+     Matters most on the generated value-page headings, which vary in length by
+     make and model. */
+  text-wrap: balance;
+}
+
+/* Keep single-word last lines out of body copy. */
+p {
+  text-wrap: pretty;
 }
 
 /* Display headings use Bricolage Grotesque per the design system. */
@@ -252,6 +276,28 @@ h3,
 .mono-label {
   font-family: var(--font-plex-mono), ui-monospace, monospace;
   letter-spacing: 0.04em;
+}
+
+/* Registering the angle lets the browser interpolate the score ring's
+   conic-gradient on the compositor. Without this a custom property is just a
+   string and cannot be transitioned, which is why ScoreRing used to redraw the
+   gradient from a requestAnimationFrame loop on every frame. */
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Slow scale-and-fade for "this step is working". Replaces Tailwind's
+   animate-pulse, whose linear opacity blink reads frantic against the
+   "slow, eased, organic" motion the brand guide asks for. */
+@keyframes ds-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.55; }
+}
+
+.breathe {
+  animation: ds-breathe 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* Design-spec entrance for hero headline lines. */
@@ -438,7 +484,12 @@ select {
   font-size: var(--text-base);
   font-weight: 700;
   color: var(--fg);
-  transition: all var(--motion-base) var(--ease-standard);
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    background var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .btn-secondary:hover {
@@ -464,7 +515,12 @@ select {
   font-size: var(--text-base);
   font-weight: 700;
   color: var(--fg-2);
-  transition: all var(--motion-base) var(--ease-standard);
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    background var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .btn-ghost:hover {
@@ -490,7 +546,12 @@ select {
   color: var(--accent-2-on);
   background: var(--accent-2);
   box-shadow: var(--elev-overlay);
-  transition: all var(--motion-base) var(--ease-standard);
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    background var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .btn-pill:hover {
@@ -525,7 +586,12 @@ select {
   font-size: var(--text-sm);
   font-weight: 700;
   color: var(--fg);
-  transition: all var(--motion-base) var(--ease-standard);
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    background var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .btn-outline:hover {
@@ -560,7 +626,12 @@ select {
   border: 1px solid var(--border-subtle);
   padding: var(--space-6);
   box-shadow: var(--elev-raised);
-  transition: all var(--motion-base) var(--ease-standard);
+  transition:
+    transform var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    background var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .card-hover:hover {

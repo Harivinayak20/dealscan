@@ -5,7 +5,7 @@ import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ErrorState } from "@/components/ErrorState";
-import { LoadingState } from "@/components/LoadingState";
+import { LoadingState, type AnalysisPhase } from "@/components/LoadingState";
 import { ResultSummary } from "@/components/ResultSummary";
 import { CompareView } from "@/components/CompareView";
 import type { SavedResult } from "@/components/CompareView";
@@ -109,9 +109,18 @@ export function AnalyzerApp() {
   const [compareMode, setCompareMode] = useState(false);
   const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null);
   const [isComparing, setIsComparing] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const analysisText = listingText.trim();
-  const isBusy = isLoading || isScraping || isOcrLoading || isComparing;
+  // isAnalyzing spans the whole analyzeListing() run. Without it, isScraping
+  // clears a tick before isLoading is set, isBusy flickers false, and
+  // LoadingState unmounts and restarts its step list mid-flow.
+  const isBusy = isAnalyzing || isLoading || isScraping || isOcrLoading || isComparing;
+
+  const loadingPhase: AnalysisPhase = isScraping ? "scraping" : isOcrLoading ? "reading" : "analyzing";
+  // Don't show a step for work this input type will never do.
+  const skippedPhases: AnalysisPhase[] =
+    inputType === "url" ? ["reading"] : inputType === "screenshot" ? ["scraping"] : ["scraping", "reading"];
 
   useEffect(() => {
     saveSavedResults(savedResults);
@@ -304,44 +313,49 @@ export function AnalyzerApp() {
     setError("");
     setResult(null);
     setNotice("");
+    setIsAnalyzing(true);
 
     const activeInputType = overrideInputType ?? inputType;
     let normalizedAnalysisText = analysisText.trim();
     let sourceUrl: string | undefined;
 
     try {
-      if (activeInputType === "url") {
-        sourceUrl = listingUrl.trim();
+      try {
+        if (activeInputType === "url") {
+          sourceUrl = listingUrl.trim();
 
-        if (!sourceUrl) {
-          throw new Error("Enter a listing URL first.");
+          if (!sourceUrl) {
+            throw new Error("Enter a listing URL first.");
+          }
+
+          if (!normalizedAnalysisText || lastExtractedUrl !== sourceUrl) {
+            normalizedAnalysisText = (await extractListingFromUrl()).trim();
+          }
         }
 
-        if (!normalizedAnalysisText || lastExtractedUrl !== sourceUrl) {
-          normalizedAnalysisText = (await extractListingFromUrl()).trim();
+        if (activeInputType === "screenshot" && !normalizedAnalysisText && screenshotDataUrl) {
+          normalizedAnalysisText = (await extractScreenshotText(screenshotDataUrl)).trim();
         }
+      } catch (caughtError) {
+        setError(caughtError instanceof Error ? caughtError.message : "Could not prepare that listing.");
+        return;
       }
 
-      if (activeInputType === "screenshot" && !normalizedAnalysisText && screenshotDataUrl) {
-        normalizedAnalysisText = (await extractScreenshotText(screenshotDataUrl)).trim();
+      const validationError = getListingTextError(normalizedAnalysisText);
+
+      if (validationError) {
+        setError(validationError);
+        return;
       }
-    } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Could not prepare that listing.");
-      return;
+
+      await submitAnalysis({
+        inputType: activeInputType,
+        listingText: normalizedAnalysisText,
+        sourceUrl,
+      });
+    } finally {
+      setIsAnalyzing(false);
     }
-
-    const validationError = getListingTextError(normalizedAnalysisText);
-
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    await submitAnalysis({
-      inputType: activeInputType,
-      listingText: normalizedAnalysisText,
-      sourceUrl,
-    });
   }
 
   useKeyboardShortcut("Enter", (event) => {
@@ -738,7 +752,11 @@ export function AnalyzerApp() {
 
             {error ? <div className="mt-4 max-w-[566px]"><ErrorState message={error} /></div> : null}
             {sourceNotice ? <p className="notice mt-4 max-w-[566px]">{sourceNotice}</p> : null}
-            {isBusy ? <div className="mt-4 max-w-[566px]"><LoadingState /></div> : null}
+            {isBusy ? (
+              <div className="mt-4 max-w-[566px]">
+                <LoadingState phase={loadingPhase} skip={skippedPhases} />
+              </div>
+            ) : null}
           </div>
 
           <div className="min-w-0">

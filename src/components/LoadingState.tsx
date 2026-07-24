@@ -1,47 +1,68 @@
-import { CheckCircle2, Gauge, Search, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Loader2, ScanText, Search, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const steps = [
-  { label: "Checking price against market data", icon: Gauge },
-  { label: "Scanning for red flags and hidden issues", icon: Search },
-  { label: "Evaluating seller transparency", icon: ShieldCheck },
-  { label: "Generating negotiation strategy", icon: CheckCircle2 },
-];
+export type AnalysisPhase = "scraping" | "reading" | "analyzing";
 
-export function LoadingState() {
-  const [activeStep, setActiveStep] = useState(0);
+// Only phases the client can actually observe. The previous four steps advanced
+// on a setTimeout ladder and finished at 6s regardless of what the request was
+// doing, so the checklist routinely claimed to be working after the analysis had
+// returned, or sat fully ticked while it was still open.
+const PHASE_ORDER: AnalysisPhase[] = ["scraping", "reading", "analyzing"];
+
+const PHASE_COPY: Record<AnalysisPhase, { label: string; icon: typeof Search }> = {
+  scraping: { label: "Fetching the listing", icon: Search },
+  reading: { label: "Reading the screenshot", icon: ScanText },
+  analyzing: { label: "Analyzing the listing", icon: Sparkles },
+};
+
+// Groq's own timeout is 10s (GROQ_TIMEOUT_MS) and the client aborts at 15s, so
+// past 10s the estimate is no longer true and the copy should say so.
+const ESTIMATE_MS = 10_000;
+
+type LoadingStateProps = {
+  phase: AnalysisPhase;
+  /** Phases that will not run for this request, e.g. no screenshot to read. */
+  skip?: AnalysisPhase[];
+};
+
+export function LoadingState({ phase, skip = [] }: LoadingStateProps) {
+  const [overtime, setOvertime] = useState(false);
 
   useEffect(() => {
-    if (activeStep >= steps.length) return;
-    const delay = activeStep === 0 ? 600 : 1800;
-    const timer = setTimeout(() => setActiveStep((s) => s + 1), delay);
+    const timer = setTimeout(() => setOvertime(true), ESTIMATE_MS);
     return () => clearTimeout(timer);
-  }, [activeStep]);
+  }, []);
+
+  const steps = PHASE_ORDER.filter((p) => !skip.includes(p));
+  const activeIndex = steps.indexOf(phase);
 
   return (
     <div
       className="rounded-2xl border border-[rgba(169,130,83,0.18)] bg-[rgba(244,240,232,0.96)] p-6 shadow-[0_24px_70px_-46px_rgba(11,13,16,0.80)]"
       role="status"
+      aria-live="polite"
     >
       <div className="grid gap-4">
         <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 animate-spin place-items-center rounded-full border-2 border-[var(--champagne)] border-t-transparent">
-            <div className="h-2 w-2 rounded-full bg-[var(--champagne)]" />
-          </div>
+          <Loader2 className="h-9 w-9 animate-spin text-[var(--champagne)]" aria-hidden="true" />
           <div>
-            <p className="text-lg font-black text-[var(--graphite)]">Analyzing listing...</p>
-            <p className="text-sm text-[var(--text-body)]">This takes about 10 seconds</p>
+            <p className="text-lg font-black text-[var(--graphite)]">
+              {PHASE_COPY[phase].label}...
+            </p>
+            <p className="text-sm text-[var(--text-body)]">
+              {overtime ? "Taking longer than usual, still working" : "This usually takes about 10 seconds"}
+            </p>
           </div>
         </div>
         <div className="grid gap-3">
           {steps.map((step, index) => {
-            const isComplete = index < activeStep;
-            const isActive = index === activeStep;
-            const Icon = step.icon;
+            const isComplete = activeIndex > index;
+            const isActive = activeIndex === index;
+            const Icon = PHASE_COPY[step].icon;
 
             return (
               <div
-                key={step.label}
+                key={step}
                 className={`flex items-center gap-3 rounded-xl border p-3 text-sm font-bold transition-all duration-500 ${
                   isComplete
                     ? "border-[rgba(124,169,130,0.30)] bg-[rgba(124,169,130,0.10)] text-[var(--racing-green)]"
@@ -57,10 +78,10 @@ export function LoadingState() {
                       : isActive
                         ? "text-[var(--champagne)]"
                         : "text-neutral-300"
-                  } ${isActive ? "animate-pulse" : ""}`}
+                  } ${isActive ? "breathe" : ""}`}
                   aria-hidden="true"
                 />
-                <span>{step.label}</span>
+                <span>{PHASE_COPY[step].label}</span>
                 {isComplete && <CheckCircle2 className="ml-auto h-4 w-4 text-[var(--success)]" aria-hidden="true" />}
               </div>
             );
