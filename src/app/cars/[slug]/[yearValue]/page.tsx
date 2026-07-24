@@ -9,6 +9,18 @@ import { allValueYears, avoidFlag, estimatePrice, modelYears } from "@/lib/prici
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 const CURRENT_YEAR = new Date().getFullYear();
 
+const sidebarLink =
+  "flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--canvas)] px-3 py-2 text-sm font-bold transition hover:border-[var(--racing-green)]";
+
+// Value pages are the only pages with meaningful crawl equity, so they carry the
+// internal links to the conversion tools Google has not indexed yet.
+const TOOL_LINKS = [
+  { href: "/deal-checker", label: "Rate a listing" },
+  { href: "/good-deal", label: "Is this a good deal?" },
+  { href: "/otd-calculator", label: "Out-the-door price" },
+  { href: "/scam-checker", label: "Scam checker" },
+] as const;
+
 type ValuePageProps = {
   params: Promise<{ slug: string; yearValue: string }>;
 };
@@ -37,9 +49,13 @@ export async function generateMetadata({ params }: ValuePageProps): Promise<Meta
   const year = parseYear(yearValue);
   if (!car || !year) return {};
 
-  const title = `${year} ${car.make} ${car.model} Value: What's a Used One Worth?`;
   const age = Math.max(0, CURRENT_YEAR - year);
   const est = estimatePrice(slug, year, mileageScenarios(age).avg, "good", "clean", CURRENT_YEAR);
+  // Competing results (KBB, Edmunds) show a dollar figure in the SERP. Leading with
+  // the range instead of asking the question back earns the click at position 11.
+  const title = est
+    ? `${year} ${car.make} ${car.model} Value: ${money(est.privateLow)}–${money(est.privateHigh)}`
+    : `${year} ${car.make} ${car.model} Value: What's a Used One Worth?`;
   const description = est
     ? `A ${year} ${car.make} ${car.model} with average mileage is worth around ${money(est.fair)} (private party ${money(est.privateLow)}–${money(est.privateHigh)}). Free estimate, no signup.`
     : `${year} ${car.make} ${car.model} used value estimate.`;
@@ -246,21 +262,30 @@ export default async function ValueYearPage({ params }: ValuePageProps) {
               <h2 className="text-lg font-black">Other {car.model} years</h2>
               <div className="mt-4 grid gap-2">
                 {prevYear ? (
-                  <Link href={`/cars/${slug}/${prevYear}-value`} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--canvas)] px-3 py-2 text-sm font-bold transition hover:border-[var(--racing-green)]">
+                  <Link href={`/cars/${slug}/${prevYear}-value`} className={sidebarLink}>
                     {prevYear} {car.model} value
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 ) : null}
                 {nextYear ? (
-                  <Link href={`/cars/${slug}/${nextYear}-value`} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--canvas)] px-3 py-2 text-sm font-bold transition hover:border-[var(--racing-green)]">
+                  <Link href={`/cars/${slug}/${nextYear}-value`} className={sidebarLink}>
                     {nextYear} {car.model} value
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 ) : null}
-                <Link href="/price-checker" className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-[var(--canvas)] px-3 py-2 text-sm font-bold transition hover:border-[var(--racing-green)]">
+                <Link href="/price-checker" className={sidebarLink}>
                   Price checker (any car)
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
+              </div>
+              <h2 className="mt-6 text-lg font-black">Free tools</h2>
+              <div className="mt-4 grid gap-2">
+                {TOOL_LINKS.map((tool) => (
+                  <Link key={tool.href} href={tool.href} className={sidebarLink}>
+                    {tool.label}
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                ))}
               </div>
               <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
                 Transparent estimate from a depreciation model, not a transaction-data valuation. Pair with a history report and inspection.

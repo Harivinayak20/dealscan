@@ -6,7 +6,7 @@ import { breadcrumbSchema } from "@/lib/schema-builders";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Out-the-Door Price Calculator — Free Used Car OTD Estimate | DealScan",
+  title: "Out-the-Door Price Calculator: Real Cost With Tax & Fees",
   description:
     "Free out the door price calculator. Add sales tax, doc fee, and title & registration by state to any vehicle price for a real out-the-door total — trade-in included, no signup.",
   alternates: { canonical: "/otd-calculator" },

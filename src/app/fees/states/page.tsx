@@ -7,7 +7,7 @@ import { stateFees } from "@/lib/state-fees";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Dealer Fees by State: Doc Fee Caps & Sales Tax (2026) | DealScan",
+  title: "Dealer Fees by State: Doc Fee Caps & Sales Tax (2026)",
   description:
     "Doc fee caps, sales tax rates, and title fees for used car purchases in all 50 states. See what dealers can legally charge in your state and what to push back on.",
   alternates: {

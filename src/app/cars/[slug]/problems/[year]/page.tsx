@@ -30,6 +30,9 @@ export async function generateMetadata({ params }: ProblemPageProps): Promise<Me
   return {
     title,
     description,
+    // 734 near-identical year pages were consuming crawl budget for 19 impressions
+    // across 90 days. Kept live for users and internal links, out of the index.
+    robots: { index: false, follow: true },
     alternates: { canonical: `/cars/${slug}/problems/${data.year}` },
     openGraph: { title, description, url: `${appUrl}/cars/${slug}/problems/${data.year}`, type: "article" },
   };

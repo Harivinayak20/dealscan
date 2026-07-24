@@ -27,7 +27,18 @@ export async function generateMetadata({ params }: YearsPageProps): Promise<Meta
     return {};
   }
 
-  const title = `${car.make} ${car.model} Years to Avoid (and the Best Years to Buy Used)`;
+  // The query is a question ("what year to stay away from prius?"), so the title
+  // should carry the answer. Layout appends " | DealScan.dev", so cap this side
+  // near 55 characters and fall back to fewer ranges rather than truncating.
+  const base = `${car.make} ${car.model} Years to Avoid`;
+  const ranges = entry.avoid.map((a) => a.years);
+  const withAll = `${base}: ${ranges.join(", ")}`;
+  const title =
+    ranges.length === 0
+      ? `${base} (and the Best Years to Buy Used)`
+      : withAll.length <= 55
+        ? withAll
+        : `${base}: ${ranges[0]}`;
 
   return {
     title,

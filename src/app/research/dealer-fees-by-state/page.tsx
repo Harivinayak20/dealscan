@@ -14,7 +14,10 @@ import {
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
-const title = "Used Car Dealer Fees by State (2026): Doc Fee Study | DealScan";
+// Kept distinct from /fees/states, which targets the "fees by state" lookup intent.
+// This page is the citable data study, so the title leads with the research angle.
+const title = "Dealer Fee Study: What 50 States Actually Charge (2026)";
+const ogTitle = `${title} | DealScan`;
 const description =
   "A 50-state + DC data study of used-car dealer documentation fees in 2026: which states cap the doc fee, the 10 highest and 10 lowest states, plus title and registration costs. Free to cite with attribution.";
 
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/research/dealer-fees-by-state" },
   openGraph: {
-    title,
+    title: ogTitle,
     description,
     url: `${appUrl}/research/dealer-fees-by-state`,
     type: "article",

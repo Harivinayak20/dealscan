@@ -641,7 +641,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "offerup-car-scams",
-    title: "OfferUp car scams: what to watch for before you meet a seller",
+    title: "OfferUp Car Scams: 9 Red Flags to Spot Before You Meet",
     description:
       "How OfferUp car scams work, which seller signals matter, and the verification steps that protect you on local classifieds apps.",
     quickAnswer:

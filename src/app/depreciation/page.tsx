@@ -6,7 +6,7 @@ import { breadcrumbSchema } from "@/lib/schema-builders";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Car Depreciation Calculator — Free Resale Value Estimate | DealScan",
+  title: "Car Depreciation Calculator: Value in 5 Years",
   description:
     "Free car depreciation calculator. See how much a vehicle loses each year with a transparent depreciation curve, a value-by-year table, and an estimated resale value — no signup.",
   alternates: { canonical: "/depreciation" },

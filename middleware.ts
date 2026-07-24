@@ -5,6 +5,15 @@ export function middleware(request: NextRequest) {
   const isWorkersDev = host.endsWith(".workers.dev");
   const { pathname } = request.nextUrl;
 
+  // www serves a 200 otherwise, which splits search signals across two hosts.
+  if (host.startsWith("www.")) {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    url.host = host.slice(4);
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   // Markdown for agents: only when the client explicitly asks for markdown, so
   // browsers (which send text/html) always get the real page.
   if (pathname === "/" && request.headers.get("accept")?.includes("text/markdown")) {

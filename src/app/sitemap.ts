@@ -7,7 +7,6 @@ import { allValueYears } from "@/lib/pricing";
 import { comparisons } from "@/lib/comparisons";
 import { stateFees } from "@/lib/state-fees";
 import { bestLists } from "@/lib/best-lists";
-import { allProblemPages } from "@/lib/problem-pages";
 import { otdStatePages } from "@/lib/otd-states";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
@@ -47,17 +46,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
+    // Value pages are the strongest performers in Search Console, so they carry
+    // the highest priority of the generated sets.
     ...allValueYears().map(({ slug, year }) => ({
       url: `${appUrl}/cars/${slug}/${year}-value`,
       lastModified: now,
       changeFrequency: "monthly" as const,
-      priority: 0.6,
-    })),
-    ...allProblemPages().map(({ slug, year }) => ({
-      url: `${appUrl}/cars/${slug}/problems/${year}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: 0.9,
     })),
     ...stateFees.map((entry) => ({
       url: `${appUrl}/fees/states/${entry.slug}`,
@@ -71,11 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
+    // Compare pages rank around position 70 and have never earned a click, so they
+    // sit below everything else until that changes.
     ...comparisons.map((c) => ({
       url: `${appUrl}/compare/${c.slug}`,
       lastModified: new Date(c.updatedAt),
       changeFrequency: "monthly" as const,
-      priority: 0.8,
+      priority: 0.5,
     })),
     ...otdStatePages.map((s) => ({
       url: `${appUrl}/otd-calculator/${s.slug}`,
