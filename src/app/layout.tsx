@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Bricolage_Grotesque, IBM_Plex_Mono } from "next/font/google";
 import type { ReactNode } from "react";
-import { AdSenseScript } from "@/components/AdSenseScript";
+import { CookieConsent } from "@/components/CookieConsent";
 import { Analytics } from "@/components/Analytics";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -140,9 +140,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <AdSenseScript />
       </head>
       <body>
+        {/* Owns the cookie decision and renders Analytics/AdSense only on consent. */}
+        <CookieConsent />
         <Analytics />
         <WebMcpTools />
         <SiteChrome />

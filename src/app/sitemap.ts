@@ -11,14 +11,20 @@ import { otdStatePages } from "@/lib/otd-states";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
+// lastmod has to track real content changes. A request-time timestamp tells
+// Google every page changed on every crawl, which trains it to ignore the
+// field and wastes crawl budget re-fetching pages that did not change.
+// Bump this when the hand-written pages below actually change.
+const CONTENT_UPDATED = new Date("2026-07-25");
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const carUpdatedAt = new Map(carModels.map((car) => [car.slug, car.updatedAt]));
   const staticRoutes = ["", "/guides", "/cars", "/compare", "/best", "/fees", "/fees/states", "/price-checker", "/otd-calculator", "/depreciation", "/vin", "/changelog", "/research", "/research/dealer-fees-by-state", "/widget", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer", "/deal-checker", "/good-deal", "/scam-checker", "/inspection-checklist"] as const;
 
   return [
     ...staticRoutes.map((route) => ({
       url: `${appUrl}${route}`,
-      lastModified: now,
+      lastModified: CONTENT_UPDATED,
       changeFrequency: route === "" ? "weekly" as const : "monthly" as const,
       priority: route === "" ? 1 : 0.7,
     })),
@@ -50,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // the highest priority of the generated sets.
     ...allValueYears().map(({ slug, year }) => ({
       url: `${appUrl}/cars/${slug}/${year}-value`,
-      lastModified: now,
+      lastModified: new Date(carUpdatedAt.get(slug) ?? CONTENT_UPDATED),
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
@@ -76,7 +82,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...otdStatePages.map((s) => ({
       url: `${appUrl}/otd-calculator/${s.slug}`,
-      lastModified: now,
+      lastModified: CONTENT_UPDATED,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

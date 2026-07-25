@@ -3,7 +3,7 @@ import { Cookie, Settings } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "DealScan Cookie Policy",
-  description: "How DealScan uses local storage, advertising cookies, affiliate links, and third-party ad choices.",
+  description: "How DealScan uses local storage, analytics and advertising cookies, affiliate links, and third-party ad choices.",
   alternates: { canonical: "/cookies" },
 };
 
@@ -32,6 +32,14 @@ export default function CookiesPage() {
               text: "DealScan uses browser local storage to keep scan history, saved comparisons, and watchlist items on your device. This helps the dashboard work without requiring an account.",
             },
             {
+              title: "Analytics cookies",
+              text: "If you accept all cookies, DealScan loads Google Analytics to understand which pages people find useful, and Google sets cookies to measure visits and recognize repeat visitors. Choose necessary only and Google Analytics is never loaded at all. Either way, the listings you analyze are never sent to Google.",
+            },
+            {
+              title: "Our own visit counter",
+              text: "DealScan counts page views using a random id kept in sessionStorage that is erased when you close the tab. It sets no cookies, collects no personal data, and is never shared, so it runs whichever cookie choice you make.",
+            },
+            {
               title: "Advertising cookies",
               text: "When advertising is enabled, third-party vendors including Google may use cookies to serve ads based on visits to DealScan or other websites. Google and its partners may use advertising cookies to personalize, measure, and improve ad delivery.",
             },
@@ -41,7 +49,7 @@ export default function CookiesPage() {
             },
             {
               title: "Your choices",
-              text: "You can clear DealScan local storage in your browser. You can also manage Google ad personalization through Google Ad Settings or opt out of some personalized advertising through industry opt-out tools.",
+              text: "The banner on your first visit lets you accept all cookies or take necessary only, and nothing that sets a cookie loads until you choose. To change your mind later, clear DealScan site data in your browser and the banner will appear again. You can also manage Google ad personalization through Google Ad Settings or opt out of some personalized advertising through industry opt-out tools.",
             },
           ].map((item) => (
             <article key={item.title} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--paper)] p-6">
