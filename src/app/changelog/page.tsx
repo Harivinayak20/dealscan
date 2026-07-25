@@ -6,7 +6,7 @@ import { changelog } from "@/lib/changelog";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Changelog — What's New on DealScan",
+  title: "Changelog: What's New",
   description:
     "Everything we've shipped to make used-car buying more transparent: new tools, data, and pages, in the open, dated.",
   alternates: { canonical: "/changelog" },

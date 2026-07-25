@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: StatePageProps): Promise<Meta
   const s = getOtdStatePage(state);
   if (!s) return {};
 
-  const title = `${s.name} Out-the-Door Price Calculator — Car Sales Tax & Fees | DealScan`;
+  const title = `${s.name} Out-the-Door Price Calculator`;
   const description = truncateMeta(
     `Free out-the-door price calculator for ${s.name}: ${s.salesTaxRate}% state sales tax, ${formatUsd(s.docFee)} doc fee, and ${formatUsd(s.titleFee)} title. See the real ${s.name} car OTD price with trade-in included.`,
   );

@@ -7,7 +7,7 @@ import { breadcrumbSchema } from "@/lib/schema-builders";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Car Scam Checker — Spot Craigslist & Marketplace Car Scams | DealScan",
+  title: "Car Scam Checker: Spot Marketplace Car Scams",
   description:
     "Free car scam checker for Craigslist, Facebook Marketplace, and dealer listings. Paste a listing to flag common used car scam signals in seconds — no signup.",
   alternates: { canonical: "/scam-checker" },

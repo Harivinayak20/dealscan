@@ -5,7 +5,7 @@ import { comparisons } from "@/lib/comparisons";
 import { getCarModel } from "@/lib/car-models";
 
 export const metadata: Metadata = {
-  title: "Used Car Comparisons: Head-to-Head Buyer Guides — DealScan",
+  title: "Used Car Comparisons: Head-to-Head Buyer Guides",
   description:
     "Side-by-side used car comparisons on reliability, known issues, mileage, and what to verify. Decide between two models before you buy.",
   alternates: { canonical: "/compare" },

@@ -15,9 +15,14 @@ const PHASE_COPY: Record<AnalysisPhase, { label: string; icon: typeof Search }> 
   analyzing: { label: "Analyzing the listing", icon: Sparkles },
 };
 
-// Groq's own timeout is 10s (GROQ_TIMEOUT_MS) and the client aborts at 15s, so
-// past 10s the estimate is no longer true and the copy should say so.
-const ESTIMATE_MS = 10_000;
+// Measured against production on 2026-07-24. A single flat estimate was wrong on
+// every path: pasted text returns in ~3.4s while a URL adds a 5-10s scrape first.
+// Summing only the phases that will actually run keeps the promise honest.
+const PHASE_ESTIMATE_MS: Record<AnalysisPhase, number> = {
+  scraping: 7_000,
+  reading: 4_000,
+  analyzing: 4_000,
+};
 
 type LoadingStateProps = {
   phase: AnalysisPhase;
@@ -28,13 +33,14 @@ type LoadingStateProps = {
 export function LoadingState({ phase, skip = [] }: LoadingStateProps) {
   const [overtime, setOvertime] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setOvertime(true), ESTIMATE_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
   const steps = PHASE_ORDER.filter((p) => !skip.includes(p));
   const activeIndex = steps.indexOf(phase);
+  const estimateMs = steps.reduce((total, p) => total + PHASE_ESTIMATE_MS[p], 0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setOvertime(true), estimateMs);
+    return () => clearTimeout(timer);
+  }, [estimateMs]);
 
   return (
     <div
@@ -50,7 +56,9 @@ export function LoadingState({ phase, skip = [] }: LoadingStateProps) {
               {PHASE_COPY[phase].label}...
             </p>
             <p className="text-sm text-[var(--text-body)]">
-              {overtime ? "Taking longer than usual, still working" : "This usually takes about 10 seconds"}
+              {overtime
+                ? "Taking longer than usual, still working"
+                : `This usually takes about ${Math.round(estimateMs / 1000)} seconds`}
             </p>
           </div>
         </div>

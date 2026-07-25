@@ -131,7 +131,7 @@ function ReasonCard({ label, note, score }: { label: string; note: string; score
   );
 }
 
-export function ResultSummary({ result, sourceText, vehicleTitle, summary, listingMemory, marketContext, sourceUrl, onReset, onAddToCompare }: ResultSummaryProps) {
+export function ResultSummary({ result, sourceText, vehicleTitle, summary, listingMemory, marketContext, sourceUrl, analysisMode, onReset, onAddToCompare }: ResultSummaryProps) {
   const [isCompared, setIsCompared] = useState(false);
   const tone = scoreTone(result.score);
   const Icon = tone.icon;
@@ -285,6 +285,11 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
                   {result.verdict}
                 </div>
                 <p className="text-xs font-bold text-[var(--text-muted)]">Confidence: {result.confidence}</p>
+                {analysisMode === "local" && (
+                  <p className="text-xs font-bold text-[var(--warning)]">
+                    Scored from listing keywords, not AI. Treat this as a rough first pass.
+                  </p>
+                )}
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">

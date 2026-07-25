@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: BestListPageProps): Promise<M
     return {};
   }
 
-  const title = `${list.metaTitle} (2026) | DealScan`;
+  const title = `${list.metaTitle} (2026)`;
 
   return {
     title,

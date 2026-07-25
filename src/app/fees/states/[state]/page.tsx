@@ -28,7 +28,10 @@ export async function generateMetadata({ params }: StatePageProps): Promise<Meta
     return {};
   }
 
-  const title = `${entry.name} Used Car Dealer Fees: Doc Fee, Sales Tax & Title (2026) | DealScan`;
+  // The layout template already appends " | DealScan.dev" and openGraph.siteName
+  // carries the brand for social cards, so the stem stays short enough to survive
+  // SERP truncation even for the longest state names.
+  const title = `${entry.name} Used Car Dealer Fees (2026)`;
   const description = truncateMeta(
     `What dealer fees to expect on a used car in ${entry.name}: doc fee (${entry.docFee.toLowerCase()}), sales tax (${entry.salesTax.toLowerCase()}), title, and registration, plus which charges to push back on.`,
   );

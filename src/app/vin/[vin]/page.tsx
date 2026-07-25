@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: VinPageProps): Promise<Metada
   const vin = decodeURIComponent(raw).trim().toUpperCase();
 
   if (!isValidVin(vin)) {
-    return { title: "VIN Lookup | DealScan", robots: { index: false } };
+    return { title: "VIN Lookup", robots: { index: false } };
   }
 
   const report = await buildVinReport(vin);

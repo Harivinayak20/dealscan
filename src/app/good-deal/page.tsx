@@ -7,7 +7,7 @@ import { breadcrumbSchema } from "@/lib/schema-builders";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Is This a Good Deal on a Used Car? Free Checker | DealScan",
+  title: "Is This a Good Deal on a Used Car? Free Checker",
   description:
     "Wondering if a used car listing is a good deal? Paste it into our free checker for a 0-100 score, fair price range, and red flags — no signup, in seconds.",
   alternates: { canonical: "/good-deal" },

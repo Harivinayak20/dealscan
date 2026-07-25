@@ -8,7 +8,7 @@ import { totalChecklistItems } from "@/lib/inspection-checklist";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Inspection Checklist — Free Interactive & Printable | DealScan",
+  title: "Used Car Inspection Checklist: Free & Printable",
   description:
     `Free used car inspection checklist with ${totalChecklistItems} items across exterior, interior, engine, test drive, and paperwork. Interactive with progress tracking, or print it for the lot.`,
   alternates: { canonical: "/inspection-checklist" },

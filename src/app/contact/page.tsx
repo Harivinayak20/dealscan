@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Mail, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact DealScan",
+  title: "Contact Us",
   description: "Contact DealScan for product questions, corrections, advertising questions, and partnership inquiries.",
   alternates: { canonical: "/contact" },
 };

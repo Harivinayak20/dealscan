@@ -6,7 +6,7 @@ import { VinLookupForm } from "@/components/VinLookupForm";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Free VIN Lookup — Specs, Recalls, Safety Ratings & MPG | DealScan",
+  title: "Free VIN Lookup: Specs, Recalls & Safety Ratings",
   description:
     "Free VIN check with no signup: decode any 17-character VIN into full specs, open safety recalls, NHTSA crash-test ratings, and EPA fuel economy. Then scan the listing for a deal score.",
   alternates: { canonical: "/vin" },
