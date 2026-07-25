@@ -134,6 +134,12 @@ export function AnalyzerApp() {
     setSourceNotice("");
   }
 
+  function openCompare() {
+    setCompareMode(true);
+    setMenuOpen(false);
+    window.setTimeout(() => document.getElementById("compare")?.scrollIntoView({ behavior: "smooth" }), 60);
+  }
+
   async function handleComposerSubmit() {
     if (isBusy) return;
 
@@ -694,11 +700,7 @@ export function AnalyzerApp() {
                     <div className="mx-2 my-1 border-t border-[var(--line)]" aria-hidden="true" />
                     <button
                       type="button"
-                      onClick={() => {
-                        setCompareMode(true);
-                        setMenuOpen(false);
-                        window.setTimeout(() => document.getElementById("compare")?.scrollIntoView({ behavior: "smooth" }), 60);
-                      }}
+                      onClick={openCompare}
                       className="flex w-full items-center gap-3 rounded-[11px] px-3 py-2.5 text-left transition hover:bg-[var(--chip)]"
                     >
                       <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[10px] bg-[var(--chip)] font-display text-[17px] font-bold text-[var(--racing-green)]" aria-hidden="true">
@@ -731,6 +733,21 @@ export function AnalyzerApp() {
                 ) : null}
               </div>
             ) : null}
+
+            {/* Compare was only reachable from inside the closed composer menu, or
+                from a nav badge that appears once a result is already saved. Most
+                people weigh two cars at once, so it belongs next to the input. */}
+            <button
+              type="button"
+              onClick={openCompare}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 py-2 text-sm font-bold text-[var(--racing-green)] shadow-[0_2px_6px_-2px_rgba(28,26,23,0.25)] transition hover:-translate-y-0.5 hover:border-[rgba(180,80,31,0.45)] hover:shadow-[0_6px_14px_-4px_rgba(180,80,31,0.35)]"
+            >
+              <span className="text-base leading-none" aria-hidden="true">⇄</span>
+              Torn between two cars? Compare them side by side
+              <span className="rounded-full bg-[var(--chip)] px-2 py-0.5 text-[11px] font-black uppercase tracking-[0.08em] text-[var(--racing-green)]">
+                Free
+              </span>
+            </button>
 
             <div className="mt-4 text-sm font-medium text-[var(--silver)]">
               No account needed&nbsp;&nbsp;·&nbsp;&nbsp;Email only if you want price-drop alerts&nbsp;&nbsp;·&nbsp;&nbsp;Free
