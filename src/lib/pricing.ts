@@ -174,11 +174,6 @@ export function modelYears(slug: string, currentYear: number = new Date().getFul
   return out;
 }
 
-// Every {slug, year} pair with pricing data, for static generation + sitemap.
-export function allValueYears(): { slug: string; year: number }[] {
-  return Object.keys(MODELS).flatMap((slug) => modelYears(slug).map((year) => ({ slug, year })));
-}
-
 // Flags whether a model-year falls in a documented "years to avoid" range.
 export function avoidFlag(slug: string, modelYear: number): { years: string; reason: string } | null {
   const entry = yearsToAvoid.find((e) => e.slug === slug);

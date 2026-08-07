@@ -50,6 +50,18 @@ const agentDiscoveryHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // The 734 per-year value pages were 93% identical to their neighbours, so
+      // they were rolled up into one value-by-year page per model. 301 keeps
+      // whatever equity the year URLs earned.
+      {
+        source: "/cars/:slug/:yearValue(\\d{4}-value)",
+        destination: "/cars/:slug/value",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       { source: "/embed/:path*", headers: embedHeaders },

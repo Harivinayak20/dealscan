@@ -3,7 +3,6 @@ import { carModels } from "@/lib/car-models";
 import { guides } from "@/lib/guides";
 import { dealerFees } from "@/lib/dealer-fees";
 import { yearsToAvoid } from "@/lib/years-to-avoid";
-import { allValueYears } from "@/lib/pricing";
 import { comparisons } from "@/lib/comparisons";
 import { stateFees } from "@/lib/state-fees";
 import { bestLists } from "@/lib/best-lists";
@@ -18,7 +17,6 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 const CONTENT_UPDATED = new Date("2026-07-25");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const carUpdatedAt = new Map(carModels.map((car) => [car.slug, car.updatedAt]));
   const staticRoutes = ["", "/guides", "/cars", "/compare", "/best", "/fees", "/fees/states", "/price-checker", "/otd-calculator", "/depreciation", "/vin", "/changelog", "/research", "/research/dealer-fees-by-state", "/widget", "/affiliate-links", "/how-scoring-works", "/privacy", "/about", "/contact", "/terms", "/cookies", "/disclaimer", "/deal-checker", "/good-deal", "/scam-checker", "/inspection-checklist"] as const;
 
   return [
@@ -53,10 +51,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     // Value pages are the strongest performers in Search Console, so they carry
-    // the highest priority of the generated sets.
-    ...allValueYears().map(({ slug, year }) => ({
-      url: `${appUrl}/cars/${slug}/${year}-value`,
-      lastModified: new Date(carUpdatedAt.get(slug) ?? CONTENT_UPDATED),
+    // the highest priority of the generated sets. One page per model, not per
+    // model-year: the per-year variants were 93% duplicates of each other.
+    ...carModels.map((car) => ({
+      url: `${appUrl}/cars/${car.slug}/value`,
+      lastModified: new Date(car.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),

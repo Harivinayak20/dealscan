@@ -184,7 +184,7 @@ export default async function ProblemYearPage({ params }: ProblemPageProps) {
             <Link href={`/cars/${car.slug}/years-to-avoid`} className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-bold transition hover:border-[var(--champagne)]">
               All {car.model} years to avoid
             </Link>
-            <Link href={`/cars/${car.slug}/${data.year}-value`} className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-bold transition hover:border-[var(--champagne)]">
+            <Link href={`/cars/${car.slug}/value#y${data.year}`} className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-bold transition hover:border-[var(--champagne)]">
               {data.year} {car.model} value
             </Link>
             {neighbors.map((y) => (

@@ -227,7 +227,7 @@ export default async function CarModelPage({ params }: CarPageProps) {
               {modelYears(car.slug).slice().reverse().map((y) => (
                 <Link
                   key={y}
-                  href={`/cars/${car.slug}/${y}-value`}
+                  href={`/cars/${car.slug}/value#y${y}`}
                   className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-3.5 py-1.5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-[var(--racing-green)] hover:text-[var(--racing-green)]"
                 >
                   {y} value
