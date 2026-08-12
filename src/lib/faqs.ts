@@ -18,7 +18,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Do you store my listings or personal data?",
-    a: "Scan history is saved only in your own browser (local storage), never on our servers. Listing text is sent to the analysis engine to be scored and is not used to build a profile of you.",
+    a: "Your personal scan history is saved in your browser. DealScan also stores limited scan metadata and vehicle details, such as score, verdict, year, make, model, mileage, price, and VIN or a one-way hash of the listing URL, to provide listing memory and aggregate research. We do not store the listing text or raw listing URL, and we do not use scan data to build a profile of you.",
   },
   {
     q: "Can I use it on mobile?",

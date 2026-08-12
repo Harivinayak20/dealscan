@@ -828,7 +828,7 @@ export function AnalyzerApp() {
           <div className="mt-5 grid gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-3">
             {[
               { n: "01", title: "Paste the link", note: "Drop in any public ad. DealScan reads the car details for you, no retyping." },
-              { n: "02", title: "We check the market", note: "Price, title, and mileage are scored against real comparable sales near you." },
+              { n: "02", title: "We check the details", note: "Price, title, mileage, and seller claims are evaluated using the listing and transparent market heuristics." },
               { n: "03", title: "Get your verdict", note: "A clear deal score, the red flags, and a fair offer you can actually make." },
             ].map((step) => (
               <div key={step.n} className="card-hover !p-4 sm:!p-6">
@@ -876,7 +876,7 @@ export function AnalyzerApp() {
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-4 lg:grid-cols-3">
             {[
-              { glyph: "$", title: "Fair-price check", note: "See the real market value and exactly how far this asking price sits from it." },
+              { glyph: "$", title: "Fair-price check", note: "See an estimated fair-price range and how far the asking price sits from it." },
               { glyph: "!", title: "Red-flag detection", note: "Title, mileage, and seller signals that quietly hint at trouble ahead." },
               { glyph: "?", title: "Questions to ask", note: "A tailored checklist to bring to the test drive so nothing gets missed." },
             ].map((feature) => (

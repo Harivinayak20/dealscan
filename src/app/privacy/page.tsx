@@ -19,7 +19,7 @@ export default function PrivacyPage() {
             Privacy
           </div>
           <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-            Your data stays yours.
+            Clear about what DealScan stores.
           </h1>
         </section>
 
@@ -28,7 +28,9 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-black">What DealScan collects</h2>
             <ul className="list-inside list-disc space-y-2">
               <li><strong>Listing text you provide:</strong> Pasted text, extracted URLs, or manually entered details are processed to generate a deal analysis. They are not stored permanently on our servers.</li>
-              <li><strong>Analysis results:</strong> Deal scores and recommendations are returned to your browser and saved locally in your browser storage only.</li>
+              <li><strong>Browser history:</strong> Full analysis results, watchlist items, and comparisons are saved in your browser storage.</li>
+              <li><strong>Scan metadata:</strong> We store limited fields such as vehicle title, score, verdict, confidence, input type, and analysis source for service analytics and aggregate research.</li>
+              <li><strong>Listing memory:</strong> When available, we store the VIN or a one-way hash of the normalized listing URL, plus vehicle year, make, model, mileage, price, and scan timestamps. This powers repeat-scan and price-drop features without storing the raw listing URL.</li>
               <li><strong>No account required:</strong> You can use DealScan without creating an account or providing personal information.</li>
             </ul>
           </div>
@@ -38,7 +40,8 @@ export default function PrivacyPage() {
             <ul className="list-inside list-disc space-y-2">
               <li>We do not sell your personal data.</li>
               <li>We do not require an account to use the analyzer.</li>
-              <li>We do not store your listing text or URLs after analysis is complete.</li>
+              <li>We do not store your listing text or raw listing URL after analysis is complete.</li>
+              <li>We do not attach names, email addresses, IP addresses, or exact locations to the scan dataset.</li>
               <li>We do not require cookies for core functionality.</li>
             </ul>
           </div>
@@ -47,7 +50,8 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-black">Local storage</h2>
             <p className="text-sm leading-6">
               DealScan uses your browser&apos;s local storage to save scan history, watchlist items, and comparison results.
-              This data never leaves your device. You can clear it at any time using the &quot;Clear all&quot; buttons in the Dashboard.
+              That browser history stays on your device. Separate limited scan metadata and listing-memory fields are stored as described above.
+              You can clear browser history at any time using the &quot;Clear all&quot; buttons in the Dashboard.
             </p>
           </div>
 

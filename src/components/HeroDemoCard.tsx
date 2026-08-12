@@ -6,7 +6,7 @@ const RING_RADIUS = 50;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 const findings = [
-  { tone: "good", text: "$1,400 below market average" },
+  { tone: "good", text: "$1,400 below estimated fair value" },
   { tone: "good", text: "Clean title, single owner" },
   { tone: "warn", text: "Mileage not verified against records" },
 ] as const;
@@ -31,10 +31,10 @@ export function HeroDemoCard({
   cycleSeconds?: number;
 }) {
   const [state, setState] = useState<DemoState>({
-    ring: 0,
-    score: 0,
-    resultsOpacity: 0,
-    findingOpacity: [0, 0, 0],
+    ring: 1,
+    score: demoScore,
+    resultsOpacity: 1,
+    findingOpacity: [1, 1, 1],
   });
   const frameRef = useRef(0);
 
