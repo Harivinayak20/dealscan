@@ -19,8 +19,8 @@ import {
 
 const RATE_LIMIT = 15;
 
-function rateLimited(request: Request): Response | null {
-  const rl = checkRateLimit(request, RATE_LIMIT);
+async function rateLimited(request: Request): Promise<Response | null> {
+  const rl = await checkRateLimit(request, RATE_LIMIT);
   if (rl.allowed) return null;
   const retryAfterSec = Math.ceil(rl.retryAfterMs / 1000);
   return jsonError(429, `Too many requests. Try again in ${retryAfterSec} seconds.`, {
@@ -54,7 +54,7 @@ export function OPTIONS(): Response {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const limited = rateLimited(request);
+  const limited = await rateLimited(request);
   if (limited) return limited;
 
   let body: unknown;
@@ -72,7 +72,7 @@ const getQuerySchema = z.object({
 });
 
 export async function GET(request: Request): Promise<Response> {
-  const limited = rateLimited(request);
+  const limited = await rateLimited(request);
   if (limited) return limited;
 
   const { searchParams } = new URL(request.url);

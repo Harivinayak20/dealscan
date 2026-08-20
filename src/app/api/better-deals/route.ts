@@ -5,7 +5,7 @@ import { findBetterDeals } from "@/lib/better-deals";
 const REQUESTS_PER_WINDOW = 20;
 
 export async function POST(request: Request) {
-  const rl = checkRateLimit(request, REQUESTS_PER_WINDOW);
+  const rl = await checkRateLimit(request, REQUESTS_PER_WINDOW);
   if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, REQUESTS_PER_WINDOW);
 
   let body: { make?: unknown; model?: unknown; year?: unknown; price?: unknown; zip?: unknown };

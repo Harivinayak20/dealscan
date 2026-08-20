@@ -10,7 +10,7 @@ import { comparisonsForModel } from "@/lib/comparisons";
 import { listsForModel } from "@/lib/best-lists";
 import { modelYears } from "@/lib/pricing";
 import { breadcrumbSchema } from "@/lib/schema-builders";
-import { truncateMeta } from "@/lib/seo";
+import { compactTitle, truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -32,7 +32,10 @@ export async function generateMetadata({ params }: CarPageProps): Promise<Metada
     return {};
   }
 
-  const title = `Used ${car.make} ${car.model}: Common Problems & Value`;
+  const title = compactTitle(
+    `Used ${car.make} ${car.model}: Common Problems & Value`,
+    `${car.make} ${car.model}: Used Car Guide`,
+  );
   const description = truncateMeta(car.quickAnswer);
 
   return {

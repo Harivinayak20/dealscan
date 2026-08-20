@@ -6,7 +6,7 @@ import { EmbedSnippet } from "@/components/EmbedSnippet";
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
 export const metadata: Metadata = {
-  title: "Used Car Value & Fair Price Checker: Free, No Signup",
+  title: "Used Car Value & Price Checker: Free",
   description:
     "Free used car value estimator. Enter year, make, model, mileage, and condition to get a fair price range and a verdict on the asking price — no email, no signup.",
   alternates: { canonical: "/price-checker" },

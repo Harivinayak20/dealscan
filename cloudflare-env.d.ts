@@ -27,6 +27,17 @@ interface D1Database {
   exec(query: string): Promise<unknown>;
 }
 
+interface RateLimit {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
 interface CloudflareEnv {
   DB: D1Database;
+  RATE_LIMITER_5: RateLimit;
+  RATE_LIMITER_6: RateLimit;
+  RATE_LIMITER_8: RateLimit;
+  RATE_LIMITER_10: RateLimit;
+  RATE_LIMITER_15: RateLimit;
+  RATE_LIMITER_20: RateLimit;
+  RATE_LIMITER_30: RateLimit;
 }

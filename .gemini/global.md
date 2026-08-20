@@ -51,6 +51,9 @@ When fixing a bug:
 - If tests are not run, say why briefly.
 
 ## Output Rules
+Keep the final response short.
+Always place TL;DR after Notes at the bottom of every summary.
+
 Use this final format:
 
 Done.
@@ -67,7 +70,8 @@ Tested:
 Notes:
 - ...
 
-Keep the final response short.
+TL;DR:
+- One or two sentences with the most important outcome and current status.
 
 ## Safety Rules
 Before finalizing:

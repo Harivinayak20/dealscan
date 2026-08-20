@@ -10,7 +10,7 @@ const subscribeSchema = z.object({
 
 export async function POST(request: Request) {
   const limit = 6;
-  const rl = checkRateLimit(request, limit);
+  const rl = await checkRateLimit(request, limit);
   if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, limit);
 
   try {

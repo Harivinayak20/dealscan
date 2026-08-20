@@ -14,6 +14,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  // Run this before the OpenNext page cache so already-cached legacy pages
+  // cannot bypass the permanent redirect after a deployment.
+  const legacyProblemPage = pathname.match(/^\/cars\/([^/]+)\/problems\/\d{4}\/?$/);
+  if (legacyProblemPage) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/cars/${legacyProblemPage[1]}/years-to-avoid`;
+    return NextResponse.redirect(url, 301);
+  }
+
   // Markdown for agents: only when the client explicitly asks for markdown, so
   // browsers (which send text/html) always get the real page.
   if (pathname === "/" && request.headers.get("accept")?.includes("text/markdown")) {

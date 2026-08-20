@@ -3,7 +3,7 @@ import { FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "DealScan Terms",
-  description: "Terms, affiliate disclosure, advertising disclosure, and buyer responsibility notes for DealScan.",
+  description: "Read DealScan's terms covering buyer responsibility, estimate limitations, affiliate links, advertising disclosures, and acceptable use.",
   alternates: { canonical: "/terms" },
 };
 

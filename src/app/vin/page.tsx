@@ -8,7 +8,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 export const metadata: Metadata = {
   title: "Free VIN Lookup: Specs, Recalls & Safety Ratings",
   description:
-    "Free VIN check with no signup: decode any 17-character VIN into full specs, open safety recalls, NHTSA crash-test ratings, and EPA fuel economy. Then scan the listing for a deal score.",
+    "Free VIN check with no signup. Decode any 17-character VIN for vehicle specs, open NHTSA recalls, crash-test ratings, and EPA fuel economy.",
   alternates: { canonical: "/vin" },
   openGraph: {
     title: "Free VIN Lookup — Specs, Recalls, Safety Ratings & MPG",

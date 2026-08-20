@@ -1,4 +1,4 @@
-Contact: https://github.com/anomalyco/opencode/issues
+Contact: https://github.com/Harivinayak20/dealscan/issues
 Preferred-Languages: en
 Canonical: https://dealscan.dev/.well-known/security.txt
 Policy: https://dealscan.dev/privacy

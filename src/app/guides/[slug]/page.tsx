@@ -8,6 +8,7 @@ import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { getGuide, guides } from "@/lib/guides";
 import { breadcrumbSchema } from "@/lib/schema-builders";
+import { compactTitle, truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -29,15 +30,18 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     return {};
   }
 
+  const title = compactTitle(guide.title);
+  const description = truncateMeta(`${guide.description} ${guide.quickAnswer}`);
+
   return {
-    title: guide.title,
-    description: guide.description,
+    title,
+    description,
     alternates: {
       canonical: `/guides/${guide.slug}`,
     },
     openGraph: {
-      title: guide.title,
-      description: guide.description,
+      title,
+      description,
       url: `${appUrl}/guides/${guide.slug}`,
       type: "article",
     },

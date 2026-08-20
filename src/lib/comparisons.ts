@@ -2,7 +2,7 @@
 // every NxN combo) so each page is a sensible same-class matchup that clears the
 // thin-content bar with a real editor's take plus side-by-side data pulled from
 // car-models.ts. Targets the high-intent "[car A] vs [car B] used" query.
-import { getCarModel, type CarModel } from "@/lib/car-models";
+import { getCarModel, type CarModel } from "./car-models.ts";
 
 export type Comparison = {
   slug: string;

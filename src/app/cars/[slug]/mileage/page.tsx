@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { carModels, getCarModel } from "@/lib/car-models";
 import { breadcrumbSchema } from "@/lib/schema-builders";
-import { truncateMeta } from "@/lib/seo";
+import { compactTitle, truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -22,7 +22,10 @@ export async function generateMetadata({ params }: MileagePageProps): Promise<Me
   const car = getCarModel(slug);
   if (!car) return {};
 
-  const title = `How Many Miles Does a ${car.make} ${car.model} Last? (Used Buyer's Guide)`;
+  const title = compactTitle(
+    `How Many Miles Does a ${car.make} ${car.model} Last?`,
+    `${car.make} ${car.model} Lifespan & Mileage`,
+  );
   const description = truncateMeta(
     `How many miles a used ${car.make} ${car.model} lasts, what mileage is too high, and the maintenance records that matter more than the odometer. ${car.mileageNote}`,
   );

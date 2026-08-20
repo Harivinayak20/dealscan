@@ -205,11 +205,11 @@ export function CompareInputPanel({ onCompare, isBusy }: CompareInputPanelProps)
     return aReady && bReady;
   }
 
-  function handleUrlPaste(value: string, setter: (d: ListingDraft) => void, other: ListingDraft, setOther: (d: ListingDraft) => void): boolean {
-    const urls = parseMultipleUrls(value);
+  function handleUrlPaste(draft: ListingDraft, setter: (d: ListingDraft) => void, otherLabel: "A" | "B", setOther: (d: ListingDraft) => void): boolean {
+    const urls = parseMultipleUrls(draft.url);
     if (urls.length > 1) {
-      setter({ ...createEmptyDraft("A"), state: "url", url: urls[0] });
-      setOther({ ...createEmptyDraft("B"), state: "url", url: urls[1] });
+      setter({ ...createEmptyDraft(draft.label), state: "url", url: urls[0] });
+      setOther({ ...createEmptyDraft(otherLabel), state: "url", url: urls[1] });
       return true;
     }
     return false;
@@ -221,10 +221,10 @@ export function CompareInputPanel({ onCompare, isBusy }: CompareInputPanelProps)
   }
 
   function updateDraftA(d: ListingDraft) {
-    if (!handleUrlPaste(d.url, setDraftA, draftB, setDraftB)) setDraftA(d);
+    if (!handleUrlPaste(d, setDraftA, "B", setDraftB)) setDraftA(d);
   }
   function updateDraftB(d: ListingDraft) {
-    if (!handleUrlPaste(d.url, setDraftB, draftA, setDraftA)) setDraftB(d);
+    if (!handleUrlPaste(d, setDraftB, "A", setDraftA)) setDraftB(d);
   }
 
   return (

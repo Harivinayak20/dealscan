@@ -10,7 +10,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is DealScan free to use?",
-    a: "Yes. Everything on DealScan is completely free — the analyzer, comparisons, guides, and scan history. There are no paid tiers and we do not ask for any payment.",
+    a: "Yes. The analyzer, comparisons, guides, and scan history are free with no account required. An optional Pro plan adds higher limits and expanded watch alerts, while the core car-buying tools remain free.",
   },
   {
     q: "What marketplaces does it work with?",

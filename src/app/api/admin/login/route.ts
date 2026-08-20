@@ -15,7 +15,7 @@ function timingSafeEqual(a: string, b: string): boolean {
 }
 
 export async function POST(request: Request) {
-  const rl = checkRateLimit(request, 5);
+  const rl = await checkRateLimit(request, 5);
   if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, 5);
 
   const expectedToken = process.env.ADMIN_TOKEN;

@@ -18,7 +18,7 @@ function extractVehicleTitle(text: string): string | null {
 export async function POST(request: Request) {
   // Scanning is free for everyone; Pro just gets more headroom at peak.
   const limit = (await isProRequest(request)) ? 30 : 10;
-  const rl = checkRateLimit(request, limit);
+  const rl = await checkRateLimit(request, limit);
   if (!rl.allowed) return rateLimitResponse(rl.retryAfterMs, limit);
   let body: AnalyzeListingRequest;
 

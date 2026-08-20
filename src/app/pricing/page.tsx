@@ -7,8 +7,8 @@ import { FREE_WATCH_LIMIT } from "@/lib/watch-store";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
-// The page does not exist until Stripe is configured (Pro cleared to launch).
-// Runtime check, not build-time: Stripe secrets are runtime env on Workers.
+// Stripe secrets are runtime env on Workers. Until they are configured, this
+// page remains a waitlist instead of presenting checkout controls.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {

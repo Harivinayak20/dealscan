@@ -10,6 +10,14 @@
  * would silently drop every Disallow below.
  */
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
+const sitemapPaths = [
+  "/sitemap.xml",
+  "/sitemaps/core.xml",
+  "/sitemaps/cars.xml",
+  "/sitemaps/guides.xml",
+  "/sitemaps/local.xml",
+  "/sitemaps/comparisons.xml",
+] as const;
 
 export function GET() {
   const body = `User-Agent: *
@@ -28,7 +36,7 @@ Disallow: /api/share-report
 Disallow: /api/track
 Disallow: /api/og
 
-Sitemap: ${appUrl}/sitemap.xml
+${sitemapPaths.map((path) => `Sitemap: ${appUrl}${path}`).join("\n")}
 `;
 
   return new Response(body, {

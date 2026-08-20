@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { dealerFees, getDealerFee } from "@/lib/dealer-fees";
 import { breadcrumbSchema } from "@/lib/schema-builders";
+import { compactTitle, truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -26,15 +27,18 @@ export async function generateMetadata({ params }: FeePageProps): Promise<Metada
     return {};
   }
 
+  const title = compactTitle(fee.title, `${fee.name}: Cost & Buyer Guide`);
+  const description = truncateMeta(fee.description);
+
   return {
-    title: fee.title,
-    description: fee.description,
+    title,
+    description,
     alternates: {
       canonical: `/fees/${fee.slug}`,
     },
     openGraph: {
-      title: fee.title,
-      description: fee.description,
+      title,
+      description,
       url: `${appUrl}/fees/${fee.slug}`,
       type: "article",
     },

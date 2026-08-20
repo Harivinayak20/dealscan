@@ -6,7 +6,7 @@ import { guides } from "@/lib/guides";
 
 export const metadata: Metadata = {
   title: "Used Car Buyer Guides",
-  description: "Practical used car buying guides for red flags, pricing, inspections, and private seller questions.",
+  description: "Used car buying guides covering red flags, fair pricing, inspections, negotiation, paperwork, scams, and private-seller questions.",
   alternates: { canonical: "/guides" },
 };
 

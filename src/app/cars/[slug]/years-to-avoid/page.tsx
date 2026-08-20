@@ -4,6 +4,8 @@ import { ArrowRight, CheckCircle2, SearchCheck, TriangleAlert } from "lucide-rea
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getCarModel } from "@/lib/car-models";
+import { breadcrumbSchema } from "@/lib/schema-builders";
+import { compactTitle } from "@/lib/seo";
 import { getYearsToAvoid, yearsToAvoid } from "@/lib/years-to-avoid";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
@@ -27,18 +29,11 @@ export async function generateMetadata({ params }: YearsPageProps): Promise<Meta
     return {};
   }
 
-  // The query is a question ("what year to stay away from prius?"), so the title
-  // should carry the answer. Layout appends " | DealScan.dev", so cap this side
-  // near 55 characters and fall back to fewer ranges rather than truncating.
+  // Carry the answer when it fits. The layout adds the brand suffix.
   const base = `${car.make} ${car.model} Years to Avoid`;
   const ranges = entry.avoid.map((a) => a.years);
-  const withAll = `${base}: ${ranges.join(", ")}`;
-  const title =
-    ranges.length === 0
-      ? `${base} (and the Best Years to Buy Used)`
-      : withAll.length <= 55
-        ? withAll
-        : `${base}: ${ranges[0]}`;
+  const withAll = ranges.length > 0 ? `${base}: ${ranges.join(", ")}` : base;
+  const title = compactTitle(withAll, base);
 
   return {
     title,
@@ -105,6 +100,12 @@ export default async function YearsToAvoidPage({ params }: YearsPageProps) {
         },
       ],
     },
+    breadcrumbSchema([
+      { name: "Home", href: "/" },
+      { name: "Cars", href: "/cars" },
+      { name: `${car.make} ${car.model}`, href: `/cars/${car.slug}` },
+      { name: "Years to avoid" },
+    ]),
   ];
 
   return (

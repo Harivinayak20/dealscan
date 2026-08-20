@@ -13,7 +13,7 @@ export function GET() {
 
 ## Reference content
 - [Used car model buying guides](${appUrl}/cars): 40 models with known issues, years to avoid, and price data
-- [Per-year problem pages](${appUrl}/cars): documented issues for each model year (e.g. /cars/used-honda-civic/problems/2017)
+- [Years to avoid](${appUrl}/cars): consolidated model guides covering documented problem years and what buyers should verify
 - [Model comparisons](${appUrl}/compare): head-to-head used car matchups
 - [Buyer guides](${appUrl}/guides): negotiation, inspection, scams, financing, and tool comparisons (incl. DealScan vs Visor)
 - [Dealer fee glossary](${appUrl}/fees): every dealer fee explained, mandatory vs junk

@@ -1,5 +1,6 @@
 import { Composition, Folder } from "remotion";
 import { DealScanPromo } from "./DealScanPromo";
+import { DemoScreencast } from "./DemoScreencast";
 import { IsThisAScam, DealScoreReveal, RedFlagCheck } from "./UGCVideos";
 import { UGCViralScam } from "./UGCViralScam";
 import { UGCViralDealScore } from "./UGCViralDealScore";
@@ -9,6 +10,14 @@ export const RemotionRoot = () => {
   return (
     <>
       <Folder name="DealScan">
+        <Composition
+          id="DemoScreencast"
+          component={DemoScreencast}
+          durationInFrames={1200}
+          fps={60}
+          width={1920}
+          height={1080}
+        />
         <Composition
           id="DealScanPromo"
           component={DealScanPromo}

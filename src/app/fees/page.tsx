@@ -8,7 +8,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 export const metadata: Metadata = {
   title: "Dealer Fees Explained: Which Ones You Can Refuse",
   description:
-    "A plain-English glossary of dealer fees and add-ons, from documentation fees to nitrogen tires and VIN etching. Learn which are mandatory, which are negotiable, and what they should cost.",
+    "Learn which used-car dealer fees are required, negotiable, or optional, including doc fees, VIN etching, nitrogen tires, add-ons, and typical costs.",
   alternates: {
     canonical: "/fees",
   },

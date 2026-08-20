@@ -132,13 +132,32 @@ export default async function BestListPage({ params }: BestListPageProps) {
                   </div>
                   <p className="mt-1 text-sm font-black uppercase text-[var(--racing-green)]">{car.years}</p>
                   <p className="mt-3 text-base leading-8 text-[var(--text-body)]">{entry.reason}</p>
-                  <Link
-                    href={`/cars/${car.slug}`}
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-black text-[var(--racing-green)] underline-offset-4 hover:underline"
-                  >
-                    Full {car.make} {car.model} buyer check
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--canvas)] p-3">
+                      <dt className="text-xs font-black uppercase tracking-wide text-[var(--racing-green)]">
+                        Screen for
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-[var(--text-body)]">{car.knownIssues[0]}</dd>
+                    </div>
+                    <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--canvas)] p-3">
+                      <dt className="text-xs font-black uppercase tracking-wide text-[var(--racing-green)]">
+                        Verify first
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-[var(--text-body)]">{car.verify[0]}</dd>
+                    </div>
+                  </dl>
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-black text-[var(--racing-green)]">
+                    <Link href={`/cars/${car.slug}`} className="inline-flex items-center gap-1 underline-offset-4 hover:underline">
+                      Buyer check
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                    <Link href={`/cars/${car.slug}/value`} className="underline-offset-4 hover:underline">
+                      Value by year
+                    </Link>
+                    <Link href={`/cars/${car.slug}/years-to-avoid`} className="underline-offset-4 hover:underline">
+                      Years to avoid
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ol>

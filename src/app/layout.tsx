@@ -110,14 +110,6 @@ const jsonLd = [
     "@type": "WebSite",
     name: "DealScan",
     url: appUrl,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${appUrl}/cars?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   },
   organization,
 ];

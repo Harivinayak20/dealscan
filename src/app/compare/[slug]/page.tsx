@@ -7,7 +7,7 @@ import { AdUnit } from "@/components/AdUnit";
 import { ADSENSE_IN_ARTICLE_SLOT } from "@/lib/adsense";
 import { comparisons, resolveComparison } from "@/lib/comparisons";
 import { breadcrumbSchema } from "@/lib/schema-builders";
-import { truncateMeta } from "@/lib/seo";
+import { compactTitle, truncateMeta } from "@/lib/seo";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 
@@ -25,7 +25,10 @@ export async function generateMetadata({ params }: ComparePageProps): Promise<Me
   if (!resolved) return {};
 
   const { a, b } = resolved;
-  const title = `Used ${a.make} ${a.model} vs ${b.make} ${b.model}: Which to Buy?`;
+  const title = compactTitle(
+    `Used ${a.make} ${a.model} vs ${b.make} ${b.model}: Which to Buy?`,
+    `${a.model} vs ${b.model}: Used Car Guide`,
+  );
   const description = truncateMeta(
     `Used ${a.make} ${a.model} vs ${b.make} ${b.model} compared on reliability, known issues, mileage, and what to verify before you buy. Free side-by-side buyer guide.`,
   );

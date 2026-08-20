@@ -206,6 +206,13 @@ export default async function StateFeePage({ params }: StatePageProps) {
                 <SearchCheck className="h-4 w-4" aria-hidden="true" />
                 Check your quote
               </Link>
+              <Link
+                href={`/otd-calculator/${entry.slug}`}
+                className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper)] px-5 text-sm font-black text-[var(--graphite)] transition hover:-translate-y-1 hover:border-[var(--champagne)]"
+              >
+                Calculate {entry.name} OTD price
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
               <p className="mt-4 text-xs leading-5 text-[var(--text-muted)]">
                 Paste an offer sheet into DealScan to flag padded fees and add-ons before you sign.
               </p>

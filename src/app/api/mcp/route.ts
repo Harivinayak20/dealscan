@@ -241,7 +241,7 @@ export function GET(): Response {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const rl = checkRateLimit(request, RATE_LIMIT);
+  const rl = await checkRateLimit(request, RATE_LIMIT);
   if (!rl.allowed) {
     const retryAfterSec = Math.ceil(rl.retryAfterMs / 1000);
     return jsonResponse(

@@ -10,7 +10,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealscan.dev";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "DealScan Research — Real Data from Real Used-Car Scans",
+  title: "Used Car Market Research & Data",
   description:
     "The DealScan Index: aggregate statistics from real used-car listing scans — verdict rates, most-scanned models, and median asking prices. Free to cite with attribution.",
   alternates: { canonical: "/research" },

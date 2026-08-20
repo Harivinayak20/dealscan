@@ -15,10 +15,10 @@ export const manualDetailsSchema = z
 
 export const analyzeListingRequestSchema = z.object({
   inputType: z.enum(["url", "text", "screenshot", "manual"], {
-    errorMap: () => ({ message: "Choose URL, paste text, screenshot, or manual entry before analyzing." }),
+    error: "Choose URL, paste text, screenshot, or manual entry before analyzing.",
   }),
   listingText: z
-    .string({ required_error: "Add a listing URL, listing text, screenshot, or vehicle details before analyzing." })
+    .string({ error: "Add a listing URL, listing text, screenshot, or vehicle details before analyzing." })
     .trim()
     .min(LISTING_TEXT_MIN_LENGTH, `Add at least ${LISTING_TEXT_MIN_LENGTH} characters so the analyzer has enough detail.`)
     .max(LISTING_TEXT_MAX_LENGTH, `Keep the listing under ${LISTING_TEXT_MAX_LENGTH.toLocaleString()} characters.`),

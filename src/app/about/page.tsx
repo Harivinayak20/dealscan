@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About DealScan — Built for the Buyer, Not the Dealer",
+  title: "About DealScan: Independent Buyer Tool",
   description:
     "DealScan is an independent used-car buyer tool. We don't sell your info as leads, dealers can't pay to change a score, and the analyzer is free with no signup.",
   alternates: { canonical: "/about" },
