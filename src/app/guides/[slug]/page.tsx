@@ -59,8 +59,6 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const guideIndex = guides.findIndex((g) => g.slug === guide.slug);
   const relatedGuides = [1, 2, 3].map((offset) => guides[(guideIndex + offset) % guides.length]);
 
-  const isProcedural = /inspection|negotiation|check|test-drive|paperwork/.test(guide.slug);
-
   const jsonLd: Record<string, unknown>[] = [
     {
       "@context": "https://schema.org",
@@ -93,21 +91,6 @@ export default async function GuidePage({ params }: GuidePageProps) {
       ],
     },
   ];
-
-  if (isProcedural) {
-    jsonLd.push({
-      "@context": "https://schema.org",
-      "@type": "HowTo",
-      name: guide.title,
-      description: guide.description,
-      step: guide.sections.map((section, index) => ({
-        "@type": "HowToStep",
-        position: index + 1,
-        name: section.heading,
-        text: section.body.join(" "),
-      })),
-    });
-  }
 
   jsonLd.push(
     breadcrumbSchema([

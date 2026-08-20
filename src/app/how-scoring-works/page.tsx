@@ -46,29 +46,9 @@ const factors = [
 ];
 
 export default function HowScoringWorksPage() {
-  const howToJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How DealScan scores a used car listing",
-    description:
-      "Every scan produces a 0–100 score from eight factors read out of the listing itself.",
-    step: factors.map((factor, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      name: factor.title,
-      text: factor.text,
-    })),
-  };
-
   return (
     <main className="min-h-screen bg-[var(--ivory)] px-5 py-6 text-[var(--graphite)] sm:px-8">
       <div className="mx-auto max-w-4xl">
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-        />
-
         <Breadcrumbs
           items={[
             { name: "Home", href: "/" },
