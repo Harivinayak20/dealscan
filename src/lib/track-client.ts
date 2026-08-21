@@ -1,7 +1,7 @@
 // Client-side, cookieless event beacon. Uses a per-session random id stored in
 // sessionStorage (cleared when the tab closes, never persisted, no PII, no cookie).
 
-type TrackType = "pageview" | "scan_started" | "affiliate_click" | "error";
+type TrackType = "pageview" | "scan_started" | "affiliate_click" | "error" | "share_opened" | "share_to_scan";
 
 function getSessionId(): string {
   if (typeof window === "undefined") return "";

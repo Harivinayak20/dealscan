@@ -1,31 +1,34 @@
 import { ImageResponse } from "next/og";
+import { getShare } from "@/lib/share-storage";
 
-export const runtime = "edge";
+function scoreColor(score: number): string {
+  if (score >= 85) return "#2d9c6a";
+  if (score >= 70) return "#c9a86a";
+  if (score >= 55) return "#e8914a";
+  if (score >= 40) return "#d44242";
+  return "#d44242";
+}
+
+function scoreGradientEnd(score: number, color: string): string {
+  return `${color} ${score * 3.6}deg, #2a2d33 ${score * 3.6}deg`;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+  const token = searchParams.get("token");
 
-  const score = searchParams.get("score");
-  const vehicle = searchParams.get("vehicle") || "Used Car";
-  const verdict = searchParams.get("verdict") || "";
-  const summary = searchParams.get("summary") || "";
+  if (!token || token.length !== 48) {
+    return new Response("Invalid token", { status: 400 });
+  }
 
-  const scoreNum = score ? Number.parseInt(score, 10) : null;
-  const scoreColor =
-    scoreNum !== null
-      ? scoreNum >= 80
-        ? "#2d9c6a"
-        : scoreNum >= 60
-          ? "#c9a86a"
-          : scoreNum >= 40
-            ? "#e8914a"
-            : "#d44242"
-      : "#a7adb5";
+  const share = await getShare(token);
+  if (!share) {
+    return new Response("Share not found or expired", { status: 404 });
+  }
 
-  const scoreGradientEnd =
-    scoreNum !== null
-      ? `${scoreColor} ${scoreNum * 3.6}deg, #2a2d33 ${scoreNum * 3.6}deg`
-      : "#2a2d33 0deg";
+  const { payload } = share;
+  const color = scoreColor(payload.score);
+  const gradientEnd = scoreGradientEnd(payload.score, color);
 
   return new ImageResponse(
     (
@@ -95,41 +98,39 @@ export async function GET(request: Request) {
             position: "relative",
           }}
         >
-          {scoreNum !== null && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div
+              style={{
+                width: 180,
+                height: 180,
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: `conic-gradient(${gradientEnd})`,
+              }}
+            >
               <div
                 style={{
-                  width: 180,
-                  height: 180,
+                  width: 140,
+                  height: 140,
                   borderRadius: "50%",
+                  background: "#1c1a17",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: `conic-gradient(${scoreGradientEnd})`,
+                  flexDirection: "column",
                 }}
               >
-                <div
-                  style={{
-                    width: 140,
-                    height: 140,
-                    borderRadius: "50%",
-                    background: "#1c1a17",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <span style={{ color: scoreColor, fontSize: 56, fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>
-                    {scoreNum}
-                  </span>
-                  <span style={{ color: "#a7adb5", fontSize: 18, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                    Score
-                  </span>
-                </div>
+                <span style={{ color, fontSize: 56, fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1 }}>
+                  {payload.score}
+                </span>
+                <span style={{ color: "#a7adb5", fontSize: 18, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                  Score
+                </span>
               </div>
             </div>
-          )}
+          </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 600 }}>
             <h1
@@ -142,31 +143,32 @@ export async function GET(request: Request) {
                 margin: 0,
               }}
             >
-              {vehicle}
+              {payload.vehicle}
             </h1>
-            {verdict && (
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 18px",
-                  borderRadius: 999,
-                  border: `2px solid ${scoreColor}`,
-                  color: scoreColor,
-                  fontSize: 22,
-                  fontWeight: 900,
-                  width: "fit-content",
-                }}
-              >
-                {verdict}
-              </span>
-            )}
-            {summary && (
-              <p style={{ fontSize: 20, color: "#a7adb5", lineHeight: 1.5, margin: 0 }}>
-                {summary}
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "6px 18px",
+                borderRadius: 999,
+                border: `2px solid ${color}`,
+                color,
+                fontSize: 22,
+                fontWeight: 900,
+                width: "fit-content",
+              }}
+            >
+              {payload.verdict}
+            </span>
+            <p style={{ fontSize: 20, color: "#a7adb5", lineHeight: 1.5, margin: 0 }}>
+              {payload.summary}
+            </p>
+            {payload.suggestedOfferLow !== null && payload.suggestedOfferHigh !== null ? (
+              <p style={{ fontSize: 18, color: "#f4f0e8", lineHeight: 1.4, margin: 0, fontWeight: 800 }}>
+                Suggested offer: ${payload.suggestedOfferLow.toLocaleString("en-US")} - ${payload.suggestedOfferHigh.toLocaleString("en-US")}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 

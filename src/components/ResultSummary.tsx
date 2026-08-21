@@ -30,6 +30,7 @@ import { BetterDealsPanel } from "@/components/BetterDealsPanel";
 import { WatchButton } from "@/components/WatchButton";
 import { ChallengeShareButton } from "@/components/ChallengeShareButton";
 import { ShareByEmail } from "@/components/ShareByEmail";
+import { ShareResultButton } from "@/components/ShareResultButton";
 import { detectSource } from "@/lib/dealer-detector";
 import {
   buildCommonsImageSearchUrl,
@@ -507,6 +508,13 @@ export function ResultSummary({ result, sourceText, vehicleTitle, summary, listi
           <div className="flex flex-wrap gap-3">
             <WatchButton result={result} vehicleTitle={vehicleTitle} sourceText={sourceText} price={sellerPriceNum} sourceUrl={sourceUrl} />
             <ChallengeShareButton result={result} vehicleTitle={vehicleTitle} askingPrice={sellerPriceNum} />
+            <ShareResultButton
+              result={result}
+              analysisMode={analysisMode}
+              vehicleTitle={vehicleTitle}
+              askingPrice={sellerPriceNum}
+              mileage={mileageNum}
+            />
             <a
               href={reportHref}
               download={`${vehicleTitle.replaceAll(" ", "-").toLowerCase()}-report.json`}

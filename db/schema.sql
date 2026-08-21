@@ -110,3 +110,15 @@ CREATE TABLE IF NOT EXISTS scans (
 );
 CREATE INDEX IF NOT EXISTS idx_scans_day ON scans(day);
 CREATE INDEX IF NOT EXISTS idx_scans_verdict ON scans(verdict);
+
+-- Public share records (90-day retention, no PII).
+CREATE TABLE IF NOT EXISTS shares (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  token TEXT NOT NULL UNIQUE,        -- 48-char hex, unguessable
+  payload TEXT NOT NULL,             -- allowlisted public result fields only; never raw listing text, URL, photo, or VIN
+  created_at INTEGER NOT NULL,       -- unix epoch ms
+  expires_at INTEGER NOT NULL,       -- unix epoch ms (created_at + 90 days)
+  deletion_secret_hash TEXT NOT NULL -- SHA-256 hex of deletion secret
+);
+CREATE INDEX IF NOT EXISTS idx_shares_expires ON shares(expires_at);
+CREATE INDEX IF NOT EXISTS idx_shares_token ON shares(token);

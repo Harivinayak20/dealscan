@@ -8,7 +8,11 @@ export type EventType =
   | "scan_started"
   | "scan_completed"
   | "affiliate_click"
-  | "error";
+  | "error"
+  | "share_created"
+  | "share_opened"
+  | "share_deleted"
+  | "share_to_scan";
 
 export type TrackEvent = {
   type: EventType;

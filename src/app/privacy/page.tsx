@@ -31,6 +31,7 @@ export default function PrivacyPage() {
               <li><strong>Browser history:</strong> Full analysis results, watchlist items, and comparisons are saved in your browser storage.</li>
               <li><strong>Scan metadata:</strong> We store limited fields such as vehicle title, score, verdict, confidence, input type, and analysis source for service analytics and aggregate research.</li>
               <li><strong>Listing memory:</strong> When available, we store the VIN or a one-way hash of the normalized listing URL, plus vehicle year, make, model, mileage, price, and scan timestamps. This powers repeat-scan and price-drop features without storing the raw listing URL.</li>
+              <li><strong>Public shares:</strong> If you choose “Share result,” we store an allowlisted snapshot containing the score, verdict, vehicle description, price context, up to three sanitized reasons, and scan date. We do not include raw listing text, photos, source URLs, seller details, or VINs. Share links expire after 90 days and the creator can delete them sooner from the same browser.</li>
               <li><strong>No account required:</strong> You can use DealScan without creating an account or providing personal information.</li>
             </ul>
           </div>

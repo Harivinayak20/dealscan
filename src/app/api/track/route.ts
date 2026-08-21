@@ -3,7 +3,7 @@ import { recordEvent, type EventType } from "@/lib/analytics";
 
 // Public, cookieless event ingest for the client beacon. scan_completed is NOT
 // accepted here (it is recorded server-side in analyze-listing so it can't be spoofed).
-const CLIENT_EVENTS: EventType[] = ["pageview", "scan_started", "affiliate_click", "error"];
+const CLIENT_EVENTS: EventType[] = ["pageview", "scan_started", "affiliate_click", "error", "share_opened", "share_to_scan"];
 const APP_HOSTS = new Set(["dealscan.dev", "www.dealscan.dev", "localhost"]);
 
 function str(value: unknown, max: number): string | null {
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
   await recordEvent({
     type,
-    path: str(body.path, 256)?.split("?")[0] ?? null,
+    path: type === "share_opened" || type === "share_to_scan" ? "/s/[share]" : str(body.path, 256)?.split("?")[0] ?? null,
     referrerHost: refererHost(body.referrer),
     session: str(body.session, 64),
     meta: Object.keys(meta).length ? meta : null,

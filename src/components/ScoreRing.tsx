@@ -16,18 +16,27 @@ type ScoreRingProps = {
 };
 
 export function scoreTone(score: number) {
-  if (score >= 80) {
+  if (score >= 85) {
     return {
-      label: "Good",
+      label: "Great Deal",
       ring: "#7CA982",
       soft: "bg-[rgba(124,169,130,0.16)] text-[#3f4d36] border-[rgba(124,169,130,0.35)]",
       icon: CheckCircle2,
     };
   }
 
-  if (score >= 60) {
+  if (score >= 70) {
     return {
-      label: "Caution",
+      label: "Decent Deal",
+      ring: "#D6A84F",
+      soft: "bg-[rgba(214,168,79,0.16)] text-[#5d4212] border-[rgba(214,168,79,0.35)]",
+      icon: CircleAlert,
+    };
+  }
+
+  if (score >= 55) {
+    return {
+      label: "Proceed with Caution",
       ring: "#D6A84F",
       soft: "bg-[rgba(214,168,79,0.16)] text-[#5d4212] border-[rgba(214,168,79,0.35)]",
       icon: CircleAlert,
@@ -35,7 +44,7 @@ export function scoreTone(score: number) {
   }
 
   return {
-    label: "High Risk",
+    label: score >= 40 ? "Red Flags Present" : "Avoid",
     ring: "#C45A4A",
     soft: "bg-[rgba(196,90,74,0.16)] text-[#61261f] border-[rgba(196,90,74,0.35)]",
     icon: OctagonAlert,
