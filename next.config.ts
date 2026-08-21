@@ -60,6 +60,14 @@ const nextConfig: NextConfig = {
         destination: "/cars/:slug/value",
         permanent: true,
       },
+      // The per-year problem pages were noindexed after consuming crawl budget
+      // without earning meaningful traffic. Consolidate them into one useful
+      // guide per model and preserve old links with a permanent redirect.
+      {
+        source: "/cars/:slug/problems/:year(\\d{4})",
+        destination: "/cars/:slug/years-to-avoid",
+        permanent: true,
+      },
     ];
   },
   async headers() {
